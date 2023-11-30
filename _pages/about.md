@@ -1,16 +1,16 @@
 ---
 permalink: /
-title: "Personal Resume"
+title: "👋 Hello! I'm  Sixun Dong."
 excerpt: "About me"
 author_profile: true
 redirect_from: 
   - /about/
   - /about.html
 ---
-<h2 align="center">👋 Hello! I'm  Sixun Dong.   </h2>
-<p align="center">
+
+[//]: # (<h2 align="center">👋 Hello! I'm  Sixun Dong.   </h2>)
+<p align="left">
   <a href="https://www.zhihu.com/people/ironieser">Zhihu</a> •
-  <a href="https://twitter.com/ironieser">Twitter</a> •
   <a href = "mailto:ironieser@gmail.com">Gmail</a> •
   <a href = "mailto:dongsx@shanghaitech.edu.cn">Email@edu</a>
 </p>
@@ -19,11 +19,11 @@ redirect_from:
 😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/),\. Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning.
 
 
-- - -
-🎉 **News:**
-- 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.
-- 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.
----
+- - - 
+🎉 **News:**  
+- 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.  
+- 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.  
+---   
 
 ## 👶About me
 
@@ -31,26 +31,26 @@ redirect_from:
 
 * Nowaday: [ShanghaiTech University](https://www.shanghaitech.edu.cn/) (postgraduate student)
 
-    - Computer Science (mojor)
+    - Computer Vision & Deep Learning (Major)
 
 
 * 2016-2020: [Dalian University of Technology](https://www.dlut.edu.cn) (undergraduate)
 
-    - Process Equipment and Control Engineering (double degree)
+    - Process Equipment and Control Engineering (Major)
 
-    - Computer Science (minor)
+    - Computer Science (Dual Degree)
 
-🔭 **Currently research:**
- * **CV**
-     * Self-supervised or Weakly-supervised 
-     * Video Understanding and Analysis
-     * Video Anomaly Detection  
+🔭 **Currently research:**  
+
+* Self-supervised or Weakly-supervised  
+* Video Understanding and Analysis  
+* Human action understanding    
 
 📄 **Publications:**
   
-  * (CVPR2023) Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos. [[paper](https://arxiv.org/abs/2303.12370)][[code](https://github.com/svip-lab/WeakSVR/)]
+* (CVPR2023) Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos. [[paper](https://arxiv.org/abs/2303.12370)][[code](https://github.com/svip-lab/WeakSVR/)]
 
- * (CVPR2022 Oral) TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting [[paper](https://arxiv.org/abs/2204.01018)] [[code](https://github.com/SvipRepetitionCounting/TransRAC)][[dataset](https://svip-lab.github.io/dataset/RepCount_dataset.html)][[Youtube](https://youtu.be/SFpUS9mHHpk)][[Bilibili](https://www.bilibili.com/video/BV1B94y1S7oP?share_source=copy_web)]
+* (CVPR2022 Oral) TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting [[paper](https://arxiv.org/abs/2204.01018)] [[code](https://github.com/SvipRepetitionCounting/TransRAC)][[dataset](https://svip-lab.github.io/dataset/RepCount_dataset.html)][[Youtube](https://youtu.be/SFpUS9mHHpk)][[Bilibili](https://www.bilibili.com/video/BV1B94y1S7oP?share_source=copy_web)]
 
 
 
