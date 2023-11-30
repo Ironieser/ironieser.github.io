@@ -18,7 +18,7 @@ redirect_from:
 </p>
 
 
-😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/),\. Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning. More detail please refer to my [CV](http://ironieser.github.io/files/CV.pdf).
+😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/). Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning. More detail please refer to my [CV](http://ironieser.github.io/files/CV.pdf).
 
 ----
 
@@ -31,12 +31,15 @@ redirect_from:
 
 [//]: # ()
 [//]: # ()
+[//]: # ()
 [//]: # (🎓**Educational:**)
 
 [//]: # ()
 [//]: # ()
+[//]: # ()
 [//]: # (* Nowaday: [ShanghaiTech University]&#40;https://www.shanghaitech.edu.cn/&#41; &#40;postgraduate student&#41;)
 
+[//]: # ()
 [//]: # ()
 [//]: # ()
 [//]: # (    - Computer Vision & Deep Learning &#40;Major&#41;)
@@ -44,27 +47,34 @@ redirect_from:
 [//]: # ()
 [//]: # ()
 [//]: # ()
+[//]: # ()
 [//]: # (* 2016-2020: [Dalian University of Technology]&#40;https://www.dlut.edu.cn&#41; &#40;undergraduate&#41;)
 
+[//]: # ()
 [//]: # ()
 [//]: # ()
 [//]: # (    - Process Equipment and Control Engineering &#40;Major&#41;)
 
 [//]: # ()
 [//]: # ()
+[//]: # ()
 [//]: # (    - Computer Science &#40;Dual Degree&#41;)
 
+[//]: # ()
 [//]: # ()
 [//]: # ()
 [//]: # (🔭 **Currently research:**  )
 
 [//]: # ()
 [//]: # ()
+[//]: # ()
 [//]: # (* Self-supervised or Weakly-supervised  )
 
 [//]: # ()
+[//]: # ()
 [//]: # (* Video Understanding and Analysis  )
 
+[//]: # ()
 [//]: # ()
 [//]: # (* Human action understanding    )
 
