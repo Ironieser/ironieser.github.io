@@ -19,32 +19,42 @@ redirect_from:
 😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/),\. Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning.
 
 
-- - - 
-🎉 **News:**  
-- 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.  
-- 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.  
----   
+--- 
+🎉 **News:**   
+* 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.   
+* 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.   
+---
 
-## 👶About me
+[//]: # (## 👶About me)
 
-🎓**Educational:**
+[//]: # ()
+[//]: # (🎓**Educational:**)
 
-* Nowaday: [ShanghaiTech University](https://www.shanghaitech.edu.cn/) (postgraduate student)
+[//]: # ()
+[//]: # (* Nowaday: [ShanghaiTech University]&#40;https://www.shanghaitech.edu.cn/&#41; &#40;postgraduate student&#41;)
 
-    - Computer Vision & Deep Learning (Major)
+[//]: # ()
+[//]: # (    - Computer Vision & Deep Learning &#40;Major&#41;)
 
+[//]: # ()
+[//]: # ()
+[//]: # (* 2016-2020: [Dalian University of Technology]&#40;https://www.dlut.edu.cn&#41; &#40;undergraduate&#41;)
 
-* 2016-2020: [Dalian University of Technology](https://www.dlut.edu.cn) (undergraduate)
+[//]: # ()
+[//]: # (    - Process Equipment and Control Engineering &#40;Major&#41;)
 
-    - Process Equipment and Control Engineering (Major)
+[//]: # ()
+[//]: # (    - Computer Science &#40;Dual Degree&#41;)
 
-    - Computer Science (Dual Degree)
+[//]: # ()
+[//]: # (🔭 **Currently research:**  )
 
-🔭 **Currently research:**  
+[//]: # ()
+[//]: # (* Self-supervised or Weakly-supervised  )
 
-* Self-supervised or Weakly-supervised  
-* Video Understanding and Analysis  
-* Human action understanding    
+[//]: # (* Video Understanding and Analysis  )
+
+[//]: # (* Human action understanding    )
 
 📄 **Publications:**
   
