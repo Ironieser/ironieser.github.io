@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV"
+title: "Curriculum Vitae"
 permalink: /cv/
 author_profile: true
 redirect_from:
@@ -22,17 +22,24 @@ Research Topics
 Video understanding; Weakly supervised learning;  
 Contrastive learning; Video generation;
 
-Internship experience
+Internship experiences
 ======
-* Summer 2020: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* From Fall 2023: Algorithm Intern
+  * Company: DGene
+  * Team: Digital Human Algorithm Department
+  * Duty: Leader of Algorithm
+  * Research Topic: 
+    * Co-Speech Gesture and head motion generation
+    * Human Body Reconstruction and Anthropometric Measurements Based on Multi-view Camera Systems
+  
+  
+* Summer 2023: Algorithm Intern
+  * Transsion Holdings
+  * Team: Audio-Video Generation Department
+  * Duty: Leader of Algorithm
+  * Research Topic: Audio Driven Talking Head Video Generation
+  
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
 
 
 Publications
@@ -44,3 +51,7 @@ Publications
 Service
 ======
 * Reviewer of CVPR 2023, ICCV 2023, ACM MM 2023, and CVPR 2024.
+
+Further More
+=====
+More detail please refer to my [CV](http://ironieser.github.io/files/CV.pdf).
