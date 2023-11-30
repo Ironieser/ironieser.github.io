@@ -2,7 +2,7 @@
 title: "Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos."
 collection: publications
 permalink: /publication/2023-cvpr-weaksvr
-excerpt: 'This paper is about weakly supervised video representation learning'
+excerpt: 'This paper is about weakly supervised video representation learning.'
 date: 2023-03-30
 venue: 'CVPR'
 #paperurl: 'http://ironieser.github.io/files/weasvr.pdf'
