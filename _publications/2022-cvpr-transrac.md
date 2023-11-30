@@ -2,8 +2,7 @@
 title: "Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting"
 collection: publications
 permalink: /publication/2022-cvpr-transrac
-excerpt: 'This paper is about repetitive action counting(RAC). Specifically, the previous works focus on performing RAC in short videos,
-which is tough for dealing with longer videos in more realistic scenarios, such as interruption during the actions or inconsistent action cycles. '
+excerpt: 'This paper is about repetitive action counting(RAC).  Previous studies have focused on performing RAC in short videos, which is challenging when dealing with longer videos in more realistic scenarios, such as interruptions during actions or inconsistent action cycles. In our data-driven deep learning approach, we introduced a new repetitive action counting dataset with fine-grained annotations. To address repetitive action counting in more realistic scenarios, we propose encoding multi-scale temporal correlations with transformers that consider both performance and efficiency. Inspired by crowd counting, we designed a method based on density map regression to predict the action periods with the assistance of fine-grained annotations. Our approach yields better performance with sufficient interpretability and achieves SoTA results. The paper was accepted to CVPR2022 as an oral presentation.'
 date: 2022-03-30
 venue: 'CVPR Oral'
 #paperurl: 'http://ironieser.github.io/files/transrac.pdf'

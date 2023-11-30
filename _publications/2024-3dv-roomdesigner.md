@@ -1,5 +1,6 @@
 ---
-title: "Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos."
+title: "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation"
+Author: "Yiqun Zhao, Zibo Zhao, Jing Li, Sixun Dong, Shenghua Gao"
 collection: publications
 permalink: /publication/2024-3dv-roomdesigner
 excerpt: 'This paper is about indoor scene generation '

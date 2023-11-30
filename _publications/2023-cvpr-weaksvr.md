@@ -2,7 +2,8 @@
 title: "Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos."
 collection: publications
 permalink: /publication/2023-cvpr-weaksvr
-excerpt: 'This paper is about weakly supervised video representation learning.'
+excerpt: 'This paper is about weakly supervised video representation learning, where the accurate time-stamp level text-video alignment is not provided.
+Borrowing ideas from CLIP, we aggregate frame-level features for video representation and encode the texts corresponding to each action and the whole video, respectively. We design a multiple granularity contrastive learning loss which uses the fact that video actions happen sequentially in the temporal domain to generate pseudo frame-sentence correspondence. Extensive experiments on video sequence verification and text-to-video matching show the effectiveness of our proposed approach. The paper was accepted to CVPR2023.'
 date: 2023-03-30
 venue: 'CVPR'
 #paperurl: 'http://ironieser.github.io/files/weasvr.pdf'
