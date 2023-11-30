@@ -18,12 +18,10 @@ redirect_from:
 
 😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/),\. Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning.
 
-
---- 
 🎉 **News:**   
 * 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.   
 * 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.   
----
+
 
 [//]: # (## 👶About me)
 
