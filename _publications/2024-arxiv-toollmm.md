@@ -3,7 +3,7 @@ title: "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-com
 Author: "Yiqun Zhao, Zibo Zhao, Jing Li, Sixun Dong, Shenghua Gao"
 collection: publications
 permalink: /publication/2024-arxiv-toollmm
-excerpt: 'This paper is about Tool Agent Learning based on a large multi-modal model. The astonishing performance of large language models (LLMs) in natural language comprehension and generation tasks triggered lots of exploration of using them as central controllers to build agent systems. Multiple studies focus on bridging the LLMs to external tools to extend the application scenarios. To remedy the previous works only accepting single text instructions, in this paper, we introduce a novel system, Tool-LMM, integrating multi-modal encoders with opensource LLMs to synthesize multi-modal information for correct external tool identification. 
+excerpt: 'This paper is about Tool Agent Learning based on a large multi-modal model. The astonishing performance of large language models (LLMs) in natural language comprehension and generation tasks triggered lots of exploration of using them as central controllers to build agent systems. Multiple studies focus on bridging the LLMs to external tools to extend the application scenarios. To remedy the previous works only accepting single text instructions, in this paper, we introduce a novel system, Tool-LMM, integrating multi-modal encoders with opensource LLMs to synthesize multi-modal information for correct external tool identification. '
 date: 2024-01-17
 venue: 'Preprint'
 #paperurl: 'http://ironieser.github.io/files/roomdesigner.pdf'
