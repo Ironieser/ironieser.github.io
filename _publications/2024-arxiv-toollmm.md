@@ -1,10 +1,10 @@
 ---
-title: "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation"
-Author: "Yiqun Zhao, Zibo Zhao, Jing Li, Sixun Dong, Shenghua Gao"
+title: "Tool-LMM: A Large Multi-Modal Model for Tool Agent Learning"
+Author: "Chenyu Wang, Weixin Luo, Qianyu Chen, Haonan Mai, Jindi Guo, Xiaohua (Michael) Xuan, Zhengxin Li, Lin Ma, Shenghua Gao"
 collection: publications
 permalink: /publication/2024-arxiv-toollmm
 excerpt: 'This paper is about Tool Agent Learning based on a large multi-modal model. The astonishing performance of large language models (LLMs) in natural language comprehension and generation tasks triggered lots of exploration of using them as central controllers to build agent systems. Multiple studies focus on bridging the LLMs to external tools to extend the application scenarios. To remedy the previous works only accepting single text instructions, in this paper, we introduce a novel system, Tool-LMM, integrating multi-modal encoders with opensource LLMs to synthesize multi-modal information for correct external tool identification. '
-date: 2024-01-17
+date: 2024-06-01
 venue: 'Preprint'
 #paperurl: 'http://ironieser.github.io/files/roomdesigner.pdf'
 #citation: 'Your Name, You. (2009). &quot;Paper Title Number 1.&quot; <i>Journal 1</i>. 1(1).'
