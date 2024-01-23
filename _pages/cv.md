@@ -42,7 +42,7 @@ Contrastive learning; Video generation;
   {% endfor %}</ul>
 
 ## Service
-Reviewer of CVPR 2023, ICCV 2023, ACM MM 2023, and CVPR 2024.
+Reviewer of CVPR 2023, ICCV 2023, ACM MM 2023, CVPR 2024, ECCV 2024, ACCV 2024 and Neural Networks(Journal).
 
 ## Further More
 
