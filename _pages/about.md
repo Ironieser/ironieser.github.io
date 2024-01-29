@@ -23,7 +23,9 @@ redirect_from:
 ----
 
 
-🎉 **News:**   
+🎉 **News:**
+
+* 2024-02-17: A [paper](https://arxiv.org/abs/2401.10727) about  multimodal large language model for tool agent. [Code](https://github.com/MLLM-Tool/MLLM-Tool) and [dataset](https://github.com/MLLM-Tool/MLLM-Tool) has been released.
 * 2023-02-28: A [paper](https://arxiv.org/abs/2303.12370) about weakly supervised video representation learning was accepted as **CVPR 2023**.   
 * 2022-03-28: A [paper](https://arxiv.org/abs/2204.01018) about repetition action counting was accepted as **CVPR 2022 Oral**.   
 
