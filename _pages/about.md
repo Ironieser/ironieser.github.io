@@ -18,7 +18,7 @@ redirect_from:
 </p>
 
 
-😄 I am a third-year graduate student of [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by Prof. [Shenghua Gao](https://scholar.google.com.sg/citations?user=fe-1v0MAAAAJ&hl=en), at [ShanghaiTech University](https://www.shanghaitech.edu.cn/). Before that, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning. More detail please refer to my [CV](http://ironieser.github.io/files/CV.pdf).
+😄 I’m a First-Year Ph.D at [KDD Lab](https://www.public.asu.edu/~yanjiefu/group/index.html) at Arizona State University, supervised by professor [Yanjie Fu](https://www.public.asu.edu/~yanjiefu//). I got my Master's Degree from ShanghaiTech University's [SVIP-Lab](https://svip-lab.github.io/team.html), supervised by professor [Shenghua Gao](https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ). Before these, I received my Bachelor's degree in 2020 from [Dalian University of Technology](https://en.dlut.edu.cn/). My research interests lie in video understanding and weakly supervised learning, including human activity recognition and video representation learning. I am also focusing on multi-modal learning. More detail please refer to my [CV](http://ironieser.github.io/files/CV.pdf).
 
 ----
 
