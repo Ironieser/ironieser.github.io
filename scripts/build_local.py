@@ -726,7 +726,6 @@ def generate_publications_page(config):
     visitor_map = config.get('visitor_map')
     template_info = config.get('_template_info')
     publications = config['publications']
-    template_info = config.get('_template_info')
     scholar_sync = config.get('_scholar_sync', {})
     
     # Separate auto-synced and manual publications
@@ -911,6 +910,7 @@ def generate_blog_page(config):
     """Generate complete blog.html page"""
     personal = config['personal']
     template_info = config.get('_template_info')
+    visitor_map = config.get('visitor_map')
     
     return f'''<!DOCTYPE html>
 <!-- 

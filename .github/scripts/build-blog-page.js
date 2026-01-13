@@ -46,7 +46,7 @@ function generateNavigation(personal, activePage) {
   return navItems.join('\n                ');
 }
 
-function generateFooter(personal, templateInfo = null) {
+function generateFooter(personal, templateInfo = null, visitorMap = null) {
   const currentYear = new Date().getFullYear();
   
   // Generate template credit if enabled
@@ -56,20 +56,29 @@ function generateFooter(personal, templateInfo = null) {
                 ${templateInfo.acknowledgments ? `<p class="template-acknowledgments">${templateInfo.acknowledgments}</p>` : ''}
             </div>` : '';
   
-  return `
-    <footer class="footer">
-        <div class="container">
+  // Generate visitor map section if enabled
+  let visitorMapHtml = '';
+  if (visitorMap && visitorMap.enabled) {
+    const domainId = visitorMap.domain_id || '';
+    const color = visitorMap.color || 'ffffff';
+    const width = visitorMap.width || 'a';
+    visitorMapHtml = `
             <!-- Visitor Map Section -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
                     <!-- Visitor Map Widget -->
                     <div class="visitor-map">
                         <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU&cl=ffffff&w=a"></script>
+                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
                     </div>
                 </div>
-            </div>
-
+            </div>`;
+  }
+  
+  return `
+    <footer class="footer">
+        <div class="container">
+            ${visitorMapHtml}
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -158,7 +167,7 @@ function generateCommonScripts() {
 function generateBlogPage(config) {
   console.log('Generating blog.html...');
   
-  const { personal, _template_info } = config;
+  const { personal, _template_info, visitor_map } = config;
   
   return `<!DOCTYPE html>
 <!-- 
@@ -261,7 +270,7 @@ function generateBlogPage(config) {
         </div>
     </main>
 
-    ${generateFooter(personal, _template_info)}
+    ${generateFooter(personal, _template_info, visitor_map)}
     
     <script>
         // Blog functionality
