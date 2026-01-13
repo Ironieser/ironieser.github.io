@@ -180,7 +180,7 @@ ${JSON.stringify(schemas, null, 2)}
 </script>`;
 }
 
-function generateFooter(personal, templateInfo = null) {
+function generateFooter(personal, templateInfo = null, visitorMap = null) {
   const currentYear = new Date().getFullYear();
   
   // Generate template credit if enabled
@@ -190,20 +190,29 @@ function generateFooter(personal, templateInfo = null) {
                 ${templateInfo.acknowledgments ? `<p class="template-acknowledgments">${templateInfo.acknowledgments}</p>` : ''}
             </div>` : '';
   
-  return `
-    <footer class="footer">
-        <div class="container">
+  // Generate visitor map section if enabled
+  let visitorMapHtml = '';
+  if (visitorMap && visitorMap.enabled) {
+    const domainId = visitorMap.domain_id || '';
+    const color = visitorMap.color || 'ffffff';
+    const width = visitorMap.width || 'a';
+    visitorMapHtml = `
             <!-- Visitor Map Section -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
                     <!-- Visitor Map Widget -->
                     <div class="visitor-map">
                         <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU&cl=ffffff&w=a"></script>
+                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
                     </div>
                 </div>
-            </div>
-
+            </div>`;
+  }
+  
+  return `
+    <footer class="footer">
+        <div class="container">
+            ${visitorMapHtml}
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -292,7 +301,7 @@ function generateCommonScripts() {
 function generateIndexPage(config) {
   console.log('Generating index.html...');
   
-  const { personal, research, news, experience, education, service, publications, _template_info } = config;
+  const { personal, research, news, experience, education, service, publications, _template_info, visitor_map } = config;
   
   // Get selected publications (featured first, then recent)
   const selectedPubs = [];
@@ -418,13 +427,13 @@ function generateIndexPage(config) {
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="script.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -538,7 +547,7 @@ function generateIndexPage(config) {
         </section>
     </main>
 
-    ${generateFooter(personal, _template_info)}
+    ${generateFooter(personal, _template_info, visitor_map)}
     
     <script>
         // News filter functionality
@@ -589,7 +598,7 @@ function generateIndexPage(config) {
 function generatePublicationsPage(config) {
   console.log('Generating publications.html...');
   
-  const { personal, research, publications, _template_info, _scholar_sync } = config;
+  const { personal, research, publications, _template_info, _scholar_sync, visitor_map } = config;
   const targetName = personal.name.split(' ')[0];
   
   // Separate auto-synced and manual publications
@@ -800,7 +809,7 @@ function generatePublicationsPage(config) {
         </section>
     </main>
 
-    ${generateFooter(personal, _template_info)}
+    ${generateFooter(personal, _template_info, visitor_map)}
     
     ${generateCommonScripts()}
 </body>

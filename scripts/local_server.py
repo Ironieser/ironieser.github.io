@@ -33,14 +33,15 @@ class CustomHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 def main():
     """启动本地服务器"""
     
-    # 确保在正确的目录中
+    # 确保在项目根目录中
     script_dir = Path(__file__).parent
-    os.chdir(script_dir)
+    project_root = script_dir.parent if script_dir.name == 'scripts' else script_dir
+    os.chdir(project_root)
     
     print("=" * 60)
     print("🚀 启动本地网站预览服务器")
     print("=" * 60)
-    print(f"📁 服务目录: {script_dir}")
+    print(f"📁 服务目录: {project_root}")
     print(f"🌐 服务地址: http://{HOST}:{PORT}")
     print("=" * 60)
     

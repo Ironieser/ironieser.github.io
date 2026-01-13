@@ -2,6 +2,73 @@
 
 A simple, config-driven academic website template that generates HTML from JSON configuration.
 
+> **📢 Important Update (v1.1.0)**: If you've already forked this template, please check the [CHANGELOG.md](CHANGELOG.md) for migration instructions. This update reorganizes file structure and adds new configuration options.
+
+## ⚠️ **IMPORTANT: Required Changes After Forking**
+
+**Before using this template, you MUST update the following in `config.json`:**
+
+### 🔴 **Critical - Must Change:**
+
+1. **SEO Configuration** (`config.json` → `seo` section):
+   ```json
+   "seo": {
+     "website_url": "https://yourusername.github.io",  // ← Change to your URL
+     "github_pages_url": "https://yourusername.github.io",  // ← Change to your URL
+     "website_name": "Your Name - Academic Homepage",  // ← Change to your name
+     "website_description": "Your research description",  // ← Change to your description
+     "keywords": ["your", "research", "keywords"],  // ← Update keywords
+     "author": {
+       "name": "Your Name",  // ← Change to your name
+       "email": "your.email@university.edu",  // ← Change to your email
+       "google_scholar_id": "YOUR_SCHOLAR_ID",  // ← Change to your Scholar ID
+       "github": "yourusername",  // ← Change to your GitHub username
+       "twitter": "yourusername"  // ← Change to your Twitter (or remove)
+     },
+     "organization": {
+       "name": "Your University",  // ← Change to your affiliation
+       "url": "https://yourusername.github.io"  // ← Change to your URL
+     }
+   }
+   ```
+
+2. **Visitor Map** (`config.json` → `visitor_map` section):
+   ```json
+   "visitor_map": {
+     "enabled": true,  // Set to false if you don't want visitor map
+     "provider": "clustrmaps",
+     "domain_id": "YOUR_CLUSTRMAPS_ID",  // ← Get your own ID from clustrmaps.com
+     "color": "ffffff",
+     "width": "a"
+   }
+   ```
+   **Note:** If you don't want a visitor map, set `"enabled": false`. To get your own ClustrMaps ID, visit [clustrmaps.com](https://clustrmaps.com) and sign up.
+
+3. **Personal Information** (`config.json` → `personal` section):
+   ```json
+   "personal": {
+     "name": "Your Name",  // ← Change
+     "email": "your.email@university.edu",  // ← Change
+     "cv_link": "files/your-cv.pdf",  // ← Change to your CV file
+     "profile_image": "images/your-photo.jpg",  // ← Change to your photo
+     "links": [
+       // ← Update all your social links
+     ]
+   }
+   ```
+
+4. **Favicon Files** (in root directory):
+   - Replace `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` with your own logo
+   - See [Favicon Generation](#-generating-favicons) section below
+
+### 🟡 **Recommended - Should Change:**
+
+- Publications, news, experience, education sections
+- Blog posts in `blog/` directory
+- Images in `images/` and `teaser/` directories
+
+---
+
 ## 🎯 Features
 
 - **Single config file** controls all content (no HTML editing needed)
@@ -11,7 +78,7 @@ A simple, config-driven academic website template that generates HTML from JSON 
 - **Publication management** with automatic formatting
 - **Easy maintenance** - just edit JSON and push
 
-## 🚀 How to Use This Template
+## 🚀 Quick Start Guide
 
 ### Step 1: Fork the Repository
 
@@ -42,9 +109,11 @@ git clone https://github.com/yourusername/yourusername.github.io.git
 cd yourusername.github.io
 ```
 
-### Step 5: Edit Your Information
+### Step 5: Update Required Configuration
 
-Open `config.json` and update with your information:
+**⚠️ IMPORTANT:** Open `config.json` and update the sections mentioned in the [Required Changes](#-important-required-changes-after-forking) section above.
+
+#### Personal Information
 
 ```json
 {
@@ -68,7 +137,97 @@ Open `config.json` and update with your information:
 }
 ```
 
-### Step 6: Add Your Content
+#### SEO Configuration (REQUIRED)
+
+```json
+{
+  "seo": {
+    "website_url": "https://yourusername.github.io",
+    "github_pages_url": "https://yourusername.github.io",
+    "website_name": "Your Name - Academic Homepage",
+    "website_description": "Your research description",
+    "keywords": ["your", "research", "keywords"],
+    "author": {
+      "name": "Your Name",
+      "email": "your.email@university.edu",
+      "google_scholar_id": "YOUR_SCHOLAR_ID",
+      "github": "yourusername"
+    }
+  }
+}
+```
+
+#### Visitor Map (REQUIRED)
+
+```json
+{
+  "visitor_map": {
+    "enabled": false,  // Set to false to disable, or get your own ClustrMaps ID
+    "provider": "clustrmaps",
+    "domain_id": "YOUR_CLUSTRMAPS_ID",  // Get from clustrmaps.com
+    "color": "ffffff",
+    "width": "a"
+  }
+}
+```
+
+**To get your ClustrMaps ID:**
+1. Visit [clustrmaps.com](https://clustrmaps.com)
+2. Sign up for a free account
+3. Create a new map for your website
+4. Copy the `domain_id` from the embed code
+5. Replace the `domain_id` in `config.json`
+
+**To disable visitor map:**
+- Set `"enabled": false` in the `visitor_map` section
+
+### Step 6: Generate Favicons
+
+You need to replace the favicon files with your own logo. Here are two methods:
+
+#### Method 1: Using the Built-in Script (Recommended)
+
+If you have a logo image at `images/pagelogo_round.png`:
+
+```bash
+python scripts/generate_favicons.py
+```
+
+This will automatically generate all required favicon files:
+- `favicon.ico`
+- `favicon-16x16.png`
+- `favicon-32x32.png`
+- `apple-touch-icon.png`
+
+#### Method 2: Using Online Generators
+
+1. **Favicon.io** (https://favicon.io/)
+   - Upload your logo image
+   - Download the generated favicon package
+   - Extract and place files in the root directory
+
+2. **RealFaviconGenerator** (https://realfavicongenerator.net/)
+   - More comprehensive favicon generation
+   - Handles all device types and sizes
+
+#### Method 3: Manual Creation
+
+If you have image editing software:
+
+1. **favicon-32x32.png**: Resize your logo to 32x32 pixels, save as PNG
+2. **favicon-16x16.png**: Resize your logo to 16x16 pixels, save as PNG
+3. **apple-touch-icon.png**: Resize your logo to 180x180 pixels, save as PNG
+4. **favicon.ico**: Convert your 32x32 PNG to ICO format using an online converter
+
+**Required Files:**
+- `favicon.ico` (32x32px, ICO format)
+- `favicon-16x16.png` (16x16px, PNG)
+- `favicon-32x32.png` (32x32px, PNG)
+- `apple-touch-icon.png` (180x180px, PNG)
+
+All files should be placed in the **root directory** of your website.
+
+### Step 7: Add Your Content
 
 #### Publications
 Add your papers in the `publications` section:
@@ -128,19 +287,20 @@ Update your background:
 ]
 ```
 
-### Step 7: Add Your Images
+### Step 8: Add Your Images
 
 1. **Profile photo**: Add your photo as `images/your-photo.jpg`
 2. **Paper teasers**: Add teaser images to `teaser/` directory
 3. **Company logos**: Add logos to `images/` directory
 4. **CV**: Add your CV to `files/` directory
 
-### Step 8: Push Your Changes
+### Step 9: Push Your Changes
 
 ```bash
 git add config.json
 git add images/  # if you added new images
-git commit -m "Update personal information"
+git add favicon* apple-touch-icon.png  # if you added favicons
+git commit -m "Update personal information and configuration"
 git push
 ```
 
@@ -175,10 +335,10 @@ To preview changes locally before pushing:
 
 ```bash
 # Build website
-python build_local.py
+python scripts/build_local.py
 
 # Start local server
-python local_server.py
+python scripts/local_server.py
 
 # Visit http://localhost:8000
 ```
@@ -219,9 +379,14 @@ python local_server.py
 - Check GitHub Actions logs for specific errors
 - Ensure all required fields are present
 
+### Visitor map not showing
+- Check that `visitor_map.enabled` is set to `true`
+- Verify your ClustrMaps `domain_id` is correct
+- Make sure you've signed up at clustrmaps.com and created a map
+
 ## 🎨 Customization
 
-- **Colors**: Edit CSS variables in `styles.css`
+- **Colors**: Edit CSS variables in `assets/css/styles.css`
 - **Fonts**: Change Google Fonts link and CSS
 - **Layout**: Modify the build scripts in `.github/scripts/`
 

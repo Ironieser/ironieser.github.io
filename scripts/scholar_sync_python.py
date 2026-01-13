@@ -15,6 +15,12 @@ from datetime import datetime
 from urllib.parse import urljoin, urlparse
 import argparse
 
+# Change to project root directory if running from scripts/
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+if os.path.basename(script_dir) == 'scripts':
+    os.chdir(project_root)
+
 # 配置
 SCHOLAR_USER_ID = "j71Y2-4AAAAJ"  # 您的Scholar ID
 REQUEST_DELAY = 2  # 请求间隔（秒）
@@ -510,7 +516,7 @@ def main():
         if not args.dry_run:
             print("📝 Next steps:")
             print("1. Review the changes in config.json")
-            print("2. Run 'python build_local.py' to update HTML files")
+            print("2. Run 'python scripts/build_local.py' to update HTML files")
             print("3. Commit and push changes to GitHub")
         return 0
     else:

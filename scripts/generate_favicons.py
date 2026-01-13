@@ -5,6 +5,13 @@ Generate favicon files from pagelogo.png
 
 from PIL import Image
 import os
+import sys
+
+# Change to project root directory if running from scripts/
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+if os.path.basename(script_dir) == 'scripts':
+    os.chdir(project_root)
 
 def generate_favicons():
     # Source image path

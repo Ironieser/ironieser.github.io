@@ -52,7 +52,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add -f index.html publications.html blog.html blog-data.js
+        git add -f index.html publications.html blog.html assets/js/blog-data.js
         git diff --staged --quiet || git commit -m "🚀 Auto-update website from config.json"
         git push
       env:

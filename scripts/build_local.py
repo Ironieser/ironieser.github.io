@@ -12,14 +12,21 @@ License: MIT
 Repository: https://github.com/Ironieser/ironieser.github.io
 Description: Local development tool for the config-driven academic website template
 
-Usage: python build_local.py
+Usage: python scripts/build_local.py
 """
 
 import json
 import os
+import sys
 from datetime import datetime
 import re
 import yaml
+
+# Change to project root directory if running from scripts/
+script_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(script_dir)
+if os.path.basename(script_dir) == 'scripts':
+    os.chdir(project_root)
 
 
 def load_config():
@@ -148,7 +155,7 @@ def build_blog_data():
     if not os.path.exists(blog_dir):
         print('Blog directory does not exist, creating empty blog data.')
         blog_data_js = 'window.BLOG_DATA = [];'
-        with open('blog-data.js', 'w', encoding='utf-8') as f:
+        with open('assets/js/blog-data.js', 'w', encoding='utf-8') as f:
             f.write(blog_data_js)
         return
     
@@ -249,7 +256,7 @@ console.log('Blog data loaded: ' + window.BLOG_DATA.length + ' posts');
         post_type = "External" if post.get('isExternal') else "Internal"
         print(f'- [{post_type}] {post["title"]} ({post["formattedDate"]})')
     
-    print('✓ blog-data.js generated successfully')
+    print('✓ assets/js/blog-data.js generated successfully')
 
 
 def highlight_author_name(authors, target_name):
@@ -313,7 +320,7 @@ def generate_navigation(personal, active_page):
     return '\n                '.join(nav_items)
 
 
-def generate_footer(personal, template_info=None):
+def generate_footer(personal, template_info=None, visitor_map=None):
     """Generate footer HTML"""
     current_year = datetime.now().year
     
@@ -327,20 +334,28 @@ def generate_footer(personal, template_info=None):
                 {acknowledgments}
             </div>'''
     
-    return f'''
-    <footer class="footer">
-        <div class="container">
+    # Generate visitor map section if enabled
+    visitor_map_html = ""
+    if visitor_map and visitor_map.get('enabled'):
+        domain_id = visitor_map.get('domain_id', '')
+        color = visitor_map.get('color', 'ffffff')
+        width = visitor_map.get('width', 'a')
+        visitor_map_html = f'''
             <!-- Visitor Map Section -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
                     <!-- Visitor Map Widget -->
                     <div class="visitor-map">
                         <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU&cl=ffffff&w=a"></script>
+                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d={domain_id}&cl={color}&w={width}"></script>
                     </div>
                 </div>
-            </div>
-
+            </div>'''
+    
+    return f'''
+    <footer class="footer">
+        <div class="container">
+            {visitor_map_html}
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -433,6 +448,7 @@ def generate_index_page(config):
     service = config['service']
     publications = config['publications']
     template_info = config.get('_template_info')
+    visitor_map = config.get('visitor_map')
     
     # Get selected publications (featured first, then recent)
     selected_pubs = []
@@ -535,13 +551,13 @@ def generate_index_page(config):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{personal['name']} - Academic Homepage</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="script.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -655,7 +671,7 @@ def generate_index_page(config):
         </section>
     </main>
 
-    {generate_footer(personal, template_info)}
+    {generate_footer(personal, template_info, visitor_map)}
     
     <script>
         // News filter functionality
@@ -707,6 +723,8 @@ def generate_publications_page(config):
     """Generate complete publications.html page"""
     personal = config['personal']
     research = config['research']
+    visitor_map = config.get('visitor_map')
+    template_info = config.get('_template_info')
     publications = config['publications']
     template_info = config.get('_template_info')
     scholar_sync = config.get('_scholar_sync', {})
@@ -838,7 +856,7 @@ def generate_publications_page(config):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications - {personal['name']}</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -882,7 +900,7 @@ def generate_publications_page(config):
         </section>
     </main>
 
-    {generate_footer(personal, template_info)}
+    {generate_footer(personal, template_info, visitor_map)}
     
     {generate_common_scripts()}
 </body>
@@ -906,16 +924,16 @@ def generate_blog_page(config):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog - {personal['name']}</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="blog.css">
-    <link rel="stylesheet" href="blog-comments.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/blog.css">
+    <link rel="stylesheet" href="assets/css/blog-comments.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css">
-    <script src="blog-data.js"></script>
+    <script src="assets/js/blog-data.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -988,7 +1006,7 @@ def generate_blog_page(config):
         </div>
     </main>
 
-    {generate_footer(personal, template_info)}
+    {generate_footer(personal, template_info, visitor_map)}
     
     <script>
         // Blog functionality
@@ -1341,7 +1359,7 @@ def generate_blog_page(config):
         
         // Initialize when page loads
         document.addEventListener('DOMContentLoaded', function() {{
-            // Wait a bit for blog-data.js to load
+            // Wait a bit for assets/js/blog-data.js to load
             setTimeout(function() {{
                 if (typeof window.BLOG_DATA !== 'undefined') {{
                     initializeBlog();
@@ -1391,7 +1409,7 @@ def main():
         print('✓ blog.html generated successfully')
         
         print('\n🎉 Local website generation completed!')
-        print('\n💡 You can now run "python local_server.py" to preview your changes')
+        print('\n💡 You can now run "python scripts/local_server.py" to preview your changes')
         
     except FileNotFoundError:
         print('❌ Error: config.json file not found!')

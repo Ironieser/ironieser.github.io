@@ -11,7 +11,7 @@ marked.setOptions({
 
 // Blog directory
 const BLOG_DIR = path.join(__dirname, '../../blog');
-const OUTPUT_FILE = path.join(__dirname, '../../blog-data.js');
+const OUTPUT_FILE = path.join(__dirname, '../../assets/js/blog-data.js');
 
 function parseFrontmatter(content) {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;

@@ -20,7 +20,7 @@
     "affiliation": "Independent Researcher, AZ, USA",
     "email": "sixundong.ai@gmail.com",
     "profile_image": "images/logo.jpg",
-    "cv_link": "#",
+    "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
       "Currently, I am an independent researcher. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>.",
       "My research focuses on <em class=\"research-keywords\">multimodal AI systems</em> that bridge computer vision, natural language processing, and machine learning, with different applications."
@@ -801,6 +801,13 @@
       "conferences": "CVPR 2023+, ICCV 2023+, ECCV 2024+, NeurIPS 2025+, ICLR 2026+, ACCV 2024, ACM MM 2023-2025, KDD 2024",
       "journals": "TMM, Neural Networks, TKDD"
     }
+  },
+  "visitor_map": {
+    "enabled": true,
+    "provider": "clustrmaps",
+    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU",
+    "color": "ffffff",
+    "width": "a"
   },
   "seo": {
     "enable_json_ld": true,
