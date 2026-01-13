@@ -327,7 +327,7 @@ def generate_navigation(personal, active_page):
 
 def generate_footer(personal, template_info=None, visitor_map=None):
     """Generate footer HTML"""
-    current_year = datetime.now().year
+    create_year = 2025  # Website creation year for copyright
     
     # Generate template credit if enabled
     template_credit = ""
@@ -372,7 +372,7 @@ def generate_footer(personal, template_info=None, visitor_map=None):
                 </div>
             </div>
             {template_credit}
-            <p>&copy; {current_year} {personal['name']}. All rights reserved.</p>
+            <p>&copy; {create_year} {personal['name']}. All rights reserved.</p>
         </div>
     </footer>'''
 

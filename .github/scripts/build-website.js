@@ -181,7 +181,7 @@ ${JSON.stringify(schemas, null, 2)}
 }
 
 function generateFooter(personal, templateInfo = null, visitorMap = null) {
-  const currentYear = new Date().getFullYear();
+  const createYear = 2025; // Website creation year for copyright
   
   // Generate template credit if enabled
   const templateCredit = templateInfo && templateInfo.show_template_credit ? `
@@ -224,7 +224,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null) {
                 </div>
             </div>
             ${templateCredit}
-            <p>&copy; ${currentYear} ${personal.name}. All rights reserved.</p>
+            <p>&copy; ${createYear} ${personal.name}. All rights reserved.</p>
         </div>
     </footer>`;
 }

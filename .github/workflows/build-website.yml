@@ -39,14 +39,14 @@ jobs:
         npm init -y
         npm install marked js-yaml
         
-    - name: Build website from config
-      run: node .github/scripts/build-website.js
-      
-    - name: Build blog data
-      run: node .github/scripts/build-blog.js
-      
-    - name: Build blog page
-      run: node .github/scripts/build-blog-page.js
+    - name: Build website
+      run: |
+        echo "🚀 Building website..."
+        node .github/scripts/build-website.js
+        echo "📝 Building blog data..."
+        node .github/scripts/build-blog.js
+        echo "📄 Building blog page..."
+        node .github/scripts/build-blog-page.js
       
     - name: Commit and push changes
       run: |
