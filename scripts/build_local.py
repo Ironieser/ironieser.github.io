@@ -154,6 +154,8 @@ def build_blog_data():
     blog_dir = 'blog'
     if not os.path.exists(blog_dir):
         print('Blog directory does not exist, creating empty blog data.')
+        # Ensure assets/js directory exists
+        os.makedirs('assets/js', exist_ok=True)
         blog_data_js = 'window.BLOG_DATA = [];'
         with open('assets/js/blog-data.js', 'w', encoding='utf-8') as f:
             f.write(blog_data_js)
@@ -246,7 +248,10 @@ window.getAllBlogPosts = function() {{
 console.log('Blog data loaded: ' + window.BLOG_DATA.length + ' posts');
 '''
     
-    with open('blog-data.js', 'w', encoding='utf-8') as f:
+    # Ensure assets/js directory exists
+    os.makedirs('assets/js', exist_ok=True)
+    
+    with open('assets/js/blog-data.js', 'w', encoding='utf-8') as f:
         f.write(js_content)
     
     print(f'Generated blog data with {len(blog_posts)} posts')
