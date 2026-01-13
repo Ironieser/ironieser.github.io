@@ -411,13 +411,13 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="shortcut icon" href="favicon.ico">
     
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="script.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -427,7 +427,7 @@
                 <a href="index.html" class="nav-link active" >Bio</a>
                 <a href="publications.html" class="nav-link " >Publications</a>
                 <a href="blog.html" class="nav-link " >Blog</a>
-                <a href="#" class="nav-link " target="_blank">CV(PDF)</a>
+                <a href="files/CV_DongSixun.pdf" class="nav-link " target="_blank">CV(PDF)</a>
             </div>
         </nav>
     </header>
@@ -711,6 +711,7 @@
     
     <footer class="footer">
         <div class="container">
+            
             <!-- Visitor Map Section -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
@@ -721,7 +722,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -825,7 +825,7 @@
         
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
-            const buildDate = '2026-01-05';
+            const buildDate = '2026-01-13';
             const date = new Date(buildDate + 'T12:00:00'); // Add noon time to avoid timezone issues
             const formatted = date.toLocaleDateString('en-US', { 
                 year: 'numeric', 
