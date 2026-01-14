@@ -4,71 +4,6 @@ A simple, config-driven academic website template that generates HTML from JSON 
 
 > **📢 Important Update (v1.1.0)**: If you've already forked this template, please check the [CHANGELOG.md](CHANGELOG.md) for migration instructions. This update reorganizes file structure and adds new configuration options.
 
-## ⚠️ **IMPORTANT: Required Changes After Forking**
-
-**Before using this template, you MUST update the following in `config.json`:**
-
-### 🔴 **Critical - Must Change:**
-
-1. **SEO Configuration** (`config.json` → `seo` section):
-   ```json
-   "seo": {
-     "website_url": "https://yourusername.github.io",  // ← Change to your URL
-     "github_pages_url": "https://yourusername.github.io",  // ← Change to your URL
-     "website_name": "Your Name - Academic Homepage",  // ← Change to your name
-     "website_description": "Your research description",  // ← Change to your description
-     "keywords": ["your", "research", "keywords"],  // ← Update keywords
-     "author": {
-       "name": "Your Name",  // ← Change to your name
-       "email": "your.email@university.edu",  // ← Change to your email
-       "google_scholar_id": "YOUR_SCHOLAR_ID",  // ← Change to your Scholar ID
-       "github": "yourusername",  // ← Change to your GitHub username
-       "twitter": "yourusername"  // ← Change to your Twitter (or remove)
-     },
-     "organization": {
-       "name": "Your University",  // ← Change to your affiliation
-       "url": "https://yourusername.github.io"  // ← Change to your URL
-     }
-   }
-   ```
-
-2. **Visitor Map** (`config.json` → `visitor_map` section):
-   ```json
-   "visitor_map": {
-     "enabled": true,  // Set to false if you don't want visitor map
-     "provider": "clustrmaps",
-     "domain_id": "YOUR_CLUSTRMAPS_ID",  // ← Get your own ID from clustrmaps.com
-     "color": "ffffff",
-     "width": "a"
-   }
-   ```
-   **Note:** If you don't want a visitor map, set `"enabled": false`. To get your own ClustrMaps ID, visit [clustrmaps.com](https://clustrmaps.com) and sign up.
-
-3. **Personal Information** (`config.json` → `personal` section):
-   ```json
-   "personal": {
-     "name": "Your Name",  // ← Change
-     "email": "your.email@university.edu",  // ← Change
-     "cv_link": "files/your-cv.pdf",  // ← Change to your CV file
-     "profile_image": "images/your-photo.jpg",  // ← Change to your photo
-     "links": [
-       // ← Update all your social links
-     ]
-   }
-   ```
-
-4. **Favicon Files** (in root directory):
-   - Replace `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` with your own logo
-   - See [Favicon Generation](#-generating-favicons) section below
-
-### 🟡 **Recommended - Should Change:**
-
-- Publications, news, experience, education sections
-- Blog posts in `blog/` directory
-- Images in `images/` and `teaser/` directories
-
----
-
 ## 🎯 Features
 
 - **Single config file** controls all content (no HTML editing needed)
@@ -78,7 +13,7 @@ A simple, config-driven academic website template that generates HTML from JSON 
 - **Publication management** with automatic formatting
 - **Easy maintenance** - just edit JSON and push
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start
 
 ### Step 1: Fork the Repository
 
@@ -104,6 +39,8 @@ Your website will be available at `https://yourusername.github.io`
 
 ### Step 4: Clone to Your Computer
 
+You need to clone the repository to your local computer so you can edit the `config.json` file and add your content. If you prefer, you can also edit files directly on GitHub, but using a local editor is more convenient.
+
 ```bash
 git clone https://github.com/yourusername/yourusername.github.io.git
 cd yourusername.github.io
@@ -111,79 +48,70 @@ cd yourusername.github.io
 
 ### Step 5: Update Required Configuration
 
-**⚠️ IMPORTANT:** Open `config.json` and update the sections mentioned in the [Required Changes](#-important-required-changes-after-forking) section above.
+**⚠️ IMPORTANT:** Open `config.json` and update the following sections:
 
-#### Personal Information
+#### 5.1 SEO Configuration (REQUIRED)
+
+Update the `seo` section with your information:
 
 ```json
-{
-  "personal": {
-    "name": "Your Name",
-    "title": "PhD Student in Computer Science",
-    "affiliation": "Your University",
-    "email": "your.email@university.edu",
-    "profile_image": "images/your-photo.jpg",
-    "cv_link": "files/your-cv.pdf",
-    "bio": [
-      "First paragraph about yourself...",
-      "Second paragraph with research focus..."
-    ],
-    "links": [
-      {"name": "Email", "url": "mailto:your.email@university.edu", "icon": "fas fa-envelope"},
-      {"name": "Scholar", "url": "https://scholar.google.com/citations?user=YOUR_ID", "icon": "fas fa-graduation-cap"},
-      {"name": "GitHub", "url": "https://github.com/yourusername", "icon": "fab fa-github"}
-    ]
+"seo": {
+  "website_url": "https://yourusername.github.io",  // ← Change to your URL
+  "github_pages_url": "https://yourusername.github.io",  // ← Change to your URL
+  "website_name": "Your Name - Academic Homepage",  // ← Change to your name
+  "website_description": "Your research description",  // ← Change to your description
+  "keywords": ["your", "research", "keywords"],  // ← Update keywords
+  "author": {
+    "name": "Your Name",  // ← Change to your name
+    "email": "your.email@university.edu",  // ← Change to your email
+    "google_scholar_id": "YOUR_SCHOLAR_ID",  // ← Change to your Scholar ID
+    "github": "yourusername",  // ← Change to your GitHub username
+    "twitter": "yourusername"  // ← Change to your Twitter (or remove)
+  },
+  "organization": {
+    "name": "Your University",  // ← Change to your affiliation
+    "url": "https://yourusername.github.io"  // ← Change to your URL
   }
 }
 ```
 
-#### SEO Configuration (REQUIRED)
+#### 5.2 Visitor Map (REQUIRED)
+
+Update the `visitor_map` section:
 
 ```json
-{
-  "seo": {
-    "website_url": "https://yourusername.github.io",
-    "github_pages_url": "https://yourusername.github.io",
-    "website_name": "Your Name - Academic Homepage",
-    "website_description": "Your research description",
-    "keywords": ["your", "research", "keywords"],
-    "author": {
-      "name": "Your Name",
-      "email": "your.email@university.edu",
-      "google_scholar_id": "YOUR_SCHOLAR_ID",
-      "github": "yourusername"
-    }
-  }
+"visitor_map": {
+  "enabled": true,  // Set to false if you don't want visitor map
+  "provider": "clustrmaps",
+  "domain_id": "YOUR_CLUSTRMAPS_ID",  // ← Get your own ID from clustrmaps.com
+  "color": "ffffff",
+  "width": "a"
 }
 ```
 
-#### Visitor Map (REQUIRED)
+**Note:** 
+- If you don't want a visitor map, set `"enabled": false`
+- To get your own ClustrMaps ID: visit [clustrmaps.com](https://clustrmaps.com), sign up, create a map, and copy the `domain_id` from the embed code
+
+#### 5.3 Personal Information (REQUIRED)
+
+Update the `personal` section:
 
 ```json
-{
-  "visitor_map": {
-    "enabled": false,  // Set to false to disable, or get your own ClustrMaps ID
-    "provider": "clustrmaps",
-    "domain_id": "YOUR_CLUSTRMAPS_ID",  // Get from clustrmaps.com
-    "color": "ffffff",
-    "width": "a"
-  }
+"personal": {
+  "name": "Your Name",  // ← Change
+  "email": "your.email@university.edu",  // ← Change
+  "cv_link": "files/your-cv.pdf",  // ← Change to your CV file
+  "profile_image": "images/your-photo.jpg",  // ← Change to your photo
+  "links": [
+    // ← Update all your social links
+  ]
 }
 ```
-
-**To get your ClustrMaps ID:**
-1. Visit [clustrmaps.com](https://clustrmaps.com)
-2. Sign up for a free account
-3. Create a new map for your website
-4. Copy the `domain_id` from the embed code
-5. Replace the `domain_id` in `config.json`
-
-**To disable visitor map:**
-- Set `"enabled": false` in the `visitor_map` section
 
 ### Step 6: Generate Favicons
 
-You need to replace the favicon files with your own logo. Here are two methods:
+You need to replace the favicon files with your own logo. Here are the methods:
 
 #### Method 1: Using the Built-in Script (Recommended)
 
@@ -294,7 +222,7 @@ Update your background:
 3. **Company logos**: Add logos to `images/` directory
 4. **CV**: Add your CV to `files/` directory
 
-### Step 9: Push Your Changes
+### Step 9: Deploy
 
 ```bash
 git add config.json
@@ -304,14 +232,11 @@ git commit -m "Update personal information and configuration"
 git push
 ```
 
-**That's it!** GitHub Actions will automatically:
-- Generate HTML files from your config
-- Deploy your website
-- Your site will be live in 1-2 minutes
+**That's it!** GitHub Actions will automatically build and deploy your site in 1-2 minutes.
 
 ## 📝 Adding Blog Posts
 
-1. Create a new `.md` file in the `blog/` directory:
+Create `.md` files in `blog/` directory:
 
 ```markdown
 ---
@@ -327,14 +252,14 @@ image: "teaser/preprint.jpg"
 Write your content here in Markdown...
 ```
 
-2. Push the file to GitHub - the blog will update automatically
+Push the file to GitHub - the blog will update automatically.
 
 ## 🔧 Local Development (Optional)
 
 To preview changes locally before pushing:
 
 ```bash
-# Build website
+# Build website locally
 python scripts/build_local.py
 
 # Start local server
@@ -345,22 +270,63 @@ python scripts/local_server.py
 
 ## 📋 Configuration Reference
 
-### Publication Types
-- `"conference"`: Blue badge for published papers
-- `"under-review"`: Gray badge for papers under review
-- `"preprint"`: Orange badge for preprints
-
-### Link Icons
-- Paper: `"ai ai-arxiv"`
-- Code: `"fab fa-github"`
-- Dataset: `"fas fa-database"`
-- Video: `"fab fa-youtube"`
-- Website: `"fas fa-globe"`
-
 ### News Categories
 - `"papers"`: For publication news
 - `"career"`: For job/position updates
 - `"projects"`: For project announcements
+
+### Publication Types
+- `"conference"`: Blue badge (published papers)
+- `"under-review"`: Gray badge (under review)
+- `"preprint"`: Orange badge (preprints)
+
+### Link Icons
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+
+**For Publications:**
+
+| 图标预览 | 用途 | 图标代码 | 颜色代码 |
+|---------|------|---------|---------|
+| <i class="ai ai-arxiv" style="font-size: 20px; color: #b91c1c;"></i> | Paper (arXiv) | `"ai ai-arxiv"` | `#b91c1c` |
+| <i class="fab fa-github" style="font-size: 20px; color: #333;"></i> | Code | `"fab fa-github"` | `#333` |
+| <i class="fas fa-database" style="font-size: 20px; color: #28a745;"></i> | Dataset | `"fas fa-database"` | `#28a745` |
+| <i class="fab fa-youtube" style="font-size: 20px; color: #ff0000;"></i> | Video (YouTube) | `"fab fa-youtube"` | `#ff0000` |
+| <i class="fas fa-tv" style="font-size: 20px; color: #fb7299;"></i> | Video (Bilibili) | `"fas fa-tv"` | `#fb7299` |
+| <i class="fas fa-home" style="font-size: 20px; color: #2563eb;"></i> | Homepage | `"fas fa-home"` | `#2563eb` |
+| <i class="fas fa-blog" style="font-size: 20px; color: #2563eb;"></i> | Blog | `"fas fa-blog"` | `#2563eb` |
+| <i class="fas fa-book-open" style="font-size: 20px; color: #007bff;"></i> | 知乎 (Documentation) | `"fas fa-book-open"` | `#007bff` |
+
+**For Social Links:**
+
+| 图标预览 | 用途 | 图标代码 | 颜色代码 |
+|---------|------|---------|---------|
+| <i class="fas fa-envelope" style="font-size: 20px; color: #dc3545;"></i> | Email | `"fas fa-envelope"` | `#dc3545` |
+| <i class="fas fa-graduation-cap" style="font-size: 20px; color: #4285f4;"></i> | Google Scholar | `"fas fa-graduation-cap"` | `#4285f4` |
+| <i class="fab fa-github" style="font-size: 20px; color: #333;"></i> | GitHub | `"fab fa-github"` | `#333` |
+| <i class="fab fa-twitter" style="font-size: 20px; color: #1da1f2;"></i> | Twitter | `"fab fa-twitter"` | `#1da1f2` |
+| <i class="fab fa-linkedin" style="font-size: 20px; color: #1666C5;"></i> | LinkedIn | `"fab fa-linkedin"` | `#1666C5` |
+| <i class="fas fa-book" style="font-size: 20px; color: #0084ff;"></i> | 知乎 | `"fas fa-book"` | `#0084ff` |
+
+**Example:**
+
+```json
+"links": [
+  {
+    "name": "Paper",
+    "url": "https://arxiv.org/abs/2204.01018",
+    "icon": "ai ai-arxiv"
+  },
+  {
+    "name": "Scholar",
+    "url": "https://scholar.google.com/citations?user=YOUR_ID",
+    "icon": "fas fa-graduation-cap",
+    "color": "#4285f4"
+  },
+]
+```
+
 
 ## ❓ Troubleshooting
 
@@ -387,14 +353,14 @@ python scripts/local_server.py
 ## 🎨 Customization
 
 - **Colors**: Edit CSS variables in `assets/css/styles.css`
-- **Fonts**: Change Google Fonts link and CSS
-- **Layout**: Modify the build scripts in `.github/scripts/`
+- **Fonts**: Change Google Fonts link in build scripts
+- **Layout**: Modify scripts in `.github/scripts/`
 
 ## 📞 Getting Help
 
-- Check the [Issues page](https://github.com/Ironieser/ironieser.github.io/issues)
-- Look at the example `config.json` for reference
-- Review GitHub Actions logs if builds fail
+- Check [Issues](https://github.com/Ironieser/ironieser.github.io/issues)
+- Review example `config.json` for reference
+- Check GitHub Actions logs for build errors
 
 ## 📄 License
 
@@ -402,6 +368,6 @@ MIT License - free to use and modify!
 
 ---
 
-**Created by [Sixun Dong](https://github.com/Ironieser)** - PhD student at Arizona State University
+**Created by [Sixun Dong](https://cv.ironieser.cc)** - Independent Researcher
 
 *This template is designed to be simple and practical. Start with the basics and customize as needed.*
