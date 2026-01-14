@@ -282,32 +282,29 @@ python scripts/local_server.py
 
 ### Link Icons
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-
 **For Publications:**
 
-| 图标预览 | 用途 | 图标代码 | 颜色代码 |
-|---------|------|---------|---------|
-| <i class="ai ai-arxiv" style="font-size: 20px; color: #b91c1c;"></i> | Paper (arXiv) | `"ai ai-arxiv"` | `#b91c1c` |
-| <i class="fab fa-github" style="font-size: 20px; color: #333;"></i> | Code | `"fab fa-github"` | `#333` |
-| <i class="fas fa-database" style="font-size: 20px; color: #28a745;"></i> | Dataset | `"fas fa-database"` | `#28a745` |
-| <i class="fab fa-youtube" style="font-size: 20px; color: #ff0000;"></i> | Video (YouTube) | `"fab fa-youtube"` | `#ff0000` |
-| <i class="fas fa-tv" style="font-size: 20px; color: #fb7299;"></i> | Video (Bilibili) | `"fas fa-tv"` | `#fb7299` |
-| <i class="fas fa-home" style="font-size: 20px; color: #2563eb;"></i> | Homepage | `"fas fa-home"` | `#2563eb` |
-| <i class="fas fa-blog" style="font-size: 20px; color: #2563eb;"></i> | Blog | `"fas fa-blog"` | `#2563eb` |
-| <i class="fas fa-book-open" style="font-size: 20px; color: #007bff;"></i> | 知乎 (Documentation) | `"fas fa-book-open"` | `#007bff` |
+| Usage | Icon Code | Color Code |
+|-------|----------|------------|
+| Paper (arXiv) | `"ai ai-arxiv"` | `#b91c1c` |
+| Code | `"fab fa-github"` | `#333` |
+| Dataset | `"fas fa-database"` | `#28a745` |
+| Video (YouTube) | `"fab fa-youtube"` | `#ff0000` |
+| Video (Bilibili) | `"fas fa-tv"` | `#fb7299` |
+| Homepage | `"fas fa-home"` | `#2563eb` |
+| Blog | `"fas fa-blog"` | `#2563eb` |
+| Zhihu (Documentation) | `"fas fa-book-open"` | `#007bff` |
 
 **For Social Links:**
 
-| 图标预览 | 用途 | 图标代码 | 颜色代码 |
-|---------|------|---------|---------|
-| <i class="fas fa-envelope" style="font-size: 20px; color: #dc3545;"></i> | Email | `"fas fa-envelope"` | `#dc3545` |
-| <i class="fas fa-graduation-cap" style="font-size: 20px; color: #4285f4;"></i> | Google Scholar | `"fas fa-graduation-cap"` | `#4285f4` |
-| <i class="fab fa-github" style="font-size: 20px; color: #333;"></i> | GitHub | `"fab fa-github"` | `#333` |
-| <i class="fab fa-twitter" style="font-size: 20px; color: #1da1f2;"></i> | Twitter | `"fab fa-twitter"` | `#1da1f2` |
-| <i class="fab fa-linkedin" style="font-size: 20px; color: #1666C5;"></i> | LinkedIn | `"fab fa-linkedin"` | `#1666C5` |
-| <i class="fas fa-book" style="font-size: 20px; color: #0084ff;"></i> | 知乎 | `"fas fa-book"` | `#0084ff` |
+| Usage | Icon Code | Color Code |
+|-------|----------|------------|
+| Email | `"fas fa-envelope"` | `#dc3545` |
+| Google Scholar | `"fas fa-graduation-cap"` | `#4285f4` |
+| GitHub | `"fab fa-github"` | `#333` |
+| Twitter | `"fab fa-twitter"` | `#1da1f2` |
+| LinkedIn | `"fab fa-linkedin"` | `#1666C5` |
+| Zhihu | `"fas fa-book"` | `#0084ff` |
 
 **Example:**
 
