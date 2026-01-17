@@ -75,6 +75,11 @@
   },
   "news": [
     {
+      "date": "Jan 2026",
+      "content": "Paper on <strong>Robust Dysarthric Speech Recognition</strong> with LLM-Agent Post-ASR Correction, accepted to ICASSP 2026, congratulations to <strong>Xiuwen Zheng</strong>!",
+      "category": "papers"
+    },
+    {
       "date": "Sep 2025",
       "content": "Paper on <strong>Feature Transformation</strong> by Semi-AR and reward-guided diffusion, accepted to NeurIPS 2025, congratulations to Nanxu Gong and Zijun Li!",
       "category": "papers"
@@ -691,6 +696,27 @@
         ],
         "_scholar_citations": 4,
         "_scholar_last_updated": "2025-09-15"
+      },
+      {
+        "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
+        "authors": [
+          "Xiuwen Zheng",
+          "Sixun Dong",
+          "Bornali Phukon",
+          "Mark Hasegawa-Johnson",
+          "Chang D. Yoo"
+        ],
+        "venue": "ICASSP'26",
+        "venue_type": "conference",
+        "image": "teaser/judge-editor.jpg",
+        "links": [
+          {
+            "name": "Paper",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
+          }
+        ]
       }
     ],
     "survey": [
@@ -709,8 +735,8 @@
           "Meng Xiao",
           "et al."
         ],
-        "venue": "arXiv'2501",
-        "venue_type": "under-review",
+        "venue": "TKDD'26",
+        "venue_type": "journal",
         "image": "teaser/underreview.jpg",
         "links": [
           {
