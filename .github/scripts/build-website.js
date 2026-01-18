@@ -683,45 +683,6 @@ function generatePublicationsPage(config) {
             </div>`);
   }
   
-  // Generate auto-synced publications section
-  if (autoSyncedPubs.length > 0) {
-    const autoSyncItems = autoSyncedPubs.map(pub => {
-      const venueBadge = formatPublicationVenue(pub.venue_type, pub.venue, pub.is_oral);
-      const authorsFormatted = highlightAuthorName(pub.authors, targetName);
-      const linksFormatted = formatPublicationLinks(pub.links);
-      
-      return `
-                <div class="publication-item">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
-                    <div class="publication-content">
-                        <p class="publication-title">${venueBadge} ${pub.title}</p>
-                        <p class="publication-authors">${authorsFormatted}</p>
-                        <p class="publication-links">${linksFormatted}</p>
-                    </div>
-                </div>`;
-    }).join('');
-    
-    // Generate Scholar sync info
-    let scholarSyncInfo = '';
-    if (_scholar_sync && _scholar_sync.last_sync_date) {
-      const syncDate = new Date(_scholar_sync.last_sync_date);
-      const formattedDate = syncDate.toLocaleDateString('en-US', { 
-        year: 'numeric', 
-        month: 'short', 
-        day: 'numeric' 
-      });
-      scholarSyncInfo = ` (Last synced: ${formattedDate})`;
-    }
-    
-    yearSections.push(`
-            <div class="year-group">
-                <h3 class="year-title">Other Publications <span class="auto-sync-note">Auto-updated based on Google Scholar${scholarSyncInfo}</span></h3>
-                <div class="publications-list">
-                    ${autoSyncItems}
-                </div>
-            </div>`);
-  }
-  
   // Generate stats
   const statsHtml = research.stats.map(stat => `<span class="stat-item">${stat}</span>`).join(' <span class="stat-divider">•</span> ');
   

@@ -811,40 +811,6 @@ def generate_publications_page(config):
                 </div>
             </div>''')
     
-    # Generate auto-synced publications section
-    if auto_synced_pubs:
-        auto_sync_items = []
-        for pub in auto_synced_pubs:
-            venue_badge = format_publication_venue(pub['venue_type'], pub['venue'], pub.get('is_oral', False))
-            authors_formatted = highlight_author_name(pub['authors'], target_name)
-            links_formatted = format_publication_links(pub['links'])
-            
-            auto_sync_items.append(f'''
-                <div class="publication-item">
-                    <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
-                    <div class="publication-content">
-                        <p class="publication-title">{venue_badge} {pub['title']}</p>
-                        <p class="publication-authors">{authors_formatted}</p>
-                        <p class="publication-links">{links_formatted}</p>
-                    </div>
-                </div>''')
-        
-        # Generate Scholar sync info
-        scholar_sync_info = ''
-        if scholar_sync.get('last_sync_date'):
-            from datetime import datetime
-            sync_date = datetime.strptime(scholar_sync['last_sync_date'], '%Y-%m-%d')
-            formatted_date = sync_date.strftime('%b %d, %Y')
-            scholar_sync_info = f' (Last synced: {formatted_date})'
-        
-        year_sections.append(f'''
-            <div class="year-group">
-                <h3 class="year-title">Other Publications <span class="auto-sync-note">Auto-updated based on Google Scholar{scholar_sync_info}</span></h3>
-                <div class="publications-list">
-                    {''.join(auto_sync_items)}
-                </div>
-            </div>''')
-    
     # Generate stats
     stats_html = ' <span class="stat-divider">•</span> '.join([f'<span class="stat-item">{stat}</span>' for stat in research['stats']])
     
