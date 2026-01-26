@@ -49,3 +49,5 @@ MMTok_README.md
 images/blog/mmtok/mmtok_title.png
 generate_mmtok_title.py
 images/blog/mmtok/mmtok_title_with_bg.png
+README_MMTok.md
+.gitignore

@@ -277,7 +277,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": true,
+        "featured": false,
         "links": [
           {
             "name": "Paper",
@@ -355,7 +355,7 @@
         "venue": "arXiv'2508",
         "venue_type": "preprint",
         "image": "teaser/MCP101.jpg",
-        "featured": true,
+        "featured": false,
         "links": [
           {
             "name": "Paper",
@@ -402,7 +402,7 @@
         "venue": "arXiv'2508",
         "venue_type": "preprint",
         "image": "teaser/logitif.jpg",
-        "featured": true,
+        "featured": false,
         "links": [
           {
             "name": "Paper",
@@ -716,6 +716,7 @@
         "venue": "ICASSP'26",
         "venue_type": "conference",
         "image": "teaser/judge-editor.jpg",
+        "featured": true,
         "links": [
           {
             "name": "Paper",
@@ -754,7 +755,7 @@
         ],
         "_scholar_citations": 13,
         "_scholar_last_updated": "2026-01-05",
-        "featured": true
+        "featured": false
       },
       {
         "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
@@ -782,7 +783,7 @@
         ],
         "_scholar_citations": 13,
         "_scholar_last_updated": "2026-01-05",
-        "featured": true
+        "featured": false
       }
     ]
   },
