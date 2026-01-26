@@ -68,7 +68,7 @@
     "description": "Currently, my research focuses on <strong>multimodal AI systems</strong> that bridge computer vision, natural language processing, and machine learning. I work on developing intelligent agents that can understand and generate content across multiple modalities, with applications in video analysis, time series forecasting, and feature transformation.",
     "stats": [
       "10+ publications",
-      "7 top-tier venues (CVPR, NeurIPS, IJCAI, AAAI, 3DV, WACV, ICASSP)",
+      "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, 3DV, WACV, ICASSP)",
       "1 CVPR Oral presentation"
     ],
     "max_featured_publications": 8
@@ -355,7 +355,7 @@
         "venue": "arXiv'2508",
         "venue_type": "preprint",
         "image": "teaser/MCP101.jpg",
-        "featured": false,
+        "featured": true,
         "links": [
           {
             "name": "Paper",
