@@ -76,6 +76,11 @@
   "news": [
     {
       "date": "Jan 2026",
+      "content": "Paper on <strong>MMTok</strong> - Multimodal Coverage Maximization for Efficient Inference of VLMs, accepted to ICLR 2026! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors for their invaluable support and collaboration.",
+      "category": "papers"
+    },
+    {
+      "date": "Jan 2026",
       "content": "Paper on <strong>Robust Dysarthric Speech Recognition</strong> with LLM-Agent Post-ASR Correction, accepted to ICASSP 2026, congratulations to Xiuwen Zheng!",
       "category": "papers"
     },
@@ -300,8 +305,8 @@
           "Yanjie Fu",
           "Qi Qian"
         ],
-        "venue": "arXiv'2508",
-        "venue_type": "preprint",
+        "venue": "ICLR'26",
+        "venue_type": "conference",
         "image": "images/blog/mmtok/combined_plots.png",
         "featured": true,
         "links": [
