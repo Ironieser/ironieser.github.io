@@ -10,7 +10,7 @@
     "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
   },
   "_scholar_sync": {
-    "last_sync_date": "2026-01-05",
+    "last_sync_date": "2026-02-02",
     "last_sync_status": "No new publications found (0 existing checked)"
   },
   "personal": {
@@ -184,8 +184,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 86,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 89,
+        "_scholar_last_updated": "2026-02-02"
       }
     ],
     "2023": [
@@ -230,8 +230,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 22,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 25,
+        "_scholar_last_updated": "2026-02-02"
       }
     ],
     "2024": [
@@ -262,8 +262,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 59,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 70,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
@@ -277,7 +277,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": false,
+        "featured": true,
         "links": [
           {
             "name": "Paper",
@@ -290,8 +290,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 16,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 17,
+        "_scholar_last_updated": "2026-02-02"
       }
     ],
     "2025": [
@@ -331,8 +331,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 3,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
@@ -380,8 +380,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 5,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Complex Logical Instruction Generation",
@@ -426,7 +426,7 @@
           }
         ],
         "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
@@ -512,8 +512,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 8,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 9,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
@@ -547,8 +547,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
@@ -618,8 +618,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 3,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 4,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
@@ -646,7 +646,7 @@
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
@@ -674,8 +674,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 9,
-        "_scholar_last_updated": "2026-01-05"
+        "_scholar_citations": 10,
+        "_scholar_last_updated": "2026-02-02"
       },
       {
         "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
@@ -699,8 +699,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2025-09-15"
+        "_scholar_citations": 5,
+        "_scholar_last_updated": "2026-02-02"
       }
     ],
     "2026": [
@@ -753,9 +753,9 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 13,
-        "_scholar_last_updated": "2026-01-05",
-        "featured": false
+        "_scholar_citations": 19,
+        "_scholar_last_updated": "2026-02-02",
+        "featured": true
       },
       {
         "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
@@ -781,9 +781,9 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 13,
-        "_scholar_last_updated": "2026-01-05",
-        "featured": false
+        "_scholar_citations": 14,
+        "_scholar_last_updated": "2026-02-02",
+        "featured": true
       }
     ]
   },
