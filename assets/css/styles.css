@@ -447,7 +447,7 @@ body {
     flex: 1;
     border-left: 2px solid rgba(55, 65, 81, 0.2);
     padding-left: 24px;
-    max-height: 180px;
+    max-height: 240px;
     overflow-y: auto;
     padding-right: 8px;
 }
@@ -479,15 +479,73 @@ body {
     margin-bottom: 0;
 }
 
+.news-icon {
+    display: inline;
+    margin-right: 4px;
+    font-size: 1em;
+}
+
 .news-date {
+    display: inline-block;
+    min-width: 72px;
+    text-align: left;
     font-weight: 600;
     color: #6366f1;
     font-size: var(--font-size-sm);
-    margin-right: var(--spacing-sm);
+    margin-right: 6px;
 }
 
 .news-content {
     display: inline;
+}
+
+/* 论文名、人名等加粗用黑色 */
+.news-content strong {
+    color: #111;
+    font-weight: 700;
+}
+
+.news-content a strong {
+    color: #111;
+}
+
+.news-content a {
+    color: var(--color-accent, #6366f1);
+    text-decoration: none;
+}
+
+.news-content a:hover {
+    text-decoration: underline;
+}
+
+.news-paper-link {
+    display: inline;
+    margin-left: 4px;
+    color: #b91c1c;
+    text-decoration: none;
+}
+
+.news-paper-link i {
+    color: #b91c1c;
+}
+
+.news-paper-link .ai-arxiv {
+    font-family: 'Academicons';
+    color: #b91c1c;
+}
+
+.news-paper-link:hover {
+    opacity: 0.85;
+}
+
+.news-paper-link:hover i {
+    color: #dc2626;
+}
+
+/* 会议名用颜色高亮（与日期紫色区分） */
+.venue-highlight {
+    font-weight: 700;
+    color: #ea580c;
 }
 
 /* Removed Featured Section - keeping basic structure for future use */
@@ -893,6 +951,13 @@ body {
     font-weight: 600;
     font-size: 14.5px;
     position: relative;
+}
+
+.publication-description {
+    margin: 8px 0 10px 0;
+    font-size: 0.95em;
+    color: var(--color-secondary, #6b7280);
+    line-height: 1.5;
 }
 
 .publication-authors .author-highlight::after {
@@ -1372,7 +1437,7 @@ body {
         border-left: none;
         padding-left: 0;
         padding-top: 16px;
-        max-height: 160px;
+        max-height: 120px;
         overflow-y: auto;
         padding-right: 8px;
     }

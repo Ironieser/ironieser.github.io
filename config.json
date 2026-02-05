@@ -58,7 +58,7 @@
       },
       {
         "name": "知乎",
-        "url": "https://zhuanlan.zhihu.com/p/1952615273212384694",
+        "url": "https://www.zhihu.com/people/ironieser",
         "icon": "fas fa-book",
         "color": "#0084ff"
       }
@@ -71,67 +71,95 @@
       "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV, ICASSP, 3DV )",
       "1 CVPR Oral presentation"
     ],
-    "max_featured_publications": 8
+    "max_featured_publications": 7
   },
   "news": [
     {
       "date": "Jan 2026",
-      "content": "Paper on <strong>MMTok</strong> - Multimodal Coverage Maximization for Efficient Inference of VLMs, accepted to ICLR 2026! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors for their invaluable support and collaboration.",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2508.18264",
+      "content": "Paper on <strong>MMTok</strong> {{link}} accepted to [[ICLR 2026]]! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors.",
       "category": "papers"
     },
     {
       "date": "Jan 2026",
-      "content": "Paper on <strong>Robust Dysarthric Speech Recognition</strong> with LLM-Agent Post-ASR Correction, accepted to ICASSP 2026, congratulations to Xiuwen Zheng!",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2601.21347",
+      "content": "<strong>Robust Dysarthric Speech Recognition</strong> {{link}} accepted to [[ICASSP 2026]]. Congratulations to Xiuwen Zheng!",
       "category": "papers"
     },
     {
       "date": "Sep 2025",
-      "content": "Paper on <strong>Feature Transformation</strong> by Semi-AR and reward-guided diffusion, accepted to NeurIPS 2025, congratulations to Nanxu Gong and Zijun Li!",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2505.15152",
+      "content": "<strong>Sculpting Features from Noise</strong> {{link}} accepted to [[NeurIPS 2025]]. Congratulations to Nanxu Gong and Zijun Li!",
       "category": "papers"
     },
+
     {
       "date": "Aug 2025",
-      "content": "Completed GenAI Research Internship at <strong>Zoom Inc.</strong>, focusing on efficient vision–language modeling. Grateful to my mentor <strong>Qi Qian</strong> and the Zoom team for their invaluable support and collaboration.",
+      "icon": "💼",
+      "content": "Completed GenAI Research Internship at <strong>Zoom Inc.</strong>, focusing on efficient vision–language modeling. Grateful to my mentor <strong>Qi Qian</strong> and the Zoom team.",
       "category": "career"
     },
     {
       "date": "Aug 2025",
-      "content": "Paper on <strong>MMTok</strong> - Multimodal Coverage Maximization for Efficient VLM Inference, project homepage launched",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2508.15760",
+      "content": "Paper on <strong>LiveMCP-101</strong> {{link}} — a new benchmark testing AI agents' real-world tool-use, released on arXiv",
       "category": "papers"
     },
     {
       "date": "Aug 2025",
-      "content": "Paper on <strong>LiveMCP-101</strong> - a new benchmark testing AI agents’ real-world tool-use, released on arXiv",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2508.09125",
+      "content": "Paper on <strong>LogicIF</strong> {{link}} — Complex Logical Instruction Generation released on arXiv",
       "category": "papers"
     },
     {
       "date": "Aug 2025",
-      "content": "Paper on <strong>LogicIF</strong> - Complex Logical Instruction Generation released on arXiv",
-      "category": "papers"
-    },
-    {
-      "date": "Aug 2025",
-      "content": "Published comprehensive blog post about <strong>TimesCLIP</strong> - our multimodal approach to time series forecasting with CLIP",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2506.24124",
+      "content": "Paper on <strong>TimesCLIP</strong> {{link}} — new multimodal approach to time series forecasting with CLIP, released on arXiv",
       "category": "papers"
     },
     {
       "date": "May 2025",
+      "icon": "💼",
       "content": "Started GenAI Research Internship at <strong>Zoom Inc.</strong> focusing on efficient vision-language modeling",
       "category": "career"
     },
     {
+      "date": "Jan 2024",
+      "icon": "💼",
+      "content": "Completed <strong>Team Leader</strong> internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading co-speech gesture generation and 3D human body reconstruction projects.",
+      "category": "career"
+    },
+    {
       "date": "Feb 2024",
-      "content": "Paper on <strong>MLLM-Tool</strong> accepted to WACV 2024",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2401.10727",
+      "content": "Paper on <strong>MLLM-Tool</strong> {{link}} accepted to [[WACV 2024]]",
       "category": "papers"
     },
     {
+      "date": "Aug 2023",
+      "icon": "💼",
+      "content": "Completed <strong>Team Leader</strong> internship at <strong>Transsion Holdings</strong> (Audio-Video Generation Dept.), leading audio-driven talking-head video generation research with SoTA performance.",
+      "category": "career"
+    },
+    {
       "date": "Mar 2023",
-      "content": "Paper on <strong>WeakSVR</strong> accepted to CVPR 2023",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2303.12370",
+      "content": "Paper on <strong>WeakSVR</strong> {{link}} accepted to [[CVPR 2023]]",
       "category": "papers"
     },
     {
       "date": "Mar 2022",
-      "content": "Paper on <strong>TransRAC</strong> accepted as <strong>🏆 oral presentation</strong> to CVPR 2022",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2204.01018",
+      "content": "Paper on <strong>TransRAC</strong> {{link}} accepted as <strong>🏆 oral presentation</strong> to [[CVPR 2022]]",
       "category": "papers"
     }
   ],
@@ -355,7 +383,7 @@
         "venue": "arXiv'2508",
         "venue_type": "preprint",
         "image": "teaser/MCP101.jpg",
-        "featured": true,
+        "featured": false,
         "links": [
           {
             "name": "Paper",
@@ -720,9 +748,8 @@
         "links": [
           {
             "name": "Paper",
-            "url": null,
-            "icon": "ai ai-arxiv",
-            "coming_soon": true
+            "url": "https://arxiv.org/abs/2601.21347",
+            "icon": "ai ai-arxiv"
           }
         ]
       }
@@ -832,8 +859,8 @@
   ],
   "service": {
     "reviewer": {
-      "conferences": "CVPR 2023+, ICCV 2023+, ECCV 2024+, NeurIPS 2025+, ICLR 2026+, ACCV 2024, ACM MM 2023-2025, KDD 2024",
-      "journals": "TMM, Neural Networks, TKDD"
+      "conferences": "CVPR (2023–2026), ICCV (2023, 2025), ECCV (2024, 2026), NeurIPS (2025), ICML (2025, 2026),ICLR (2026), ACM MM (2023–2025), ACCV (2024), KDD (2025)",
+      "journals": "IEEE Transactions on Multimedia, Neural Networks(Elsevier), ACM Transactions on Knowledge Discovery from Data"
     }
   },
   "visitor_map": {

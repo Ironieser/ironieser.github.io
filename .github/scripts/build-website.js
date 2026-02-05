@@ -336,12 +336,34 @@ function generateIndexPage(config) {
                 <i class="${link.icon}"></i> ${link.name}
             </a>`).join('');
   
-  // Generate news items
-  const newsHtml = news.map(item => `
+  // Generate news items (date + optional emoji + content)
+  // [[venue name]] → <span class="venue-highlight">venue name</span>
+  // {{link}} / {{link1}} / {{link2}} → <a href="..."><arxiv or external icon></a>
+  const expandVenueHighlight = (s) => (s || '').replace(/\[\[([^\]]+)\]\]/g, '<span class="venue-highlight">$1</span>');
+  const makeLinkHtml = (link) => {
+    if (!link) return '';
+    const isArxiv = link.indexOf('arxiv.org') !== -1;
+    const iconClass = isArxiv ? 'ai ai-arxiv' : 'fas fa-external-link-alt';
+    const title = isArxiv ? 'arXiv' : 'Link';
+    return `<a href="${link}" target="_blank" rel="noopener" class="news-paper-link" title="${title}"><i class="${iconClass}"></i></a>`;
+  };
+  const expandNewsLink = (content, item) => {
+    if (!content) return content;
+    let out = content;
+    out = out.replace(/\{\{link\}\}/g, () => makeLinkHtml(item.link) || '{{link}}');
+    out = out.replace(/\{\{link(\d+)\}\}/g, (_, n) => makeLinkHtml(item['link' + n]) || '{{link' + n + '}}');
+    return out;
+  };
+  const newsHtml = news.map(item => {
+    let content = expandVenueHighlight(item.content);
+    content = expandNewsLink(content, item);
+    return `
             <div class="news-item" data-category="${item.category}">
                 <span class="news-date">${item.date}</span>
-                <span class="news-content">${item.content}</span>
-            </div>`).join('');
+                <span class="news-icon">${item.icon || ''}</span>
+                <span class="news-content">${content}</span>
+            </div>`;
+  }).join('');
   
   // Generate selected publications
   const targetName = personal.name.split(' ')[0]; // Use first name for highlighting
@@ -349,6 +371,7 @@ function generateIndexPage(config) {
     const venueBadge = formatPublicationVenue(pub.venue_type, pub.venue, pub.is_oral);
     const authorsFormatted = highlightAuthorName(pub.authors, targetName);
     const linksFormatted = formatPublicationLinks(pub.links);
+    const shortDesc = pub.short_description ? `<p class="publication-description">${pub.short_description}</p>` : '';
     
     return `
             <div class="publication-item">
@@ -356,6 +379,7 @@ function generateIndexPage(config) {
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
+                    ${shortDesc}
                     <p class="publication-links">${linksFormatted}</p>
                 </div>
             </div>`;
