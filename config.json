@@ -82,6 +82,13 @@
       "category": "papers"
     },
     {
+      "date": "Feb 2026",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2602.10625",
+      "content": "Paper on <strong>To Think or Not To Think</strong> {{link}} — Large Reasoning Models in Theory of Mind Tasks, released on arXiv",
+      "category": "papers"
+    },
+    {
       "date": "Jan 2026",
       "icon": "🎉",
       "link": "https://arxiv.org/abs/2601.21347",
@@ -732,6 +739,28 @@
       }
     ],
     "2026": [
+      {
+        "title": "To Think or Not To Think, That is The Question for Large Reasoning Models in Theory of Mind Tasks",
+        "authors": [
+          "Nanxu Gong",
+          "Haotian Li",
+          "Sixun Dong",
+          "Jianxun Lian",
+          "Yanjie Fu",
+          "Xing Xie"
+        ],
+        "venue": "arXiv'2602",
+        "venue_type": "preprint",
+        "image": "teaser/preprint.jpg",
+        "featured": false,
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2602.10625",
+            "icon": "ai ai-arxiv"
+          }
+        ]
+      },
       {
         "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
         "authors": [
