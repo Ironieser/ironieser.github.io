@@ -75,17 +75,17 @@
   },
   "news": [
     {
-      "date": "Jan 2026",
-      "icon": "🎉",
-      "link": "https://arxiv.org/abs/2508.18264",
-      "content": "Paper on <strong>MMTok</strong> {{link}} accepted to [[ICLR 2026]]! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors.",
-      "category": "papers"
-    },
-    {
       "date": "Feb 2026",
       "icon": "📄",
       "link": "https://arxiv.org/abs/2602.10625",
       "content": "Paper on <strong>To Think or Not To Think</strong> {{link}} — Large Reasoning Models in Theory of Mind Tasks, released on arXiv",
+      "category": "papers"
+    },
+    {
+      "date": "Jan 2026",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2508.18264",
+      "content": "Paper on <strong>MMTok</strong> {{link}} accepted to [[ICLR 2026]]! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors.",
       "category": "papers"
     },
     {
