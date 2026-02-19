@@ -1,74 +1,47 @@
 ---
 title: "Welcome to My Academic Homepage"
 date: "2025-06-26"
-description: "A brief introduction to my academic homepage and how it's organized to showcase my research work."
+description: "A brief introduction to my academic homepage and research journey."
 tags: ["Homepage", "Academic", "Research"]
 image: "teaser/preprint.jpg"
 ---
 
 # Welcome to My Academic Homepage
 
-Welcome to my academic homepage! This site showcases my research work, publications, and thoughts on computer vision and AI.
+Hi there! Welcome to my academic homepage. I'm Sixun Dong (also known as Ironieser), and this is where I share my research work, publications, and occasional thoughts on multimodal AI, computer vision, and machine learning.
 
-## What You'll Find Here
+## About This Site
 
-### 🏠 **About Me**
-The main page has my current position, research interests, and recent news. I'm a PhD student at Arizona State University working on multimodal AI systems.
+I built this website as a central place to organize and share my academic work. You'll find:
 
-### 📚 **Publications**
-A collection of my research papers organized by year, including:
-- Conference and journal papers
-- Links to papers, code, and datasets
-- Brief descriptions and visual previews
+- **My research papers** — organized by year, with links to papers, code, and project pages
+- **Recent news** — updates on paper acceptances, career moves, and research milestones
+- **Blog posts** — occasional writings about my research experiences, technical insights, and thoughts on AI
+- **Background** — my education, work experience, and academic service
 
-### 📝 **Blog**
-Occasional posts about:
-- Research insights and experiences
-- Technical notes and tutorials
-- Thoughts on AI and computer vision
+I try to keep everything up to date, so you'll see new publications as they get accepted and news as things happen.
 
-## How This Site Works
+## My Research
 
-This website is built using a config-driven approach that I developed:
+I'm currently an independent researcher working on **multimodal AI systems** — essentially, building AI that can understand and work with different types of data (images, text, video, etc.) together. My work spans:
 
-### ⚙️ **Configuration-Based**
-- All content is managed through a single `config.json` file
-- Publications, news, and personal info are all in structured data
-- Makes it easy to update without editing HTML
+- **Vision-Language Models** — efficient inference and optimization
+- **LLM Agents** — tool use and reasoning capabilities
+- **Multimodal Learning** — bridging computer vision and natural language processing
 
-### 🤖 **Automated Building**
-- GitHub Actions automatically generates HTML from the config
-- Blog posts are written in Markdown and processed automatically
-- Changes are deployed automatically when I push updates
+If you're interested in any of my papers or want to discuss potential collaborations, feel free to reach out! You can find my contact information on the main page.
 
-### 🎨 **Simple Design**
-- Clean, academic layout focused on content
-- Responsive design that works on mobile
-- Uses standard web technologies (HTML, CSS, JavaScript)
+## What's New
 
-## Technical Details
-
-For those interested in the implementation:
-
-- **Frontend**: Pure HTML/CSS/JavaScript, no frameworks
-- **Build Process**: Node.js scripts that process JSON config
-- **Hosting**: GitHub Pages with custom domain
-- **Blog System**: Markdown files processed into HTML
-- **Comments**: Waline comment system for blog posts
-
-The source code is available on GitHub if you want to see how it works or use it for your own site.
-
-## Recent Updates
-
-I regularly update the site with:
-- New publications as they get accepted
+I regularly update this site with:
+- New publications as they get accepted or released
 - Research news and career updates
-- Occasional blog posts about my work
+- Blog posts about interesting projects or insights
 
-## Contact
+## A Note on the Website
 
-Feel free to reach out if you have questions about my research or want to discuss potential collaborations. You can find my contact information on the main page.
+If you're curious about how this site is built, I wrote a [detailed post](blog/introducing-config-driven-academic-website-template.html) about the config-driven approach I use. The source code is also available on GitHub if you want to use it for your own academic homepage.
 
 ---
 
-*This site is a work in progress and gets updated as my research evolves.* 
+*Thanks for visiting! Feel free to explore around, and don't hesitate to reach out if you have questions or want to chat about research.* 

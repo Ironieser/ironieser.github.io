@@ -13,6 +13,8 @@ A simple, config-driven academic website template that generates HTML from JSON 
 - **Publication management** with automatic formatting
 - **Easy maintenance** - just edit JSON and push
 
+> 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
+
 ## 🚀 Quick Start
 
 ### Step 1: Fork the Repository
@@ -355,9 +357,10 @@ python scripts/local_server.py
 
 ## 📞 Getting Help
 
-- Check [Issues](https://github.com/Ironieser/ironieser.github.io/issues)
-- Review example `config.json` for reference
-- Check GitHub Actions logs for build errors
+- 📖 **Read the detailed guide**: [How to Use This Template](blog/introducing-config-driven-academic-website-template.html) - comprehensive documentation with examples and troubleshooting tips (continuously updated)
+- 💬 **Have questions?** Open an [Issue](https://github.com/Ironieser/ironieser.github.io/issues) - we're happy to help!
+- 🔍 Review example `config.json` for reference
+- 📋 Check GitHub Actions logs for build errors
 
 ## 📄 License
 
