@@ -3,7 +3,7 @@ title: "My Config-Driven Academic Website Template"
 date: "2025-06-27"
 description: "How I built a simple system to manage my academic website using JSON configuration and GitHub Actions."
 tags: ["Academic Website", "GitHub Actions", "Template", "Web Development"]
-image: "images/blog/mmtok/combined_plots.png"
+image: "favicon-32x32.png"
 ---
 
 # My Config-Driven Academic Website Template

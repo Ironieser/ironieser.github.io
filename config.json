@@ -361,6 +361,11 @@
             "icon": "fas fa-home"
           },
           {
+            "name": "Blog",
+            "url": "https://cv.ironieser.cc/blog.html?post=mmtok-multimodal-coverage-maximization",
+            "icon": "fas fa-blog"
+          },
+          {
             "name": "知乎",
             "url": "https://zhuanlan.zhihu.com/p/1944299907109348831",
             "icon": "fas fa-book-open"

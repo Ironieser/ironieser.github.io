@@ -3,7 +3,7 @@ title: "Welcome to My Academic Homepage"
 date: "2025-06-26"
 description: "A brief introduction to my academic homepage and research journey."
 tags: ["Homepage", "Academic", "Research"]
-image: "teaser/preprint.jpg"
+image: "images/logo.jpg"
 ---
 
 # Welcome to My Academic Homepage
