@@ -207,8 +207,7 @@ Here we use a visual example to explain the greedy selection process. This examp
 
 **Step 2: Information Gain Maximization**
 Since there is still token budget left, the next choice is the **Sky**, as a token that captures sky features. The sky occupies a large area, so multiple sky-related patches are selected consecutively to keep sufficient visual information under a very sparse budget.
-  <p style="margin-bottom: 0;"><em>This explains why the selected tokens look “scattered” — the algorithm is explicitly searching for strictly fresh information.</em></p>
-</div>
+*This explains why the selected tokens look “scattered” — the algorithm is explicitly searching for strictly fresh information.*
 
 **Step 3: Completing Coverage**
 
