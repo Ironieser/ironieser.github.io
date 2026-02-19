@@ -1,18 +1,18 @@
 ---
 title: "MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs"
-date: "2025-02-19"
+date: "2026-02-19"
 description: "My ICLR 2026 work on efficient vision token pruning for Vision-Language Models. We propose a training-free, multimodal coverage maximization approach that achieves 1.87× speedup while maintaining 95%+ performance. The key insight: leverage both vision and text tokens to select informative patches, not just one modality."
 tags: ["Vision-Language Models", "Efficient Inference", "Token Pruning", "Multimodal Learning", "ICLR 2026"]
 image: "images/blog/mmtok/mmtok.jpg"
 ---
 
-# MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs
+# ICLR'26 - MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs
 
 > _Sharing my new work here — hope you'll bear with any shortcomings, and welcome any suggestions, comments, or critiques! This work was mainly completed during my summer internship at Zoom. The core problem we're solving: **How to make vision-language models run faster and use less memory without training, while maintaining performance?**_
 
-**Update (2026.02):** Updated and optimized the blog post, added more algorithm explanation diagrams and visualization results to help everyone understand better.
+<!-- **Update (2026.02):** Updated and optimized the blog post, added more algorithm explanation diagrams and visualization results to help everyone understand better.
 
-**Update (2026.01):** This paper has been accepted to **ICLR 2026**! Thanks to the kind reviewers and AC. In the revision, we added multi-turn conversation analysis, Qwen2.5VL runtime analysis, runtime analysis of the proposed module (~7ms), comparison with resize methods, and attempts to integrate the method into the decoding stage.
+**Update (2026.01):** This paper has been accepted to **ICLR 2026**! Thanks to the kind reviewers and AC. In the revision, we added multi-turn conversation analysis, Qwen-2.5-VL runtime analysis, runtime analysis of the proposed module (~7ms), comparison with resize methods, and attempts to integrate the method into the decoding stage. -->
 
 **Paper:** [MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs](https://arxiv.org/abs/2508.18264) (arXiv:2508.18264)  
 **Code:** [GitHub – MMTok](https://github.com/Ironieser/MMTok) _(Open source! Stars welcome (・ω・))_  
@@ -34,6 +34,29 @@ We propose **MMTok**, a training-free vision token selection algorithm that form
 
 ---
 
+## Core Takeaways
+
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 2rem 0;">
+  <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90e2;">
+    <h4 style="margin-top: 0; color: #4a90e2;">🎯 Takeaway 1: New Criterion</h4>
+    <p style="margin-bottom: 0;">From independent ranking to set coverage — formulate pruning as a coverage objective so that every selected token brings maximum marginal gain.</p>
+  </div>
+  <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90e2;">
+    <h4 style="margin-top: 0; color: #4a90e2;">🧠 Takeaway 2: Truly Multimodal</h4>
+    <p style="margin-bottom: 0;">Jointly optimizes Text–Vision and Vision–Vision coverage, balancing query relevance with global visual context.</p>
+  </div>
+  <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90e2;">
+    <h4 style="margin-top: 0; color: #4a90e2;">⚡ Takeaway 3: Training-Free</h4>
+    <p style="margin-bottom: 0;">A plug-and-play module with sub-millisecond latency (as low as 0.8ms) and linear time complexity \(O(nk)\), requiring no finetuning.</p>
+  </div>
+  <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #4a90e2;">
+    <h4 style="margin-top: 0; color: #4a90e2;">📊 Takeaway 4: Superior Performance</h4>
+    <p style="margin-bottom: 0;">Achieves 1.87× speedup while maintaining 95%+ performance, and still keeps 87.7% performance even with only 4 vision tokens.</p>
+  </div>
+</div>
+
+---
+
 ## 1. Core Motivation
 
 As we all know, Vision-Language Models (VLMs) process images by cutting them into hundreds or thousands of patches, encoding them into vision tokens, then concatenating them with text tokens before feeding to the language model.
@@ -47,9 +70,10 @@ As we all know, Vision-Language Models (VLMs) process images by cutting them int
 **So the question is:** Do we really need thousands of vision tokens?  
 Or can we keep just a few, but information-rich tokens?
 
-<img src="images/blog/mmtok/llavanext.png" alt="Token Redundancy Problem" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 1: The problem — vision tokens can reach up to 2880 tokens, creating massive inference bottlenecks. Our goal: prune 95% while maintaining performance.</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/llavanext.png" alt="Token Redundancy Problem" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 1: The problem — vision tokens can reach up to 2880 tokens, creating massive inference bottlenecks. Our goal: prune 95% while maintaining performance.</figcaption>
+</figure>
 
 ## 2. Existing Methods
 
@@ -71,98 +95,153 @@ These methods each have their limitations:
 - **Training-free**: Doesn't rely on additional finetuning, can be used directly at inference;
 - **Efficient and controllable**: Preferably with theoretical guarantees, simple and implementable.
 
-<img src="images/blog/mmtok/sparsevlm.png" alt="SparseVLM" style="width: 22%; max-width: 250px; height: auto; display: inline-block; margin: 0 1%;">
-<img src="images/blog/mmtok/visionzip.png" alt="VisionZIP" style="width: 22%; max-width: 250px; height: auto; display: inline-block; margin: 0 1%;">
-<img src="images/blog/mmtok/divrpune.jpg" alt="DivPrune" style="width: 22%; max-width: 250px; height: auto; display: inline-block; margin: 0 1%;">
-<img src="images/blog/mmtok/mmtok.jpg" alt="MMTok" style="width: 22%; max-width: 250px; height: auto; display: inline-block; margin: 0 1%;">
-
-<em>Figure 2: Previous Work vs. MMTok — SparseVLM (Language-only), VisionZIP (Vision-only Top-K), DivPrune (Vision-only Diversity) vs. MMTok (Multimodal Coverage)</em>
+<figure style="margin: 2rem 0;">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/sparsevlm.png" alt="SparseVLM" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>SparseVLM</strong><br>Language-only</p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/visionzip.png" alt="VisionZIP" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>VisionZIP</strong><br>Vision-only Top-K</p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/divrpune.jpg" alt="DivPrune" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>DivPrune</strong><br>Vision-only Diversity</p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/mmtok.jpg" alt="MMTok" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto; border: 2px solid #4a90e2; border-radius: 4px;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>MMTok</strong><br>Multimodal Coverage</p>
+    </div>
+  </div>
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666; text-align: center;">Figure 2: Previous Work vs. MMTok — Comparison of different token pruning approaches</figcaption>
+</figure>
 
 ---
 
 ## 3. Method: MMTok
 
-Our core idea: **Formulate the token selection problem as a maximum coverage problem (Max-K-Coverage)**.
+### Intuition: Why Coverage Works Better?
 
-Given thousands of vision tokens, we want to select a small subset that can maximally "cover" all useful information:
+Imagine you are assembling a soccer team: you need to pick 11 players from the entire roster so that you both cover all key positions (forwards, midfielders, defenders) and keep the overall formation balanced.  
+Traditional **Top-K** selection is like choosing all the highest-scoring players — you might end up with only forwards and a completely unbalanced lineup.  Top-K Ranking creates an "Information Blackout" in non-salient regions, while MMTok ensures no crucial visual context is left behind.
+**Diversity-based** selection spreads players out, but may pick ones that have little to do with your actual tactic.  
+In contrast, **Coverage-based** selection simultaneously considers both “position importance” and “formation balance”, giving you a compact yet well-covered team.
 
-- Cover text-relevant semantics (e.g., things mentioned in the query);
-- Cover overall image content, avoiding missing key parts.
+<figure style="margin: 2rem 0;">
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; max-width: 1000px; margin-left: auto; margin-right: auto;">
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/football_topk.png" alt="Top-K Ranking" style="width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>Top-K Ranking</strong></p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/football_diversity.png" alt="Diversity-based" style="width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>Diversity-based</strong></p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/football_coverage.png" alt="Coverage" style="width: 100%; max-width: 320px; height: auto; display: block; margin: 0 auto; border: 2px solid #4a90e2; border-radius: 4px;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>Coverage (MMTok)</strong></p>
+    </div>
+  </div>
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666; text-align: center;">Figure 3: Why Maximum Coverage? — Top-K Ranking clusters redundantly (all forwards), Diversity-based scatters without semantics, Coverage (MMTok) balances distribution</figcaption>
+</figure>
 
-Moreover, maximum coverage is a classic **submodular function optimization** problem with mature greedy solutions that guarantee approximate optimality. This allows us to dramatically reduce tokens while **ensuring coverage of information**.
+**❌ Top-K (Simple Ranking)**  
+Evaluates each token independently, which almost inevitably leads to heavy redundancy. It is like selecting only forwards on a soccer team — tokens cluster in very similar regions (all forwards), wasting most of the token budget.
 
-As shown in our method diagram, we break coverage into three parts:
+**⚠️ Diversity-based**  
+Focuses on maximizing diversity *within* the selected subset. Tokens look visually scattered, but the method often sacrifices semantic relevance to the actual query.
 
-- **Text-Vision Coverage**: Ensures selected vision tokens are highly relevant to query text tokens;
-- **Vision-Vision Coverage**: Ensures these tokens represent the main information of the entire image;
-- **Multimodal Coverage**: Combines both to get the final subset.
-
-The entire process is very lightweight (0.7ms+): just similarity matrix computation + greedy selection, completely training-free.
-
-<img src="images/blog/mmtok/mmtok.jpg" alt="MMTok Architecture" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 3: MMTok Framework — Training-free vision token pruning inserted after vision encoder, requiring no modifications to LLM internal structure</em>
-
----
-
-### Max-K-Coverage: A Brief Introduction
-
-This is a classic NP-Hard problem. Let me briefly introduce it:
-
-Simply put, the problem definition is: Given several sets, select at most K of them such that their union has as many elements as possible. This problem is closely related to many practical applications (information retrieval, sensor placement, influence propagation, and visual token selection here) because it essentially involves "coverage maximization."
-
-However, this is an **NP-hard problem**. NP-hard means: Currently, there's no known polynomial-time algorithm that can guarantee always finding the optimal solution. In other words, once the problem scale grows, exhaustive search for the global optimum becomes exponentially explosive.
-
-But Max-K-Coverage has good news: Its objective function has **submodularity**, i.e., the property of "diminishing marginal returns." Using this, a very simple **greedy algorithm** (selecting the set that brings the largest gain each time) can get an approximate solution with a strict guarantee: at least **63% of optimal** (1 - 1/e). This is why it's a classic theoretical and practical case in combinatorial optimization, and the greedy solution itself is a must-learn approximation algorithm in algorithm courses.
-
-Combining the above introduction, it's easy to see that MMTok mainly needs to define the **"marginal gain equation"**.
-
-<img src="images/blog/mmtok/greedy_function.png" alt="Marginal Gain Function" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 3.1: Marginal gain equation — the core of MMTok's greedy selection</em>
-
-<img src="images/blog/mmtok/football_topk.png" alt="Top-K Ranking" style="width: 30%; max-width: 300px; height: auto; display: inline-block; margin: 0 1%;">
-<img src="images/blog/mmtok/football_diversity.png" alt="Diversity-based" style="width: 30%; max-width: 300px; height: auto; display: inline-block; margin: 0 1%;">
-<img src="images/blog/mmtok/football_coverage.png" alt="Coverage" style="width: 30%; max-width: 300px; height: auto; display: inline-block; margin: 0 1%;">
-
-<em>Figure 4: Why Maximum Coverage? — Top-K Ranking clusters redundantly (all forwards), Diversity-based scatters without semantics, Coverage (MMTok) balances distribution</em>
-
-<img src="images/blog/mmtok/max_coverage.png" alt="Multimodal Coverage Visualization" style="width: 55%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 5: Multimodal Coverage Visualization — How MMTok's maximum coverage objective captures the total information space (text + vision)</em>
-
-At this point, our method design is complete.
+**✅ Coverage Maximization (MMTok)**  
+Optimizes **set coverage** (inter-set similarity): the selected subset should comprehensively represent the entire original information space. By evaluating the marginal gain of each token, MMTok ensures every new patch contributes strictly fresh information, striking a balance between query relevance and global context.
 
 ---
 
-### Visualizing the Greedy Selection Process
+### Core Idea: Maximum Coverage Problem
 
-Here's a visualization to help understand the greedy selection process:
+Our core idea is to cast the token selection problem as a **maximum coverage problem (Max-K-Coverage)**.
 
-First, the greedy algorithm sequentially selects new patches. Since the query contains "traffic" and "light", and there are many cars in the image, the Car patch is selected as the first token with maximum information gain. Then comes the Traffic Light. After these selections, the chosen patches already cover the main important information of the query and image. Since there's additional token budget, the next selection is Sky, as a token covering sky features. Since the sky area is large, multiple sky-related patches are selected consecutively, ensuring sufficient visual information with low redundancy. Then it continues selecting "road surface" and "billboard".
+Given thousands of vision tokens, we want to select a small subset that still “covers” as much useful information as possible:
 
-<img src="images/blog/mmtok/traffic_light.png" alt="Traffic Light Detection" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+- Cover text-relevant semantics (e.g., the objects and regions asked about in the query);
+- Cover the overall image content, so that important areas are not missed.
 
-<em>Figure 6: Greedy selection process visualization — showing how MMTok iteratively selects tokens with maximum marginal gain (Car → Traffic Light → Sky → Road → Billboard)</em>
+<figure style="margin: 2rem 0;">
+  <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 1000px; margin-left: auto; margin-right: auto;">
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/simple_ranking.png" alt="Simple Ranking" style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>Simple Ranking</strong></p>
+    </div>
+    <div style="text-align: center;">
+      <img src="images/blog/mmtok/max_coverage.png" alt="Maximum Coverage" style="width: 100%; max-width: 450px; height: auto; display: block; margin: 0 auto; border: 2px solid #4a90e2; border-radius: 4px;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>Maximum Coverage (MMTok)</strong></p>
+    </div>
+  </div>
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666; text-align: center;">Figure 4: Comparison of Simple Ranking vs. Maximum Coverage — Maximum coverage ensures comprehensive information representation</figcaption>
+</figure>
 
-Finally, here's the algorithm pseudocode to help everyone understand. Please pay attention to **L5: computing marginal gain** and **L8: selecting the element with maximum gain from candidates**. M_tv and M_vv are similarity matrices.
+Moreover, the maximum coverage problem is a classic **submodular optimization** problem with a well-known greedy solution that comes with approximation guarantees. This allows us to **greatly reduce the number of tokens while preserving information coverage**.
 
-<img src="images/blog/mmtok/algrothm.png" alt="Algorithm Pseudocode" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
+As illustrated in our method figure, we decompose coverage into three parts:
 
-<em>Figure 7: MMTok Algorithm — Efficient greedy selection with linear time complexity O(nk)</em>
+- **Text–Vision Coverage**: ensures selected vision tokens are highly relevant to the query text tokens;
+- **Vision–Vision Coverage**: ensures these tokens represent the main information of the entire image;
+- **Multimodal Coverage**: combines both to obtain the final subset.
 
-### Why Coverage Works Better
+The entire process is very lightweight (0.7ms+): it only requires computing similarity matrices and running greedy selection, without any additional training.
 
-Let me explain why coverage maximization beats simple ranking or diversity:
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/mmtok.jpg" alt="MMTok Architecture" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 5: MMTok Framework — Training-free vision token pruning inserted after vision encoder, requiring no modifications to LLM internal structure</figcaption>
+</figure>
 
-**❌ Top-K (Simple Ranking)**
-Evaluates tokens independently. This inevitably leads to severe token redundancy, as tokens cluster in highly similar regions (like clustering all forwards in soccer) and waste the token budget.
+---
 
-**⚠️ Diversity-based**
-Focuses on maximizing differences *within* the selected subset (intra-set diversity). While it successfully scatters tokens visually, it often sacrifices semantic relevance to the actual query.
+### Visualizing the Greedy Selection Process: Step-by-Step
 
-**✅ Coverage Maximization (MMTok)**
-Optimizes for collective coverage (inter-set similarity) — ensuring the selected subset comprehensively represents the entire original information space. By evaluating the marginal gain of each token, MMTok guarantees that every new patch brings strictly fresh information, perfectly balancing query relevance with global context.
+Here we use a visual example to explain the greedy selection process. This example shows how MMTok uses **marginal gain maximization** to pick tokens, ensuring that each new token brings **strictly fresh information**:
+
+**Step 1: Query-Relevant Selection**
+  <p>Because the query contains the words <strong>“traffic”</strong> and <strong>“light”</strong>, and there are many cars in the image, the <strong>Car patch</strong> is selected first as the token with the largest information gain, followed by the <strong>Traffic Light</strong>.</p>
+  <p style="margin-bottom: 0;"><em>At this point, the selected patches already cover the main information of both the query and the image.</em></p>
+</div>
+
+**Step 2: Information Gain Maximization**
+  <p>Since there is still token budget left, the next choice is the <strong>Sky</strong>, as a token that captures sky features. The sky occupies a large area, so multiple sky-related patches are selected consecutively to keep sufficient visual information under a very sparse budget.</p>
+  <p style="margin-bottom: 0;"><em>This explains why the selected tokens look “scattered” — the algorithm is explicitly searching for strictly fresh information.</em></p>
+</div>
+
+**Step 3: Completing Coverage**  
+Finally, the algorithm continues to select patches for the **road** and the **billboard**, further enriching global visual information and making the coverage more complete.
+
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/traffic_light.png" alt="Traffic Light Detection" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 6: Greedy selection process visualization — showing how MMTok iteratively selects tokens with maximum marginal gain (Car → Traffic Light → Sky → Road → Billboard)</figcaption>
+</figure>
+
+---
+
+### Max-K-Coverage: Mathematical Foundation
+
+Now let's dive into the mathematical foundation. Max-K-Coverage is a classic NP-Hard problem: given several sets, select at most K of them such that their union has as many elements as possible. This problem is closely related to many practical applications (information retrieval, sensor placement, influence propagation, and visual token selection here) because it essentially involves "coverage maximization."
+
+However, this is an **NP-hard problem** — there's no known polynomial-time algorithm that can guarantee always finding the optimal solution. Once the problem scale grows, exhaustive search becomes exponentially explosive.
+
+But Max-K-Coverage has good news: its objective function has **submodularity**, i.e., the property of "diminishing marginal returns." Using this, a very simple **greedy algorithm** (selecting the set that brings the largest gain each time) can get an approximate solution with a strict guarantee: at least **63% of optimal** (1 - 1/e). This is why it's a classic theoretical and practical case in combinatorial optimization.
+
+For MMTok, we mainly need to define the **"marginal gain equation"**:
+
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/greedy_function.png" alt="Marginal Gain Function" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 7: Marginal gain equation — the core of MMTok's greedy selection</figcaption>
+</figure>
+
+Here's the algorithm pseudocode. Please pay attention to **L5: computing marginal gain** and **L8: selecting the element with maximum gain from candidates**. M_tv and M_vv are similarity matrices.
+
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/algrothm.png" alt="Algorithm Pseudocode" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 8: MMTok Algorithm — Efficient greedy selection with linear time complexity O(nk)</figcaption>
+</figure>
 
 ## 4. Experimental Results
 
@@ -170,9 +249,10 @@ Optimizes for collective coverage (inter-set similarity) — ensuring the select
 
 We evaluated our method on multiple models and benchmarks, including: LLaVA-1.5 (7B/13B), LLaVA-NeXT (7B/13B), Qwen-2.5-VL-7B.
 
-<img src="images/blog/mmtok/tab2.png" alt="Main Results Table" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 8: Main experimental results across multiple models and datasets</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/tab2.png" alt="Main Results Table" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 9: Main experimental results across multiple models and datasets</figcaption>
+</figure>
 
 **Some interesting results:**
 
@@ -187,13 +267,15 @@ We evaluated our method on multiple models and benchmarks, including: LLaVA-1.5 
 
 Further, we defined an evaluation metric for VLMs on specific datasets: **Image Contribution (IC)**, i.e., the performance improvement ratio relative to 0 vision token input when using all vision tokens. We found that some datasets like TextVQA, SQA receive very little gain from vision tokens. We further tested with fewer vision tokens on High-IC datasets, with average results shown in the table below.
 
-<img src="images/blog/mmtok/tab1.png" alt="High-IC Dataset Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/tab1.png" alt="High-IC Dataset Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 10: High-IC dataset results with extreme compression</figcaption>
+</figure>
 
-<em>Figure 8.1: High-IC dataset results with extreme compression</em>
-
-<img src="images/blog/mmtok/pope_4token.png" alt="POPE 4 Token Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 8.2: Extreme compression to 4 tokens on POPE dataset — still maintains 87.7% performance</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/pope_4token.png" alt="POPE 4 Token Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 11: Extreme compression to 4 tokens on POPE dataset — still maintains 87.7% performance</figcaption>
+</figure>
 
 **In one sentence:**
 
@@ -203,45 +285,52 @@ Multimodal coverage is more robust: Vision-only often loses query semantics, Tex
 
 We tested single-modality effects: T-V and V-V, i.e., Text-Vision and Vision-Vision.
 
-<img src="images/blog/mmtok/ablation.png" alt="Ablation Study" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/ablation.png" alt="Ablation Study" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 12: Ablation study — impact of Text-Vision (T-V) and Vision-Vision (V-V) components</figcaption>
+</figure>
 
-<em>Figure 9: Ablation study — impact of Text-Vision (T-V) and Vision-Vision (V-V) components</em>
-
-<img src="images/blog/mmtok/combined_plots.png" alt="Performance Comparison" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 10: Performance comparison — MMTok results across multiple models and datasets</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/combined_plots.png" alt="Performance Comparison" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 13: Performance comparison — MMTok results across multiple models and datasets</figcaption>
+</figure>
 
 ### 4.4 Inference Acceleration
 
 MMTok achieves **O(kn) time complexity** through max operation, so even with 2880 tokens, runtime is less than 7ms. With 576 input tokens and selecting 16 tokens, it's only **0.77ms**.
 
-<img src="images/blog/mmtok/inference_time.png" alt="Inference Time Analysis" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/inference_time.png" alt="Inference Time Analysis" style="width: 70%; max-width: 700px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 14: Inference time analysis — MMTok module overhead is minimal (0.77ms - 6.4ms)</figcaption>
+</figure>
 
-<em>Figure 11: Inference time analysis — MMTok module overhead is minimal (0.77ms - 6.4ms)</em>
-
-<img src="images/blog/mmtok/end2end_time.png" alt="End-to-End Acceleration" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 12: Actual end-to-end acceleration effects — significant speedup across different models</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/end2end_time.png" alt="End-to-End Acceleration" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 15: Actual end-to-end acceleration effects — significant speedup across different models</figcaption>
+</figure>
 
 ### 4.5 Multi-turn Conversation
 
 MMTok's multimodal coverage, where vision–vision coverage ensures it can adapt to multi-turn conversations:
 
-<img src="images/blog/mmtok/multiturn.png" alt="Multi-turn Conversation Analysis" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/multiturn.png" alt="Multi-turn Conversation Analysis" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 16: Multi-turn conversation analysis — MMTok maintains better consistency</figcaption>
+</figure>
 
-<em>Figure 13: Multi-turn conversation analysis — MMTok maintains better consistency</em>
-
-<img src="images/blog/mmtok/vis.jpg" alt="Multi-turn Conversation" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 14: Multi-turn Conversation & Answer Drift — How the number of vision tokens affects answer consistency across dialogue turns</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/vis.jpg" alt="Multi-turn Conversation" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 17: Multi-turn Conversation & Answer Drift — How the number of vision tokens affects answer consistency across dialogue turns</figcaption>
+</figure>
 
 ### 4.6 Comparison with Diversity-Based Methods
 
 We also compare with DivPrune (diversity-based method) to show the importance of semantic alignment:
 
-<img src="images/blog/mmtok/vis_compared.jpg" alt="MMTok vs DivPrune" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 15: MMTok vs. DivPrune — MMTok selects tokens relevant to the query while preserving important visual information, whereas DivPrune selects visually diverse patches without semantic relation to the query</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/vis_compared.jpg" alt="MMTok vs DivPrune" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 18: MMTok vs. DivPrune — MMTok selects tokens relevant to the query while preserving important visual information, whereas DivPrune selects visually diverse patches without semantic relation to the query</figcaption>
+</figure>
 
 From the visualization, we can observe that **MMTok selects top patches according to word-to-patch similarity**, which aligns well with the question semantically. In contrast, **DivPrune selected top patches without any close semantic relation to the question**.
 
@@ -253,9 +342,10 @@ This further demonstrates that MMTok can help significantly reduce the number of
 
 Please see the visualization below, showing how difficulty affects token quantity requirements. **Difficulty-adaptive Token Pruning** is an interesting direction.
 
-<img src="images/blog/mmtok/token_num.png" alt="Token Number Requirements" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-
-<em>Figure 16: Token number requirements analysis — showing how difficulty affects token quantity needs</em>
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/token_num.png" alt="Token Number Requirements" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 19: Token number requirements analysis — showing how difficulty affects token quantity needs</figcaption>
+</figure>
 
 ## 5. Summary and Insights
 
