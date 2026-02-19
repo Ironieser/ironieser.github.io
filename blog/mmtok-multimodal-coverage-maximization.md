@@ -98,19 +98,19 @@ These methods each have their limitations:
 <figure style="margin: 2rem 0;">
   <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 900px; margin-left: auto; margin-right: auto;">
     <div style="text-align: center;">
-      <img src="images/blog/mmtok/sparsevlm.png" alt="SparseVLM" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
-      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>SparseVLM</strong><br>Language-only</p>
+      <img src="images/blog/mmtok/sparsevlm.png" alt="SparseVLM" style="width: 400px; height: 300px; object-fit: contain; display: block; margin: 0 auto;">
+      <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>SparseVLM</strong><br>Language-only Top-K</p>
     </div>
     <div style="text-align: center;">
-      <img src="images/blog/mmtok/visionzip.png" alt="VisionZIP" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
+      <img src="images/blog/mmtok/visionzip.png" alt="VisionZIP" style="width: 400px; height: 300px; object-fit: contain; display: block; margin: 0 auto;">
       <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>VisionZIP</strong><br>Vision-only Top-K</p>
     </div>
     <div style="text-align: center;">
-      <img src="images/blog/mmtok/divrpune.jpg" alt="DivPrune" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto;">
+      <img src="images/blog/mmtok/divrpune.jpg" alt="DivPrune" style="width: 400px; height: 300px; object-fit: contain; display: block; margin: 0 auto;">
       <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>DivPrune</strong><br>Vision-only Diversity</p>
     </div>
     <div style="text-align: center;">
-      <img src="images/blog/mmtok/mmtok.jpg" alt="MMTok" style="width: 100%; max-width: 400px; height: auto; display: block; margin: 0 auto; border: 2px solid #4a90e2; border-radius: 4px;">
+      <img src="images/blog/mmtok/mmtok.jpg" alt="MMTok" style="width: 400px; height: 300px; object-fit: contain; display: block; margin: 0 auto; border: 2px solid #4a90e2; border-radius: 4px;">
       <p style="margin-top: 0.5rem; font-size: 0.9em; color: #666;"><strong>MMTok</strong><br>Multimodal Coverage</p>
     </div>
   </div>
@@ -203,15 +203,15 @@ Here we use a visual example to explain the greedy selection process. This examp
 
 **Step 1: Query-Relevant Selection**
   <p>Because the query contains the words <strong>“traffic”</strong> and <strong>“light”</strong>, and there are many cars in the image, the <strong>Car patch</strong> is selected first as the token with the largest information gain, followed by the <strong>Traffic Light</strong>.</p>
-  <p style="margin-bottom: 0;"><em>At this point, the selected patches already cover the main information of both the query and the image.</em></p>
-</div>
+*At this point, the selected patches already cover the main information of both the query and the image.*
 
 **Step 2: Information Gain Maximization**
-  <p>Since there is still token budget left, the next choice is the <strong>Sky</strong>, as a token that captures sky features. The sky occupies a large area, so multiple sky-related patches are selected consecutively to keep sufficient visual information under a very sparse budget.</p>
+Since there is still token budget left, the next choice is the **Sky**, as a token that captures sky features. The sky occupies a large area, so multiple sky-related patches are selected consecutively to keep sufficient visual information under a very sparse budget.
   <p style="margin-bottom: 0;"><em>This explains why the selected tokens look “scattered” — the algorithm is explicitly searching for strictly fresh information.</em></p>
 </div>
 
-**Step 3: Completing Coverage**  
+**Step 3: Completing Coverage**
+
 Finally, the algorithm continues to select patches for the **road** and the **billboard**, further enriching global visual information and making the coverage more complete.
 
 <figure style="text-align: center; margin: 2rem 0;">
@@ -250,6 +250,17 @@ Here's the algorithm pseudocode. Please pay attention to **L5: computing margina
 We evaluated our method on multiple models and benchmarks, including: LLaVA-1.5 (7B/13B), LLaVA-NeXT (7B/13B), Qwen-2.5-VL-7B.
 
 <figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/combined_plots.png" alt="Performance Comparison" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 13: Performance comparison — MMTok results across multiple models and datasets</figcaption>
+</figure>
+
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/tab1.png" alt="High-IC Dataset Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 10: High-IC dataset results with extreme compression</figcaption>
+</figure>
+
+
+<figure style="text-align: center; margin: 2rem 0;">
   <img src="images/blog/mmtok/tab2.png" alt="Main Results Table" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 9: Main experimental results across multiple models and datasets</figcaption>
 </figure>
@@ -267,10 +278,6 @@ We evaluated our method on multiple models and benchmarks, including: LLaVA-1.5 
 
 Further, we defined an evaluation metric for VLMs on specific datasets: **Image Contribution (IC)**, i.e., the performance improvement ratio relative to 0 vision token input when using all vision tokens. We found that some datasets like TextVQA, SQA receive very little gain from vision tokens. We further tested with fewer vision tokens on High-IC datasets, with average results shown in the table below.
 
-<figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/tab1.png" alt="High-IC Dataset Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 10: High-IC dataset results with extreme compression</figcaption>
-</figure>
 
 <figure style="text-align: center; margin: 2rem 0;">
   <img src="images/blog/mmtok/pope_4token.png" alt="POPE 4 Token Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
@@ -290,10 +297,6 @@ We tested single-modality effects: T-V and V-V, i.e., Text-Vision and Vision-Vis
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 12: Ablation study — impact of Text-Vision (T-V) and Vision-Vision (V-V) components</figcaption>
 </figure>
 
-<figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/combined_plots.png" alt="Performance Comparison" style="width: 90%; max-width: 1000px; height: auto; display: block; margin: 0 auto;">
-  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 13: Performance comparison — MMTok results across multiple models and datasets</figcaption>
-</figure>
 
 ### 4.4 Inference Acceleration
 
@@ -309,18 +312,13 @@ MMTok achieves **O(kn) time complexity** through max operation, so even with 288
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 15: Actual end-to-end acceleration effects — significant speedup across different models</figcaption>
 </figure>
 
-### 4.5 Multi-turn Conversation
+### 4.5 Multi-turn Conversation & Answer Drift
 
 MMTok's multimodal coverage, where vision–vision coverage ensures it can adapt to multi-turn conversations:
 
 <figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/multiturn.png" alt="Multi-turn Conversation Analysis" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 16: Multi-turn conversation analysis — MMTok maintains better consistency</figcaption>
-</figure>
-
-<figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/vis.jpg" alt="Multi-turn Conversation" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
-  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 17: Multi-turn Conversation & Answer Drift — How the number of vision tokens affects answer consistency across dialogue turns</figcaption>
+  <img src="images/blog/mmtok/multiturn.png" alt="Multi-turn Conversation" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 17: Multi-turn Conversation & Answer Drift</figcaption>
 </figure>
 
 ### 4.6 Comparison with Diversity-Based Methods
@@ -343,7 +341,7 @@ This further demonstrates that MMTok can help significantly reduce the number of
 Please see the visualization below, showing how difficulty affects token quantity requirements. **Difficulty-adaptive Token Pruning** is an interesting direction.
 
 <figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/token_num.png" alt="Token Number Requirements" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <img src="images/blog/mmtok/token_num.png" alt="Token Number Requirements" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 19: Token number requirements analysis — showing how difficulty affects token quantity needs</figcaption>
 </figure>
 
