@@ -276,7 +276,10 @@ We evaluated our method on multiple models and benchmarks, including: LLaVA-1.5 
 ### 4.2 High-IC Datasets vs. Extreme Compression Rate
 
 Further, we defined an evaluation metric for VLMs on specific datasets: **Image Contribution (IC)**, i.e., the performance improvement ratio relative to 0 vision token input when using all vision tokens. We found that some datasets like TextVQA, SQA receive very little gain from vision tokens. We further tested with fewer vision tokens on High-IC datasets, with average results shown in the table below.
-
+<figure style="text-align: center; margin: 2rem 0;">
+  <img src="images/blog/mmtok/highic.png" alt="High-IC Dataset Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
+  <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 11: High-IC dataset results under extreme compression — performance with different vision token budgets</figcaption>
+</figure>
 
 <figure style="text-align: center; margin: 2rem 0;">
   <img src="images/blog/mmtok/pope_4token.png" alt="POPE 4 Token Results" style="width: 80%; max-width: 800px; height: auto; display: block; margin: 0 auto;">
@@ -316,7 +319,7 @@ MMTok achieves **O(kn) time complexity** through max operation, so even with 288
 MMTok's multimodal coverage, where vision–vision coverage ensures it can adapt to multi-turn conversations:
 
 <figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/multiturn.png" alt="Multi-turn Conversation" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
+  <img src="images/blog/mmtok/multiturn.jpg" alt="Multi-turn Conversation" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 17: Multi-turn Conversation & Answer Drift</figcaption>
 </figure>
 
@@ -340,7 +343,7 @@ This further demonstrates that MMTok can help significantly reduce the number of
 Please see the visualization below, showing how difficulty affects token quantity requirements. **Difficulty-adaptive Token Pruning** is an interesting direction.
 
 <figure style="text-align: center; margin: 2rem 0;">
-  <img src="images/blog/mmtok/token_num.png" alt="Token Number Requirements" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
+  <img src="images/blog/mmtok/token_num.jpg" alt="Token Number Requirements" style="width: 60%; max-width: 600px; height: auto; display: block; margin: 0 auto;">
   <figcaption style="margin-top: 0.5rem; font-style: italic; color: #666;">Figure 19: Token number requirements analysis — showing how difficulty affects token quantity needs</figcaption>
 </figure>
 
