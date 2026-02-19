@@ -1,12 +1,12 @@
 ---
-title: "MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs"
+title: "ICLR'26 | MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs"
 date: "2026-02-19"
 description: "My ICLR 2026 work on efficient vision token pruning for Vision-Language Models. We propose a training-free, multimodal coverage maximization approach that achieves 1.87× speedup while maintaining 95%+ performance. The key insight: leverage both vision and text tokens to select informative patches, not just one modality."
 tags: ["Vision-Language Models", "Efficient Inference", "Token Pruning", "Multimodal Learning", "ICLR 2026"]
 image: "images/blog/mmtok/combined_plots.png"
 ---
 
-# ICLR'26 - MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs
+# ICLR'26 | MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs
 
 > _Sharing my new work here — hope you'll bear with any shortcomings, and welcome any suggestions, comments, or critiques! This work was mainly completed during my summer internship at Zoom. The core problem we're solving: **How to make vision-language models run faster and use less memory without training, while maintaining performance?**_
 
