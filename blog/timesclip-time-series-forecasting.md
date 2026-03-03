@@ -186,7 +186,7 @@ Of course can't forget to tell everyone about current limitations, roughly three
 ## References
 
 - **Paper:** [Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives](https://arxiv.org/pdf/2506.24124)
-- **Personal Homepage:** [Sixun Dong - Academic Homepage](https://cv.ironieser.cc/)
+- **Personal Homepage:** [Sixun Dong - Academic Homepage](https://sixundong.com/)
 
 ### References
 [1] CoCa: Contrastive Captioners are Image-Text Foundation Models https://arxiv.org/abs/2205.01917  

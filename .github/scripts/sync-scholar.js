@@ -1,4 +1,5 @@
 const fs = require('fs');
+const yaml = require('js-yaml');
 const puppeteer = require('puppeteer');
 
 // Google Scholar用户ID，从环境变量获取
@@ -527,11 +528,79 @@ function convertToConfigFormat(scholarPubs, existingConfig) {
   return publicationsByYear;
 }
 
+const CONFIG_DIR = 'config';
+const CONTENT_CONFIG_PATH = `${CONFIG_DIR}/content.json`;
+const META_CONFIG_PATH = `${CONFIG_DIR}/meta.json`;
+const SITE_CONFIG_PATH = `${CONFIG_DIR}/site.yaml`;
+const LEGACY_CONFIG_PATH = `${CONFIG_DIR}/config.json`;
+
+const META_KEYS = ['_template_info', '_scholar_sync'];
+const SITE_KEYS = ['seo', 'visitor_map', 'redirects'];
+const CONTENT_KEYS = ['personal', 'research', 'news', 'publications', 'experience', 'education', 'service'];
+
+function loadCombinedConfig() {
+  const hasContent = fs.existsSync(CONTENT_CONFIG_PATH);
+  const hasMeta = fs.existsSync(META_CONFIG_PATH);
+  const hasSite = fs.existsSync(SITE_CONFIG_PATH);
+
+  if (hasContent) {
+    const contentRaw = fs.readFileSync(CONTENT_CONFIG_PATH, 'utf8');
+    const contentConfig = JSON.parse(contentRaw);
+
+    let metaConfig = {};
+    if (hasMeta) {
+      const metaRaw = fs.readFileSync(META_CONFIG_PATH, 'utf8');
+      metaConfig = JSON.parse(metaRaw);
+    }
+
+    let siteConfig = {};
+    if (hasSite) {
+      const siteRaw = fs.readFileSync(SITE_CONFIG_PATH, 'utf8');
+      siteConfig = yaml.load(siteRaw) || {};
+    }
+
+    const parts = ['config/content.json'];
+    if (hasMeta) parts.push('config/meta.json');
+    if (hasSite) parts.push('config/site.yaml');
+    console.log('✓ Loaded config from ' + parts.join(' + '));
+    return { ...metaConfig, ...contentConfig, ...siteConfig };
+  }
+
+  if (fs.existsSync(LEGACY_CONFIG_PATH)) {
+    console.log('ℹ️ config/content.json not found, falling back to config/config.json');
+    const legacyRaw = fs.readFileSync(LEGACY_CONFIG_PATH, 'utf8');
+    return JSON.parse(legacyRaw);
+  }
+
+  throw new Error('No configuration file found (expected config/content.json or config/config.json).');
+}
+
+function saveCombinedConfig(configData) {
+  const meta = {};
+  const content = {};
+  META_KEYS.forEach(k => { if (configData[k] !== undefined) meta[k] = configData[k]; });
+  CONTENT_KEYS.forEach(k => { if (configData[k] !== undefined) content[k] = configData[k]; });
+
+  fs.writeFileSync(META_CONFIG_PATH, JSON.stringify(meta, null, 2), 'utf8');
+  fs.writeFileSync(CONTENT_CONFIG_PATH, JSON.stringify(content, null, 2), 'utf8');
+
+  // config.json 只保留 meta + site，不再重复 content（构建优先用 content.json + meta.json）
+  const legacy = { ...meta };
+  SITE_KEYS.forEach(k => { if (configData[k] !== undefined) legacy[k] = configData[k]; });
+  if (fs.existsSync(SITE_CONFIG_PATH)) {
+    const siteRaw = fs.readFileSync(SITE_CONFIG_PATH, 'utf8');
+    const siteConfig = yaml.load(siteRaw) || {};
+    SITE_KEYS.forEach(k => { if (siteConfig[k] !== undefined) legacy[k] = siteConfig[k]; });
+  }
+  fs.writeFileSync(LEGACY_CONFIG_PATH, JSON.stringify(legacy, null, 2), 'utf8');
+
+  console.log('💾 Saved updated config/content.json, config/meta.json, config/config.json (legacy: meta+site only)');
+}
+
 async function updateConfig() {
   try {
-    console.log('📖 Reading current config.json...');
-    const configPath = 'config.json';
-    const configData = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+    console.log('📖 Reading current configuration...');
+    const configData = loadCombinedConfig();
     
     console.log('🔍 Fetching publications from Google Scholar...');
     const scholarPubs = await fetchScholarPublications();
@@ -578,8 +647,7 @@ async function updateConfig() {
       `Added ${addedCount} new publications` : 
       `No new publications found (${updatedCount} existing checked)`;
     
-    console.log('💾 Saving updated config.json...');
-    fs.writeFileSync(configPath, JSON.stringify(configData, null, 2), 'utf8');
+    saveCombinedConfig(configData);
     
     console.log('🎉 Google Scholar sync completed successfully!');
     console.log(`📊 Summary: ${addedCount} added, ${updatedCount} checked`);

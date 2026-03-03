@@ -6,30 +6,122 @@
  * @version 1.0.0
  * @license MIT
  * @repository https://github.com/Ironieser/ironieser.github.io
- * @description Generates HTML files from config.json for academic websites
+ * @description Generates HTML files from content.json + meta.json for academic websites
  */
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 // Configuration and output files
-const CONFIG_FILE = path.join(__dirname, '../../config.json');
+const CONFIG_DIR = path.join(__dirname, '../../config');
+const CONTENT_CONFIG_FILE = path.join(CONFIG_DIR, 'content.json');
+const META_CONFIG_FILE = path.join(CONFIG_DIR, 'meta.json');
+const SITE_CONFIG_FILE = path.join(CONFIG_DIR, 'site.yaml');
+const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
+const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
+
+/**
+ * Generate Cloudflare Pages style _redirects file from config.json
+ * 
+ * In site.yaml or config.json, add for example:
+ * "redirects": [
+ *   { "alias": "mmtok", "target": "/projects/mmtok.html" },
+ *   { "alias": "timesclip", "target": "/projects/timesclip.html" }
+ * ]
+ */
+function generateRedirects(config) {
+  const redirects = Array.isArray(config.redirects) ? config.redirects : [];
+
+  if (redirects.length === 0) {
+    console.log('ℹ️ No redirects defined (redirects in site.yaml or config.json), skipping _redirects generation.');
+    return false;
+  }
+
+  console.log('🚀 Generating _redirects file...');
+
+  const lines = [
+    '# Automatic Project Redirects',
+    '# Generated during build process'
+  ];
+
+  redirects.forEach(entry => {
+    const alias = entry.alias;
+    const target = entry.target;
+
+    if (!alias || !target) {
+      return;
+    }
+
+    // /alias  → target
+    lines.push(`/${alias}  ${target}  301`);
+    // /alias/* → target (so /alias/anything also lands on the main page)
+    lines.push(`/${alias}/* ${target}  301`);
+  });
+
+  fs.writeFileSync(REDIRECTS_OUTPUT, lines.join('\n'));
+  console.log(`✅ Generated ${redirects.length} redirect rules in _redirects.`);
+  return true;
+}
+
+function expandVisitorMap(siteVisitorMap) {
+  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
+  return {
+    enabled: siteVisitorMap.enabled !== false,
+    provider: siteVisitorMap.provider || 'clustrmaps',
+    domain_id: siteVisitorMap.domain_id,
+    color: siteVisitorMap.color || 'ffffff',
+    width: siteVisitorMap.width || 'a'
+  };
+}
 
 function loadConfig() {
-  console.log('Loading configuration from config.json...');
-  
-  if (!fs.existsSync(CONFIG_FILE)) {
-    throw new Error('config.json file not found!');
-  }
-  
+  console.log('Loading configuration...');
+
+  const hasContent = fs.existsSync(CONTENT_CONFIG_FILE);
+  const hasMeta = fs.existsSync(META_CONFIG_FILE);
+  const hasSite = fs.existsSync(SITE_CONFIG_FILE);
+
   try {
-    const configContent = fs.readFileSync(CONFIG_FILE, 'utf-8');
-    return JSON.parse(configContent);
+    if (hasContent) {
+      const contentRaw = fs.readFileSync(CONTENT_CONFIG_FILE, 'utf-8');
+      const contentConfig = JSON.parse(contentRaw);
+
+      let metaConfig = {};
+      if (hasMeta) {
+        const metaRaw = fs.readFileSync(META_CONFIG_FILE, 'utf-8');
+        metaConfig = JSON.parse(metaRaw);
+      }
+
+      let siteConfig = {};
+      if (hasSite) {
+        const siteRaw = fs.readFileSync(SITE_CONFIG_FILE, 'utf-8');
+        siteConfig = yaml.load(siteRaw) || {};
+        if (siteConfig.visitor_map) {
+          siteConfig.visitor_map = expandVisitorMap(siteConfig.visitor_map);
+        }
+      }
+
+      const merged = { ...metaConfig, ...contentConfig, ...siteConfig };
+      const parts = ['config/content.json'];
+      if (hasMeta) parts.push('config/meta.json');
+      if (hasSite) parts.push('config/site.yaml');
+      console.log('✓ Loaded config from ' + parts.join(' + '));
+      return merged;
+    }
+
+    if (fs.existsSync(LEGACY_CONFIG_FILE)) {
+      console.log('ℹ️ config/content.json not found, falling back to config/config.json');
+      const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
+      return JSON.parse(legacyRaw);
+    }
   } catch (error) {
-    throw new Error(`Error parsing config.json: ${error.message}`);
+    throw new Error(`Error parsing configuration files: ${error.message}`);
   }
+
+  throw new Error('No configuration file found (expected config/content.json or config/config.json).');
 }
 
 function highlightAuthorName(authors, targetName) {
@@ -732,14 +824,14 @@ function generatePublicationsPage(config) {
     <meta property="og:title" content="Publications - ${personal.name}">
     <meta property="og:description" content="Publications by ${personal.name} - ${personal.title} at ${personal.affiliation}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="${config.seo?.website_url || 'https://cv.ironieser.cc'}/publications.html">
-    <meta property="og:image" content="${config.seo?.website_url || 'https://cv.ironieser.cc'}/${personal.profile_image}">
+    <meta property="og:url" content="${config.seo?.website_url || 'https://sixundong.com'}/publications.html">
+    <meta property="og:image" content="${config.seo?.website_url || 'https://sixundong.com'}/${personal.profile_image}">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Publications - ${personal.name}">
     <meta name="twitter:description" content="Publications by ${personal.name} - ${personal.title} at ${personal.affiliation}">
-    <meta name="twitter:image" content="${config.seo?.website_url || 'https://cv.ironieser.cc'}/${personal.profile_image}">
+    <meta name="twitter:image" content="${config.seo?.website_url || 'https://sixundong.com'}/${personal.profile_image}">
     
     <!-- JSON-LD Structured Data -->
     ${generateJsonLd(config)}
@@ -802,7 +894,7 @@ function generatePublicationsPage(config) {
 }
 
 function buildWebsite() {
-  console.log('🚀 Building website from config.json...');
+  console.log('🚀 Building website from content.json + meta.json...');
   
   try {
     // Load configuration
@@ -817,11 +909,18 @@ function buildWebsite() {
     const publicationsHtml = generatePublicationsPage(config);
     fs.writeFileSync(PUBLICATIONS_OUTPUT, publicationsHtml);
     console.log('✓ publications.html generated successfully');
+
+    // Generate Cloudflare Pages _redirects file for project short links (if configured)
+    const redirectsGenerated = generateRedirects(config);
     
     console.log('\n🎉 Website generation completed!');
     console.log('\n💡 Files updated:');
     console.log('   - index.html');
     console.log('   - publications.html');
+    if (redirectsGenerated) {
+      console.log('   - _redirects');
+    }
+    console.log('   - _redirects');
     
   } catch (error) {
     console.error('❌ Error:', error.message);

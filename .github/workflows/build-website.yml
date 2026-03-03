@@ -35,25 +35,17 @@ jobs:
         node-version: '18'
         
     - name: Install dependencies
-      run: |
-        npm init -y
-        npm install marked js-yaml
-        
+      run: npm ci
+
     - name: Build website
-      run: |
-        echo "🚀 Building website..."
-        node .github/scripts/build-website.js
-        echo "📝 Building blog data..."
-        node .github/scripts/build-blog.js
-        echo "📄 Building blog page..."
-        node .github/scripts/build-blog-page.js
+      run: npm run build
       
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add -f index.html publications.html blog.html assets/js/blog-data.js
-        git diff --staged --quiet || git commit -m "🚀 Auto-update website from config.json"
+        git diff --staged --quiet || git commit -m "🚀 Auto-update website from config/"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

@@ -30,12 +30,48 @@ if os.path.basename(script_dir) == 'scripts':
 
 
 def load_config():
-    """Load configuration from config.json"""
-    if not os.path.exists('config.json'):
-        raise FileNotFoundError('config.json file not found!')
-    
-    with open('config.json', 'r', encoding='utf-8') as f:
-        return json.load(f)
+    """Load configuration: config/meta.json + config/content.json + config/site.yaml (optional)."""
+    content_path = 'config/content.json'
+    meta_path = 'config/meta.json'
+    site_path = 'config/site.yaml'
+    legacy_path = 'config/config.json'
+
+    if os.path.exists(content_path):
+        with open(content_path, 'r', encoding='utf-8') as f:
+            content = json.load(f)
+
+        meta = {}
+        if os.path.exists(meta_path):
+            with open(meta_path, 'r', encoding='utf-8') as f:
+                meta = json.load(f)
+
+        site = {}
+        if os.path.exists(site_path):
+            with open(site_path, 'r', encoding='utf-8') as f:
+                site = yaml.safe_load(f) or {}
+            if site.get('visitor_map') and site['visitor_map'].get('domain_id'):
+                vm = site['visitor_map']
+                site['visitor_map'] = {
+                    'enabled': vm.get('enabled', True),
+                    'provider': vm.get('provider', 'clustrmaps'),
+                    'domain_id': vm['domain_id'],
+                    'color': vm.get('color', 'ffffff'),
+                    'width': vm.get('width', 'a'),
+                }
+
+        merged = {}
+        merged.update(meta)
+        merged.update(content)
+        merged.update(site)
+        return merged
+
+    if os.path.exists(legacy_path):
+        with open(legacy_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+
+    raise FileNotFoundError(
+        'No configuration file found (expected config/content.json or config/config.json)'
+    )
 
 
 def parse_frontmatter(content):
@@ -1254,7 +1290,7 @@ def generate_blog_page(config):
                 .then(({{ init }}) => {{
                     init({{
                         el: '#waline',
-                        serverURL: 'https://comments.ironieser.cc',
+                        serverURL: 'https://comments.sixundong.com',
                         path: window.location.pathname + window.location.search,
                         lang: 'en-US',
                         locale: {{
@@ -1350,7 +1386,7 @@ def generate_blog_page(config):
 
 def main():
     """Main function to generate HTML files"""
-    print('🚀 Building website locally from config.json...')
+    print('🚀 Building website locally from content.json + meta.json...')
     
     try:
         # Load configuration
@@ -1383,10 +1419,10 @@ def main():
         print('\n💡 You can now run "python scripts/local_server.py" to preview your changes')
         
     except FileNotFoundError:
-        print('❌ Error: config.json file not found!')
-        print('Please make sure config.json exists in the current directory.')
+        print('❌ Error: config/content.json (or config/config.json) not found!')
+        print('Please make sure config/ directory and content.json or config.json exist.')
     except json.JSONDecodeError as e:
-        print(f'❌ Error: Invalid JSON in config.json: {e}')
+        print(f'❌ Error: Invalid JSON in config: {e}')
         print('Please check your JSON syntax.')
     except Exception as e:
         print(f'❌ Error: {e}')

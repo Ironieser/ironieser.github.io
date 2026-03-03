@@ -1,5 +1,83 @@
 # Changelog
 
+## [v1.2.0] - 2026-03-04
+
+### 🎉 Major Update - Config Reorganization & Cleaner Root
+
+Configuration has been split, renamed, and moved into a single **`config/`** directory. The repo root is simpler and config is easier to maintain.
+
+### ✨ New Features
+
+- **Config directory**: All config files now live under `config/`:
+  - **`config/content.json`** — Your content (personal, news, publications, experience, education, service)
+  - **`config/meta.json`** — Template info & Scholar sync status (edited by scripts)
+  - **`config/site.yaml`** — One-time setup: SEO, visitor map, redirects
+  - **`config/config.json`** — Legacy merge of meta + site (written by sync-scholar; no duplicate content)
+- **No duplicate content**: `config.json` only stores meta + site. Build always prefers `content.json` + `meta.json`; Scholar sync writes all three without repeating publications/news in `config.json`.
+- **Simpler config names**: Dropped the `config.` prefix — `content.json`, `meta.json`, `site.yaml` (inside `config/`).
+- **Waline comments**: `serverURL` can point to an independent subdomain (e.g. `https://comments.example.com`) so comments are not affected by domain redirects.
+- **npm build**: `package.json` has a `build` script; CI uses `npm ci` and `npm run build` so dependencies are defined in one place.
+
+### 🔄 Breaking Changes
+
+#### Config Location and Names
+
+**Before (root):**
+```
+├── config.content.json
+├── config.meta.json
+├── config.site.yaml
+└── config.json          # full copy (content + meta + site)
+```
+
+**After (`config/`):**
+```
+├── config/
+│   ├── content.json    # content only
+│   ├── meta.json       # template + sync status
+│   ├── site.yaml       # SEO, visitor_map, redirects
+│   ├── config.json     # meta + site only (legacy)
+│   └── README.md
+```
+
+- All build scripts and GitHub Actions now read/write under `config/`.
+- If you had custom paths or scripts pointing at `config.content.json` / `config.json` in the root, update them to `config/content.json` and `config/config.json`.
+
+### 📝 Migration for Existing Users
+
+If you already use the split config (content + meta + site) or a single `config.json`:
+
+1. **Pull the latest changes:**
+   ```bash
+   git pull origin main  # or master
+   ```
+
+2. **Move config into `config/`** (if you still have files in root):
+   ```bash
+   mkdir -p config
+   mv content.json config/ 2>/dev/null || true
+   mv meta.json config/ 2>/dev/null || true
+   mv site.yaml config/ 2>/dev/null || true
+   mv config.json config/ 2>/dev/null || true
+   ```
+
+3. **Local build** (optional):
+   ```bash
+   npm ci
+   npm run build
+   # or: python scripts/build_local.py
+   ```
+
+4. **Verify** — GitHub Actions will build from `config/`; check that the site and Scholar sync still work.
+
+### ⚠️ Notes
+
+- **Scholar sync** updates `config/content.json`, `config/meta.json`, and `config/config.json` (meta+site only).
+- **Fallback**: If `config/content.json` is missing, the build falls back to `config/config.json` (which no longer contains publications/news, so keep `content.json` in place).
+- README and `config/README.md` describe the new layout.
+
+---
+
 ## [v1.1.0] - 2026-01-13
 
 ### 🎉 Major Update - File Structure Reorganization
@@ -8,7 +86,7 @@ This is a **significant update** that reorganizes the project structure. If you'
 
 ### ✨ New Features
 
-- **Visitor Map Configuration**: Added `visitor_map` section to `config.json` for easy visitor map management
+- **Visitor Map Configuration**: Added `visitor_map` section (in `config/site.yaml` or legacy `config/config.json`) for easy visitor map management
 - **Improved File Organization**: CSS and JS files moved to `assets/` directory for better structure
 
 ### 🔄 Breaking Changes
@@ -55,16 +133,11 @@ This is a **significant update** that reorganizes the project structure. If you'
 │   └── ...
 ```
 
-### 📝 Required Actions for Existing Users
+### 📝 Required Actions for Existing Users (v1.1.0)
 
-If you've already forked this template, you need to:
+If you're upgrading from before v1.2.0 and still have the old root-level config layout, first apply the **v1.2.0 migration** (move config into `config/`). Then, if you're coming from pre–v1.1.0:
 
-1. **Pull the latest changes:**
-   ```bash
-   git pull origin main  # or master
-   ```
-
-2. **Move your CSS/JS files** (if you have custom modifications):
+1. **Move your CSS/JS files** (if you have custom modifications):
    ```bash
    mkdir -p assets/css assets/js
    mv styles.css assets/css/ 2>/dev/null || true
@@ -74,43 +147,19 @@ If you've already forked this template, you need to:
    mv blog-comments.js assets/js/ 2>/dev/null || true
    ```
 
-3. **Update config.json** - Add the new `visitor_map` section:
-   ```json
-   "visitor_map": {
-     "enabled": false,  // Set to false to disable, or get your own ClustrMaps ID
-     "provider": "clustrmaps",
-     "domain_id": "YOUR_CLUSTRMAPS_ID",
-     "color": "ffffff",
-     "width": "a"
-   }
+2. **Visitor map** — Configure in `config/site.yaml` (or legacy `config/config.json`):
+   ```yaml
+   visitor_map:
+     domain_id: "YOUR_CLUSTRMAPS_ID"
    ```
+   Or get your ID from [clustrmaps.com](https://clustrmaps.com).
 
-4. **Re-run GitHub Actions** or manually build:
-   ```bash
-   python scripts/build_local.py
-   ```
+3. **Re-run build**: `npm run build` or `python scripts/build_local.py`, then verify.
 
-5. **Verify** that your website still works after the update.
+### 🔧 Configuration (v1.1.0)
 
-### ⚠️ Important Notes
-
-- **GitHub Actions will automatically rebuild** your site after you pull the changes
-- The old file paths in existing HTML files will break until rebuilt
-- All build scripts have been updated to use the new paths
-- The `config.json` structure remains the same (backward compatible)
-
-### 🔧 Configuration Updates
-
-#### New Required Configuration
-
-1. **SEO Section** - Must update with your information:
-   - `website_url`
-   - `github_pages_url`
-   - `author` information
-
-2. **Visitor Map** - New section (can be disabled):
-   - Set `enabled: false` if you don't want visitor map
-   - Or get your own ClustrMaps ID from [clustrmaps.com](https://clustrmaps.com)
+- **SEO**: Update `website_url`, `github_pages_url`, `author` in `config/site.yaml` (or your config).
+- **Visitor map**: Can be disabled or set with your ClustrMaps `domain_id`.
 
 ### 📚 Documentation
 

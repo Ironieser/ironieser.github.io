@@ -369,7 +369,7 @@ Finally, thank you for reading this article! Welcome any questions, welcome any 
 
 - **Paper:** [MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs](https://arxiv.org/abs/2508.18264)
 - **GitHub:** [Ironieser/MMTok](https://github.com/Ironieser/MMTok)
-- **Personal Homepage:** [Sixun Dong - Academic Homepage](https://cv.ironieser.cc/)
+- **Personal Homepage:** [Sixun Dong - Academic Homepage](https://sixundong.com/)
 
 ---
 

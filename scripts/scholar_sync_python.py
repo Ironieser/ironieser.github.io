@@ -27,7 +27,7 @@ REQUEST_DELAY = 2  # 请求间隔（秒）
 MAX_RETRIES = 3
 
 class ScholarSync:
-    def __init__(self, user_id=None, config_path="config.json"):
+    def __init__(self, user_id=None, config_path="config/config.json"):
         self.user_id = user_id or SCHOLAR_USER_ID
         self.config_path = config_path
         self.session = requests.Session()
@@ -496,7 +496,7 @@ def main():
     parser = argparse.ArgumentParser(description='Google Scholar Publications Sync')
     parser.add_argument('--user-id', '-u', default=SCHOLAR_USER_ID,
                        help='Google Scholar user ID')
-    parser.add_argument('--config', '-c', default='config.json',
+    parser.add_argument('--config', '-c', default='config/config.json',
                        help='Config file path')
     parser.add_argument('--dry-run', '-d', action='store_true',
                        help='Dry run mode (do not modify files)')
@@ -515,7 +515,7 @@ def main():
         print("\n✅ Sync completed successfully!")
         if not args.dry_run:
             print("📝 Next steps:")
-            print("1. Review the changes in config.json")
+            print("1. Review the changes in config/config.json")
             print("2. Run 'python scripts/build_local.py' to update HTML files")
             print("3. Commit and push changes to GitHub")
         return 0

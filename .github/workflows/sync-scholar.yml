@@ -40,7 +40,7 @@ jobs:
     - name: Check for changes
       id: check_changes
       run: |
-        if git diff --quiet config.json; then
+        if git diff --quiet config/content.json config/meta.json config/config.json; then
           echo "changes=false" >> $GITHUB_OUTPUT
         else
           echo "changes=true" >> $GITHUB_OUTPUT
@@ -51,7 +51,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add config.json
+        git add config/content.json config/meta.json config/config.json
         git commit -m "🔄 Auto-sync publications from Google Scholar"
         git push
       env:

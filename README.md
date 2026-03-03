@@ -1,17 +1,17 @@
 # Academic Website Template
 
-A simple, config-driven academic website template that generates HTML from JSON configuration.
+A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **📢 Important Update (v1.1.0)**: If you've already forked this template, please check the [CHANGELOG.md](CHANGELOG.md) for migration instructions. This update reorganizes file structure and adds new configuration options.
+> **📢 Important (v1.2.0)**: Config now lives in the **`config/`** directory (`content.json`, `meta.json`, `site.yaml`). If you forked earlier, see [CHANGELOG.md](CHANGELOG.md) for migration steps.
 
 ## 🎯 Features
 
-- **Single config file** controls all content (no HTML editing needed)
-- **Automatic generation** via GitHub Actions
+- **Config-driven** — Edit `config/content.json` and `config/site.yaml`; no HTML editing
+- **Automatic generation** via GitHub Actions (`npm run build`)
 - **Clean academic design** with responsive layout
 - **Blog system** with Markdown support
 - **Publication management** with automatic formatting
-- **Easy maintenance** - just edit JSON and push
+- **Easy maintenance** — edit config and push
 
 > 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
 
@@ -30,18 +30,42 @@ A simple, config-driven academic website template that generates HTML from JSON 
 3. Change it to `yourusername.github.io` (replace with your actual GitHub username)
 4. Click **"Rename"**
 
-### Step 3: Enable GitHub Pages
+### Step 3: Choose Your Deployment Method
 
-1. Still in **Settings**, scroll down to **"Pages"**
-2. Under **"Source"**, select **"Deploy from a branch"**
-3. Choose **"master"** branch and **"/ (root)"** folder
-4. Click **"Save"**
+This template supports two common deployment options. You can pick the one that fits your setup, or switch later if needed.
 
-Your website will be available at `https://yourusername.github.io`
+#### Option A: GitHub Pages only (no Cloudflare)
+
+1. In your repository, go to **Settings → Pages**  
+2. Under **Source**, select **"Deploy from a branch"**  
+3. Choose your default branch (e.g. `master` or `main`) and the **"/ (root)"** folder  
+4. Click **Save**  
+
+GitHub Actions workflows (such as `build-website.yml` and `sync-scholar.yml`) will run automatically, generate static files, and your site will be served via GitHub Pages, for example:  
+`https://yourusername.github.io`
+
+#### Option B: Cloudflare Pages only (recommended)
+
+1. In Cloudflare Pages, create a new project and connect it to your GitHub repository  
+2. Select the branch you want to deploy (usually `main` or `master`)  
+3. Set the **Build command**:
+
+   ```bash
+   npm ci && npm run build
+   ```
+
+4. Set the **Build output directory** to the folder where your static files are generated (for this template, if the output is at the repository root, you can leave it empty or `/`)  
+5. (Optional) Bind your own custom domain in Cloudflare  
+6. (Optional) If you don’t need GitHub Pages anymore, you can disable it in **Settings → Pages** to avoid having two public sites from the same repository
+
+For both options:
+
+- The GitHub Actions workflows in this repo (`build-website.yml`, `sync-scholar.yml`, `deploy-waline.yml`, etc.) will continue to work for generating pages, syncing Google Scholar, and deploying the comment system.  
+- Template users only need to choose **either** GitHub Pages **or** Cloudflare Pages as their final public site.
 
 ### Step 4: Clone to Your Computer
 
-You need to clone the repository to your local computer so you can edit the `config.json` file and add your content. If you prefer, you can also edit files directly on GitHub, but using a local editor is more convenient.
+You need to clone the repository to your local computer so you can edit `config/site.yaml` (one-time setup) and `config/content.json` (your content). You can also edit files directly on GitHub.
 
 ```bash
 git clone https://github.com/yourusername/yourusername.github.io.git
@@ -50,52 +74,35 @@ cd yourusername.github.io
 
 ### Step 5: Update Required Configuration
 
-**⚠️ IMPORTANT:** Open `config.json` and update the following sections:
+All configuration files live in the **`config/`** directory. This keeps the repo root clean.
 
-#### 5.1 SEO Configuration (REQUIRED)
+| File | Purpose | When to edit |
+|------|---------|--------------|
+| **config/meta.json** | Template internals, Scholar sync status | Do not edit (used by scripts) |
+| **config/site.yaml** | One-time setup: SEO, visitor map, short URL redirects | Set once when forking |
+| **config/content.json** | Your content: bio, news, publications, experience, education | Edit whenever you update the site |
+| **config/config.json** | Legacy merge of meta + site (written by Scholar sync) | Do not edit by hand |
 
-Update the `seo` section with your information:
+#### 5.1 One-time site setup: `config/site.yaml`
 
-```json
-"seo": {
-  "website_url": "https://yourusername.github.io",  // ← Change to your URL
-  "github_pages_url": "https://yourusername.github.io",  // ← Change to your URL
-  "website_name": "Your Name - Academic Homepage",  // ← Change to your name
-  "website_description": "Your research description",  // ← Change to your description
-  "keywords": ["your", "research", "keywords"],  // ← Update keywords
-  "author": {
-    "name": "Your Name",  // ← Change to your name
-    "email": "your.email@university.edu",  // ← Change to your email
-    "google_scholar_id": "YOUR_SCHOLAR_ID",  // ← Change to your Scholar ID
-    "github": "yourusername",  // ← Change to your GitHub username
-    "twitter": "yourusername"  // ← Change to your Twitter (or remove)
-  },
-  "organization": {
-    "name": "Your University",  // ← Change to your affiliation
-    "url": "https://yourusername.github.io"  // ← Change to your URL
-  }
-}
+**SEO & identity** — Edit the `seo` section with your website URL, name, description, keywords, and `author` / `organization` (used in meta tags and JSON-LD).
+
+**Visitor map** — Paste your ClustrMaps `domain_id` only (get it from [clustrmaps.com](https://clustrmaps.com) after creating a map). Other fields use defaults:
+
+```yaml
+visitor_map:
+  domain_id: "YOUR_CLUSTRMAPS_ID"   # ← paste your ID here
 ```
 
-#### 5.2 Visitor Map (REQUIRED)
+**Redirects** (optional) — Add short URLs, e.g. `/mmtok` → `/projects/mmtok.html`:
 
-Update the `visitor_map` section:
-
-```json
-"visitor_map": {
-  "enabled": true,  // Set to false if you don't want visitor map
-  "provider": "clustrmaps",
-  "domain_id": "YOUR_CLUSTRMAPS_ID",  // ← Get your own ID from clustrmaps.com
-  "color": "ffffff",
-  "width": "a"
-}
+```yaml
+redirects:
+  - alias: mmtok
+    target: /projects/mmtok.html
 ```
 
-**Note:** 
-- If you don't want a visitor map, set `"enabled": false`
-- To get your own ClustrMaps ID: visit [clustrmaps.com](https://clustrmaps.com), sign up, create a map, and copy the `domain_id` from the embed code
-
-#### 5.3 Personal Information (REQUIRED)
+#### 5.2 Personal information (REQUIRED) — `config/content.json`
 
 Update the `personal` section:
 
@@ -227,7 +234,7 @@ Update your background:
 ### Step 9: Deploy
 
 ```bash
-git add config.json
+git add config/content.json config/site.yaml
 git add images/  # if you added new images
 git add favicon* apple-touch-icon.png  # if you added favicons
 git commit -m "Update personal information and configuration"
@@ -261,7 +268,11 @@ Push the file to GitHub - the blog will update automatically.
 To preview changes locally before pushing:
 
 ```bash
-# Build website locally
+# Install dependencies and build (Node)
+npm ci
+npm run build
+
+# Or build with Python
 python scripts/build_local.py
 
 # Start local server
@@ -330,17 +341,17 @@ python scripts/local_server.py
 ## ❓ Troubleshooting
 
 ### Website showing README instead of homepage
-- Make sure you pushed changes to `config.json`
+- Make sure you pushed changes to `config/content.json` (and `config/site.yaml` if you use it)
 - Check GitHub Actions tab for build errors
 - Wait 1-2 minutes for deployment
 
 ### Images not showing
 - Ensure image files are committed and pushed
-- Check file paths in `config.json`
+- Check file paths in `config/content.json`
 - Use relative paths from website root
 
 ### Build errors
-- Validate JSON syntax in `config.json`
+- Validate JSON syntax in `config/content.json` and YAML in `config/site.yaml`
 - Check GitHub Actions logs for specific errors
 - Ensure all required fields are present
 
@@ -359,7 +370,7 @@ python scripts/local_server.py
 
 - 📖 **Read the detailed guide**: [How to Use This Template](blog/introducing-config-driven-academic-website-template.html) - comprehensive documentation with examples and troubleshooting tips (continuously updated)
 - 💬 **Have questions?** Open an [Issue](https://github.com/Ironieser/ironieser.github.io/issues) - we're happy to help!
-- 🔍 Review example `config.json` for reference
+- 🔍 Review example `config/content.json` and `config/site.yaml` for reference
 - 📋 Check GitHub Actions logs for build errors
 
 ## 📄 License
@@ -368,6 +379,6 @@ MIT License - free to use and modify!
 
 ---
 
-**Created by [Sixun Dong](https://cv.ironieser.cc)** - Independent Researcher
+**Created by [Sixun Dong](https://sixundong.com)** - Independent Researcher
 
 *This template is designed to be simple and practical. Start with the basics and customize as needed.*

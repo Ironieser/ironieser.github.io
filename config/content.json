@@ -1,18 +1,4 @@
 {
-  "_template_info": {
-    "name": "Config-Driven Academic Website Template",
-    "version": "1.0.1",
-    "author": "Sixun Dong (ironieser)",
-    "repository": "https://github.com/Ironieser/ironieser.github.io",
-    "license": "MIT",
-    "description": "A GitHub Actions-powered template for easy academic website management",
-    "show_template_credit": true,
-    "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
-  },
-  "_scholar_sync": {
-    "last_sync_date": "2026-02-02",
-    "last_sync_status": "No new publications found (0 existing checked)"
-  },
   "personal": {
     "name": "Sixun Dong",
     "aka": "Ironieser",
@@ -102,7 +88,6 @@
       "content": "<strong>Sculpting Features from Noise</strong> {{link}} accepted to [[NeurIPS 2025]]. Congratulations to Nanxu Gong and Zijun Li!",
       "category": "papers"
     },
-
     {
       "date": "Aug 2025",
       "icon": "💼",
@@ -312,7 +297,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": true,
+        "featured": false,
         "links": [
           {
             "name": "Paper",
@@ -362,7 +347,7 @@
           },
           {
             "name": "Blog",
-            "url": "https://cv.ironieser.cc/blog.html?post=mmtok-multimodal-coverage-maximization",
+            "url": "https://sixundong.com/blog.html?post=mmtok-multimodal-coverage-maximization",
             "icon": "fas fa-blog"
           },
           {
@@ -493,12 +478,12 @@
           },
           {
             "name": "Homepage",
-            "url": "https://cv.ironieser.cc/projects/timesclip.html",
+            "url": "https://sixundong.com/projects/timesclip.html",
             "icon": "fas fa-home"
           },
           {
             "name": "Blog",
-            "url": "https://cv.ironieser.cc/blog.html#timesclip-time-series-forecasting",
+            "url": "https://sixundong.com/blog.html#timesclip-time-series-forecasting",
             "icon": "fas fa-blog"
           },
           {
@@ -896,57 +881,6 @@
       "conferences": "CVPR (2023–2026), ICCV (2023, 2025), ECCV (2024, 2026), NeurIPS (2025), ICML (2025, 2026),ICLR (2026), ACM MM (2023–2025), ACCV (2024), KDD (2025)",
       "journals": "IEEE Transactions on Multimedia, Neural Networks(Elsevier), ACM Transactions on Knowledge Discovery from Data"
     }
-  },
-  "visitor_map": {
-    "enabled": true,
-    "provider": "clustrmaps",
-    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU",
-    "color": "ffffff",
-    "width": "a"
-  },
-  "seo": {
-    "enable_json_ld": true,
-    "website_url": "https://cv.ironieser.cc",
-    "github_pages_url": "https://ironieser.github.io",
-    "website_name": "Sixun Dong (Ironieser) - Academic Homepage",
-    "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
-    "keywords": [
-      "computer vision",
-      "multimodal AI",
-      "machine learning",
-      "deep learning",
-      "artificial intelligence",
-      "academic research",
-      "Sixun Dong",
-      "Ironieser"
-    ],
-    "author": {
-      "name": "Sixun Dong",
-      "alternate_name": "Ironieser",
-      "email": "ironieser@gmail.com",
-      "academic_email": "sixundong.ai@gmail.com",
-      "affiliation": "Independent Researcher, AZ, USA",
-      "job_title": "Researcher",
-      "research_areas": [
-        "multimodal AI systems",
-        "computer vision",
-        "natural language processing",
-        "machine learning"
-      ],
-      "google_scholar_id": "j71Y2-4AAAAJ",
-      "orcid": null,
-      "github": "Ironieser",
-      "twitter": "ironieser"
-    },
-    "organization": {
-      "name": "Independent Researcher, AZ, USA",
-      "type": "Independent Researcher",
-      "url": "https://cv.ironieser.cc",
-      "address": {
-        "addressCountry": "USA",
-        "addressLocality": "Tempe",
-        "addressRegion": "AZ"
-      }
-    }
   }
 }
+

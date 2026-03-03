@@ -5,7 +5,7 @@
 
 // Waline configuration
 const WALINE_CONFIG = {
-    serverURL: 'https://comments.ironieser.cc',
+    serverURL: 'https://comments.sixundong.com',
     path: location.pathname,
     lang: 'en-US',
     locale: {

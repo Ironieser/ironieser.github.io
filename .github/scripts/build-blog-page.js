@@ -1,6 +1,6 @@
 /**
  * Blog Page Generator for Config-Driven Academic Website Template
- * Generates blog.html from config.json and blog-data.js
+ * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
  * @version 1.0.0
@@ -9,24 +9,71 @@
 
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 
 // Configuration and output files
-const CONFIG_FILE = path.join(__dirname, '../../config.json');
+const CONFIG_DIR = path.join(__dirname, '../../config');
+const CONTENT_CONFIG_FILE = path.join(CONFIG_DIR, 'content.json');
+const META_CONFIG_FILE = path.join(CONFIG_DIR, 'meta.json');
+const SITE_CONFIG_FILE = path.join(CONFIG_DIR, 'site.yaml');
+const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const BLOG_OUTPUT = path.join(__dirname, '../../blog.html');
 
+function expandVisitorMap(siteVisitorMap) {
+  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
+  return {
+    enabled: siteVisitorMap.enabled !== false,
+    provider: siteVisitorMap.provider || 'clustrmaps',
+    domain_id: siteVisitorMap.domain_id,
+    color: siteVisitorMap.color || 'ffffff',
+    width: siteVisitorMap.width || 'a'
+  };
+}
+
 function loadConfig() {
-  console.log('Loading configuration from config.json...');
-  
-  if (!fs.existsSync(CONFIG_FILE)) {
-    throw new Error('config.json file not found!');
-  }
-  
+  console.log('Loading configuration for blog page...');
+
+  const hasContent = fs.existsSync(CONTENT_CONFIG_FILE);
+  const hasMeta = fs.existsSync(META_CONFIG_FILE);
+  const hasSite = fs.existsSync(SITE_CONFIG_FILE);
+
   try {
-    const configContent = fs.readFileSync(CONFIG_FILE, 'utf-8');
-    return JSON.parse(configContent);
+    if (hasContent) {
+      const contentRaw = fs.readFileSync(CONTENT_CONFIG_FILE, 'utf-8');
+      const contentConfig = JSON.parse(contentRaw);
+
+      let metaConfig = {};
+      if (hasMeta) {
+        const metaRaw = fs.readFileSync(META_CONFIG_FILE, 'utf-8');
+        metaConfig = JSON.parse(metaRaw);
+      }
+
+      let siteConfig = {};
+      if (hasSite) {
+        const siteRaw = fs.readFileSync(SITE_CONFIG_FILE, 'utf-8');
+        siteConfig = yaml.load(siteRaw) || {};
+        if (siteConfig.visitor_map) {
+          siteConfig.visitor_map = expandVisitorMap(siteConfig.visitor_map);
+        }
+      }
+
+      const parts = ['config/content.json'];
+      if (hasMeta) parts.push('config/meta.json');
+      if (hasSite) parts.push('config/site.yaml');
+      console.log('✓ Loaded config from ' + parts.join(' + '));
+      return { ...metaConfig, ...contentConfig, ...siteConfig };
+    }
+
+    if (fs.existsSync(LEGACY_CONFIG_FILE)) {
+      console.log('ℹ️ config/content.json not found, falling back to config/config.json');
+      const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
+      return JSON.parse(legacyRaw);
+    }
   } catch (error) {
-    throw new Error(`Error parsing config.json: ${error.message}`);
+    throw new Error(`Error parsing configuration files: ${error.message}`);
   }
+
+  throw new Error('No configuration file found (expected config/content.json or config/config.json).');
 }
 
 function generateNavigation(personal, activePage) {
@@ -547,7 +594,7 @@ function generateBlogPage(config) {
                 .then(({ init }) => {
                     init({
                         el: '#waline',
-                        serverURL: 'https://comments.ironieser.cc',
+                        serverURL: 'https://comments.sixundong.com',
                         path: window.location.pathname + window.location.search,
                         lang: 'en-US',
                         locale: {

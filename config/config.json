@@ -1,0 +1,78 @@
+{
+  "_template_info": {
+    "name": "Config-Driven Academic Website Template",
+    "version": "1.0.1",
+    "author": "Sixun Dong (ironieser)",
+    "repository": "https://github.com/Ironieser/ironieser.github.io",
+    "license": "MIT",
+    "description": "A GitHub Actions-powered template for easy academic website management",
+    "show_template_credit": true,
+    "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
+  },
+  "_scholar_sync": {
+    "last_sync_date": "2026-02-02",
+    "last_sync_status": "No new publications found (0 existing checked)"
+  },
+  "redirects": [
+    {
+      "alias": "mmtok",
+      "target": "/projects/mmtok.html"
+    },
+    {
+      "alias": "timesclip",
+      "target": "/projects/timesclip.html"
+    }
+  ],
+  "visitor_map": {
+    "enabled": true,
+    "provider": "clustrmaps",
+    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU",
+    "color": "ffffff",
+    "width": "a"
+  },
+  "seo": {
+    "enable_json_ld": true,
+    "website_url": "https://sixundong.com",
+    "github_pages_url": "https://ironieser.github.io",
+    "website_name": "Sixun Dong (Ironieser) - Academic Homepage",
+    "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
+    "keywords": [
+      "computer vision",
+      "multimodal AI",
+      "machine learning",
+      "deep learning",
+      "artificial intelligence",
+      "academic research",
+      "Sixun Dong",
+      "Ironieser"
+    ],
+    "author": {
+      "name": "Sixun Dong",
+      "alternate_name": "Ironieser",
+      "email": "ironieser@gmail.com",
+      "academic_email": "sixundong.ai@gmail.com",
+      "affiliation": "Independent Researcher, AZ, USA",
+      "job_title": "Researcher",
+      "research_areas": [
+        "multimodal AI systems",
+        "computer vision",
+        "natural language processing",
+        "machine learning"
+      ],
+      "google_scholar_id": "j71Y2-4AAAAJ",
+      "orcid": null,
+      "github": "Ironieser",
+      "twitter": "ironieser"
+    },
+    "organization": {
+      "name": "Independent Researcher, AZ, USA",
+      "type": "Independent Researcher",
+      "url": "https://sixundong.com",
+      "address": {
+        "addressCountry": "USA",
+        "addressLocality": "Tempe",
+        "addressRegion": "AZ"
+      }
+    }
+  }
+}

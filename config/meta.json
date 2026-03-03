@@ -1,0 +1,17 @@
+{
+  "_template_info": {
+    "name": "Config-Driven Academic Website Template",
+    "version": "1.0.1",
+    "author": "Sixun Dong (ironieser)",
+    "repository": "https://github.com/Ironieser/ironieser.github.io",
+    "license": "MIT",
+    "description": "A GitHub Actions-powered template for easy academic website management",
+    "show_template_credit": true,
+    "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
+  },
+  "_scholar_sync": {
+    "last_sync_date": "2026-02-02",
+    "last_sync_status": "No new publications found (0 existing checked)"
+  }
+}
+
