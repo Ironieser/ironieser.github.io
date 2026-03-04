@@ -189,6 +189,8 @@ function generateJsonLd(config) {
   if (!seo || !seo.enable_json_ld) {
     return '';
   }
+
+  const legacyUrls = Array.isArray(seo.legacy_urls) ? seo.legacy_urls : [];
   
   // Person schema
   const personSchema = {
@@ -215,7 +217,8 @@ function generateJsonLd(config) {
       `https://github.com/${seo.author.github}`,
       `https://twitter.com/${seo.author.twitter}`,
       seo.website_url,
-      seo.github_pages_url
+      seo.github_pages_url,
+      ...legacyUrls
     ].filter(Boolean),
     "knowsAbout": seo.author.research_areas,
     "image": `${seo.website_url}/${personal.profile_image}`
@@ -411,13 +414,6 @@ function generateIndexPage(config) {
   // First, add featured publications
   const featuredPubs = allPubs.filter(pub => pub.featured === true);
   selectedPubs.push(...featuredPubs.slice(0, maxFeatured));
-  
-  // If we need more, add recent publications (non-featured)
-  if (selectedPubs.length < maxFeatured) {
-    const recentPubs = allPubs.filter(pub => !pub.featured);
-    const needed = maxFeatured - selectedPubs.length;
-    selectedPubs.push(...recentPubs.slice(0, needed));
-  }
   
   // Generate bio HTML
   const bioHtml = personal.bio.map(para => `<p>${para}</p>`).join('\n                            ');

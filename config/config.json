@@ -34,6 +34,9 @@
     "enable_json_ld": true,
     "website_url": "https://sixundong.com",
     "github_pages_url": "https://ironieser.github.io",
+    "legacy_urls": [
+      "https://cv.ironieser.cc"
+    ],
     "website_name": "Sixun Dong (Ironieser) - Academic Homepage",
     "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
     "keywords": [

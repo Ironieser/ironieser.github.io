@@ -1,51 +1,62 @@
+# When using Cloudflare Pages: CF runs `npm run build` on each push and deploys.
+# This workflow is disabled for push so we don't double-build or push generated files.
+#
+# To enable (use GitHub Pages and have Actions commit built files):
+# 1. Uncomment on.push and on.repository_dispatch below
+# 2. Set permissions to contents: write, and add pages: write, id-token: write
+# 3. Rename jobs.build to jobs.build-and-deploy and add environment: name: github-pages
+# 4. Uncomment the "Commit and push changes" step at the bottom
+
 name: Build Website from Config
 
 on:
-  push:
-    branches: [ main, master ]
+  # Uncomment the next two blocks when using GitHub Pages:
+  # push:
+  #   branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
-  repository_dispatch:
-    types: [rebuild-website]
+  # repository_dispatch:
+  #   types: [rebuild-website]
 
+# Current (CF Pages): read-only. When enabling GitHub Pages, replace with the block below:
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: read
+# When enabling GitHub Pages, use this instead:
+# permissions:
+#   contents: write
+#   pages: write
+#   id-token: write
 
-# Allow only one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
+# When enabling GitHub Pages: change "build" to "build-and-deploy" and uncomment the environment block below
 jobs:
-  build-and-deploy:
+  build:  # when enabling: rename to build-and-deploy
+    # when enabling GitHub Pages, uncomment these 4 lines:
+    # environment:
+    #   name: github-pages
+    #   url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
-        
-    - name: Install dependencies
-      run: npm ci
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Build website
-      run: npm run build
-      
-    - name: Commit and push changes
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add -f index.html publications.html blog.html assets/js/blog-data.js
-        git diff --staged --quiet || git commit -m "🚀 Auto-update website from config/"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build website
+        run: npm run build
+
+      # ---------- Uncomment the block below when using GitHub Pages ----------
+      # - name: Commit and push changes
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "GitHub Action"
+      #     git add -f index.html publications.html blog.html assets/js/blog-data.js
+      #     git diff --staged --quiet || git commit -m "🚀 Auto-update website from config/"
+      #     git push
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
