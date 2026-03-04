@@ -745,7 +745,7 @@
         "venue": "arXiv'2602",
         "venue_type": "preprint",
         "image": "teaser/think_tom.jpg",
-        "featured": false,
+        "featured": true,
         "links": [
           {
             "name": "Paper",
