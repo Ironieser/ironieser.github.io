@@ -1,13 +1,19 @@
 const fs = require('fs');
 const path = require('path');
-const { marked } = require('marked');
 const yaml = require('js-yaml');
 
-// Configure marked for better security and formatting
-marked.setOptions({
-  headerIds: false,
-  mangle: false
-});
+async function getMarked() {
+  const mod = await import('marked');
+  const marked = mod.marked || mod.default || mod;
+
+  // Configure marked for better security and formatting
+  marked.setOptions({
+    headerIds: false,
+    mangle: false
+  });
+
+  return marked;
+}
 
 // Blog directory
 const BLOG_DIR = path.join(__dirname, '../../blog');
@@ -45,7 +51,7 @@ function generatePostId(filename) {
   return filename.replace('.md', '').toLowerCase().replace(/[^a-z0-9]/g, '-');
 }
 
-function buildBlogData() {
+async function buildBlogData() {
   console.log('Building blog data...');
   
   if (!fs.existsSync(BLOG_DIR)) {
@@ -54,6 +60,8 @@ function buildBlogData() {
     fs.writeFileSync(OUTPUT_FILE, emptyData);
     return;
   }
+
+  const marked = await getMarked();
   
   const blogPosts = [];
   const files = fs.readdirSync(BLOG_DIR).filter(file => 
@@ -163,10 +171,12 @@ console.log('Blog data loaded: ' + window.BLOG_DATA.length + ' posts');
 }
 
 // Run the build
-try {
-  buildBlogData();
-  console.log('Blog build completed successfully!');
-} catch (error) {
-  console.error('Blog build failed:', error);
-  process.exit(1);
-} 
+(async () => {
+  try {
+    await buildBlogData();
+    console.log('Blog build completed successfully!');
+  } catch (error) {
+    console.error('Blog build failed:', error);
+    process.exit(1);
+  }
+})();

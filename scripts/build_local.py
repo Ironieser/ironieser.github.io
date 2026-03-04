@@ -507,12 +507,6 @@ def generate_index_page(config):
     featured_pubs = [pub for pub in all_pubs if pub.get('featured') == True]
     selected_pubs.extend(featured_pubs[:max_featured])
     
-    # If we need more, add recent publications (non-featured)
-    if len(selected_pubs) < max_featured:
-        recent_pubs = [pub for pub in all_pubs if not pub.get('featured')]
-        needed = max_featured - len(selected_pubs)
-        selected_pubs.extend(recent_pubs[:needed])
-    
     # Generate bio HTML
     bio_html = '\n                            '.join([f'<p>{para}</p>' for para in personal['bio']])
     

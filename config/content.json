@@ -703,7 +703,7 @@
         ],
         "_scholar_citations": 11,
         "_scholar_last_updated": "2026-03-02",
-        "featured": true
+        "featured": false
       },
       {
         "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
