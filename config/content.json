@@ -643,6 +643,11 @@
             "name": "Paper",
             "url": "https://arxiv.org/abs/2506.08552",
             "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/anord-wang/Lateng-Reasoning",
+            "icon": "fab fa-github"
           }
         ],
         "_scholar_citations": 6,
@@ -772,6 +777,16 @@
             "name": "Paper",
             "url": "https://arxiv.org/abs/2601.21347",
             "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/xiuwenz2/SAP-Hypo5",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Dataset",
+            "url": "https://huggingface.co/datasets/xiuwenz2/SAP-Hypo5",
+            "icon": "fas fa-database"
           }
         ]
       }
