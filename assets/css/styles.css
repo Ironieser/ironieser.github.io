@@ -1354,6 +1354,23 @@ body {
     text-decoration: underline;
 }
 
+/* Template attribution (always shown when using this template; not controlled by config) */
+.template-attribution {
+    margin: 0 0 var(--spacing-sm);
+    font-size: var(--font-size-xs);
+    color: var(--color-secondary);
+    opacity: 0.75;
+}
+
+.template-attribution a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+
+.template-attribution a:hover {
+    text-decoration: underline;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content {

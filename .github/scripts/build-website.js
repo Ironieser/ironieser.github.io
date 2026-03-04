@@ -275,15 +275,20 @@ ${JSON.stringify(schemas, null, 2)}
 </script>`;
 }
 
-function generateFooter(personal, templateInfo = null, visitorMap = null) {
-  const createYear = 2025; // Website creation year for copyright
+function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null) {
+  const startYear = copyrightStartYear != null ? Number(copyrightStartYear) : 2025;
+  const currentYear = new Date().getFullYear();
+  const copyrightYears = currentYear === startYear ? `${startYear}` : `${startYear} - ${currentYear}`;
   
-  // Generate template credit if enabled
+  // Template credit: full block if enabled; otherwise a single "Template by" line (so attribution stays when others use the template)
   const templateCredit = templateInfo && templateInfo.show_template_credit ? `
             <div class="template-credit">
                 <p>Built with <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.name}</a> by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>
                 ${templateInfo.acknowledgments ? `<p class="template-acknowledgments">${templateInfo.acknowledgments}</p>` : ''}
             </div>` : '';
+  const templateAttribution = templateInfo && templateInfo.author && templateInfo.repository && !templateInfo.show_template_credit
+    ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
+    : '';
   
   // Generate visitor map section if enabled
   let visitorMapHtml = '';
@@ -319,7 +324,8 @@ function generateFooter(personal, templateInfo = null, visitorMap = null) {
                 </div>
             </div>
             ${templateCredit}
-            <p>&copy; ${createYear} ${personal.name}. All rights reserved.</p>
+            ${templateAttribution}
+            <p>&copy; ${copyrightYears} ${personal.name}. All rights reserved.</p>
         </div>
     </footer>`;
 }
@@ -659,7 +665,7 @@ function generateIndexPage(config) {
         </section>
     </main>
 
-    ${generateFooter(personal, _template_info, visitor_map)}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
         // News filter functionality
@@ -882,7 +888,7 @@ function generatePublicationsPage(config) {
         </section>
     </main>
 
-    ${generateFooter(personal, _template_info, visitor_map)}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     ${generateCommonScripts()}
 </body>
