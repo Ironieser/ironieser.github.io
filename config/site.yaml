@@ -11,17 +11,16 @@ copyright_start_year: 2025
 
 # Visitor map: paste your domain_id from clustrmaps.com (create a map there first)
 visitor_map:
-  domain_id: "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU"
+  domain_id: "YOUR_CLUSTRMAPS_ID"
 
 # SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:
   enable_json_ld: true
-  website_url: "https://sixundong.com"
-  github_pages_url: "https://ironieser.github.io"
-  legacy_urls:
-    - "https://cv.ironieser.cc"
-  website_name: "Sixun Dong (Ironieser) - Academic Homepage"
-  website_description: "A researcher in the field of multimodal AI systems, computer vision, and machine learning"
+  website_url: "https://yourusername.github.io"
+  github_pages_url: "https://yourusername.github.io"
+  legacy_urls: []
+  website_name: "Doge Zhang - Academic Homepage"
+  website_description: "Such research. Very PhD. Wow."
   keywords:
     - computer vision
     - multimodal AI
@@ -29,36 +28,32 @@ seo:
     - deep learning
     - artificial intelligence
     - academic research
-    - Sixun Dong
-    - Ironieser
   author:
-    name: "Sixun Dong"
-    alternate_name: "Ironieser"
-    email: "ironieser@gmail.com"
-    academic_email: "sixundong.ai@gmail.com"
-    affiliation: "Independent Researcher, AZ, USA"
-    job_title: "Researcher"
+    name: "Doge Zhang"
+    alternate_name: "DogePhD"
+    email: "please-dont-email@example.edu"
+    academic_email: "please-dont-email@example.edu"
+    affiliation: "PhD Candidate (Allegedly), University of Somewhere, Mars"
+    job_title: "PhD Student"
     research_areas:
       - multimodal AI systems
       - computer vision
       - natural language processing
-      - machine learning
-    google_scholar_id: "j71Y2-4AAAAJ"
+      - procrastination
+    google_scholar_id: "YOUR_SCHOLAR_ID"
     orcid: null
-    github: "Ironieser"
-    twitter: "ironieser"
+    github: "yourusername"
+    twitter: "yourusername"
   organization:
-    name: "Independent Researcher, AZ, USA"
-    type: "Independent Researcher"
-    url: "https://sixundong.com"
+    name: "University of Somewhere"
+    type: "CollegeOrUniversity"
+    url: "https://yourusername.github.io"
     address:
-      addressCountry: "USA"
-      addressLocality: "Tempe"
-      addressRegion: "AZ"
+      addressCountry: "US"
+      addressLocality: "Your City"
+      addressRegion: "Your State"
 
-# Short URL redirects (e.g. /mmtok -> /projects/mmtok.html)
+# Short URL redirects (e.g. /mypaper -> /projects/mypaper.html)
 redirects:
-  - alias: mmtok
-    target: /projects/mmtok.html
-  - alias: timesclip
-    target: /projects/timesclip.html
+  - alias: mypaper
+    target: /projects/mypaper.html

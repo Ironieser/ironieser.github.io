@@ -1,6 +1,4 @@
 # Automatic Project Redirects
 # Generated during build process
-/mmtok  /projects/mmtok.html  301
-/mmtok/* /projects/mmtok.html  301
-/timesclip  /projects/timesclip.html  301
-/timesclip/* /projects/timesclip.html  301
+/mypaper  /projects/mypaper.html  301
+/mypaper/* /projects/mypaper.html  301
