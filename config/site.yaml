@@ -33,7 +33,7 @@ seo:
     alternate_name: "DogePhD"
     email: "please-dont-email@example.edu"
     academic_email: "please-dont-email@example.edu"
-    affiliation: "PhD Candidate (Allegedly), University of Somewhere, Mars"
+    affiliation: "PhD Candidate (Allegedly), 喵星大学, 喵星"
     job_title: "PhD Student"
     research_areas:
       - multimodal AI systems
@@ -45,13 +45,13 @@ seo:
     github: "yourusername"
     twitter: "yourusername"
   organization:
-    name: "University of Somewhere"
+    name: "喵星大学"
     type: "CollegeOrUniversity"
     url: "https://yourusername.github.io"
     address:
-      addressCountry: "US"
-      addressLocality: "Your City"
-      addressRegion: "Your State"
+      addressCountry: "喵星"
+      addressLocality: "Cat City"
+      addressRegion: "Cat Province"
 
 # Short URL redirects (e.g. /mypaper -> /projects/mypaper.html)
 redirects:
