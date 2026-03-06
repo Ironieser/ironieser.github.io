@@ -14,7 +14,7 @@
     "links": [
       {
         "name": "Email",
-        "url": "mailto:meow@example.edu",
+        "url": "mailto:meow@sixundong.com",
         "icon": "fas fa-envelope",
         "color": "#dc3545"
       },
@@ -39,7 +39,7 @@
       "many cat photos",
       "countless failed experiments"
     ],
-    "max_featured_publications": 3
+    "max_featured_publications": 5
   },
   "news": [
     {
@@ -92,7 +92,7 @@
         "venue": "arXiv'2050",
         "venue_type": "preprint",
         "image": "teaser/conference.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "We compare model preferences on simple cat vs dog prompts.",
         "links": [
           {
@@ -116,7 +116,7 @@
         "venue": "Under Review",
         "venue_type": "under-review",
         "image": "teaser/conference.jpg",
-        "featured": false,
+        "featured": true,
         "links": [
           {
             "name": "Paper (under review)",
