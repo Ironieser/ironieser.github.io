@@ -21,6 +21,8 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
+      with:
+        ref: ironieser   # Always sync to personal branch, not template master
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -53,7 +55,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add config/content.json config/meta.json config/config.json
         git commit -m "🔄 Auto-sync publications from Google Scholar"
-        git push
+        git push origin ironieser
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
