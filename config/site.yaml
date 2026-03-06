@@ -9,9 +9,10 @@
 # Copyright: start year for footer (current year is added automatically, e.g. 2025 - 2026)
 copyright_start_year: 2025
 
-# Visitor map: paste your domain_id from clustrmaps.com (create a map there first)
+# Visitor map: domain_id from clustrmaps.com (this one is for the template demo at ironieser.github.io)
 visitor_map:
-  domain_id: "YOUR_CLUSTRMAPS_ID"
+  enabled: true
+  domain_id: "C9TZ0TIOsqBUZDnNhUJVfOLeQ885rfZOfyRRCumKrsE"
 
 # SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:
