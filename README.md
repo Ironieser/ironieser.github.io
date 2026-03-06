@@ -6,19 +6,23 @@ A simple, config-driven academic website template that generates HTML from conte
 
 ## 🎯 Features
 
-- **Config-driven** — Edit `config/content.json` and `config/site.yaml`; no HTML editing
-- **Automatic generation** via GitHub Actions (`npm run build`)
-- **Clean academic design** with responsive layout
-- **Dark Mode** — three-way toggle (☀️ Day / 🌙 Night / 🌓 Auto), follows system preference by default, persisted via `localStorage`
-- **Blog system** with Markdown support
-- **Publication management** with automatic formatting
-- **TL;DR popovers** — glassmorphism hover popover (desktop) / tap-to-expand accordion (mobile) with blurred-glass background
-- **Mobile-optimized pub images** — blurred-background `object-fit: contain` layout; placeholder images auto-hidden on mobile
-- **Back-to-Top button** — fixed, aligned to content column, smooth scroll
-- **AI agent skills** — built-in `.agents/` workflows and skills for adding papers, debugging, and deploying with AI assistance (compatible with Cursor, Windsurf, etc.)
-- **Easy maintenance** — edit config and push
+![Config-driven](https://img.shields.io/badge/Config--driven-yes-2ea043?style=flat-square)
+![Dark Mode](https://img.shields.io/badge/Dark_Mode-☀️_🌙_🌓-2ea043?style=flat-square)
+![Blog](https://img.shields.io/badge/Blog-Markdown-2ea043?style=flat-square)
+![Publications](https://img.shields.io/badge/Publications-auto-2ea043?style=flat-square)
+![Mobile](https://img.shields.io/badge/Mobile-ready-2ea043?style=flat-square)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-build-2088FF?style=flat-square)
+![AI agents](https://img.shields.io/badge/AI_agents-Cursor_Windsurf-6e5494?style=flat-square)
 
-> 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
+**Academic-focused features:**
+
+- **TL;DR popovers** — hover (desktop) / tap-to-expand (mobile) for quick skimming
+- **Publication-first layout** — auto-generated publication list from config
+- **Mobile-friendly** — responsive reading, back-to-top
+- **Config-driven content** — no HTML editing; update `content.json` / `site.yaml`
+- **Optional AI agent skills** — Cursor / Windsurf skills for adding papers and deploying
+
+> 📖 **Want more details?** [Detailed guide](blog/introducing-config-driven-academic-website-template.html) · examples and tips.
 
 ## 🚀 Quick Start
 
