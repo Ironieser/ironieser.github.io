@@ -1,5 +1,15 @@
 # Favicon Setup Guide
 
+## AI-assisted option (recommended if you use Cursor / Antigravity / Codex)
+
+If you are using an AI-enabled editor (such as **Cursor**, **Antigravity**, or **Codex**), you can let an agent guide you through favicon setup as part of the overall site initialization:
+
+- Ask the agent to use the `init-template-setup` skill for this project.
+- Answer its questions about your logo image and where your favicon files will live.
+- The agent will follow this guide and ensure the correct file names and locations are used.
+
+If you prefer to do things manually, follow the steps below.
+
 ## Overview
 Your website is now configured to display a custom logo in browser tabs and bookmarks. You need to provide favicon files in multiple formats and sizes for optimal compatibility across different browsers and devices.
 
