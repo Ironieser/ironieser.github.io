@@ -2,16 +2,20 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **📢 Important (v1.3.0)**: Added **TL;DR popovers** for publications — hover on desktop or tap on mobile for instant paper summaries. Config still lives in `config/` directory. See [CHANGELOG.md](CHANGELOG.md) for details.
+> **📢 Latest (v1.4.0)**: Added **Dark Mode** (day / night / auto, persisted via localStorage), polished UI with glassmorphism TL;DR popovers, mobile-first publication images with blurred-background effect, Back-to-Top button, and various responsiveness improvements. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 
 - **Config-driven** — Edit `config/content.json` and `config/site.yaml`; no HTML editing
 - **Automatic generation** via GitHub Actions (`npm run build`)
 - **Clean academic design** with responsive layout
+- **Dark Mode** — three-way toggle (☀️ Day / 🌙 Night / 🌓 Auto), follows system preference by default, persisted via `localStorage`
 - **Blog system** with Markdown support
 - **Publication management** with automatic formatting
-- **TL;DR popovers** — add a `tldr` field to any publication for hover (desktop) / tap (mobile) summaries
+- **TL;DR popovers** — glassmorphism hover popover (desktop) / tap-to-expand accordion (mobile) with blurred-glass background
+- **Mobile-optimized pub images** — blurred-background `object-fit: contain` layout; placeholder images auto-hidden on mobile
+- **Back-to-Top button** — fixed, aligned to content column, smooth scroll
+- **AI agent skills** — built-in `.agents/` workflows and skills for adding papers, debugging, and deploying with AI assistance (compatible with Cursor, Windsurf, etc.)
 - **Easy maintenance** — edit config and push
 
 > 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
@@ -366,7 +370,7 @@ python scripts/local_server.py
 
 ## 🎨 Customization
 
-- **Colors**: Edit CSS variables in `assets/css/styles.css`
+- **Colors / Dark Mode**: Edit CSS variables in `assets/css/styles.css` — light theme under `:root`, dark theme under `[data-theme="dark"]`
 - **Fonts**: Change Google Fonts link in build scripts
 - **Layout**: Modify scripts in `.github/scripts/`
 

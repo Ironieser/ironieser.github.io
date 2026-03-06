@@ -1,5 +1,47 @@
 # Changelog
 
+## [v1.4.0] - 2026-03-06
+
+### 🌙 Dark Mode & UI Polish
+
+#### ✨ New Features
+
+- **Dark Mode toggle** — Three-way cycle: ☀️ Day / 🌙 Night / 🌓 Auto (follows system preference). Choice persisted via `localStorage`, applied before paint to avoid flash.
+- **Back-to-Top button** — Fixed `↑` chevron button aligned to content column right edge; smooth-scrolls to top; auto-shows after scrolling 320px; hover animates to accent color.
+- **Mobile pub images — blurred background effect** — On mobile each publication teaser image is wrapped in a container whose `::before` shows the same image blurred (`backdrop blur 14px`) as a fill, so `object-fit: contain` images no longer have plain padding gaps. Placeholder images (`underreview.jpg`) are auto-hidden on mobile.
+- **TL;DR glassmorphism** — Refined `backdrop-filter: blur(18px)` with semi-transparent background (`rgba(..., 0.82)`) for day and night modes. Border upgraded to `2px` violet.
+- **Unified pub card borders** — Pub cards use a very subtle border in default state; hover reveals a distinct highlight. Dark mode: deep dark base with lighter gray on hover.
+
+#### 🎨 UI Improvements
+
+- Dark mode background changed from pure black (`#0a0a0a`) to deep blue-slate (`#020617` / `#0f172a`) — less harsh, more refined.
+- Recent News filter tags in dark mode use a translucent indigo style (not solid purple) — more readable.
+- News items in dark mode no longer have card frames — matches day mode and shows more items.
+- Publication stats bar is now centered below the research intro.
+- Experience section: removed hover border and shadow — now purely static layout.
+- Reviewer section `Conference / Journal` labels highlighted with accent color.
+- Intern company name color now follows theme variable instead of a hard-coded dark value.
+- `filter-btn.active` in dark mode uses a lighter, more vibrant indigo instead of washed-out gray.
+
+#### 📱 Mobile Improvements
+
+- Publication cards switch to vertical layout (image on top, text below) on mobile.
+- Publication images: unified `aspect-ratio: none` replaced by a fixed-height wrapper with blurred bg; 90% card width; `object-fit: contain` keeps full image visible.
+- Back-to-Top also available on `publications.html` and `blog.html`.
+
+---
+
+## [v1.3.0] - 2026-03-05
+
+### 🗒️ TL;DR Popovers
+
+- Added **TL;DR popovers** for publications — hover on desktop or tap on mobile for instant paper summaries.
+- Added `tldr` field support in `config/content.json`.
+- Glassmorphism floating tooltip above the hovered pub card with smooth spring animation.
+- Mobile: tap-to-expand accordion with max-height animation.
+
+---
+
 ## [v1.2.0] - 2026-03-04
 
 ### 🎉 Major Update - Config Reorganization & Cleaner Root

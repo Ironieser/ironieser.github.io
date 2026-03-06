@@ -6,487 +6,19 @@
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sixun Dong (Ironieser) - Academic Homepage</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="A researcher in the field of multimodal AI systems, computer vision, and machine learning">
-    <meta name="keywords" content="computer vision, multimodal AI, machine learning, deep learning, artificial intelligence, academic research, Sixun Dong, Ironieser">
-    <meta name="author" content="Sixun Dong">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Sixun Dong - Academic Homepage">
-    <meta property="og:description" content="A researcher in the field of multimodal AI systems, computer vision, and machine learning">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://sixundong.com">
-    <meta property="og:image" content="https://sixundong.com/images/logo.jpg">
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Sixun Dong - Academic Homepage">
-    <meta name="twitter:description" content="A researcher in the field of multimodal AI systems, computer vision, and machine learning">
-    <meta name="twitter:image" content="https://sixundong.com/images/logo.jpg">
-    
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-[
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Sixun Dong",
-    "alternateName": "Ironieser",
-    "email": "ironieser@gmail.com",
-    "jobTitle": "Researcher",
-    "affiliation": {
-      "@type": "Organization",
-      "name": "Independent Researcher, AZ, USA",
-      "url": "https://sixundong.com",
-      "address": {
-        "@type": "PostalAddress",
-        "addressCountry": "USA",
-        "addressLocality": "Tempe",
-        "addressRegion": "AZ"
-      }
-    },
-    "url": "https://sixundong.com",
-    "sameAs": [
-      "https://scholar.google.com/citations?user=j71Y2-4AAAAJ",
-      "https://github.com/Ironieser",
-      "https://twitter.com/ironieser",
-      "https://sixundong.com",
-      "https://ironieser.github.io",
-      "https://cv.ironieser.cc"
-    ],
-    "knowsAbout": [
-      "multimodal AI systems",
-      "computer vision",
-      "natural language processing",
-      "machine learning"
-    ],
-    "image": "https://sixundong.com/images/logo.jpg"
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Sixun Dong (Ironieser) - Academic Homepage",
-    "description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
-    "url": "https://sixundong.com",
-    "author": {
-      "@type": "Person",
-      "name": "Sixun Dong"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "Independent Researcher, AZ, USA",
-      "url": "https://sixundong.com"
-    }
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Huazhang Hu*"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong*"
-      },
-      {
-        "@type": "Person",
-        "name": "Yiqun Zhao"
-      },
-      {
-        "@type": "Person",
-        "name": "Dongze Lian"
-      },
-      {
-        "@type": "Person",
-        "name": "Zhengxin Li"
-      },
-      {
-        "@type": "Person",
-        "name": "Shenghua Gao"
-      }
-    ],
-    "datePublished": "2022-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CVPR'22"
-    },
-    "url": "https://arxiv.org/abs/2204.01018"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Sixun Dong*"
-      },
-      {
-        "@type": "Person",
-        "name": "Huazhang Hu*"
-      },
-      {
-        "@type": "Person",
-        "name": "Dongze Lian"
-      },
-      {
-        "@type": "Person",
-        "name": "Weixin Luo"
-      },
-      {
-        "@type": "Person",
-        "name": "Yicheng Qian"
-      },
-      {
-        "@type": "Person",
-        "name": "Shenghua Gao"
-      }
-    ],
-    "datePublished": "2023-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "CVPR'23"
-    },
-    "url": "https://arxiv.org/abs/2303.12370"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "MLLM-Tool: A Multimodal Large Language Model For Tool Agent Learning",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Chenyu Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Weixin Luo"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Xiaohua Xuan"
-      },
-      {
-        "@type": "Person",
-        "name": "Zhengxin Li"
-      },
-      {
-        "@type": "Person",
-        "name": "Lin Ma"
-      },
-      {
-        "@type": "Person",
-        "name": "Shenghua Gao"
-      }
-    ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "WACV'25"
-    },
-    "url": "https://arxiv.org/abs/2401.10727"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Yiqun Zhao"
-      },
-      {
-        "@type": "Person",
-        "name": "Zibo Zhao"
-      },
-      {
-        "@type": "Person",
-        "name": "Jing Li"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Shenghua Gao"
-      }
-    ],
-    "datePublished": "2024-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "3DV'24"
-    },
-    "url": "https://arxiv.org/abs/2310.10027"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Juhua Hu"
-      },
-      {
-        "@type": "Person",
-        "name": "Mian Zhang"
-      },
-      {
-        "@type": "Person",
-        "name": "Ming Yin"
-      },
-      {
-        "@type": "Person",
-        "name": "Yanjie Fu"
-      },
-      {
-        "@type": "Person",
-        "name": "Qi Qian"
-      }
-    ],
-    "datePublished": "2025-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "ICLR'26"
-    },
-    "url": "https://arxiv.org/abs/2508.18264"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Nanxu Gong*"
-      },
-      {
-        "@type": "Person",
-        "name": "Zijun Li*"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Haoyue Bai"
-      },
-      {
-        "@type": "Person",
-        "name": "Wangyang Ying"
-      },
-      {
-        "@type": "Person",
-        "name": "Xinyuan Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Yanjie Fu"
-      }
-    ],
-    "datePublished": "2025-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "NeurIPS'25"
-    },
-    "url": "https://arxiv.org/abs/2505.15152"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Xinyuan Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Dongjie Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Wangyang Ying"
-      },
-      {
-        "@type": "Person",
-        "name": "Haoyue Bai"
-      },
-      {
-        "@type": "Person",
-        "name": "Nanxu Gong"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Kunpeng Liu"
-      },
-      {
-        "@type": "Person",
-        "name": "Yanjie Fu"
-      }
-    ],
-    "datePublished": "2025-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "AAAI'26"
-    },
-    "url": "https://arxiv.org/abs/2506.08552"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Haoyue Bai"
-      },
-      {
-        "@type": "Person",
-        "name": "Guodong Chen"
-      },
-      {
-        "@type": "Person",
-        "name": "Wangyang Ying"
-      },
-      {
-        "@type": "Person",
-        "name": "Xinyuan Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Nanxu Gong"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Giulia Pedrielli"
-      },
-      {
-        "@type": "Person",
-        "name": "Haoyu Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Haifeng Chen"
-      },
-      {
-        "@type": "Person",
-        "name": "Yanjie Fu"
-      }
-    ],
-    "datePublished": "2025-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "AAAI'26"
-    },
-    "url": "https://arxiv.org/abs/2505.18204"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Nanxu Gong"
-      },
-      {
-        "@type": "Person",
-        "name": "Xinyuan Wang"
-      },
-      {
-        "@type": "Person",
-        "name": "Wangyang Ying"
-      },
-      {
-        "@type": "Person",
-        "name": "Haoyue Bai"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Haifeng Chen"
-      },
-      {
-        "@type": "Person",
-        "name": "Yanjie Fu"
-      }
-    ],
-    "datePublished": "2025-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "IJCAI'25"
-    },
-    "url": "https://arxiv.org/abs/2504.21304"
-  },
-  {
-    "@type": "ScholarlyArticle",
-    "name": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
-    "author": [
-      {
-        "@type": "Person",
-        "name": "Xiuwen Zheng"
-      },
-      {
-        "@type": "Person",
-        "name": "Sixun Dong"
-      },
-      {
-        "@type": "Person",
-        "name": "Bornali Phukon"
-      },
-      {
-        "@type": "Person",
-        "name": "Mark Hasegawa-Johnson"
-      },
-      {
-        "@type": "Person",
-        "name": "Chang D. Yoo"
-      }
-    ],
-    "datePublished": "2026-01-01",
-    "publisher": {
-      "@type": "Organization",
-      "name": "ICASSP'26"
-    },
-    "url": "https://arxiv.org/abs/2601.21347"
-  }
-]
-</script>
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-    <link rel="shortcut icon" href="favicon.ico">
-    
-    <link rel="stylesheet" href="assets/css/styles.css?v=3">
+    <title>Sixun Dong - Academic Homepage</title>
+    <link rel="stylesheet" href="assets/css/styles.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/script.js?v=2" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -497,6 +29,7 @@
                 <a href="publications.html" class="nav-link " >Publications</a>
                 <a href="blog.html" class="nav-link " >Blog</a>
                 <a href="files/CV_DongSixun.pdf" class="nav-link " target="_blank">CV(PDF)</a>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><span class="theme-icon">🌓</span></button>
             </div>
         </nav>
     </header>
@@ -514,7 +47,7 @@
                     
                     <!-- Right: Introduction -->
                     <div class="hero-info">
-                        <h1 class="hero-title">Sixun Dong<span class="aka"> (Ironieser)</span></h1>
+                        <h1 class="hero-title">Sixun Dong</h1>
                         <p class="hero-subtitle">Multimodal Learning, VLM, LLM Agent</p>
                         <p class="hero-affiliation">Independent Researcher, AZ, USA</p>
                         
@@ -566,77 +99,77 @@
                         
             <div class="news-item" data-category="projects">
                 <span class="news-date">Mar 2026</span>
-                <span class="news-icon">🛠️</span>
+                <span class="news-icon" style="">🛠️</span>
                 <span class="news-content">Homepage updated with <strong>TL;DR popovers</strong> for all publications — hover on desktop or tap on mobile to see a one-sentence summary of each paper.</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Feb 2026</span>
-                <span class="news-icon">📄</span>
+                <span class="news-icon" style="">📄</span>
                 <span class="news-content">Paper on <strong>To Think or Not To Think</strong> <a href="https://arxiv.org/abs/2602.10625" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> — Large Reasoning Models in Theory of Mind Tasks, released on arXiv</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Jan 2026</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content">Paper on <strong>MMTok</strong> <a href="https://arxiv.org/abs/2508.18264" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted to <span class="venue-highlight">ICLR 2026</span>! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors.</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Jan 2026</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content"><strong>Robust Dysarthric Speech Recognition</strong> <a href="https://arxiv.org/abs/2601.21347" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted to <span class="venue-highlight">ICASSP 2026</span>. Congratulations to Xiuwen Zheng!</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Sep 2025</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content"><strong>Sculpting Features from Noise</strong> <a href="https://arxiv.org/abs/2505.15152" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted to <span class="venue-highlight">NeurIPS 2025</span>. Congratulations to Nanxu Gong and Zijun Li!</span>
             </div>
             <div class="news-item" data-category="career">
                 <span class="news-date">Aug 2025</span>
-                <span class="news-icon">💼</span>
+                <span class="news-icon" style="">💼</span>
                 <span class="news-content">Completed GenAI Research Internship at <strong>Zoom Inc.</strong>, focusing on efficient vision–language modeling. Grateful to my mentor <strong>Qi Qian</strong> and the Zoom team.</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Aug 2025</span>
-                <span class="news-icon">📄</span>
+                <span class="news-icon" style="">📄</span>
                 <span class="news-content">Paper on <strong>LiveMCP-101</strong> <a href="https://arxiv.org/abs/2508.15760" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> — a new benchmark testing AI agents' real-world tool-use, released on arXiv</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Aug 2025</span>
-                <span class="news-icon">📄</span>
+                <span class="news-icon" style="">📄</span>
                 <span class="news-content">Paper on <strong>LogicIF</strong> <a href="https://arxiv.org/abs/2508.09125" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> — Complex Logical Instruction Generation released on arXiv</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Aug 2025</span>
-                <span class="news-icon">📄</span>
+                <span class="news-icon" style="">📄</span>
                 <span class="news-content">Paper on <strong>TimesCLIP</strong> <a href="https://arxiv.org/abs/2506.24124" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> — new multimodal approach to time series forecasting with CLIP, released on arXiv</span>
             </div>
             <div class="news-item" data-category="career">
                 <span class="news-date">May 2025</span>
-                <span class="news-icon">💼</span>
+                <span class="news-icon" style="">💼</span>
                 <span class="news-content">Started GenAI Research Internship at <strong>Zoom Inc.</strong> focusing on efficient vision-language modeling</span>
             </div>
             <div class="news-item" data-category="career">
                 <span class="news-date">Jan 2024</span>
-                <span class="news-icon">💼</span>
+                <span class="news-icon" style="">💼</span>
                 <span class="news-content">Completed <strong>Team Leader</strong> internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading co-speech gesture generation and 3D human body reconstruction projects.</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Feb 2024</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content">Paper on <strong>MLLM-Tool</strong> <a href="https://arxiv.org/abs/2401.10727" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted to <span class="venue-highlight">WACV 2024</span></span>
             </div>
             <div class="news-item" data-category="career">
                 <span class="news-date">Aug 2023</span>
-                <span class="news-icon">💼</span>
+                <span class="news-icon" style="">💼</span>
                 <span class="news-content">Completed <strong>Team Leader</strong> internship at <strong>Transsion Holdings</strong> (Audio-Video Generation Dept.), leading audio-driven talking-head video generation research with SoTA performance.</span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Mar 2023</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content">Paper on <strong>WeakSVR</strong> <a href="https://arxiv.org/abs/2303.12370" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted to <span class="venue-highlight">CVPR 2023</span></span>
             </div>
             <div class="news-item" data-category="papers">
                 <span class="news-date">Mar 2022</span>
-                <span class="news-icon">🎉</span>
+                <span class="news-icon" style="">🎉</span>
                 <span class="news-content">Paper on <strong>TransRAC</strong> <a href="https://arxiv.org/abs/2204.01018" target="_blank" rel="noopener" class="news-paper-link" title="arXiv"><i class="ai ai-arxiv"></i></a> accepted as <strong>🏆 oral presentation</strong> to <span class="venue-highlight">CVPR 2022</span></span>
             </div>
                     </div>
@@ -655,98 +188,91 @@
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue-preprint">arXiv'2602</span> To Think or Not To Think, That is The Question for Large Reasoning Models in Theory of Mind Tasks</p>
                     <p class="publication-authors">Nanxu Gong, Haotian Li, <span class="author-highlight">Sixun Dong</span>, Jianxun Lian, Yanjie Fu, Xing Xie</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2602.10625" target="_blank">Paper</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Investigates the capabilities of Large Reasoning Models (like OpenAI o1/o3) on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.</p>
-        </div>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Investigates the capabilities of Large Reasoning Models (like OpenAI o1/o3) on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.</p>
+                </div>
+            </div>
+            <div class="publication-item reveal has-tldr">
+                <img src="teaser/judge-editor.jpg" alt="Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <div class="publication-content">
+                    <p class="publication-title"><span class="publication-venue">ICASSP'26</span> Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER</p>
+                    <p class="publication-authors">Xiuwen Zheng, <span class="author-highlight">Sixun Dong</span>, Bornali Phukon, Mark Hasegawa-Johnson, Chang D. Yoo</p>
+                    <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2601.21347" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/xiuwenz2/SAP-Hypo5" target="_blank">Code</a> / <i class="fas fa-database"></i> <a href="https://huggingface.co/datasets/xiuwenz2/SAP-Hypo5" target="_blank">Dataset</a></p>
+                </div>
+                
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Proposes an LLM-agent-based post-ASR correction framework for dysarthric speech recognition that focuses on semantic accuracy rather than just minimizing Word Error Rate (WER).</p>
+                </div>
             </div>
             <div class="publication-item reveal has-tldr">
                 <img src="images/blog/mmtok/combined_plots.png" alt="MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue">ICLR'26</span> MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs</p>
                     <p class="publication-authors"><span class="author-highlight">Sixun Dong</span>, Juhua Hu, Mian Zhang, Ming Yin, Yanjie Fu, Qi Qian</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2508.18264" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/Ironieser/MMTok" target="_blank">Code</a> / <i class="fas fa-home"></i> <a href="https://project.ironieser.cc/mmtok" target="_blank">Homepage</a> / <i class="fas fa-blog"></i> <a href="https://sixundong.com/blog.html?post=mmtok-multimodal-coverage-maximization" target="_blank">Blog</a> / <i class="fas fa-book-open"></i> <a href="https://zhuanlan.zhihu.com/p/1944299907109348831" target="_blank">知乎</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.</p>
-        </div>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.</p>
+                </div>
             </div>
             <div class="publication-item reveal has-tldr">
                 <img src="images/blog/timesclip/fig3.png" alt="Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue-under-review">arXiv'2506</span> Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives</p>
                     <p class="publication-authors"><span class="author-highlight">Sixun Dong</span>, Wei Fan, Teresa Wu, Yanjie Fu</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2506.24124" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/Ironieser/TimesCLIP" target="_blank">Code</a> / <i class="fas fa-home"></i> <a href="https://sixundong.com/projects/timesclip.html" target="_blank">Homepage</a> / <i class="fas fa-blog"></i> <a href="https://sixundong.com/blog.html#timesclip-time-series-forecasting" target="_blank">Blog</a> / <i class="fas fa-book-open"></i> <a href="https://zhuanlan.zhihu.com/p/1936813469446940130" target="_blank">知乎</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.</p>
-        </div>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.</p>
+                </div>
             </div>
             <div class="publication-item reveal has-tldr">
                 <img src="teaser/sculp.jpg" alt="Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue">NeurIPS'25</span> Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation</p>
                     <p class="publication-authors">Nanxu Gong*, Zijun Li*, <span class="author-highlight">Sixun Dong</span>, Haoyue Bai, Wangyang Ying, Xinyuan Wang, Yanjie Fu</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2505.15152" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/NanxuGong/DIFFT" target="_blank">Code</a> / <i class="fas fa-book-open"></i> <a href="https://zhuanlan.zhihu.com/p/1933301751826429982" target="_blank">知乎</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Proposes a reward-guided hierarchical diffusion model that "sculpts" data representations from noise to generate optimal feature transformations for specific downstream tasks.</p>
-        </div>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Proposes a reward-guided hierarchical diffusion model that "sculpts" data representations from noise to generate optimal feature transformations for specific downstream tasks.</p>
+                </div>
             </div>
             <div class="publication-item reveal has-tldr">
                 <img src="teaser/mmtool.jpg" alt="MLLM-Tool: A Multimodal Large Language Model For Tool Agent Learning" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue">WACV'25</span> MLLM-Tool: A Multimodal Large Language Model For Tool Agent Learning</p>
                     <p class="publication-authors">Chenyu Wang, Weixin Luo, <span class="author-highlight">Sixun Dong</span>, Xiaohua Xuan, Zhengxin Li, Lin Ma, Shenghua Gao</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2401.10727" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/MLLM-Tool/MLLM-Tool" target="_blank">Code</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Introduces the MLLM-Tool framework and contributes a specialized dataset to empower Multimodal Large Language Models (MLLMs) with the ability to understand, learn, and invoke external tools.</p>
-        </div>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Introduces the MLLM-Tool framework and contributes a specialized dataset to empower Multimodal Large Language Models (MLLMs) with the ability to understand, learn, and invoke external tools.</p>
+                </div>
             </div>
             <div class="publication-item reveal has-tldr">
                 <img src="teaser/weaksvr.jpg" alt="Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue">CVPR'23</span> Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos</p>
                     <p class="publication-authors"><span class="author-highlight">Sixun Dong*</span>, Huazhang Hu*, Dongze Lian, Weixin Luo, Yicheng Qian, Shenghua Gao</p>
-                    
                     <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2303.12370" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/svip-lab/WeakSVR" target="_blank">Code</a> / <i class="fab fa-youtube"></i> <a href="https://www.youtube.com/watch?v=AqozSRYP7Pc" target="_blank">YouTube</a> / <i class="fas fa-tv"></i> <a href="https://www.bilibili.com/video/BV1AW4y1R7um" target="_blank">Bilibili</a> / <i class="fas fa-book-open"></i> <a href="https://zhuanlan.zhihu.com/p/617926257" target="_blank">知乎</a></p>
                 </div>
                 
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Proposes a weakly supervised video representation learning approach that utilizes unaligned text for sequential videos, significantly reducing the reliance on fine-grained video-text alignment annotations.</p>
-        </div>
-            </div>
-            <div class="publication-item reveal has-tldr">
-                <img src="teaser/transrac.jpg" alt="TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
-                <div class="publication-content">
-                    <p class="publication-title"><span class="publication-venue">CVPR'22</span><span class="publication-venue-oral">🏆 Oral</span> TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting</p>
-                    <p class="publication-authors">Huazhang Hu*, <span class="author-highlight">Sixun Dong*</span>, Yiqun Zhao, Dongze Lian, Zhengxin Li, Shenghua Gao</p>
-                    
-                    <p class="publication-links"><i class="ai ai-arxiv"></i> <a href="https://arxiv.org/abs/2204.01018" target="_blank">Paper</a> / <i class="fab fa-github"></i> <a href="https://github.com/SvipRepetitionCounting/TransRAC" target="_blank">Code</a> / <i class="fas fa-database"></i> <a href="https://svip-lab.github.io/dataset/RepCount_dataset.html" target="_blank">Dataset</a> / <i class="fab fa-youtube"></i> <a href="https://youtu.be/SFpUS9mHHpk" target="_blank">YouTube</a> / <i class="fas fa-tv"></i> <a href="https://www.bilibili.com/video/BV1B94y1S7oP" target="_blank">Bilibili</a> / <i class="fas fa-book-open"></i> <a href="https://zhuanlan.zhihu.com/p/543376943" target="_blank">知乎</a></p>
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">Proposes a weakly supervised video representation learning approach that utilizes unaligned text for sequential videos, significantly reducing the reliance on fine-grained video-text alignment annotations.</p>
                 </div>
-                
-        <div class="tldr-wrapper">
-            <span class="tldr-badge">TL;DR</span>
-            <p class="tldr-text">Introduces the RepCount dataset and pioneers the use of regression density maps alongside a Transformer-based architecture to encode multi-scale temporal correlations, significantly improving repetitive action counting.</p>
-        </div>
             </div>
                 </div>
                 
@@ -846,6 +372,11 @@
         </section>
     </main>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     
     <footer class="footer">
         <div class="container">
@@ -875,8 +406,7 @@
                 <p>Built with <a href="https://github.com/Ironieser/ironieser.github.io" target="_blank" rel="noopener">Config-Driven Academic Website Template</a> by <a href="https://github.com/Ironieser/ironieser.github.io" target="_blank" rel="noopener">Sixun Dong (ironieser)</a></p>
                 <p class="template-acknowledgments">Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools</p>
             </div>
-            
-            <p>&copy; 2025 - 2026 Sixun Dong. All rights reserved.</p>
+            <p>&copy; 2025 Sixun Dong. All rights reserved.</p>
         </div>
     </footer>
     
@@ -946,26 +476,26 @@
                     data = await response.json();
                     
                     if (data.city && data.country) {
-                        const location = `${data.city}, ${data.country}`
+                        const location = `${data.city}, ${data.country}`;
                         document.getElementById('owner-location').textContent = location;
                         return;
                     }
                 }
                 
                 // If all APIs fail, show a default message
-                document.getElementById('owner-location').textContent = 'Remote Server';
+                document.getElementById('owner-location').textContent = 'Local Build';
                 
             } catch (error) {
                 console.log('Location detection failed:', error);
-                // For GitHub Actions builds, show a more appropriate message
-                document.getElementById('owner-location').textContent = 'GitHub Actions';
+                // For local builds, show a more appropriate message
+                document.getElementById('owner-location').textContent = 'Local Build';
             }
         }
         
-        // Set last updated time (when GitHub Actions built the site)
+        // Set last updated time (when site was built)
         function setLastUpdated() {
             const buildDate = '2026-03-06';
-            const date = new Date(buildDate + 'T12:00:00'); // Add noon time to avoid timezone issues
+            const date = new Date(buildDate);
             const formatted = date.toLocaleDateString('en-US', { 
                 year: 'numeric', 
                 month: 'short', 

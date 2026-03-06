@@ -53,13 +53,14 @@ html {
 
 /* Dark Mode Variables */
 [data-theme="dark"] {
-    --color-primary: #f9fafb;
-    --color-secondary: #9ca3af;
-    --color-accent: #818cf8;
-    --color-accent-hover: #6366f1;
-    --color-background: #0f172a; /* Deep slate */
-    --color-surface: #1e293b;
-    --color-border: #334155;
+    --color-primary: #ffffff; /* pure white for titles */
+    --color-secondary: #cbd5e1; /* brighter gray (slate-300) */
+    --color-accent: #a5b4fc; /* brighter indigo (indigo-300) */
+    --color-accent-hover: #c7d2fe;
+    /* Use a deep slate blue-black instead of pure black */
+    --color-background: #020617; /* slate-950 style background */
+    --color-surface: #0f172a; /* slightly lighter slate surface for depth */
+    --color-border: #1e293b; /* softer slate border */
     
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
@@ -103,7 +104,69 @@ body {
     padding: 0 var(--spacing-lg);
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: var(--spacing-2xl);
+    position: relative;
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: absolute;
+    right: var(--spacing-lg);
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.theme-toggle:hover {
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+    transform: scale(1.08);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Theme toggle: focus / selected visual frame */
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+}
+
+/* Show a subtle frame depending on current color mode */
+[data-theme="light"] #theme-toggle,
+[data-theme="dark"] #theme-toggle {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.5);
+}
+
+[data-theme="light"] #theme-toggle {
+    background: #eef2ff;
+}
+
+[data-theme="dark"] #theme-toggle {
+    background: #020617;
+}
+
+.theme-icon {
+    font-size: 15px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.theme-toggle:hover .theme-icon {
+    transform: rotate(15deg);
 }
 
 .nav-link {
@@ -215,7 +278,7 @@ body {
 }
 
 .research-keywords {
-    color: #059669;
+    color: var(--color-success);
     font-style: italic;
     font-weight: 600;
 }
@@ -223,7 +286,7 @@ body {
 .username-definition {
     margin-top: var(--spacing-lg);
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    background: var(--color-surface);
     border-left: 4px solid var(--color-accent);
     border-radius: var(--border-radius);
     font-style: italic;
@@ -376,10 +439,10 @@ body {
 
 .research-intro {
     max-width: 1000px;
-    margin: 0 0 32px 20px;
+    margin: 0 0 20px 20px; /* 上方介绍与下方统计条之间更紧凑一点 */
     font-size: 17px;
     line-height: 1.7;
-    color: #374151;
+    color: var(--color-secondary);
     text-align: left;
 }
 
@@ -388,8 +451,16 @@ body {
 }
 
 .research-intro strong {
-    color: #1f2937;
+    color: var(--color-primary);
     font-weight: 600;
+}
+
+[data-theme="dark"] .research-intro {
+    color: var(--color-secondary) !important;
+}
+
+[data-theme="dark"] .research-intro strong {
+    color: var(--color-primary) !important;
 }
 
 .publication-stats-bar {
@@ -398,8 +469,8 @@ body {
     gap: 8px;
     font-size: 13px;
     color: #6b7280;
-    margin-bottom: 48px;
-    margin-left: 20px;
+    /* 居中放在介绍文字下方 */
+    margin: 10px auto 10px auto;
     padding: 6px 16px;
     background: rgba(59, 130, 246, 0.08);
     border-radius: 20px;
@@ -415,6 +486,20 @@ body {
     color: #9ca3af;
     font-weight: 300;
     margin: 0 4px;
+}
+
+[data-theme="dark"] .publication-stats-bar {
+    background: rgba(129, 140, 248, 0.15);
+    border-color: rgba(129, 140, 248, 0.3);
+    color: var(--color-secondary);
+}
+
+[data-theme="dark"] .publication-stats-bar .stat-item {
+    color: var(--color-accent);
+}
+
+[data-theme="dark"] .publication-stats-bar .stat-divider {
+    color: var(--color-border);
 }
 
 .section-footer {
@@ -452,6 +537,18 @@ body {
     background: var(--color-accent);
     color: white;
     border-color: var(--color-accent);
+}
+
+/* Dark mode: Recent News tags active state 更亮、更柔和的靛紫 */
+[data-theme="dark"] .filter-btn.active {
+    background: rgba(129, 140, 248, 0.22); /* 浅一点的靛紫底色 */
+    color: #c7d2fe;                        /* 亮一些的文字颜色 */
+    border-color: #a5b4fc;                 /* 柔和边框 */
+    box-shadow: 0 0 0 1px rgba(165, 180, 252, 0.65);
+}
+
+[data-theme="dark"] .filter-btn.active:hover {
+    background: rgba(129, 140, 248, 0.32);
 }
 
 .news-container {
@@ -516,7 +613,7 @@ body {
     min-width: 72px;
     text-align: left;
     font-weight: 600;
-    color: #6366f1;
+    color: var(--color-accent);
     font-size: var(--font-size-sm);
     margin-right: 6px;
 }
@@ -527,17 +624,32 @@ body {
 
 /* 论文名、人名等加粗用黑色 */
 .news-content strong {
-    color: #111;
+    color: var(--color-primary);
     font-weight: 700;
 }
 
 .news-content a strong {
-    color: #111;
+    color: var(--color-primary);
 }
 
 .news-content a {
-    color: var(--color-accent, #6366f1);
+    color: var(--color-accent);
     text-decoration: none;
+    font-weight: 500;
+}
+
+[data-theme="dark"] .news-content strong,
+[data-theme="dark"] .news-content a strong {
+    color: var(--color-primary);
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="dark"] .research-intro {
+    color: var(--color-secondary);
+}
+
+[data-theme="dark"] .research-intro strong {
+    color: var(--color-primary);
 }
 
 .news-content a:hover {
@@ -571,7 +683,7 @@ body {
 /* 会议名用颜色高亮（与日期紫色区分） */
 .venue-highlight {
     font-weight: 700;
-    color: #ea580c;
+    color: var(--color-warning);
 }
 
 /* Removed Featured Section - keeping basic structure for future use */
@@ -736,6 +848,20 @@ body {
     display: inline-block;
 }
 
+[data-theme="dark"] .blog-tag {
+    background: rgba(167, 139, 250, 0.15);
+    color: #a5b4fc;
+    border: 1px solid rgba(167, 139, 250, 0.3);
+}
+
+[data-theme="dark"] .blog-link {
+    color: var(--color-primary);
+}
+
+[data-theme="dark"] .blog-item p {
+    color: var(--color-secondary);
+}
+
 .card-links {
     display: flex;
     gap: 8px;
@@ -802,10 +928,11 @@ body {
     display: flex;
     flex-wrap: wrap; /* allow TL;DR to wrap below */
     gap: 24px;
-    margin-bottom: 32px;
+    margin-bottom: 24px; /* 稍微缩小论文卡片之间的垂直间距 */
     padding: 24px;
     background: var(--color-background);
-    border: 1px solid var(--color-border);
+    /* 默认状态下用更“细”的浅灰描边，看起来更轻一点 */
+    border: 1px solid rgba(148, 163, 184, 0.45);  
     border-radius: var(--border-radius);
     align-items: flex-start;
     box-shadow: var(--shadow-sm);
@@ -814,12 +941,20 @@ body {
     z-index: 1;
 }
 
-.publication-item:hover {
+.publication-item:hover,
+.publication-item:focus-within {
+    /* 用边框颜色 + 轻微阴影表示选中 */
     box-shadow: var(--shadow-md);
     border-color: var(--color-accent);
     transform: translateY(-4px);
     z-index: 10;
     transition: var(--transition), z-index 0s 0s; /* on hover, elevate z-index immediately */
+}
+
+/* Day mode: pub 高亮边框用深灰色 1px（不抢 TL;DR 的 2px 紫色框） */
+[data-theme="light"] .publication-item:hover,
+[data-theme="light"] .publication-item:focus-within {
+    border-color: var(--color-primary); /* 深灰文字色，整体更克制 */
 }
 
 /* TL;DR functionality - independent floating tooltip */
@@ -833,7 +968,7 @@ body {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: var(--border-radius);
-    border: 1px solid #8b5cf6; /* Vibrant Violet - harmonizes with blue */
+    border: 1px solid #8b5cf6; /* 稍微加粗一点边框，突出 TL;DR */
     box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.15), 0 4px 6px -2px rgba(139, 92, 246, 0.05);
     padding: 16px 24px;
     opacity: 0;
@@ -855,13 +990,27 @@ body {
 }
 
 /* Appear: wait a bit longer (0.2s) so outgoing popover fades before incoming shows */
+
+/* TL;DR glassmorphism fine-tuning: 更高透明度 + 更柔和的高斯模糊 */
+.tldr-wrapper {
+    background: rgba(247, 245, 255, 0.16);  /* 更透明一些 */
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+[data-theme="dark"] .tldr-wrapper {
+    background: rgba(15, 23, 42, 0.5);      /* 夜间模式也再透一点 */
+    border: 2px solid #a78bfa;              /* 与浅色模式一致稍微加粗边框 */
+}
+
 .publication-item.has-tldr:hover .tldr-wrapper {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
-                visibility 0s 0.2s;
+    /* 再稍微晚一点出现（0.3s 延迟），看起来更从容 */
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.3s,
+                visibility 0s 0.3s;
 }
 
 .tldr-badge {
@@ -1043,19 +1192,19 @@ body {
 .publication-authors {
     margin: 0 0 8px 0;
     font-size: 14px;
-    color: #6b7280;
+    color: var(--color-secondary);
     line-height: 1.4;
     font-weight: 400;
 }
 
 .publication-authors strong {
-    color: #1f2937;
+    color: var(--color-primary);
     font-weight: 700;
     font-size: 15px;
 }
 
 .publication-authors .author-highlight {
-    color: #111827;
+    color: var(--color-primary);
     font-weight: 600;
     font-size: 14.5px;
     position: relative;
@@ -1086,7 +1235,7 @@ body {
 }
 
 .publication-links a {
-    color: #2563eb;
+    color: var(--color-accent);
     text-decoration: none;
 }
 
@@ -1120,7 +1269,7 @@ body {
 }
 
 .publication-links .fa-github {
-    color: #333;
+    color: var(--color-primary);
 }
 
 .publication-links .fa-youtube {
@@ -1152,18 +1301,13 @@ body {
     margin-bottom: 24px;
     padding: 24px;
     background: var(--color-background);
-    border: 1px solid var(--color-border);
     border-radius: var(--border-radius);
     align-items: flex-start;
     gap: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
 }
 
 .experience-item:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--color-accent);
+    /* 无边框、无高亮效果，保持原样 */
 }
 
 .experience-item:last-child {
@@ -1194,7 +1338,7 @@ body {
 
 .experience-company {
     margin: 0 0 var(--spacing-xs) 0;
-    color: #1f2937;
+    color: var(--color-secondary);
     font-size: var(--font-size-sm);
     line-height: 1.4;
     font-weight: 500;
@@ -1244,7 +1388,8 @@ body {
 }
 
 .service-description strong {
-    color: #1f2937;
+    /* 用强调色高亮 “Conference / Journal” 等关键词，兼容深浅主题 */
+    color: var(--color-accent);
     font-weight: 600;
 }
 
@@ -1484,6 +1629,74 @@ body {
     text-decoration: underline;
 }
 
+/* Back to Top button */
+.back-to-top {
+    position: fixed;
+    right: 32px;
+    bottom: 180px;
+    width: 46px;           /* 按钮稍微放大 */
+    height: 46px;
+    border-radius: 10px;   /* 改为圆角方块，不再是完全圆形 */
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;       /* 图标大小 */
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    z-index: 60;
+}
+
+/* Desktop: 将 Top 按钮对齐到中间内容栏的右侧 */
+@media (min-width: 1200px) {
+    .back-to-top {
+        right: calc((100vw - 1200px) / 2 - 4px); /* 内容栏右侧，紧贴边缘 */
+    }
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.back-to-top:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
+    box-shadow: var(--shadow);
+}
+
+/* 点击后失去 focus 样式，不保留高亮颜色 */
+.back-to-top:focus {
+    outline: none;
+}
+
+.back-to-top:focus:not(:focus-visible) {
+    background: var(--color-surface);
+    border-color: var(--color-border);
+    color: var(--color-secondary);
+    box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+    .back-to-top {
+        right: 8px;
+        bottom: 56px;
+        width: 40px;
+        height: 40px;
+        font-size: 11px;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     .hero-content {
@@ -1567,7 +1780,7 @@ body {
         border-left: none;
         padding-left: 0;
         padding-top: 16px;
-        max-height: 120px;
+        max-height: 320px; /* Increased from 120px at user request */
         overflow-y: auto;
         padding-right: 8px;
     }
@@ -1590,9 +1803,11 @@ body {
     }
     
     .publication-item {
+        flex-direction: column;          /* 手机端改为上下排版：图片在上，文字在下 */
+        align-items: flex-start;
         gap: 15px;
-        padding-bottom: 24px;
-        margin-bottom: 32px;
+        padding: 12px 10px 20px 10px;    /* 左右仅留一点边，图片接近卡片等宽 */
+        margin-bottom: 24px;
     }
     
     .tldr-wrapper,
@@ -1635,11 +1850,52 @@ body {
         border: 1px solid rgba(167, 139, 250, 0.2);
     }
     
-    .publication-image {
-        width: 120px;
-        height: 68px;
+    /* 手机端 pub 图片包裹容器：统一尺寸，承载模糊背景效果 */
+    .pub-img-wrapper {
+        position: relative;
+        display: block;
+        width: 90%;
+        height: 150px;
+        margin: 0 auto 12px auto;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    /* 模糊背景层：同一张图模糊后填满留白区域 */
+    .pub-img-wrapper::before {
+        content: '';
+        position: absolute;
+        inset: -10px;
+        background-image: var(--pub-img-src);
+        background-size: cover;
+        background-position: center;
+        filter: blur(14px);
+        opacity: 0.5;
+    }
+
+    /* 主图层：等比缩放居中，叠在模糊层上方 */
+    .pub-img-wrapper .publication-image {
+        position: relative !important;
+        z-index: 1 !important;
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        flex-shrink: unset !important;
+        background: transparent !important;
+        border: none !important;
     }
     
+    /* 手机端：只隐藏用了默认占位图（underreview.jpg）的 paper 图片及其 wrapper */
+    .publication-image[src*="underreview"],
+    .pub-img-wrapper:has(.publication-image[src*="underreview"]) {
+        display: none !important;
+    }
+
     .news-date,
     .education-period,
     .experience-period,
@@ -1789,4 +2045,73 @@ body {
 .reveal.active {
     opacity: 1;
     transform: translateY(0);
+}
+/* Final Dark Mode Overrides */
+[data-theme="dark"] .publication-venue-under-review,
+[data-theme="dark"] .publication-venue-preprint,
+[data-theme="dark"] .publication-venue-working {
+    background: var(--color-surface) !important;
+    color: var(--color-secondary) !important;
+    border: 1px solid var(--color-border) !important;
+}
+
+[data-theme="dark"] .publication-content h3 {
+    color: var(--color-primary) !important;
+}
+
+[data-theme="dark"] .research-intro {
+    color: var(--color-primary) !important;
+}
+
+[data-theme="dark"] .publication-item {
+    background: var(--color-surface) !important;
+    border-color: var(--color-border) !important;
+}
+
+/* 夜间模式下：pub 默认是较深灰底 + 灰色细边框（未选中状态） */
+[data-theme="dark"] .publication-item {
+    background: #020617 !important;   /* 深一点的底色 */
+    border-color: #111827 !important; /* 更深的灰色描边，未选中时更低调 */
+    border-width: 1px;
+}
+
+[data-theme="dark"] .news-item {
+    /* 夜间模式下与日间保持同样的布局，不再单独加卡片式边框，以便展示更多内容 */
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    margin-bottom: 12px;
+}
+
+[data-theme="dark"] .news-item:hover {
+    /* 保留轻微的交互反馈（可以按需再增强），不做位移和阴影 */
+    border: none;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Dark mode: hover elevation / highlight
+ * - pub: 灰框变亮一点
+ * - experience / featured: 仍使用强调色高亮
+ */
+[data-theme="dark"] .publication-item:hover,
+[data-theme="dark"] .publication-item:focus-within {
+    background: #020617; /* 保持与默认一致的深底色 */
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+    border-color: #e5e7eb !important; /* 更亮的灰色边框（高亮状态） */
+}
+
+[data-theme="dark"] .featured-card:hover {
+    background: #020617; /* slightly darker than surface,形成对比 */
+    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+    border-color: var(--color-accent);
+}
+
+[data-theme="dark"] .hero-link:hover,
+[data-theme="dark"] .btn-code:hover,
+[data-theme="dark"] .filter-btn:hover {
+    background-color: #0b1220;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
 }

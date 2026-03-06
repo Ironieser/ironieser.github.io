@@ -1,3 +1,62 @@
+// ─── Theme Toggle (Day / Night / Auto) ───────────────────────────────────────
+(function () {
+    const STORAGE_KEY = 'theme-mode'; // 'day' | 'night' | 'auto'
+    const ICONS = { day: '☀️', night: '🌙', auto: '🌓' };
+    const CYCLE  = { day: 'night', night: 'auto', auto: 'day' };
+
+    function applyTheme(mode) {
+        const root = document.documentElement;
+        if (mode === 'day') {
+            root.setAttribute('data-theme', 'light');
+        } else if (mode === 'night') {
+            root.setAttribute('data-theme', 'dark');
+        } else {
+            // auto: follow system preference
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            root.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+        }
+    }
+
+    function updateButton(mode) {
+        const btn = document.getElementById('theme-toggle');
+        if (btn) {
+            btn.querySelector('.theme-icon').textContent = ICONS[mode];
+            btn.title = `Theme: ${mode}`;
+        }
+    }
+
+    function setMode(mode) {
+        localStorage.setItem(STORAGE_KEY, mode);
+        applyTheme(mode);
+        updateButton(mode);
+    }
+
+    // Apply theme immediately (before DOMContentLoaded) to avoid flash
+    const savedMode = localStorage.getItem(STORAGE_KEY) || 'auto';
+    applyTheme(savedMode);
+
+    document.addEventListener('DOMContentLoaded', function () {
+        updateButton(savedMode);
+
+        // Wire up button
+        const btn = document.getElementById('theme-toggle');
+        if (btn) {
+            btn.addEventListener('click', function () {
+                const current = localStorage.getItem(STORAGE_KEY) || 'auto';
+                setMode(CYCLE[current]);
+            });
+        }
+
+        // Auto mode: react when system preference changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+            if ((localStorage.getItem(STORAGE_KEY) || 'auto') === 'auto') {
+                applyTheme('auto');
+            }
+        });
+    });
+})();
+// ─────────────────────────────────────────────────────────────────────────────
+
 // News Filter Functionality
 document.addEventListener('DOMContentLoaded', function() {
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -27,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 // Smooth scroll for internal links
 document.addEventListener('DOMContentLoaded', function() {
@@ -114,4 +174,47 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+});
+
+// Mobile pub image: wrap with blurred background effect
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth > 768) return;
+
+    document.querySelectorAll('.publication-item .publication-image').forEach(function (img) {
+        // Skip placeholder / underreview images (already hidden by CSS)
+        if (img.src.includes('underreview')) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'pub-img-wrapper';
+        // Pass the image src as a CSS variable for the ::before blurred bg
+        wrapper.style.setProperty('--pub-img-src', 'url("' + img.getAttribute('src') + '")');
+
+        img.parentNode.insertBefore(wrapper, img);
+        wrapper.appendChild(img);
+    });
+});
+
+// Back-to-Top button
+document.addEventListener('DOMContentLoaded', function () {
+    const backToTop = document.getElementById('back-to-top');
+    if (!backToTop) return;
+
+    function toggleBackToTop() {
+        if (window.scrollY > 320) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    }
+
+    backToTop.addEventListener('click', function () {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    window.addEventListener('scroll', toggleBackToTop);
+    // Run once on load
+    toggleBackToTop();
 });
