@@ -1,9 +1,9 @@
 {
   "personal": {
-    "name": "Doge Zhang",
-    "aka": "Such Research, Very PhD, Wow",
-    "title": "5th-Year PhD Student, VLM, LLM, Existential Crisis",
-    "affiliation": "PhD Candidate (Allegedly), University of Somewhere, Mars",
+    "name": "Professor Meow",
+    "aka": "Chief Napping Officer",
+    "title": "10th-Year PhD Student, CatVLM, Existential Crisis",
+    "affiliation": "Cat University of Somewhere, Mars",
     "email": "please-dont-email@example.edu",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_template.pdf",
@@ -193,10 +193,10 @@
   "experience": [
     {
       "position": "Chief Coffee Drinker & Occasional Researcher",
-      "company": "ExampleCorp, The Department of Vibes",
+      "company": "Very Serious Cat Research Lab",
       "period": "Every Summer Since 2020",
       "description": "Consumed 847 cups of coffee. Attended 312 meetings that could have been emails. Published 0 papers. Received return offer every year for unknown reasons.",
-      "logo": "images/zoom.jpg"
+      "logo": "images/logo.jpg"
     }
   ],
   "education": [
