@@ -80,6 +80,31 @@
             "name": "Paper",
             "url": "https://arxiv.org/",
             "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Dataset",
+            "url": "https://example.com/catvlm-dataset",
+            "icon": "fas fa-database"
+          },
+          {
+            "name": "Blog (Zhihu)",
+            "url": "https://zhuanlan.zhihu.com/",
+            "icon": "fas fa-book-open"
+          },
+          {
+            "name": "YouTube",
+            "url": "https://youtube.com/",
+            "icon": "fab fa-youtube"
+          },
+          {
+            "name": "Bilibili",
+            "url": "https://www.bilibili.com/",
+            "icon": "fas fa-tv"
           }
         ]
       },
