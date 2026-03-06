@@ -1,5 +1,26 @@
 # Changelog
 
+## [v1.5.0] - 2026-03-06
+
+### 🌿 Template / Personal Branch Separation
+
+#### ✨ Changes
+
+- **Clean template demo data** — `master` branch now ships with a fully fictitious demo user ("Alex Zhang") that showcases every template feature (oral badge, featured, TL;DR, coming\_soon links, under-review, preprint, survey section, multi-link types) without any real personal information.
+- **Personal content isolated to `ironieser` branch** — All real author data, blog posts, paper images, project pages, CV PDFs, and `CNAME` have been moved off `master` and live exclusively in the `ironieser` personal branch.
+- **Scholar sync targets personal branch** — `sync-scholar.yml` now explicitly checks out and pushes to the `ironieser` branch so automated Scholar updates never overwrite the template demo data on `master`.
+- **Repo set as GitHub Template** — `master` is now a clean, one-click-usable GitHub Template Repository; new users can click **"Use this template"** to instantly get a clean starting point.
+
+#### 🗂 Branch Structure (for template authors)
+
+```
+master    ← clean template + demo data  (GitHub Template, default branch)
+ironieser ← personal site with real content + deploy via Cloudflare Pages
+dev       ← (optional) feature development, merge into master when stable
+```
+
+---
+
 ## [v1.4.0] - 2026-03-06
 
 ### 🌙 Dark Mode & UI Polish

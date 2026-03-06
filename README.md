@@ -2,7 +2,7 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **📢 Latest (v1.4.0)**: Added **Dark Mode** (day / night / auto, persisted via localStorage), polished UI with glassmorphism TL;DR popovers, mobile-first publication images with blurred-background effect, Back-to-Top button, and various responsiveness improvements. See [CHANGELOG.md](CHANGELOG.md) for details.
+> **📢 Latest (v1.5.0)**: **Template/personal branch separation** — `master` is now a clean, one-click GitHub Template with fictitious demo data; personal content lives in a separate branch. Scholar sync workflow updated to target the personal branch. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 
@@ -22,11 +22,13 @@ A simple, config-driven academic website template that generates HTML from conte
 
 ## 🚀 Quick Start
 
-### Step 1: Fork the Repository
+### Step 1: Create Your Repository
 
-1. Go to [this repository](https://github.com/Ironieser/ironieser.github.io)
-2. Click the **"Fork"** button in the top right
-3. Choose your GitHub account as the destination
+**Recommended:** Click the green **"Use this template"** button at the top of [this repository](https://github.com/Ironieser/ironieser.github.io) → **"Create a new repository"**.
+
+This gives you a clean copy of the template (only the `master` branch, no history) — the fastest way to start.
+
+> Alternatively, you can **Fork** the repository if you want to receive upstream template updates via pull requests.
 
 ### Step 2: Rename Your Repository
 
