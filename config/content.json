@@ -1,9 +1,9 @@
 {
   "personal": {
     "name": "Professor Meow",
-    "aka": "喵星大学",
+    "aka": "Meowstar University",
     "title": "PhD Student, CatVLM",
-    "affiliation": "喵星大学, 喵星",
+    "affiliation": "Meowstar University, Planet Meow",
     "email": "meow@example.edu",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_template.pdf",
@@ -165,7 +165,7 @@
   "education": [
     {
       "degree": "PhD in Cat-Inspired AI (ongoing)",
-      "institution": "喵星大学, 喵星",
+      "institution": "Meowstar University, Planet Meow",
       "period": "2045 - ?",
       "details": "Trying to graduate. The cat advisor is not impressed yet."
     },
