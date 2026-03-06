@@ -1,6 +1,7 @@
 ---
 name: init-template-setup
 description: Initialize this academic website template with a new user's personal information, SEO settings, and favicon, by reading the existing docs and editing config files. Use this skill when the user has just forked/created the repo and wants an AI agent to do the initial setup for them.
+compatibility: "Node.js (npm) or Python 3 for build; Python 3 for local_server.py and generate_favicons.py"
 ---
 
 # Init Template Setup
@@ -26,7 +27,12 @@ Before changing anything, load and skim these files so you understand the templa
 - `config/README.md` — notes on config files (if present)
 - `docs/FAVICON_SETUP.md` — favicon requirements and file layout
 
-Use these docs as the **source of truth** for field meanings and acceptable values. Do not rely only on memory.
+When editing config, use this skill’s **references** as the field-level source of truth:
+- **site.yaml** → `references/site-yaml-schema.md`
+- **content.json** (personal, research, news, experience, education, service) → `references/content-json-schema.md`
+- **publications** (single entry schema) → `add-publication` skill’s `references/publication-schema.md`
+
+**Cross-skill:** This repo has an **add-publication** skill. When the user wants to add real papers (during init or later), **prefer using the add-publication skill**: invoke it or follow its flow (gather title/authors/venue/links/tldr, then insert into `config/content.json` per its schema). Do not hand-write publication JSON from memory; use add-publication’s instructions and `references/publication-schema.md`.
 
 ### 2. Gather required information from the user
 
@@ -60,7 +66,7 @@ Clarify anything ambiguous with follow-up questions.
 
 ### 3. Configure `config/site.yaml` (one-time site setup)
 
-Follow the guidance in `README.md` and `config/site.yaml` comments:
+See `references/site-yaml-schema.md` for the full field reference. Follow the guidance in `README.md` and in-file comments.
 
 1. Open `config/site.yaml`.
 2. Fill out the `seo` section:
@@ -69,25 +75,24 @@ Follow the guidance in `README.md` and `config/site.yaml` comments:
    - `author` block (name, emails, Scholar ID, social links)
 3. Configure `visitor_map`:
    - If user provides a ClustrMaps `domain_id`, set it.
-   - If they do **not** want a visitor map, either clear the block or follow the disable pattern described in docs.
-4. Configure `redirects` if the user wants short URLs (optional).
+   - If they do **not** want a visitor map, set `visitor_map.enabled: false` (or remove/clear the `visitor_map` block).
+4. Optionally set `copyright_start_year` for the footer (e.g. year the site started).
+5. Configure `redirects` if the user wants short URLs (optional).
 
 Always preserve YAML indentation and quoting rules.
 
 ### 4. Configure `config/content.json` (personal content)
 
-Use `README.md` and `blog/introducing-config-driven-academic-website-template.md` as references for schema expectations.
+See `references/content-json-schema.md` for the schema of `personal`, `research`, `news`, `experience`, `education`, and `service`. For a single publication entry’s fields, use the `add-publication` skill’s `references/publication-schema.md`.
 
 1. Open `config/content.json`.
 2. Update the `personal` section:
-   - Name, affiliation, location, email(s), homepage, and social links.
-   - Photo path, matching an existing image in `images/` if possible.
+   - Name, `aka` (optional), title, affiliation, email(s), `cv_link`, homepage, and social `links`.
+   - `profile_image` path, matching an existing image in `images/` if possible.
 3. Update `research` (short blurb and any stats the user wants).
 4. Update or replace demo `news`, `experience`, `education`, and `service` entries with the user's real data.
 5. For `publications`:
-   - If the user wants to start with **real papers**, either:
-     - Use the `add-publication` skill for each paper, **or**
-     - Insert a few key papers directly following the JSON schema.
+   - If the user wants to start with **real papers**: use the **add-publication** skill for each paper (this repo’s dedicated skill for adding publications — follow its steps and schema). Do not hand-craft publication entries unless you have explicitly loaded add-publication’s reference.
    - If the user prefers, keep demo papers temporarily but clearly mark that they are placeholders.
 
 Keep the JSON valid at all times (matching brackets, commas, and quoting).
@@ -97,15 +102,17 @@ Keep the JSON valid at all times (matching brackets, commas, and quoting).
 Use `docs/FAVICON_SETUP.md` as the authoritative guide:
 
 1. Confirm with the user whether they already have a source logo.
-2. Explain which favicon files are expected:
-   - `favicon.ico`
-   - `favicon-16x16.png`
-   - `favicon-32x32.png`
-   - `apple-touch-icon.png`
-3. If the user can generate these files themselves, point them to the recommended tools:
+2. If they have (or will add) a square logo at `images/pagelogo_round.png`, suggest running the built-in script first:
+   ```bash
+   python scripts/generate_favicons.py
+   ```
+   This generates all required favicon files in the repo root (see README Step 6, Method 1).
+3. Otherwise, explain which favicon files are expected in the **repo root**:
+   - `favicon.ico`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png`
+4. Point them to online generators if they need to create these from a logo:
    - `https://favicon.io/`
    - `https://realfavicongenerator.net/`
-4. Once the user has provided the files (or paths), ensure they are placed in the **repo root**, consistent with `FAVICON_SETUP.md`.
+5. Once the user has provided the files (or paths), ensure they are placed in the **repo root**, consistent with `FAVICON_SETUP.md`.
 
 Do **not** attempt to generate binary image data yourself; only guide placement and naming.
 
@@ -159,3 +166,11 @@ git push
 
 Remind the user that GitHub Pages or Cloudflare Pages will redeploy automatically depending on their chosen setup.
 
+## References (on-demand)
+
+| File | Purpose |
+|------|---------|
+| `references/site-yaml-schema.md` | site.yaml structure and all fields |
+| `references/content-json-schema.md` | content.json sections (personal, research, news, experience, education, service, publications pointer) |
+
+Load these when editing the corresponding config so field names and types stay correct.
