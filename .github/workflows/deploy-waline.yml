@@ -11,17 +11,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    if: hashFiles('waline-config/**') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
+      - name: Check waline-config directory
+        id: check
+        run: |
+          if [ -d waline-config ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+          
       - name: Setup Node.js
+        if: steps.check.outputs.enabled == 'true'
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           
       - name: Deploy to Vercel
+        if: steps.check.outputs.enabled == 'true'
+        id: deploy
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -30,6 +41,7 @@ jobs:
           working-directory: ./waline-config
           
       - name: Update Comment System Status
+        if: steps.check.outputs.enabled == 'true'
         run: |
           echo "✅ Waline server deployed successfully"
-          echo "🌐 Server URL: ${{ steps.deploy.outputs.preview-url }}" 
+          echo "🌐 Server URL: ${{ steps.deploy.outputs.preview-url }}"

@@ -26,6 +26,17 @@ A simple, config-driven academic website template that generates HTML from conte
 
 ## 🚀 Quick Start
 
+### (Optional) Step 0: Let an AI agent set things up
+
+If you use an AI-enabled editor such as **Cursor**, **Antigravity**, or **Codex**, you can let an agent do most of the initial setup for you:
+
+- Open this repo in your editor and enable its AI agent.
+- Ask the agent to use the `init-template-setup` skill for this project.
+- Answer its questions about your name, affiliation, SEO, deployment choice, and favicon/logo.
+- The agent will read `README.md`, `config/README.md`, `docs/FAVICON_SETUP.md`, and the intro blog post, then edit `config/site.yaml` and `config/content.json` for you following the docs.
+
+You can still follow the manual steps below, but the AI-assisted flow is often faster for first-time users.
+
 ### Step 1: Create Your Repository
 
 **Recommended:** Click the green **"Use this template"** button at the top of [this repository](https://github.com/Ironieser/ironieser.github.io) → **"Create a new repository"**.
