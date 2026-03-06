@@ -15,8 +15,8 @@
   },
   "redirects": [
     {
-      "alias": "mmtok",
-      "target": "/projects/mmtok.html"
+      "alias": "efficientvlm",
+      "target": "/projects/efficientvlm.html"
     },
     {
       "alias": "timesclip",
@@ -24,20 +24,18 @@
     }
   ],
   "visitor_map": {
-    "enabled": true,
+    "enabled": false,
     "provider": "clustrmaps",
-    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU",
+    "domain_id": "YOUR_CLUSTRMAPS_ID",
     "color": "ffffff",
     "width": "a"
   },
   "seo": {
     "enable_json_ld": true,
-    "website_url": "https://sixundong.com",
-    "github_pages_url": "https://ironieser.github.io",
-    "legacy_urls": [
-      "https://cv.ironieser.cc"
-    ],
-    "website_name": "Sixun Dong (Ironieser) - Academic Homepage",
+    "website_url": "https://yourusername.github.io",
+    "github_pages_url": "https://yourusername.github.io",
+    "legacy_urls": [],
+    "website_name": "Alex Zhang - Academic Homepage",
     "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
     "keywords": [
       "computer vision",
@@ -46,35 +44,34 @@
       "deep learning",
       "artificial intelligence",
       "academic research",
-      "Sixun Dong",
-      "Ironieser"
+      "Alex Zhang"
     ],
     "author": {
-      "name": "Sixun Dong",
-      "alternate_name": "Ironieser",
-      "email": "ironieser@gmail.com",
-      "academic_email": "sixundong.ai@gmail.com",
-      "affiliation": "Independent Researcher, AZ, USA",
-      "job_title": "Researcher",
+      "name": "Alex Zhang",
+      "alternate_name": "AlexZ",
+      "email": "alex.zhang@example.edu",
+      "academic_email": "alex.zhang@example.edu",
+      "affiliation": "PhD Student, Example University, USA",
+      "job_title": "PhD Student",
       "research_areas": [
         "multimodal AI systems",
         "computer vision",
         "natural language processing",
         "machine learning"
       ],
-      "google_scholar_id": "j71Y2-4AAAAJ",
+      "google_scholar_id": "YOUR_SCHOLAR_ID",
       "orcid": null,
-      "github": "Ironieser",
-      "twitter": "ironieser"
+      "github": "yourusername",
+      "twitter": "yourusername"
     },
     "organization": {
-      "name": "Independent Researcher, AZ, USA",
-      "type": "Independent Researcher",
-      "url": "https://sixundong.com",
+      "name": "Example University",
+      "type": "CollegeOrUniversity",
+      "url": "https://yourusername.github.io",
       "address": {
         "addressCountry": "USA",
-        "addressLocality": "Tempe",
-        "addressRegion": "AZ"
+        "addressLocality": "Your City",
+        "addressRegion": "Your State"
       }
     }
   }
