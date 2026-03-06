@@ -2,7 +2,7 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **📢 Important (v1.2.0)**: Config now lives in the **`config/`** directory (`content.json`, `meta.json`, `site.yaml`). If you forked earlier, see [CHANGELOG.md](CHANGELOG.md) for migration steps.
+> **📢 Important (v1.3.0)**: Added **TL;DR popovers** for publications — hover on desktop or tap on mobile for instant paper summaries. Config still lives in `config/` directory. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 
@@ -11,6 +11,7 @@ A simple, config-driven academic website template that generates HTML from conte
 - **Clean academic design** with responsive layout
 - **Blog system** with Markdown support
 - **Publication management** with automatic formatting
+- **TL;DR popovers** — add a `tldr` field to any publication for hover (desktop) / tap (mobile) summaries
 - **Easy maintenance** — edit config and push
 
 > 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
@@ -179,6 +180,7 @@ Add your papers in the `publications` section:
       "venue_type": "conference",
       "image": "teaser/your-paper.jpg",
       "featured": true,
+      "tldr": "One sentence summary that appears on hover/tap.",
       "links": [
         {"name": "Paper", "url": "https://arxiv.org/abs/...", "icon": "ai ai-arxiv"},
         {"name": "Code", "url": "https://github.com/...", "icon": "fab fa-github"}
@@ -187,6 +189,8 @@ Add your papers in the `publications` section:
   ]
 }
 ```
+
+> **💡 TL;DR Popovers**: Adding a `tldr` field to any publication automatically enables an interactive summary tooltip — displayed as a glassmorphism popover on desktop (hover), and a tap-to-expand accordion on mobile.
 
 #### News Updates
 Add recent news:

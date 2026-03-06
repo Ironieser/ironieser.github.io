@@ -61,6 +61,12 @@
   },
   "news": [
     {
+      "date": "Mar 2026",
+      "icon": "🛠️",
+      "content": "Homepage updated with <strong>TL;DR popovers</strong> for all publications — hover on desktop or tap on mobile to see a one-sentence summary of each paper.",
+      "category": "projects"
+    },
+    {
       "date": "Feb 2026",
       "icon": "📄",
       "link": "https://arxiv.org/abs/2602.10625",
@@ -172,6 +178,7 @@
         "image": "teaser/transrac.jpg",
         "is_oral": true,
         "featured": true,
+        "tldr": "Introduces the RepCount dataset and pioneers the use of regression density maps alongside a Transformer-based architecture to encode multi-scale temporal correlations, significantly improving repetitive action counting.",
         "links": [
           {
             "name": "Paper",
@@ -223,6 +230,7 @@
         "venue_type": "conference",
         "image": "teaser/weaksvr.jpg",
         "featured": true,
+        "tldr": "Proposes a weakly supervised video representation learning approach that utilizes unaligned text for sequential videos, significantly reducing the reliance on fine-grained video-text alignment annotations.",
         "links": [
           {
             "name": "Paper",
@@ -270,6 +278,7 @@
         "venue_type": "conference",
         "image": "teaser/mmtool.jpg",
         "featured": true,
+        "tldr": "Introduces the MLLM-Tool framework and contributes a specialized dataset to empower Multimodal Large Language Models (MLLMs) with the ability to understand, learn, and invoke external tools.",
         "links": [
           {
             "name": "Paper",
@@ -298,6 +307,7 @@
         "venue_type": "conference",
         "image": "teaser/room.jpg",
         "featured": false,
+        "tldr": "Presents RoomDesigner, which encodes \"anchor-latents\" to guide the generation of 3D indoor scenes that are both highly style-consistent and shape-compatible.",
         "links": [
           {
             "name": "Paper",
@@ -329,6 +339,7 @@
         "venue_type": "conference",
         "image": "images/blog/mmtok/combined_plots.png",
         "featured": true,
+        "tldr": "Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.",
         "links": [
           {
             "name": "Paper",
@@ -381,6 +392,7 @@
         "venue_type": "preprint",
         "image": "teaser/MCP101.jpg",
         "featured": false,
+        "tldr": "Constructs a stress-testing benchmark specifically designed to evaluate and diagnose the stability and limitations of MCP-enabled agents when handling complex, challenging queries.",
         "links": [
           {
             "name": "Paper",
@@ -428,6 +440,7 @@
         "venue_type": "preprint",
         "image": "teaser/logitif.jpg",
         "featured": false,
+        "tldr": "Introduces an automated data generation framework and evaluation benchmark for complex logical instructions to assess and enhance the multi-step reasoning capabilities of LLMs.",
         "links": [
           {
             "name": "Paper",
@@ -465,6 +478,7 @@
         "venue_type": "under-review",
         "image": "images/blog/timesclip/fig3.png",
         "featured": true,
+        "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
         "links": [
           {
             "name": "Paper",
@@ -532,6 +546,7 @@
         "venue": "arXiv'2505",
         "venue_type": "under-review",
         "image": "teaser/agentic.jpg",
+        "tldr": "Builds an LLM-driven agentic framework that unifies feature selection and generation through collaborative teaming, task planning, and memory mechanisms.",
         "links": [
           {
             "name": "Paper",
@@ -557,6 +572,7 @@
         "venue_type": "conference",
         "image": "teaser/sculp.jpg",
         "featured": true,
+        "tldr": "Proposes a reward-guided hierarchical diffusion model that \"sculpts\" data representations from noise to generate optimal feature transformations for specific downstream tasks.",
         "links": [
           {
             "name": "Paper",
@@ -613,6 +629,7 @@
         "venue_type": "preprint",
         "image": "teaser/preprint.jpg",
         "auto_sync": true,
+        "tldr": "Introduces an LLM-ML teaming framework that integrates symbolic decoding with gradient search to achieve highly stable and valid generative feature transformations.",
         "links": [
           {
             "name": "Paper",
@@ -638,6 +655,7 @@
         "venue": "AAAI'26",
         "venue_type": "conference",
         "image": "teaser/efficientreasoning.jpg",
+        "tldr": "Proposes an efficient post-training refinement strategy specifically designed to optimize and unlock the deep logical reasoning capabilities of LLMs within their latent representation space.",
         "links": [
           {
             "name": "Paper",
@@ -670,6 +688,7 @@
         "venue": "AAAI'26",
         "venue_type": "conference",
         "image": "teaser/bridge.jpg",
+        "tldr": "Combines Brownian Bridge-augmented surrogate models to provide highly efficient simulation and injection planning for optimizing geological CO2 storage strategies.",
         "links": [
           {
             "name": "Paper",
@@ -694,6 +713,7 @@
         "venue": "IJCAI'25",
         "venue_type": "conference",
         "image": "teaser/agentFt.jpg",
+        "tldr": "Presents a fully unsupervised feature transformation framework utilizing generator-critic LLM agents and in-context generation via duet-play teaming to automatically extract high-quality features.",
         "links": [
           {
             "name": "Paper",
@@ -725,6 +745,7 @@
         "venue_type": "preprint",
         "image": "teaser/preprint.jpg",
         "auto_sync": true,
+        "tldr": "Introduces a reinforcement learning feedback mechanism to effectively bridge and calibrate the domain gap in equation distillation tasks.",
         "links": [
           {
             "name": "Paper",
@@ -751,6 +772,7 @@
         "venue_type": "preprint",
         "image": "teaser/think_tom.jpg",
         "featured": true,
+        "tldr": "Investigates the capabilities of Large Reasoning Models (like OpenAI o1/o3) on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.",
         "links": [
           {
             "name": "Paper",
@@ -772,6 +794,7 @@
         "venue_type": "conference",
         "image": "teaser/judge-editor.jpg",
         "featured": false,
+        "tldr": "Proposes an LLM-agent-based post-ASR correction framework for dysarthric speech recognition that focuses on semantic accuracy rather than just minimizing Word Error Rate (WER).",
         "links": [
           {
             "name": "Paper",
@@ -810,6 +833,7 @@
         "venue": "TKDD'26",
         "venue_type": "journal",
         "image": "teaser/underreview.jpg",
+        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
         "links": [
           {
             "name": "Paper",
@@ -838,6 +862,7 @@
         "venue": "arXiv'2502",
         "venue_type": "under-review",
         "image": "teaser/underreview.jpg",
+        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
         "links": [
           {
             "name": "Paper",

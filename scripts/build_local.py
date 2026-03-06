@@ -520,11 +520,44 @@ def generate_index_page(config):
     
     # Generate news items
     news_html = []
+    
+    def expand_venue_highlight(s):
+        if not s: return ''
+        return re.sub(r'\[\[([^\]]+)\]\]', r'<span class="venue-highlight">\1</span>', s)
+
+    def make_link_html(link_url):
+        if not link_url: return ''
+        is_arxiv = 'arxiv.org' in link_url
+        icon_class = 'ai ai-arxiv' if is_arxiv else 'fas fa-external-link-alt'
+        title = 'arXiv' if is_arxiv else 'Link'
+        return f'<a href="{link_url}" target="_blank" rel="noopener" class="news-paper-link" title="{title}"><i class="{icon_class}"></i></a>'
+
+    def expand_news_link(content, item):
+        if not content: return content
+        out = content
+        
+        # Format {{link}}
+        link_str = make_link_html(item.get('link')) or '{{link}}'
+        out = re.sub(r'\{\{link\}\}', link_str, out)
+        
+        # Format {{linkN}}
+        def repl(match):
+            n = match.group(1)
+            return make_link_html(item.get(f'link{n}')) or f'{{{{link{n}}}}}'
+        out = re.sub(r'\{\{link(\d+)\}\}', repl, out)
+        
+        return out
+
     for item in news:
+        content = expand_venue_highlight(item.get('content', ''))
+        content = expand_news_link(content, item)
+        icon = item.get('icon', '')
+        
         news_html.append(f'''
-            <div class="news-item" data-category="{item['category']}">
-                <span class="news-date">{item['date']}</span>
-                <span class="news-content">{item['content']}</span>
+            <div class="news-item" data-category="{item.get('category', '')}">
+                <span class="news-date">{item.get('date', '')}</span>
+                <span class="news-icon" style="{"display:none" if not icon else ""}">{icon}</span>
+                <span class="news-content">{content}</span>
             </div>''')
     
     # Generate selected publications
@@ -535,21 +568,29 @@ def generate_index_page(config):
         authors_formatted = highlight_author_name(pub['authors'], target_name)
         links_formatted = format_publication_links(pub['links'])
         
+        has_tldr_class = "has-tldr" if pub.get('tldr') else ""
+        tldr_html = f'''
+                <div class="tldr-wrapper">
+                    <span class="tldr-badge">TL;DR</span>
+                    <p class="tldr-text">{pub.get('tldr')}</p>
+                </div>''' if pub.get('tldr') else ""
+        
         pubs_html.append(f'''
-            <div class="publication-item">
+            <div class="publication-item reveal {has_tldr_class}">
                 <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title">{venue_badge} {pub['title']}</p>
                     <p class="publication-authors">{authors_formatted}</p>
                     <p class="publication-links">{links_formatted}</p>
                 </div>
+                {tldr_html}
             </div>''')
     
     # Generate experience items
     exp_html = []
     for exp in experience:
         exp_html.append(f'''
-            <div class="experience-item">
+            <div class="experience-item reveal">
                 <img src="{exp['logo']}" alt="{exp['company']}" class="experience-logo">
                 <div class="experience-content">
                     <p class="experience-position">{exp['position']}</p>
@@ -564,7 +605,7 @@ def generate_index_page(config):
     for edu in education:
         details = f'<p class="education-details">{edu["details"]}</p>' if edu['details'] else ''
         edu_html.append(f'''
-            <div class="education-item">
+            <div class="education-item reveal">
                 <span class="education-period">{edu['period']}</span>
                 <div class="education-content">
                     <p class="education-degree">{edu['degree']}</p>
@@ -586,13 +627,13 @@ def generate_index_page(config):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{personal['name']} - Academic Homepage</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="assets/js/script.js" defer></script>
+    <script src="assets/js/script.js?v=2" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -797,14 +838,22 @@ def generate_publications_page(config):
             authors_formatted = highlight_author_name(pub['authors'], target_name)
             links_formatted = format_publication_links(pub['links'])
             
+            has_tldr_class = "has-tldr" if pub.get('tldr') else ""
+            tldr_html = f'''
+                    <div class="tldr-wrapper">
+                        <span class="tldr-badge">TL;DR</span>
+                        <p class="tldr-text">{pub.get('tldr')}</p>
+                    </div>''' if pub.get('tldr') else ""
+            
             pub_items.append(f'''
-                <div class="publication-item">
+                <div class="publication-item reveal {has_tldr_class}">
                     <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>
                         <p class="publication-links">{links_formatted}</p>
                     </div>
+                    {tldr_html}
                 </div>''')
         
         year_sections.append(f'''
@@ -823,14 +872,22 @@ def generate_publications_page(config):
             authors_formatted = highlight_author_name(pub['authors'], target_name)
             links_formatted = format_publication_links(pub['links'])
             
+            has_tldr_class = "has-tldr" if pub.get('tldr') else ""
+            tldr_html = f'''
+                    <div class="tldr-wrapper">
+                        <span class="tldr-badge">TL;DR</span>
+                        <p class="tldr-text">{pub.get('tldr')}</p>
+                    </div>''' if pub.get('tldr') else ""
+            
             survey_items.append(f'''
-                <div class="publication-item">
+                <div class="publication-item reveal {has_tldr_class}">
                     <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>
                         <p class="publication-links">{links_formatted}</p>
                     </div>
+                    {tldr_html}
                 </div>''')
         
         year_sections.append(f'''
@@ -856,12 +913,13 @@ def generate_publications_page(config):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Publications - {personal['name']}</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css?v=2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <script src="assets/js/script.js?v=2" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -934,6 +992,7 @@ def generate_blog_page(config):
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
     <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css">
+    <script src="assets/js/script.js?v=2" defer></script>
     <script src="assets/js/blog-data.js"></script>
 </head>
 <body>

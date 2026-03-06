@@ -467,8 +467,15 @@ function generateIndexPage(config) {
     const linksFormatted = formatPublicationLinks(pub.links);
     const shortDesc = pub.short_description ? `<p class="publication-description">${pub.short_description}</p>` : '';
     
+    const hasTldrClass = pub.tldr ? "has-tldr" : "";
+    const tldrHtml = pub.tldr ? `
+        <div class="tldr-wrapper">
+            <span class="tldr-badge">TL;DR</span>
+            <p class="tldr-text">${pub.tldr}</p>
+        </div>` : "";
+    
     return `
-            <div class="publication-item">
+            <div class="publication-item reveal ${hasTldrClass}">
                 <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
@@ -476,12 +483,13 @@ function generateIndexPage(config) {
                     ${shortDesc}
                     <p class="publication-links">${linksFormatted}</p>
                 </div>
+                ${tldrHtml}
             </div>`;
   }).join('');
   
   // Generate experience items
   const expHtml = experience.map(exp => `
-            <div class="experience-item">
+            <div class="experience-item reveal">
                 <img src="${exp.logo}" alt="${exp.company}" class="experience-logo">
                 <div class="experience-content">
                     <p class="experience-position">${exp.position}</p>
@@ -495,7 +503,7 @@ function generateIndexPage(config) {
   const eduHtml = education.map(edu => {
     const details = edu.details ? `<p class="education-details">${edu.details}</p>` : '';
     return `
-            <div class="education-item">
+            <div class="education-item reveal">
                 <span class="education-period">${edu.period}</span>
                 <div class="education-content">
                     <p class="education-degree">${edu.degree}</p>
@@ -754,14 +762,22 @@ function generatePublicationsPage(config) {
       const authorsFormatted = highlightAuthorName(pub.authors, targetName);
       const linksFormatted = formatPublicationLinks(pub.links);
       
+      const hasTldrClass = pub.tldr ? "has-tldr" : "";
+      const tldrHtml = pub.tldr ? `
+          <div class="tldr-wrapper">
+              <span class="tldr-badge">TL;DR</span>
+              <p class="tldr-text">${pub.tldr}</p>
+          </div>` : "";
+      
       return `
-                <div class="publication-item">
+                <div class="publication-item reveal ${hasTldrClass}">
                     <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
                         <p class="publication-links">${linksFormatted}</p>
                     </div>
+                    ${tldrHtml}
                 </div>`;
     }).join('');
     
@@ -781,14 +797,22 @@ function generatePublicationsPage(config) {
       const authorsFormatted = highlightAuthorName(pub.authors, targetName);
       const linksFormatted = formatPublicationLinks(pub.links);
       
+      const hasTldrClass = pub.tldr ? "has-tldr" : "";
+      const tldrHtml = pub.tldr ? `
+          <div class="tldr-wrapper" style="flex-basis: 100%;">
+              <span class="tldr-badge">TL;DR</span>
+              <p class="tldr-text">${pub.tldr}</p>
+          </div>` : "";
+      
       return `
-                <div class="publication-item">
+                <div class="publication-item reveal ${hasTldrClass}">
                     <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
                         <p class="publication-links">${linksFormatted}</p>
                     </div>
+                    ${tldrHtml}
                 </div>`;
     }).join('');
     

@@ -10,18 +10,20 @@ html {
 }
 
 :root {
-    /* Colors */
-    --color-primary: #1a1a1a;
-    --color-secondary: #666666;
-    --color-accent: #2563eb;
+    /* Colors - Light Theme (Premium) */
+    --color-primary: #111827; /* Darker gray for higher contrast */
+    --color-secondary: #4b5563;
+    --color-accent: #4f46e5; /* Sophisticated Indigo */
+    --color-accent-hover: #4338ca;
     --color-background: #ffffff;
-    --color-surface: #f8fafc;
-    --color-border: #e2e8f0;
+    --color-surface: #f9fafb; /* Slightly softer than f8fafc */
+    --color-border: #e5e7eb;
     --color-success: #10b981;
     --color-warning: #f59e0b;
     
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-heading: 'Georgia', 'Times New Roman', serif; /* Added for premium headings */
     --font-size-xl: 2.25rem;
     --font-size-lg: 1.875rem;
     --font-size-md: 1.25rem;
@@ -40,11 +42,29 @@ html {
     
     /* Layout */
     --container-width: 1200px;
-    --content-width: 1100px;
-    --border-radius: 8px;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --transition: all 0.2s ease;
+    --content-width: 1000px; /* narrowed slightly for better readability */
+    --border-radius: 12px; /* Smoother corners */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* smoother easing */
+}
+
+/* Dark Mode Variables */
+[data-theme="dark"] {
+    --color-primary: #f9fafb;
+    --color-secondary: #9ca3af;
+    --color-accent: #818cf8;
+    --color-accent-hover: #6366f1;
+    --color-background: #0f172a; /* Deep slate */
+    --color-surface: #1e293b;
+    --color-border: #334155;
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -149,14 +169,17 @@ body {
 }
 
 .hero-title {
-    font-size: 2.25rem;
+    font-family: var(--font-heading);
+    font-size: 2.75rem;
     font-weight: 700;
     margin-bottom: 8px;
     color: var(--color-primary);
     line-height: 1.2;
+    letter-spacing: -0.02em;
 }
 
 .hero-title .aka {
+    font-family: var(--font-family);
     font-size: 1.5rem;
     font-weight: 400;
     color: var(--color-secondary);
@@ -229,25 +252,26 @@ body {
 .hero-link {
     display: inline-flex;
     align-items: center;
-    padding: 8px 12px;
-    background: var(--color-surface);
+    padding: 10px 16px;
+    background: var(--color-background);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     color: var(--color-primary);
-    transition: all 0.2s ease;
+    transition: var(--transition);
     min-width: 80px;
     justify-content: center;
+    box-shadow: var(--shadow-sm);
 }
 
 .hero-link:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
-    background: rgba(37, 99, 235, 0.05);
+    box-shadow: var(--shadow);
+    background: var(--color-surface);
 }
 
 .hero-link i {
@@ -295,13 +319,15 @@ body {
 }
 
 .section-title {
-    font-size: var(--font-size-lg);
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    font-weight: 700;
     margin-bottom: var(--spacing-2xl);
     padding-bottom: var(--spacing-sm);
     color: var(--color-primary);
     margin-left: 20px;
     position: relative;
+    letter-spacing: -0.01em;
 }
 
 .section-title::after {
@@ -774,16 +800,98 @@ body {
 
 .publication-item {
     display: flex;
-    gap: 20px;
-    margin-bottom: 40px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid rgba(55, 65, 81, 0.2);
+    flex-wrap: wrap; /* allow TL;DR to wrap below */
+    gap: 24px;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     align-items: flex-start;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition), z-index 0s 0.5s; /* delay z-index revert so outgoing popover finishes fading first */
+    position: relative;
+    z-index: 1;
+}
+
+.publication-item:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent);
+    transform: translateY(-4px);
+    z-index: 10;
+    transition: var(--transition), z-index 0s 0s; /* on hover, elevate z-index immediately */
+}
+
+/* TL;DR functionality - independent floating tooltip */
+.tldr-wrapper {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    /* Soft violet tint with glassmorphism */
+    background: rgba(247, 245, 255, 0.95); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    border: 1px solid #8b5cf6; /* Vibrant Violet - harmonizes with blue */
+    box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.15), 0 4px 6px -2px rgba(139, 92, 246, 0.05);
+    padding: 16px 24px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    /* Disappear fast (no delay) so the outgoing one clears immediately */
+    transition: opacity 0.25s ease-out 0s,
+                transform 0.25s ease-out 0s,
+                visibility 0s 0.25s;
+    z-index: 20;
+    pointer-events: none;
+}
+
+:root[data-theme="dark"] .tldr-wrapper {
+    /* Soft violet tint for dark mode */
+    background: rgba(38, 35, 56, 0.95);
+    border: 1px solid #a78bfa; /* Lighter violet for dark mode */
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+}
+
+/* Appear: wait a bit longer (0.2s) so outgoing popover fades before incoming shows */
+.publication-item.has-tldr:hover .tldr-wrapper {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                visibility 0s 0.2s;
+}
+
+.tldr-badge {
+    display: inline;
+    color: #8b5cf6; /* Matches border color perfectly */
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+}
+
+:root[data-theme="dark"] .tldr-badge {
+    color: #a78bfa; /* Match dark mode border */
+}
+
+.tldr-badge::after {
+    content: ":";
+}
+
+.tldr-text {
+    display: inline;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--color-text-light);
+    margin: 0;
 }
 
 .publication-item:last-child {
     margin-bottom: 0;
-    border-bottom: none;
 }
 
 .year-group {
@@ -1002,13 +1110,6 @@ body {
     cursor: default;
 }
 
-.publication-links i {
-    margin-right: 4px;
-    width: 14px;
-    text-align: center;
-    color: var(--color-secondary);
-}
-
 .publication-links .ai-arxiv {
     color: #b91c1c;
     font-family: 'Academicons';
@@ -1048,9 +1149,21 @@ body {
 
 .experience-item {
     display: flex;
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: 24px;
+    padding: 24px;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
     align-items: flex-start;
     gap: var(--spacing-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+
+.experience-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-accent);
 }
 
 .experience-item:last-child {
@@ -1482,6 +1595,46 @@ body {
         margin-bottom: 32px;
     }
     
+    .tldr-wrapper,
+    .publication-item.has-tldr:hover .tldr-wrapper {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        opacity: 0;
+        visibility: hidden;
+        max-height: 0;
+        overflow: hidden;
+        padding: 0 12px;
+        margin-top: 0;
+        width: 100%;
+        box-shadow: none !important;
+        background: rgba(139, 92, 246, 0.05); /* Soft violet tint */
+        border: 1px solid transparent;
+        border-top: none;
+        border-bottom: none;
+        /* Snappier close animation */
+        transition: max-height 0.3s cubic-bezier(0, 1, 0, 1), opacity 0.2s ease-out, margin 0.3s ease-out, padding 0.3s ease-out, border 0.3s ease-out;
+        transform: none !important;
+    }
+    
+    .publication-item.has-tldr.mobile-active .tldr-wrapper,
+    .publication-item.has-tldr.mobile-active:hover .tldr-wrapper {
+        opacity: 1;
+        visibility: visible;
+        /* Using a smaller max-height so it doesn't take forever to close */
+        max-height: 250px; 
+        padding: 12px;
+        margin-top: 8px;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        /* Smoother open animation */
+        transition: max-height 0.4s ease-in-out, opacity 0.3s ease-in 0.1s, margin 0.4s ease-in-out, padding 0.4s ease-in-out, border 0.4s ease-in-out;
+    }
+    
+    :root[data-theme="dark"] .publication-item.has-tldr.mobile-active .tldr-wrapper {
+        background: rgba(167, 139, 250, 0.05);
+        border: 1px solid rgba(167, 139, 250, 0.2);
+    }
+    
     .publication-image {
         width: 120px;
         height: 68px;
@@ -1614,8 +1767,8 @@ body {
         padding: 5px 12px;
     }
     
-    .publication-stats-bar .stat-divider {
-        display: none;
+    .mobile-menu-toggle {
+        display: block;
     }
     
     .publication-stats-bar .stat-item {
@@ -1624,4 +1777,16 @@ body {
         border-radius: 12px;
         font-size: 11px;
     }
-} 
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
