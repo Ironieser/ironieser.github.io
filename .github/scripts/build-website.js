@@ -799,7 +799,7 @@ function generatePublicationsPage(config) {
       
       const hasTldrClass = pub.tldr ? "has-tldr" : "";
       const tldrHtml = pub.tldr ? `
-          <div class="tldr-wrapper" style="flex-basis: 100%;">
+          <div class="tldr-wrapper">
               <span class="tldr-badge">TL;DR</span>
               <p class="tldr-text">${pub.tldr}</p>
           </div>` : "";
@@ -874,6 +874,7 @@ function generatePublicationsPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <script src="assets/js/script.js" defer></script>
 </head>
 <body>
     <!-- Navigation -->
