@@ -364,6 +364,12 @@ def generate_navigation(personal, active_page):
     return '\n                '.join(nav_items)
 
 
+BACK_TO_TOP_BUTTON = '''
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>'''
+
+
 
 def generate_footer(personal, template_info=None, visitor_map=None):
     """Generate footer HTML"""
@@ -494,7 +500,8 @@ def generate_index_page(config):
     publications = config['publications']
     template_info = config.get('_template_info')
     visitor_map = config.get('visitor_map')
-    
+    back_to_top = BACK_TO_TOP_BUTTON
+
     # Get selected publications (featured first, then recent)
     selected_pubs = []
     sorted_years = sorted([year for year in publications.keys() if year != 'survey'], reverse=True)
@@ -753,8 +760,9 @@ def generate_index_page(config):
         </section>
     </main>
 
+    {back_to_top}
     {generate_footer(personal, template_info, visitor_map)}
-    
+
     <script>
         // News filter functionality
         function initNewsFilter() {{
@@ -966,6 +974,7 @@ def generate_publications_page(config):
         </section>
     </main>
 
+    {BACK_TO_TOP_BUTTON}
     {generate_footer(personal, template_info, visitor_map)}
     
     {generate_common_scripts()}
@@ -1076,6 +1085,7 @@ def generate_blog_page(config):
         </div>
     </main>
 
+    {BACK_TO_TOP_BUTTON}
     {generate_footer(personal, template_info, visitor_map)}
     
     <script>

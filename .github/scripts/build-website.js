@@ -185,6 +185,11 @@ function generateNavigation(personal, activePage) {
   return navItems.join('\n                ') + '\n                ' + themeToggle;
 }
 
+const BACK_TO_TOP_BUTTON = `
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>`;
+
 function generateJsonLd(config) {
   const { personal, seo, publications } = config;
   
@@ -677,6 +682,7 @@ function generateIndexPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
@@ -919,6 +925,7 @@ function generatePublicationsPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     ${generateCommonScripts()}

@@ -93,6 +93,11 @@ function generateNavigation(personal, activePage) {
   return navItems.join('\n                ');
 }
 
+const BACK_TO_TOP_BUTTON = `
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>`;
+
 function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null) {
   const startYear = copyrightStartYear != null ? Number(copyrightStartYear) : 2025;
   const currentYear = new Date().getFullYear();
@@ -325,6 +330,7 @@ function generateBlogPage(config) {
         </div>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
