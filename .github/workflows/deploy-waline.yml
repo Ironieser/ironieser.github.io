@@ -1,5 +1,6 @@
 name: Deploy Waline Server
 
+# Deploys Waline comment server to Vercel. Runs only when waline-config/ exists (template has none; add folder + Vercel secrets to use).
 on:
   push:
     paths:
@@ -10,7 +11,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+    if: hashFiles('waline-config/**') != ''
     steps:
       - name: Checkout
         uses: actions/checkout@v4
