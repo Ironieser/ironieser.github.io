@@ -1,20 +1,20 @@
 {
   "personal": {
     "name": "Alex Zhang",
-    "aka": "AlexZ",
-    "title": "Multimodal Learning, VLM, LLM Agent",
-    "affiliation": "PhD Student, Example University, USA",
-    "email": "alex.zhang@example.edu",
+    "aka": "Still Trying to Graduate",
+    "title": "5th-Year PhD Student, VLM, LLM, Existential Crisis",
+    "affiliation": "PhD Candidate (Allegedly), University of Somewhere, Mars",
+    "email": "please-dont-email@example.edu",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_template.pdf",
     "bio": [
-      "I am a PhD student at Example University. I completed my Master's at Demo University under Professor <a href=\"#\" class=\"link\">Jane Smith</a>.",
-      "My research focuses on <em class=\"research-keywords\">multimodal AI systems</em> that bridge computer vision, natural language processing, and machine learning."
+      "I am a 5th-year PhD student at the University of Somewhere. I completed my Master's degree under Professor <a href=\"#\" class=\"link\">Jane Smith</a>, who deeply regrets taking me as a student.",
+      "My research focuses on <em class=\"research-keywords\">making large models slightly less wrong</em>. I have submitted 47 papers to CVPR; 3 of them were not desk-rejected."
     ],
     "links": [
       {
         "name": "Email",
-        "url": "mailto:alex.zhang@example.edu",
+        "url": "mailto:please-dont-email@example.edu",
         "icon": "fas fa-envelope",
         "color": "#dc3545"
       },
@@ -39,59 +39,58 @@
     ]
   },
   "research": {
-    "description": "My research focuses on <strong>multimodal AI systems</strong> that bridge computer vision, natural language processing, and machine learning.",
+    "description": "My research focuses on <strong>getting models to do what I want</strong> instead of what I asked. I work on vision-language models, LLM agents, and occasionally staring at loss curves hoping they go down.",
     "stats": [
-      "5+ publications",
-      "3 top-tier venues (CVPR, NeurIPS, ICLR)",
-      "1 CVPR Oral presentation"
+      "47 submissions (3 accepted)",
+      "Cited by my mom and 2 bots",
+      "1 Oral (it was a workshop)"
     ],
     "max_featured_publications": 6
   },
   "news": [
     {
-      "date": "Jan 2026",
+      "date": "Jan 2050",
       "icon": "🎉",
       "link": "https://arxiv.org/",
-      "content": "Paper on <strong>EfficientVLM</strong> {{link}} accepted to [[ICLR 2026]]!",
+      "content": "Paper on <strong>GPT-∞</strong> {{link}} accepted to [[CVPR 2050]]! My advisor finally smiled.",
       "category": "papers"
     },
     {
-      "date": "Sep 2025",
-      "icon": "🎉",
-      "link": "https://arxiv.org/",
-      "content": "<strong>DiffuseFeature</strong> {{link}} accepted to [[NeurIPS 2025]].",
+      "date": "Dec 2049",
+      "icon": "😭",
+      "content": "Paper rejected from <strong>ICLR 2050</strong> for the 4th consecutive year. Reviewers said it \"lacks novelty\" again. The paper is about a completely different topic each time.",
       "category": "papers"
     },
     {
-      "date": "May 2025",
+      "date": "Sep 2049",
+      "icon": "🎉",
+      "link": "https://arxiv.org/",
+      "content": "<strong>My Cat Predicted the Market</strong> {{link}} accepted to [[NeurIPS 2049]]. Cat receives co-authorship.",
+      "category": "papers"
+    },
+    {
+      "date": "Jun 2049",
       "icon": "💼",
-      "content": "Started GenAI Research Internship at <strong>ExampleCorp</strong>.",
+      "content": "Interned at <strong>ExampleCorp</strong> as Chief Coffee Drinker. Published 0 papers. Drank 847 cups of coffee.",
       "category": "career"
-    },
-    {
-      "date": "Mar 2022",
-      "icon": "🎉",
-      "link": "https://arxiv.org/",
-      "content": "Paper on <strong>ActionCount</strong> {{link}} accepted as <strong>🏆 oral presentation</strong> to [[CVPR 2022]]",
-      "category": "papers"
     }
   ],
   "publications": {
-    "2022": [
+    "2047": [
       {
-        "title": "ActionCount: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting",
+        "title": "We Added More Layers and It Worked: A Rigorous 147-Page Theoretical Justification",
         "authors": [
-          "Bob Li*",
           "Alex Zhang*",
-          "Carol Wang",
-          "Jane Smith"
+          "My GPU*",
+          "ChatGPT (for the writing)",
+          "Jane Smith (for the revisions)"
         ],
-        "venue": "CVPR'22",
+        "venue": "CVPR'50",
         "venue_type": "conference",
-        "image": "teaser/transrac.jpg",
+        "image": "teaser/conference.jpg",
         "is_oral": true,
         "featured": true,
-        "tldr": "Introduces a new dataset and a Transformer-based architecture to encode multi-scale temporal correlations, significantly improving repetitive action counting.",
+        "tldr": "We stacked more layers. It worked. We have no idea why. 147 pages of math that also have no idea why.",
         "links": [
           {
             "name": "Paper",
@@ -104,34 +103,28 @@
             "icon": "fab fa-github"
           },
           {
-            "name": "Dataset",
-            "url": "https://example.edu/dataset",
+            "name": "My Therapy Bill",
+            "url": "https://example.edu/",
             "icon": "fas fa-database"
-          },
-          {
-            "name": "YouTube",
-            "url": "https://youtube.com/",
-            "icon": "fab fa-youtube"
           }
         ],
-        "_scholar_citations": 95,
-        "_scholar_last_updated": "2026-03-01"
+        "_scholar_citations": 9999,
+        "_scholar_last_updated": "2050-01-01"
       }
     ],
-    "2025": [
+    "2048": [
       {
-        "title": "EfficientVLM: Multimodal Coverage Maximization for Efficient Inference of Vision-Language Models",
+        "title": "My Cat Predicted the Stock Market Better Than GPT-4: A Comprehensive Multimodal Study",
         "authors": [
           "Alex Zhang",
-          "Leo Hu",
-          "Mia Chen",
-          "Jane Smith"
+          "Mittens Zhang (Cat)",
+          "Jane Smith (very confused)"
         ],
-        "venue": "ICLR'26",
+        "venue": "NeurIPS'49",
         "venue_type": "conference",
-        "image": "teaser/agentic.jpg",
+        "image": "teaser/conference.jpg",
         "featured": true,
-        "tldr": "Proposes EfficientVLM to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining performance.",
+        "tldr": "We fine-tuned a VLM on cat behaviors. It outperformed all baselines on financial forecasting. Reviewers asked us to add more baselines. The cat refused.",
         "links": [
           {
             "name": "Paper",
@@ -139,59 +132,27 @@
             "icon": "ai ai-arxiv"
           },
           {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          },
-          {
-            "name": "Homepage",
-            "url": "#",
-            "icon": "fas fa-home"
-          }
-        ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-01"
-      },
-      {
-        "title": "DiffuseFeature: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
-        "authors": [
-          "Nancy Gong*",
-          "Zack Li*",
-          "Alex Zhang",
-          "Jane Smith"
-        ],
-        "venue": "NeurIPS'25",
-        "venue_type": "conference",
-        "image": "teaser/sculp.jpg",
-        "featured": true,
-        "tldr": "Proposes a reward-guided hierarchical diffusion model that sculpts data representations from noise to generate optimal feature transformations for downstream tasks.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
+            "name": "Cat's GitHub",
             "url": "https://github.com/",
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 7,
-        "_scholar_last_updated": "2026-03-01"
+        "_scholar_citations": 42,
+        "_scholar_last_updated": "2049-01-01"
       },
       {
-        "title": "AgentBench-101: Stress Testing Tool-enabled LLM Agents on Challenging Queries",
+        "title": "Prompting GPT to Review This Paper: An Automated Peer Review Study We Definitely Did Not Submit to a Real Venue",
         "authors": [
-          "Nick Yin",
           "Alex Zhang",
-          "Mia Chen"
+          "GPT-4",
+          "GPT-4 (Reviewer 2)",
+          "GPT-4 (Area Chair)"
         ],
-        "venue": "arXiv'2508",
+        "venue": "arXiv'2048",
         "venue_type": "preprint",
-        "image": "teaser/MCP101.jpg",
+        "image": "teaser/conference.jpg",
         "featured": false,
-        "tldr": "Constructs a stress-testing benchmark to evaluate and diagnose the limitations of tool-enabled LLM agents on complex queries.",
+        "tldr": "We asked GPT to write, review, and accept a paper about itself reviewing papers. It gave itself a strong accept. Humans gave it a strong reject.",
         "links": [
           {
             "name": "Paper",
@@ -207,19 +168,19 @@
         ]
       },
       {
-        "title": "TemporalNet: Multi-Variable Time Series as Video of Numerical Data",
+        "title": "A Survey of Surveys Surveying Survey Papers: The Meta-Survey (Under Review Since 2031)",
         "authors": [
           "Alex Zhang",
-          "Nancy Gong",
-          "Jane Smith"
+          "Bob Li",
+          "Everyone Who Has Ever Written a Survey"
         ],
-        "venue": "Under Review",
+        "venue": "Under Review (12 years)",
         "venue_type": "under-review",
-        "image": "teaser/underreview.jpg",
+        "image": "teaser/conference.jpg",
         "featured": false,
         "links": [
           {
-            "name": "Paper (Coming Soon)",
+            "name": "Paper (Still Under Review)",
             "url": null,
             "icon": "ai ai-arxiv",
             "coming_soon": true
@@ -230,38 +191,31 @@
   },
   "experience": [
     {
-      "position": "GenAI Research Intern",
-      "company": "ExampleCorp, GenAI Research Group",
-      "period": "May 2025 - Aug 2025",
-      "description": "Worked on VLM and LLM Agent research.",
+      "position": "Chief Coffee Drinker & Occasional Researcher",
+      "company": "ExampleCorp, The Department of Vibes",
+      "period": "Every Summer Since 2020",
+      "description": "Consumed 847 cups of coffee. Attended 312 meetings that could have been emails. Published 0 papers. Received return offer every year for unknown reasons.",
       "logo": "images/zoom.jpg"
-    },
-    {
-      "position": "Research Intern",
-      "company": "TechMedia Corp., Audio-Video Generation Department",
-      "period": "Apr 2023 - Aug 2023",
-      "description": "Led audio-driven talking head video generation research.",
-      "logo": "images/transsion.jpeg"
     }
   ],
   "education": [
     {
-      "degree": "PhD in Computer Science",
-      "institution": "Example University, USA",
-      "period": "2024 - Present",
-      "details": "Focus: Multimodal AI and Computer Vision"
+      "degree": "PhD in Computer Science (Expected: TBD, Possibly Never)",
+      "institution": "University of Somewhere, Mars",
+      "period": "2020 - ??? ",
+      "details": "Advisor: Prof. Jane Smith (on sabbatical, unreachable). Thesis topic changes every 6 months."
     },
     {
-      "degree": "M.S. in Computer Science",
-      "institution": "Demo University, China",
-      "period": "2021 - 2024",
-      "details": "Vision Lab, Advisor: Prof. Jane Smith"
+      "degree": "B.S. in Philosophy (Accidentally)",
+      "institution": "A Different University, Earth",
+      "period": "2016 - 2020",
+      "details": "Enrolled in CS. Graduated with Philosophy degree. Still not sure how."
     }
   ],
   "service": {
     "reviewer": {
-      "conferences": "CVPR (2023–2026), NeurIPS (2025), ICLR (2026)",
-      "journals": "IEEE Transactions on Multimedia"
+      "conferences": "CVPR, NeurIPS, ICLR, ICML, ECCV, ICCV, AAAI, IJCAI, WWW, KDD, ACL, EMNLP, NAACL, SIGIR, RecSys, WSDM, TheWebConf, MidwestML, My University's Internal Workshop, My Roommate's Blog",
+      "journals": "IEEE Transactions on Everything, Nature (once, by accident), My Advisor's Grant Applications"
     }
   }
 }
