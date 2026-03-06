@@ -1,14 +1,14 @@
 {
   "personal": {
-    "name": "Alex Zhang",
-    "aka": "Still Trying to Graduate",
+    "name": "Doge Zhang",
+    "aka": "Such Research, Very PhD, Wow",
     "title": "5th-Year PhD Student, VLM, LLM, Existential Crisis",
     "affiliation": "PhD Candidate (Allegedly), University of Somewhere, Mars",
     "email": "please-dont-email@example.edu",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_template.pdf",
     "bio": [
-      "I am a 5th-year PhD student at the University of Somewhere. I completed my Master's degree under Professor <a href=\"#\" class=\"link\">Jane Smith</a>, who deeply regrets taking me as a student.",
+      "I am a 5th-year PhD student at the University of Somewhere. I completed my Master's degree under Professor <a href=\"#\" class=\"link\">Hide-the-Pain Harold</a>, who deeply regrets taking me as a student.",
       "My research focuses on <em class=\"research-keywords\">making large models slightly less wrong</em>. I have submitted 47 papers to CVPR; 3 of them were not desk-rejected."
     ],
     "links": [
@@ -80,10 +80,10 @@
       {
         "title": "We Added More Layers and It Worked: A Rigorous 147-Page Theoretical Justification",
         "authors": [
-          "Alex Zhang*",
-          "My GPU*",
+          "Doge Zhang*",
+          "This-Is-Fine Chen*",
           "ChatGPT (for the writing)",
-          "Jane Smith (for the revisions)"
+          "Hide-the-Pain Harold (for the revisions)"
         ],
         "venue": "CVPR'50",
         "venue_type": "conference",
@@ -116,9 +116,9 @@
       {
         "title": "My Cat Predicted the Stock Market Better Than GPT-4: A Comprehensive Multimodal Study",
         "authors": [
-          "Alex Zhang",
-          "Mittens Zhang (Cat)",
-          "Jane Smith (very confused)"
+          "Doge Zhang",
+          "Crying Cat (First Author, Actually)",
+          "Distracted Wojak (very confused)"
         ],
         "venue": "NeurIPS'49",
         "venue_type": "conference",
@@ -143,10 +143,10 @@
       {
         "title": "Prompting GPT to Review This Paper: An Automated Peer Review Study We Definitely Did Not Submit to a Real Venue",
         "authors": [
-          "Alex Zhang",
+          "Doge Zhang",
           "GPT-4",
-          "GPT-4 (Reviewer 2)",
-          "GPT-4 (Area Chair)"
+          "GPT-4 (Reviewer 2, very harsh)",
+          "Gigachad (Area Chair, auto-accept)"
         ],
         "venue": "arXiv'2048",
         "venue_type": "preprint",
@@ -170,9 +170,10 @@
       {
         "title": "A Survey of Surveys Surveying Survey Papers: The Meta-Survey (Under Review Since 2031)",
         "authors": [
-          "Alex Zhang",
-          "Bob Li",
-          "Everyone Who Has Ever Written a Survey"
+          "Doge Zhang",
+          "NPC Liu",
+          "Crying Cat",
+          "et al. (every researcher who ever lived)"
         ],
         "venue": "Under Review (12 years)",
         "venue_type": "under-review",
@@ -203,7 +204,7 @@
       "degree": "PhD in Computer Science (Expected: TBD, Possibly Never)",
       "institution": "University of Somewhere, Mars",
       "period": "2020 - ??? ",
-      "details": "Advisor: Prof. Jane Smith (on sabbatical, unreachable). Thesis topic changes every 6 months."
+      "details": "Advisor: Prof. Hide-the-Pain Harold (on sabbatical, unreachable). Thesis topic changes every 6 months."
     },
     {
       "degree": "B.S. in Philosophy (Accidentally)",
