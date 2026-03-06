@@ -230,6 +230,8 @@ function generateBlogPage(config) {
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

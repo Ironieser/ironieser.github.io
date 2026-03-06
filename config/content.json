@@ -57,7 +57,7 @@
       "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV, ICASSP, 3DV )",
       "1 CVPR Oral presentation"
     ],
-    "max_featured_publications": 7
+    "max_featured_publications": 10
   },
   "news": [
     {
@@ -793,7 +793,7 @@
         "venue": "ICASSP'26",
         "venue_type": "conference",
         "image": "teaser/judge-editor.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "Proposes an LLM-agent-based post-ASR correction framework for dysarthric speech recognition that focuses on semantic accuracy rather than just minimizing Word Error Rate (WER).",
         "links": [
           {

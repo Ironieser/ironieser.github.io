@@ -358,7 +358,11 @@ def generate_navigation(personal, active_page):
         target = 'target="_blank"' if name == 'CV(PDF)' else ''
         nav_items.append(f'<a href="{url}" class="nav-link {is_active}" {target}>{name}</a>')
     
+    theme_toggle = '<button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><span class="theme-icon">🌓</span></button>'
+    nav_items.append(theme_toggle)
+    
     return '\n                '.join(nav_items)
+
 
 
 def generate_footer(personal, template_info=None, visitor_map=None):
@@ -623,6 +627,8 @@ def generate_index_page(config):
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){{var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -909,6 +915,8 @@ def generate_publications_page(config):
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){{var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -979,6 +987,8 @@ def generate_blog_page(config):
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){{var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

@@ -180,7 +180,9 @@ function generateNavigation(personal, activePage) {
     return `<a href="${url}" class="nav-link ${isActive}" ${target}>${name}</a>`;
   });
   
-  return navItems.join('\n                ');
+  const themeToggle = `<button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><span class="theme-icon">🌓</span></button>`;
+  
+  return navItems.join('\n                ') + '\n                ' + themeToggle;
 }
 
 function generateJsonLd(config) {
@@ -521,6 +523,8 @@ function generateIndexPage(config) {
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -836,6 +840,8 @@ function generatePublicationsPage(config) {
   License: MIT
 -->
 <html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');})();</script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
