@@ -9,7 +9,7 @@
     "cv_link": "files/CV_template.pdf",
     "bio": [
       "I am a PhD student at Example University. I completed my Master's at Demo University under Professor <a href=\"#\" class=\"link\">Jane Smith</a>.",
-      "My research focuses on <em class=\"research-keywords\">multimodal AI systems</em> that bridge computer vision, natural language processing, and machine learning, with different applications."
+      "My research focuses on <em class=\"research-keywords\">multimodal AI systems</em> that bridge computer vision, natural language processing, and machine learning."
     ],
     "links": [
       {
@@ -35,56 +35,24 @@
         "url": "https://twitter.com/",
         "icon": "fab fa-twitter",
         "color": "#1da1f2"
-      },
-      {
-        "name": "LinkedIn",
-        "url": "https://www.linkedin.com/",
-        "icon": "fab fa-linkedin",
-        "color": "#1666C5"
-      },
-      {
-        "name": "知乎",
-        "url": "https://www.zhihu.com/",
-        "icon": "fas fa-book",
-        "color": "#0084ff"
       }
     ]
   },
   "research": {
-    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong> that bridge computer vision, natural language processing, and machine learning. I work on developing intelligent agents that can understand and generate content across multiple modalities, with applications in video analysis, time series forecasting, and feature transformation.",
+    "description": "My research focuses on <strong>multimodal AI systems</strong> that bridge computer vision, natural language processing, and machine learning.",
     "stats": [
-      "10+ publications",
-      "6 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV)",
+      "5+ publications",
+      "3 top-tier venues (CVPR, NeurIPS, ICLR)",
       "1 CVPR Oral presentation"
     ],
-    "max_featured_publications": 10
+    "max_featured_publications": 6
   },
   "news": [
     {
-      "date": "Mar 2026",
-      "icon": "🛠️",
-      "content": "Homepage updated with <strong>TL;DR popovers</strong> for all publications — hover on desktop or tap on mobile to see a one-sentence summary of each paper.",
-      "category": "projects"
-    },
-    {
-      "date": "Feb 2026",
-      "icon": "📄",
-      "link": "https://arxiv.org/",
-      "content": "New preprint on <strong>Reasoning in Vision-Language Models</strong> {{link}} released on arXiv",
-      "category": "papers"
-    },
-    {
       "date": "Jan 2026",
       "icon": "🎉",
       "link": "https://arxiv.org/",
-      "content": "Paper on <strong>EfficientVLM</strong> {{link}} accepted to [[ICLR 2026]]! Thanks to all coauthors.",
-      "category": "papers"
-    },
-    {
-      "date": "Jan 2026",
-      "icon": "🎉",
-      "link": "https://arxiv.org/",
-      "content": "<strong>RobustASR</strong> {{link}} accepted to [[ICASSP 2026]].",
+      "content": "Paper on <strong>EfficientVLM</strong> {{link}} accepted to [[ICLR 2026]]!",
       "category": "papers"
     },
     {
@@ -95,43 +63,10 @@
       "category": "papers"
     },
     {
-      "date": "Aug 2025",
-      "icon": "💼",
-      "content": "Completed GenAI Research Internship at <strong>ExampleCorp</strong>, focusing on efficient vision–language modeling.",
-      "category": "career"
-    },
-    {
-      "date": "Aug 2025",
-      "icon": "📄",
-      "link": "https://arxiv.org/",
-      "content": "New benchmark paper <strong>AgentBench-101</strong> {{link}} released on arXiv",
-      "category": "papers"
-    },
-    {
       "date": "May 2025",
       "icon": "💼",
-      "content": "Started GenAI Research Internship at <strong>ExampleCorp</strong> focusing on efficient vision-language modeling",
+      "content": "Started GenAI Research Internship at <strong>ExampleCorp</strong>.",
       "category": "career"
-    },
-    {
-      "date": "Jan 2024",
-      "icon": "💼",
-      "content": "Completed <strong>Team Leader</strong> internship at <strong>DigitalHuman Inc.</strong>, leading co-speech gesture generation and 3D human body reconstruction projects.",
-      "category": "career"
-    },
-    {
-      "date": "Feb 2024",
-      "icon": "🎉",
-      "link": "https://arxiv.org/",
-      "content": "Paper on <strong>MultiTool-LM</strong> {{link}} accepted to [[WACV 2024]]",
-      "category": "papers"
-    },
-    {
-      "date": "Mar 2023",
-      "icon": "🎉",
-      "link": "https://arxiv.org/",
-      "content": "Paper on <strong>VideoAlign</strong> {{link}} accepted to [[CVPR 2023]]",
-      "category": "papers"
     },
     {
       "date": "Mar 2022",
@@ -149,8 +84,6 @@
           "Bob Li*",
           "Alex Zhang*",
           "Carol Wang",
-          "David Chen",
-          "Emma Liu",
           "Jane Smith"
         ],
         "venue": "CVPR'22",
@@ -179,122 +112,9 @@
             "name": "YouTube",
             "url": "https://youtube.com/",
             "icon": "fab fa-youtube"
-          },
-          {
-            "name": "Bilibili",
-            "url": "https://bilibili.com/",
-            "icon": "fas fa-tv"
-          },
-          {
-            "name": "知乎",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
           }
         ],
         "_scholar_citations": 95,
-        "_scholar_last_updated": "2026-03-01"
-      }
-    ],
-    "2023": [
-      {
-        "title": "VideoAlign: Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos",
-        "authors": [
-          "Alex Zhang*",
-          "Bob Li*",
-          "Carol Wang",
-          "David Chen",
-          "Emma Liu",
-          "Jane Smith"
-        ],
-        "venue": "CVPR'23",
-        "venue_type": "conference",
-        "image": "teaser/weaksvr.jpg",
-        "featured": true,
-        "tldr": "Proposes a weakly supervised approach for sequential video representation learning using unaligned text, reducing reliance on fine-grained video-text alignment annotations.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          },
-          {
-            "name": "YouTube",
-            "url": "https://youtube.com/",
-            "icon": "fab fa-youtube"
-          },
-          {
-            "name": "知乎",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
-          }
-        ],
-        "_scholar_citations": 25,
-        "_scholar_last_updated": "2026-03-01"
-      }
-    ],
-    "2024": [
-      {
-        "title": "MultiTool-LM: A Multimodal Large Language Model For Tool Agent Learning",
-        "authors": [
-          "Frank Zhou",
-          "George Wu",
-          "Alex Zhang",
-          "Helen Xu",
-          "Ivan Yang",
-          "Jane Smith"
-        ],
-        "venue": "WACV'25",
-        "venue_type": "conference",
-        "image": "teaser/mmtool.jpg",
-        "featured": true,
-        "tldr": "Introduces a framework and specialized dataset to empower Multimodal Large Language Models with the ability to understand, learn, and invoke external tools.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          }
-        ],
-        "_scholar_citations": 77,
-        "_scholar_last_updated": "2026-03-01"
-      },
-      {
-        "title": "SceneGen: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
-        "authors": [
-          "Carol Wang",
-          "Kevin Zhao",
-          "Jessica Lin",
-          "Alex Zhang",
-          "Jane Smith"
-        ],
-        "venue": "3DV'24",
-        "venue_type": "conference",
-        "image": "teaser/room.jpg",
-        "featured": false,
-        "tldr": "Presents SceneGen, which encodes anchor-latents to guide the generation of 3D indoor scenes that are both style-consistent and shape-compatible.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          }
-        ],
-        "_scholar_citations": 17,
         "_scholar_last_updated": "2026-03-01"
       }
     ],
@@ -305,9 +125,7 @@
           "Alex Zhang",
           "Leo Hu",
           "Mia Chen",
-          "Nick Yin",
-          "Olivia Fu",
-          "Peter Qian"
+          "Jane Smith"
         ],
         "venue": "ICLR'26",
         "venue_type": "conference",
@@ -327,149 +145,11 @@
           },
           {
             "name": "Homepage",
-            "url": "https://example.edu/projects/efficientvlm",
-            "icon": "fas fa-home"
-          },
-          {
-            "name": "Blog",
             "url": "#",
-            "icon": "fas fa-blog"
-          },
-          {
-            "name": "知乎",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
+            "icon": "fas fa-home"
           }
         ],
         "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-01"
-      },
-      {
-        "title": "AgentBench-101: Stress Testing and Diagnosing Tool-enabled LLM Agents on Challenging Queries",
-        "authors": [
-          "Nick Yin",
-          "Daniel Shen",
-          "Silvia Xu",
-          "Jason Han",
-          "Alex Zhang",
-          "Mia Chen",
-          "Rachel Hu",
-          "Sam Liu"
-        ],
-        "venue": "arXiv'2508",
-        "venue_type": "preprint",
-        "image": "teaser/MCP101.jpg",
-        "featured": false,
-        "tldr": "Constructs a stress-testing benchmark to evaluate and diagnose the stability and limitations of tool-enabled LLM agents when handling complex, challenging queries.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": null,
-            "icon": "fab fa-github",
-            "coming_soon": true
-          },
-          {
-            "name": "Benchmark",
-            "url": null,
-            "icon": "fas fa-database",
-            "coming_soon": true
-          },
-          {
-            "name": "知乎",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
-          }
-        ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-01"
-      },
-      {
-        "title": "TimesCLIP: Teaching Time Series to See and Speak with Aligned Visual and Textual Perspectives",
-        "authors": [
-          "Alex Zhang",
-          "Wei Fan",
-          "Teresa Wu",
-          "Olivia Fu"
-        ],
-        "venue": "arXiv'2506",
-        "venue_type": "under-review",
-        "image": "teaser/sculp.jpg",
-        "featured": true,
-        "tldr": "Proposes TimesCLIP, aligning time series data with visual and textual multi-modal perspectives to enhance both short-term and long-term forecasting performance.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          },
-          {
-            "name": "Homepage",
-            "url": "#",
-            "icon": "fas fa-home"
-          },
-          {
-            "name": "Blog",
-            "url": "#",
-            "icon": "fas fa-blog"
-          }
-        ],
-        "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-03-01"
-      },
-      {
-        "title": "TemporalNet: Multi-Variable Time Series as Video of Numerical Data",
-        "authors": [
-          "Alex Zhang",
-          "Nancy Gong",
-          "Haoyue Bai",
-          "Xinyu Wang",
-          "Wei Fan",
-          "Olivia Fu"
-        ],
-        "venue": "Under Review",
-        "venue_type": "under-review",
-        "image": "teaser/underreview.jpg",
-        "featured": false,
-        "links": [
-          {
-            "name": "Paper (Coming Soon)",
-            "url": null,
-            "icon": "ai ai-arxiv",
-            "coming_soon": true
-          }
-        ]
-      },
-      {
-        "title": "AgentFeature: Unifying Selection and Generation with Teaming, Planning, and Memories",
-        "authors": [
-          "Nancy Gong*",
-          "Alex Zhang*",
-          "Haoyue Bai",
-          "Xinyu Wang",
-          "Olivia Fu"
-        ],
-        "venue": "arXiv'2505",
-        "venue_type": "under-review",
-        "image": "teaser/agentFt.jpg",
-        "tldr": "Builds an LLM-driven agentic framework that unifies feature selection and generation through collaborative teaming, task planning, and memory mechanisms.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 10,
         "_scholar_last_updated": "2026-03-01"
       },
       {
@@ -478,8 +158,7 @@
           "Nancy Gong*",
           "Zack Li*",
           "Alex Zhang",
-          "Haoyue Bai",
-          "Olivia Fu"
+          "Jane Smith"
         ],
         "venue": "NeurIPS'25",
         "venue_type": "conference",
@@ -496,29 +175,23 @@
             "name": "Code",
             "url": "https://github.com/",
             "icon": "fab fa-github"
-          },
-          {
-            "name": "知乎",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
           }
         ],
         "_scholar_citations": 7,
         "_scholar_last_updated": "2026-03-01"
       },
       {
-        "title": "LatentReason: Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
+        "title": "AgentBench-101: Stress Testing Tool-enabled LLM Agents on Challenging Queries",
         "authors": [
-          "Xinyu Wang",
-          "Dongjie Wang",
-          "Nancy Gong",
+          "Nick Yin",
           "Alex Zhang",
-          "Olivia Fu"
+          "Mia Chen"
         ],
-        "venue": "AAAI'26",
-        "venue_type": "conference",
-        "image": "teaser/efficientreasoning.jpg",
-        "tldr": "Proposes an efficient post-training refinement strategy to optimize and unlock the logical reasoning capabilities of LLMs within their latent representation space.",
+        "venue": "arXiv'2508",
+        "venue_type": "preprint",
+        "image": "teaser/MCP101.jpg",
+        "featured": false,
+        "tldr": "Constructs a stress-testing benchmark to evaluate and diagnose the limitations of tool-enabled LLM agents on complex queries.",
         "links": [
           {
             "name": "Paper",
@@ -527,96 +200,31 @@
           },
           {
             "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          }
-        ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-01"
-      }
-    ],
-    "2026": [
-      {
-        "title": "To Reason or Not To Reason: Large Reasoning Models in Theory of Mind Tasks",
-        "authors": [
-          "Nancy Gong",
-          "Henry Li",
-          "Alex Zhang",
-          "James Lian",
-          "Olivia Fu",
-          "Xing Xie"
-        ],
-        "venue": "arXiv'2602",
-        "venue_type": "preprint",
-        "image": "teaser/think_tom.jpg",
-        "featured": true,
-        "tldr": "Investigates Large Reasoning Models on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
+            "url": null,
+            "icon": "fab fa-github",
+            "coming_soon": true
           }
         ]
       },
       {
-        "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
+        "title": "TemporalNet: Multi-Variable Time Series as Video of Numerical Data",
         "authors": [
-          "Wendy Zheng",
           "Alex Zhang",
-          "Bora Phukon",
-          "Mark Johnson",
-          "Chang Yoo"
+          "Nancy Gong",
+          "Jane Smith"
         ],
-        "venue": "ICASSP'26",
-        "venue_type": "conference",
-        "image": "teaser/judge-editor.jpg",
-        "featured": true,
-        "tldr": "Proposes an LLM-agent-based post-ASR correction framework for dysarthric speech recognition focusing on semantic accuracy rather than just minimizing Word Error Rate.",
+        "venue": "Under Review",
+        "venue_type": "under-review",
+        "image": "teaser/underreview.jpg",
+        "featured": false,
         "links": [
           {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          },
-          {
-            "name": "Code",
-            "url": "https://github.com/",
-            "icon": "fab fa-github"
-          },
-          {
-            "name": "Dataset",
-            "url": "https://huggingface.co/",
-            "icon": "fas fa-database"
+            "name": "Paper (Coming Soon)",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
           }
         ]
-      }
-    ],
-    "survey": [
-      {
-        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
-        "authors": [
-          "Dongjie Wang",
-          "Yanyong Huang",
-          "Nancy Gong",
-          "Xinyu Wang",
-          "Alex Zhang",
-          "et al."
-        ],
-        "venue": "TKDD'26",
-        "venue_type": "journal",
-        "image": "teaser/underreview.jpg",
-        "featured": true,
-        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional methods, reinforcement learning, and generative AI approaches.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 20,
-        "_scholar_last_updated": "2026-03-01"
       }
     ]
   },
@@ -625,21 +233,14 @@
       "position": "GenAI Research Intern",
       "company": "ExampleCorp, GenAI Research Group",
       "period": "May 2025 - Aug 2025",
-      "description": "Worked on VLM and LLM Agent. Published one first-author paper on efficient VLM inference and two collaborative papers on LLM evaluation.",
+      "description": "Worked on VLM and LLM Agent research.",
       "logo": "images/zoom.jpg"
     },
     {
-      "position": "Research Intern (Team Leader)",
-      "company": "DigitalHuman Inc., Digital Human Algorithm Department",
-      "period": "Aug 2023 - Jan 2024",
-      "description": "Led digital human projects: co-speech gesture generation and 3D human body reconstruction with <7% measurement error.",
-      "logo": "images/dgene.jpeg"
-    },
-    {
-      "position": "Research Intern (Team Leader)",
+      "position": "Research Intern",
       "company": "TechMedia Corp., Audio-Video Generation Department",
       "period": "Apr 2023 - Aug 2023",
-      "description": "Led audio-driven talking head video generation research, achieving SoTA performance in commercial and academic benchmarks.",
+      "description": "Led audio-driven talking head video generation research.",
       "logo": "images/transsion.jpeg"
     }
   ],
@@ -655,18 +256,12 @@
       "institution": "Demo University, China",
       "period": "2021 - 2024",
       "details": "Vision Lab, Advisor: Prof. Jane Smith"
-    },
-    {
-      "degree": "B.E. in Computer Science",
-      "institution": "Sample University, China",
-      "period": "2016 - 2020",
-      "details": ""
     }
   ],
   "service": {
     "reviewer": {
-      "conferences": "CVPR (2023–2026), ICCV (2023, 2025), ECCV (2024, 2026), NeurIPS (2025), ICML (2025, 2026), ICLR (2026), ACM MM (2023–2025)",
-      "journals": "IEEE Transactions on Multimedia, Neural Networks (Elsevier), ACM Transactions on Knowledge Discovery from Data"
+      "conferences": "CVPR (2023–2026), NeurIPS (2025), ICLR (2026)",
+      "journals": "IEEE Transactions on Multimedia"
     }
   }
 }
