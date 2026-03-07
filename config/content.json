@@ -885,18 +885,11 @@
       "logo": "images/zoom.jpg"
     },
     {
-      "position": "Research Intern (Team Leader)",
-      "company": "DGene, Digital Human Algorithm Department",
-      "period": "Aug 2023 - Jan 2024",
-      "description": "Led digital human projects: co-speech gesture generation and 3D human body reconstruction with <7% measurement error.",
+      "position": "Research Intern",
+      "company": "DGene Digital Technology Co., Ltd., Digital Human Algorithm Department",
+      "period": "May 2023 - Jan 2024",
+      "description": "Led digital human projects: (1) audio-driven talking head video generation, achieving SoTA on commercial and academic benchmarks; (2) 3D human body reconstruction with <7% measurement error; (3) co-speech gesture generation.",
       "logo": "images/dgene.jpeg"
-    },
-    {
-      "position": "Research Intern (Team Leader)",
-      "company": "Transsion Holdings, Audio-Video Generation Department",
-      "period": "Apr 2023 - Aug 2023",
-      "description": "Led audio-driven talking head video generation research, achieving SoTA performance in commercial and academic benchmarks.",
-      "logo": "images/transsion.jpeg"
     }
   ],
   "education": [
