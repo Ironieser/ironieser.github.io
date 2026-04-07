@@ -64,7 +64,7 @@
       "date": "Apr 2026",
       "icon": "📄",
       "link": "https://arxiv.org/abs/2604.04929",
-      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — multi-agent VLM inference with short large-model outputs and reused small-model reasoning, released on arXiv",
+      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — large VLMs with short outputs beat small models with long reasoning; we introduce a multi-agent framework to achieve this, released on arXiv",
       "category": "papers"
     },
     {
@@ -778,7 +778,7 @@
         "venue_type": "preprint",
         "image": "teaser/rethinking_MAI.jpg",
         "featured": true,
-        "tldr": "Analyzes VLM end-to-end latency versus decoder length and shows large models with fewer output tokens can outperform smaller models with long generations; proposes multi-agent inference that transfers key reasoning tokens from a small model when needed.",
+        "tldr": "Rethinking Model Efficiency shows large VLMs with short outputs beat small models with long reasoning. We introduce a multi-agent framework to achieve this.",
         "links": [
           {
             "name": "Paper",
