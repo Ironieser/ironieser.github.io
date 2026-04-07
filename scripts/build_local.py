@@ -29,6 +29,18 @@ if os.path.basename(script_dir) == 'scripts':
     os.chdir(project_root)
 
 
+def publication_image_src(image_path):
+    """Append mtime ?v= to relative teaser paths so replaced images bypass browser/CDN cache."""
+    if not image_path or image_path.startswith(('http://', 'https://', '//')):
+        return image_path
+    clean = image_path.split('?')[0].strip()
+    full = os.path.join(project_root, clean)
+    if os.path.isfile(full):
+        v = int(os.path.getmtime(full))
+        return f"{clean}?v={v}"
+    return clean
+
+
 def load_config():
     """Load configuration: config/meta.json + config/content.json + config/site.yaml (optional)."""
     content_path = 'config/content.json'
@@ -588,7 +600,7 @@ def generate_index_page(config):
         
         pubs_html.append(f'''
             <div class="publication-item reveal {has_tldr_class}">
-                <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title">{venue_badge} {pub['title']}</p>
                     <p class="publication-authors">{authors_formatted}</p>
@@ -861,7 +873,7 @@ def generate_publications_page(config):
             
             pub_items.append(f'''
                 <div class="publication-item reveal {has_tldr_class}">
-                    <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>
@@ -895,7 +907,7 @@ def generate_publications_page(config):
             
             survey_items.append(f'''
                 <div class="publication-item reveal {has_tldr_class}">
-                    <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>

@@ -22,6 +22,25 @@ const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
 const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
+const PROJECT_ROOT = path.join(__dirname, '../..');
+
+/** Append mtime ?v= to local teaser paths so browsers/CDNs fetch after image replacement. */
+function publicationImageSrc(imagePath) {
+  if (!imagePath || /^https?:\/\//i.test(imagePath) || imagePath.startsWith('//')) {
+    return imagePath;
+  }
+  const clean = imagePath.split('?')[0].trim();
+  const full = path.join(PROJECT_ROOT, clean);
+  try {
+    const st = fs.statSync(full);
+    if (st.isFile()) {
+      return `${clean}?v=${Math.floor(st.mtimeMs / 1000)}`;
+    }
+  } catch (_) {
+    /* missing file */
+  }
+  return clean;
+}
 
 /**
  * Generate Cloudflare Pages style _redirects file from config.json
@@ -483,7 +502,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -781,7 +800,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -816,7 +835,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
