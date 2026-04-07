@@ -15,6 +15,7 @@ Description: Local development tool for the config-driven academic website templ
 Usage: python scripts/build_local.py
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -30,14 +31,17 @@ if os.path.basename(script_dir) == 'scripts':
 
 
 def publication_image_src(image_path):
-    """Append mtime ?v= to relative teaser paths so replaced images bypass browser/CDN cache."""
+    """Append content-hash ?v= to relative teaser paths (stable across CI runs; busts only when bytes change)."""
     if not image_path or image_path.startswith(('http://', 'https://', '//')):
         return image_path
     clean = image_path.split('?')[0].strip()
     full = os.path.join(project_root, clean)
     if os.path.isfile(full):
-        v = int(os.path.getmtime(full))
-        return f"{clean}?v={v}"
+        h = hashlib.sha256()
+        with open(full, 'rb') as f:
+            for chunk in iter(lambda: f.read(65536), b''):
+                h.update(chunk)
+        return f"{clean}?v={h.hexdigest()[:8]}"
     return clean
 
 

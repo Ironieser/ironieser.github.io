@@ -9,6 +9,7 @@
  * @description Generates HTML files from content.json + meta.json for academic websites
  */
 
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -24,7 +25,7 @@ const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
 const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
 const PROJECT_ROOT = path.join(__dirname, '../..');
 
-/** Append mtime ?v= to local teaser paths so browsers/CDNs fetch after image replacement. */
+/** Append content-hash ?v= to local teaser paths (stable across CI; busts only when file bytes change). */
 function publicationImageSrc(imagePath) {
   if (!imagePath || /^https?:\/\//i.test(imagePath) || imagePath.startsWith('//')) {
     return imagePath;
@@ -32,10 +33,9 @@ function publicationImageSrc(imagePath) {
   const clean = imagePath.split('?')[0].trim();
   const full = path.join(PROJECT_ROOT, clean);
   try {
-    const st = fs.statSync(full);
-    if (st.isFile()) {
-      return `${clean}?v=${Math.floor(st.mtimeMs / 1000)}`;
-    }
+    const buf = fs.readFileSync(full);
+    const hash = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 8);
+    return `${clean}?v=${hash}`;
   } catch (_) {
     /* missing file */
   }
