@@ -61,6 +61,13 @@
   },
   "news": [
     {
+      "date": "Apr 2026",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2604.04929",
+      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — multi-agent inference with large VLMs, released on arXiv",
+      "category": "papers"
+    },
+    {
       "date": "Mar 2026",
       "icon": "🛠️",
       "content": "Homepage updated with <strong>TL;DR popovers</strong> for all publications — hover on desktop or tap on mobile to see a one-sentence summary of each paper.",
