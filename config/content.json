@@ -64,7 +64,7 @@
       "date": "Apr 2026",
       "icon": "📄",
       "link": "https://arxiv.org/abs/2604.04929",
-      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — shows large VLMs with short outputs beat small models doing long reasoning. We introduce a multi-agent framework to leverage this by offloading the heavy reasoning. Released on arXiv.",
+      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — accelerating large VLM inference by reusing reasoning tokens from small models. Released on arXiv.",
       "category": "papers"
     },
     {
