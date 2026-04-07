@@ -759,6 +759,28 @@
     ],
     "2026": [
       {
+        "title": "Rethinking Model Efficiency: Multi-Agent Inference with Large Models",
+        "authors": [
+          "Sixun Dong",
+          "Juhua Hu",
+          "Steven Li",
+          "Wei Wen",
+          "Qi Qian"
+        ],
+        "venue": "arXiv'2604",
+        "venue_type": "preprint",
+        "image": "teaser/preprint.jpg",
+        "featured": true,
+        "tldr": "Analyzes VLM end-to-end latency versus decoder length and shows large models with fewer output tokens can outperform smaller models with long generations; proposes multi-agent inference that transfers key reasoning tokens from a small model when needed.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2604.04929",
+            "icon": "ai ai-arxiv"
+          }
+        ]
+      },
+      {
         "title": "To Think or Not To Think, That is The Question for Large Reasoning Models in Theory of Mind Tasks",
         "authors": [
           "Nanxu Gong",
