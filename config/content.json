@@ -769,7 +769,7 @@
         ],
         "venue": "arXiv'2604",
         "venue_type": "preprint",
-        "image": "teaser/preprint.jpg",
+        "image": "teaser/rethinking_MAI.jpg",
         "featured": true,
         "tldr": "Analyzes VLM end-to-end latency versus decoder length and shows large models with fewer output tokens can outperform smaller models with long generations; proposes multi-agent inference that transfers key reasoning tokens from a small model when needed.",
         "links": [
