@@ -9,6 +9,7 @@
  * @description Generates HTML files from content.json + meta.json for academic websites
  */
 
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -22,6 +23,24 @@ const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
 const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
+const PROJECT_ROOT = path.join(__dirname, '../..');
+
+/** Append content-hash ?v= to local teaser paths (stable across CI; busts only when file bytes change). */
+function publicationImageSrc(imagePath) {
+  if (!imagePath || /^https?:\/\//i.test(imagePath) || imagePath.startsWith('//')) {
+    return imagePath;
+  }
+  const clean = imagePath.split('?')[0].trim();
+  const full = path.join(PROJECT_ROOT, clean);
+  try {
+    const buf = fs.readFileSync(full);
+    const hash = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 8);
+    return `${clean}?v=${hash}`;
+  } catch (_) {
+    /* missing file */
+  }
+  return clean;
+}
 
 /**
  * Generate Cloudflare Pages style _redirects file from config.json
@@ -166,6 +185,125 @@ function formatPublicationLinks(links) {
   return linkItems.join(' / ');
 }
 
+function getPublicationPaperLink(pub) {
+  if (!pub || !Array.isArray(pub.links)) return null;
+  const paperLink = pub.links.find(link => (
+    link &&
+    typeof link.name === 'string' &&
+    link.name.trim().toLowerCase() === 'paper' &&
+    link.url
+  ));
+  return paperLink ? paperLink.url : null;
+}
+
+function flattenPublicationsByYear(publications) {
+  if (!publications) return [];
+  const years = Object.keys(publications).filter(year => year !== 'survey').sort().reverse();
+  const list = [];
+  for (const year of years) {
+    const yearPubs = Array.isArray(publications[year]) ? publications[year] : [];
+    yearPubs.forEach(pub => list.push({ ...pub, _year: Number(year) || year }));
+  }
+  return list;
+}
+
+function isLeadAuthor(authors, personalName) {
+  if (!Array.isArray(authors) || !authors.length || !personalName) return false;
+  const normalizedPersonal = String(personalName).replace(/[*†]/g, '').trim().toLowerCase();
+  return authors.some((author, idx) => {
+    const raw = String(author || '').trim();
+    const normalized = raw.replace(/[*†]/g, '').trim().toLowerCase();
+    if (normalized !== normalizedPersonal) return false;
+    return idx === 0 || /[*†]/.test(raw);
+  });
+}
+
+function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
+  if (!roadmapConfig || roadmapConfig.enabled === false) return null;
+
+  const allPubs = flattenPublicationsByYear(publications);
+  const pubByPaperUrl = new Map();
+  allPubs.forEach(pub => {
+    const paperUrl = getPublicationPaperLink(pub);
+    if (paperUrl) pubByPaperUrl.set(paperUrl, pub);
+  });
+
+  const tracks = Array.isArray(roadmapConfig.tracks) ? roadmapConfig.tracks : [];
+  const filters = Array.isArray(roadmapConfig.filters) ? roadmapConfig.filters : [];
+  const stages = Array.isArray(roadmapConfig.stages) ? roadmapConfig.stages : [];
+  const ongoing = Array.isArray(roadmapConfig.ongoing) ? roadmapConfig.ongoing : [];
+  const visionLoop = roadmapConfig.vision_loop && typeof roadmapConfig.vision_loop === 'object'
+    ? roadmapConfig.vision_loop
+    : null;
+  const trackIds = new Set(tracks.map(t => t.id));
+  const rawNodes = Array.isArray(roadmapConfig.nodes) ? roadmapConfig.nodes : [];
+  const nodes = rawNodes.map(node => {
+    const pub = node.paper_url ? pubByPaperUrl.get(node.paper_url) : null;
+    const links = pub?.links || node.links || [];
+    return {
+      id: node.id,
+      track: node.track,
+      year: node.year || pub?._year || null,
+      title: node.title || pub?.title || 'Untitled Paper',
+      authors: Array.isArray(node.authors) ? node.authors : (pub?.authors || []),
+      short_label: node.short_label || '',
+      group: node.group || '',
+      tags: Array.isArray(node.tags) ? node.tags : [],
+      venue: node.venue || pub?.venue || '',
+      venue_type: node.venue_type || pub?.venue_type || '',
+      is_oral: node.is_oral === true || pub?.is_oral === true,
+      is_lead_author: node.is_lead_author === true || isLeadAuthor(Array.isArray(node.authors) ? node.authors : (pub?.authors || []), personalName),
+      tldr: node.tldr || pub?.tldr || '',
+      label: node.label || '',
+      subtitle: node.subtitle || '',
+      stages: Array.isArray(node.stages) ? node.stages : [],
+      importance: typeof node.importance === 'number' ? node.importance : 1,
+      size: node.size || '',
+      links,
+      paper_url: node.paper_url || getPublicationPaperLink(pub) || null
+    };
+  }).filter(node => node.id && trackIds.has(node.track));
+
+  const nodeIds = new Set(nodes.map(node => node.id));
+  const edges = (Array.isArray(roadmapConfig.edges) ? roadmapConfig.edges : []).filter(edge => (
+    edge &&
+    nodeIds.has(edge.source) &&
+    nodeIds.has(edge.target)
+  ));
+
+  const phases = Array.isArray(roadmapConfig.phases) ? roadmapConfig.phases : [];
+
+  return {
+    title: roadmapConfig.title || 'Research Roadmap',
+    subtitle: roadmapConfig.subtitle || '',
+    description: roadmapConfig.description || '',
+    phases,
+    filters,
+    tracks,
+    ongoing,
+    vision_loop: visionLoop,
+    nodes
+  };
+}
+
+function generateResearchRoadmapSection(roadmapModel) {
+  if (!roadmapModel) return '';
+
+  const roadmapDataJson = JSON.stringify(roadmapModel).replace(/</g, '\\u003c');
+  return `
+        <section class="section section-alt roadmap-section">
+            <div class="container">
+                <h2 class="section-title">${roadmapModel.title}</h2>
+                <div class="roadmap-shell reveal">
+                    <div class="roadmap-canvas-wrap">
+                        <div id="research-roadmap-graph" class="research-roadmap-graph" role="img" aria-label="Research roadmap graph"></div>
+                    </div>
+                </div>
+                <script id="research-roadmap-data" type="application/json">${roadmapDataJson}</script>
+            </div>
+        </section>`;
+}
+
 function generateNavigation(personal, activePage) {
   const navLinks = {
     'Bio': 'index.html',
@@ -184,6 +322,11 @@ function generateNavigation(personal, activePage) {
   
   return navItems.join('\n                ') + '\n                ' + themeToggle;
 }
+
+const BACK_TO_TOP_BUTTON = `
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>`;
 
 function generateJsonLd(config) {
   const { personal, seo, publications } = config;
@@ -404,7 +547,7 @@ function generateCommonScripts() {
 function generateIndexPage(config) {
   console.log('Generating index.html...');
   
-  const { personal, research, news, experience, education, service, publications, _template_info, visitor_map } = config;
+  const { personal, research, research_roadmap, news, experience, education, service, publications, _template_info, visitor_map } = config;
   
   // Get selected publications (featured first, then recent)
   const selectedPubs = [];
@@ -422,6 +565,9 @@ function generateIndexPage(config) {
   // First, add featured publications
   const featuredPubs = allPubs.filter(pub => pub.featured === true);
   selectedPubs.push(...featuredPubs.slice(0, maxFeatured));
+
+  const roadmapModel = buildResearchRoadmapModel(publications, research_roadmap, personal.name);
+  const roadmapHtml = generateResearchRoadmapSection(roadmapModel);
   
   // Generate bio HTML
   const bioHtml = personal.bio.map(para => `<p>${para}</p>`).join('\n                            ');
@@ -478,7 +624,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -563,7 +709,10 @@ function generateIndexPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="assets/js/script.js" defer></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
+    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
+    <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -624,6 +773,8 @@ function generateIndexPage(config) {
             </div>
         </section>
 
+        ${roadmapHtml}
+
         <!-- Selected Publications -->
         <section class="section section-alt">
             <div class="container">
@@ -677,6 +828,7 @@ function generateIndexPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
@@ -775,7 +927,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -810,7 +962,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -880,7 +1032,10 @@ function generatePublicationsPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="assets/js/script.js" defer></script>
+    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
+    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
+    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
+    <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -919,6 +1074,7 @@ function generatePublicationsPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     ${generateCommonScripts()}

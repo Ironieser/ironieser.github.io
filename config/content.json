@@ -1,185 +1,1237 @@
 {
   "personal": {
-    "name": "Professor Meow",
-    "aka": "Meowstar University",
-    "title": "PhD Student, CatVLM",
-    "affiliation": "Meowstar University, Planet Meow",
-    "email": "meow@example.edu",
+    "name": "Sixun Dong",
+    "aka": "Ironieser",
+    "title": "Multimodal Learning, VLM, LLM Agent",
+    "affiliation": "Independent Researcher, AZ, USA",
+    "email": "sixundong.ai@gmail.com",
     "profile_image": "images/logo.jpg",
-    "cv_link": "files/CV_template.pdf",
+    "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I study how cats and models pay attention (mostly cats).",
-      "Sometimes I train VLMs. Mostly I nap."
+      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
         "name": "Email",
-        "url": "mailto:meow@sixundong.com",
+        "url": "mailto:sixundong.ai@gmail.com",
         "icon": "fas fa-envelope",
         "color": "#dc3545"
       },
       {
         "name": "Scholar",
-        "url": "https://scholar.google.com/",
+        "url": "https://scholar.google.com/citations?user=j71Y2-4AAAAJ",
         "icon": "fas fa-graduation-cap",
         "color": "#4285f4"
       },
       {
         "name": "GitHub",
-        "url": "https://github.com/",
+        "url": "https://github.com/Ironieser",
         "icon": "fab fa-github",
         "color": "#333"
+      },
+      {
+        "name": "Twitter",
+        "url": "https://twitter.com/ironieser",
+        "icon": "fab fa-twitter",
+        "color": "#1da1f2"
+      },
+      {
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sixun-dong-789069330/",
+        "icon": "fab fa-linkedin",
+        "color": "#1666C5"
+      },
+      {
+        "name": "知乎",
+        "url": "https://www.zhihu.com/people/ironieser",
+        "icon": "fas fa-book",
+        "color": "#0084ff"
       }
     ]
   },
   "research": {
-    "description": "I play with vision-language models and cat pictures.",
+    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
     "stats": [
-      "3 serious papers",
-      "many cat photos",
-      "countless failed experiments"
+      "10+ publications",
+      "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV, ICASSP, 3DV )",
+      "1 CVPR Oral presentation"
     ],
-    "max_featured_publications": 5
+    "max_featured_publications": 10
+  },
+  "research_roadmap": {
+    "enabled": true,
+    "title": "Research Roadmap",
+    "subtitle": "From Perception to Agentic Intelligence",
+    "description": "Building next-generation multimodal systems.",
+    "ongoing": [
+      {
+        "phase": "agentic_systems",
+        "label": "Long-term Memory",
+        "status": "Ongoing",
+        "note": "Memory-augmented agent cognition and retrieval."
+      }
+    ],
+    "vision_loop": {
+      "label": "Future Loop",
+      "text": "Agent traces and synthetic data feed back into multimodal understanding and generative modeling."
+    },
+    "phases": [
+      {
+        "id": "perception",
+        "title": "Perception",
+        "kicker": "Stage 01",
+        "icon": "🎬",
+        "summary": "Video understanding, representation learning, and alignment.",
+        "stageIds": ["perception", "alignment"],
+        "trackId": "foundations",
+        "maxItems": 2,
+        "columns": 1
+      },
+      {
+        "id": "world_modeling",
+        "title": "World Modeling",
+        "kicker": "Stage 02",
+        "icon": "🪄",
+        "summary": "3D, diffusion, and generative modeling across modalities.",
+        "stageIds": ["world_modeling"],
+        "trackId": "world_model",
+        "maxItems": 3,
+        "columns": 1
+      },
+      {
+        "id": "agentic_systems",
+        "title": "Agentic Systems",
+        "kicker": "Stage 03",
+        "icon": "🧠",
+        "summary": "Efficient inference, tool use, and agentic reasoning.",
+        "stageIds": ["efficient_systems", "agentic_reasoning"],
+        "trackId": "systems",
+        "maxItems": 7,
+        "columns": 2,
+        "groups": [
+          {
+            "id": "inference",
+            "label": "Inference Acceleration",
+            "icon": "⚡",
+            "row": "top",
+            "gridColumns": "2fr 1fr"
+          },
+          {
+            "id": "reasoning",
+            "label": "Reasoning & Execution",
+            "icon": "🛠️",
+            "row": "bottom",
+            "gridColumns": "repeat(3, 1fr)"
+          }
+        ],
+        "ongoingGroup": {
+          "label": "Memory",
+          "icon": "💾",
+          "row": "top"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "id": "video_multimodal",
+        "name": "Multimodal"
+      },
+      {
+        "id": "generative_modeling",
+        "name": "Generative Modeling"
+      },
+      {
+        "id": "efficient_ai",
+        "name": "Efficient AI"
+      },
+      {
+        "id": "reasoning_agents",
+        "name": "Reasoning & Agents"
+      }
+    ],
+    "tracks": [
+      {
+        "id": "foundations",
+        "color": "#7c3aed"
+      },
+      {
+        "id": "world_model",
+        "color": "#0ea5e9"
+      },
+      {
+        "id": "systems",
+        "color": "#f59e0b"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "transrac",
+        "track": "foundations",
+        "paper_url": "https://arxiv.org/abs/2204.01018",
+        "short_label": "TransRAC",
+        "tags": [
+          "video_multimodal"
+        ],
+        "stages": [
+          "perception"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "weaksvr",
+        "track": "foundations",
+        "paper_url": "https://arxiv.org/abs/2303.12370",
+        "short_label": "WeakSVR",
+        "tags": [
+          "video_multimodal"
+        ],
+        "stages": [
+          "alignment"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "timesclip",
+        "track": "foundations",
+        "paper_url": "https://arxiv.org/abs/2506.24124",
+        "short_label": "TimesCLIP",
+        "tags": [
+          "video_multimodal",
+          "generative_modeling"
+        ],
+        "venue": "arXiv'2506",
+        "venue_type": "preprint",
+        "stages": [
+          "alignment",
+          "world_modeling"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "roomdesigner",
+        "track": "world_model",
+        "paper_url": "https://arxiv.org/abs/2310.10027",
+        "short_label": "RoomDesigner",
+        "tags": [
+          "generative_modeling"
+        ],
+        "stages": [
+          "world_modeling"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "sculpting",
+        "track": "world_model",
+        "paper_url": "https://arxiv.org/abs/2505.15152",
+        "short_label": "Feature Sculpting",
+        "tags": [
+          "generative_modeling"
+        ],
+        "stages": [
+          "world_modeling"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "mmtok",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2508.18264",
+        "short_label": "MMTok",
+        "tags": [
+          "video_multimodal",
+          "efficient_ai"
+        ],
+        "group": "inference",
+        "stages": [
+          "efficient_systems"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "multiagent_infer",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2604.04929",
+        "short_label": "Rethinking Model Efficiency",
+        "size": "wide",
+        "tags": [
+          "video_multimodal",
+          "efficient_ai",
+          "reasoning_agents"
+        ],
+        "group": "inference",
+        "stages": [
+          "efficient_systems",
+          "agentic_reasoning"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "mllm_tool",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2401.10727",
+        "short_label": "MLLM-Tool",
+        "tags": [
+          "video_multimodal",
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "tom",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2602.10625",
+        "short_label": "ToM Reasoning",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "asr_agent",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2601.21347",
+        "short_label": "Agentic Dysarthric ASR",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "livemcp",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2508.15760",
+        "short_label": "LiveMCP-101",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 1
+      },
+      {
+        "id": "logicif",
+        "track": "systems",
+        "paper_url": "https://arxiv.org/abs/2508.09125",
+        "short_label": "LogicIF",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 1
+      }
+    ]
   },
   "news": [
     {
-      "date": "Jan 2050",
-      "icon": "🎉",
-      "content": "One paper accepted to a big conference. Celebrated with extra treats.",
-      "category": "papers"
-    },
-    {
-      "date": "Jul 2049",
-      "icon": "😴",
-      "content": "Trained a huge model. It overfit on cat memes.",
+      "date": "Apr 2026",
+      "icon": "🗺️",
+      "content": "Added an interactive <strong>Research Roadmap</strong> to the homepage — visualizing the research trajectory from Perception → World Modeling → Agentic Systems, with spotlight filtering by topic.",
       "category": "projects"
     },
     {
-      "date": "May 2049",
+      "date": "Apr 2026",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2604.04929",
+      "content": "Paper on <strong>Rethinking Model Efficiency</strong> {{link}} — accelerating large VLM inference by reusing reasoning tokens from small models. Released on arXiv.",
+      "category": "papers"
+    },
+    {
+      "date": "Mar 2026",
+      "icon": "🛠️",
+      "content": "Homepage updated with <strong>TL;DR popovers</strong> for all publications — hover on desktop or tap on mobile to see a one-sentence summary of each paper.",
+      "category": "projects"
+    },
+    {
+      "date": "Feb 2026",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2602.10625",
+      "content": "Paper on <strong>To Think or Not To Think</strong> {{link}} — Large Reasoning Models in Theory of Mind Tasks, released on arXiv",
+      "category": "papers"
+    },
+    {
+      "date": "Jan 2026",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2508.18264",
+      "content": "Paper on <strong>MMTok</strong> {{link}} accepted to [[ICLR 2026]]! Thanks to my mentor <strong>Qi Qian</strong> and all coauthors.",
+      "category": "papers"
+    },
+    {
+      "date": "Jan 2026",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2601.21347",
+      "content": "<strong>Robust Dysarthric Speech Recognition</strong> {{link}} accepted to [[ICASSP 2026]]. Congratulations to Xiuwen Zheng!",
+      "category": "papers"
+    },
+    {
+      "date": "Sep 2025",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2505.15152",
+      "content": "<strong>Sculpting Features from Noise</strong> {{link}} accepted to [[NeurIPS 2025]]. Congratulations to Nanxu Gong and Zijun Li!",
+      "category": "papers"
+    },
+    {
+      "date": "Aug 2025",
       "icon": "💼",
-      "content": "Finished an internship as \"Official Cat Picture Curator\".",
+      "content": "Completed GenAI Research Internship at <strong>Zoom Inc.</strong>, focusing on efficient vision–language modeling. Grateful to my mentor <strong>Qi Qian</strong> and the Zoom team.",
       "category": "career"
+    },
+    {
+      "date": "Aug 2025",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2508.15760",
+      "content": "Paper on <strong>LiveMCP-101</strong> {{link}} — a new benchmark testing AI agents' real-world tool-use, released on arXiv",
+      "category": "papers"
+    },
+    {
+      "date": "Aug 2025",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2508.09125",
+      "content": "Paper on <strong>LogicIF</strong> {{link}} — Complex Logical Instruction Generation released on arXiv",
+      "category": "papers"
+    },
+    {
+      "date": "Aug 2025",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2506.24124",
+      "content": "Paper on <strong>TimesCLIP</strong> {{link}} — new multimodal approach to time series forecasting with CLIP, released on arXiv",
+      "category": "papers"
+    },
+    {
+      "date": "May 2025",
+      "icon": "💼",
+      "content": "Started GenAI Research Internship at <strong>Zoom Inc.</strong> focusing on efficient vision-language modeling",
+      "category": "career"
+    },
+    {
+      "date": "Jan 2024",
+      "icon": "💼",
+      "content": "Completed <strong>Team Leader</strong> internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading co-speech gesture generation and 3D human body reconstruction projects.",
+      "category": "career"
+    },
+    {
+      "date": "Feb 2024",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2401.10727",
+      "content": "Paper on <strong>MLLM-Tool</strong> {{link}} accepted to [[WACV 2024]]",
+      "category": "papers"
+    },
+    {
+      "date": "Aug 2023",
+      "icon": "💼",
+      "content": "Completed <strong>Team Leader</strong> internship at <strong>Transsion Holdings</strong> (Audio-Video Generation Dept.), leading audio-driven talking-head video generation research with SoTA performance.",
+      "category": "career"
+    },
+    {
+      "date": "Mar 2023",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2303.12370",
+      "content": "Paper on <strong>WeakSVR</strong> {{link}} accepted to [[CVPR 2023]]",
+      "category": "papers"
+    },
+    {
+      "date": "Mar 2022",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2204.01018",
+      "content": "Paper on <strong>TransRAC</strong> {{link}} accepted as <strong>🏆 oral presentation</strong> to [[CVPR 2022]]",
+      "category": "papers"
     }
   ],
   "publications": {
-    "2050": [
+    "2022": [
       {
-        "title": "CatVLM: When Your Dataset Is 99% Cat Photos",
+        "title": "TransRAC: Encoding Multi-scale Temporal Correlation with Transformers for Repetitive Action Counting",
         "authors": [
-          "Professor Meow*",
-          "Sleepy GPU"
+          "Huazhang Hu*",
+          "Sixun Dong*",
+          "Yiqun Zhao",
+          "Dongze Lian",
+          "Zhengxin Li",
+          "Shenghua Gao"
         ],
-        "venue": "CVPR'50",
+        "venue": "CVPR'22",
         "venue_type": "conference",
-        "image": "teaser/conference.jpg",
+        "image": "teaser/transrac.jpg",
         "is_oral": true,
         "featured": true,
-        "tldr": "We train a VLM almost entirely on cat photos. Surprisingly, it still works on normal images.",
+        "tldr": "Introduces the RepCount dataset and pioneers the use of regression density maps alongside a Transformer-based architecture to encode multi-scale temporal correlations, significantly improving repetitive action counting.",
         "links": [
           {
             "name": "Paper",
-            "url": "https://arxiv.org/",
+            "url": "https://arxiv.org/abs/2204.01018",
             "icon": "ai ai-arxiv"
           },
           {
             "name": "Code",
-            "url": "https://github.com/",
+            "url": "https://github.com/SvipRepetitionCounting/TransRAC",
             "icon": "fab fa-github"
           },
           {
             "name": "Dataset",
-            "url": "https://example.com/catvlm-dataset",
+            "url": "https://svip-lab.github.io/dataset/RepCount_dataset.html",
             "icon": "fas fa-database"
           },
           {
-            "name": "Blog (Zhihu)",
-            "url": "https://zhuanlan.zhihu.com/",
-            "icon": "fas fa-book-open"
-          },
-          {
             "name": "YouTube",
-            "url": "https://youtube.com/",
+            "url": "https://youtu.be/SFpUS9mHHpk",
             "icon": "fab fa-youtube"
           },
           {
             "name": "Bilibili",
-            "url": "https://www.bilibili.com/",
+            "url": "https://www.bilibili.com/video/BV1B94y1S7oP",
             "icon": "fas fa-tv"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/543376943",
+            "icon": "fas fa-book-open"
           }
-        ]
-      },
-      {
-        "title": "Do Models Prefer Cats or Dogs? A Minimal Study",
-        "authors": [
-          "Professor Meow",
-          "Doggo Reviewer 2"
         ],
-        "venue": "arXiv'2050",
-        "venue_type": "preprint",
-        "image": "teaser/conference.jpg",
+        "_scholar_citations": 95,
+        "_scholar_last_updated": "2026-03-02"
+      }
+    ],
+    "2023": [
+      {
+        "title": "Weakly Supervised Video Representation Learning with Unaligned Text for Sequential Videos",
+        "authors": [
+          "Sixun Dong*",
+          "Huazhang Hu*",
+          "Dongze Lian",
+          "Weixin Luo",
+          "Yicheng Qian",
+          "Shenghua Gao"
+        ],
+        "venue": "CVPR'23",
+        "venue_type": "conference",
+        "image": "teaser/weaksvr.jpg",
         "featured": true,
-        "tldr": "We compare model preferences on simple cat vs dog prompts.",
+        "tldr": "Proposes a weakly supervised video representation learning approach that utilizes unaligned text for sequential videos, significantly reducing the reliance on fine-grained video-text alignment annotations.",
         "links": [
           {
             "name": "Paper",
-            "url": "https://arxiv.org/",
+            "url": "https://arxiv.org/abs/2303.12370",
             "icon": "ai ai-arxiv"
           },
           {
-            "name": "Code (coming soon)",
+            "name": "Code",
+            "url": "https://github.com/svip-lab/WeakSVR",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "YouTube",
+            "url": "https://www.youtube.com/watch?v=AqozSRYP7Pc",
+            "icon": "fab fa-youtube"
+          },
+          {
+            "name": "Bilibili",
+            "url": "https://www.bilibili.com/video/BV1AW4y1R7um",
+            "icon": "fas fa-tv"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/617926257",
+            "icon": "fas fa-book-open"
+          }
+        ],
+        "_scholar_citations": 25,
+        "_scholar_last_updated": "2026-03-02"
+      }
+    ],
+    "2024": [
+      {
+        "title": "MLLM-Tool: A Multimodal Large Language Model For Tool Agent Learning",
+        "authors": [
+          "Chenyu Wang",
+          "Weixin Luo",
+          "Sixun Dong",
+          "Xiaohua Xuan",
+          "Zhengxin Li",
+          "Lin Ma",
+          "Shenghua Gao"
+        ],
+        "venue": "WACV'25",
+        "venue_type": "conference",
+        "image": "teaser/mmtool.jpg",
+        "featured": true,
+        "tldr": "Introduces the MLLM-Tool framework and contributes a specialized dataset to empower Multimodal Large Language Models (MLLMs) with the ability to understand, learn, and invoke external tools.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2401.10727",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/MLLM-Tool/MLLM-Tool",
+            "icon": "fab fa-github"
+          }
+        ],
+        "_scholar_citations": 77,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
+        "authors": [
+          "Yiqun Zhao",
+          "Zibo Zhao",
+          "Jing Li",
+          "Sixun Dong",
+          "Shenghua Gao"
+        ],
+        "venue": "3DV'24",
+        "venue_type": "conference",
+        "image": "teaser/room.jpg",
+        "featured": false,
+        "tldr": "Presents RoomDesigner, which encodes \"anchor-latents\" to guide the generation of 3D indoor scenes that are both highly style-consistent and shape-compatible.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2310.10027",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/zhao-yiqun/RoomDesigner",
+            "icon": "fab fa-github"
+          }
+        ],
+        "_scholar_citations": 17,
+        "_scholar_last_updated": "2026-03-02"
+      }
+    ],
+    "2025": [
+      {
+        "title": "MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs",
+        "authors": [
+          "Sixun Dong",
+          "Juhua Hu",
+          "Mian Zhang",
+          "Ming Yin",
+          "Yanjie Fu",
+          "Qi Qian"
+        ],
+        "venue": "ICLR'26",
+        "venue_type": "conference",
+        "image": "images/blog/mmtok/combined_plots.png",
+        "featured": true,
+        "tldr": "Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2508.18264",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/Ironieser/MMTok",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Homepage",
+            "url": "https://project.ironieser.cc/mmtok",
+            "icon": "fas fa-home"
+          },
+          {
+            "name": "Blog",
+            "url": "https://sixundong.com/blog.html?post=mmtok-multimodal-coverage-maximization",
+            "icon": "fas fa-blog"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/1944299907109348831",
+            "icon": "fas fa-book-open"
+          }
+        ],
+        "_scholar_citations": 4,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
+        "authors": [
+          "Ming Yin",
+          "Dinghan Shen",
+          "Silei Xu",
+          "Jianbing Han",
+          "Sixun Dong",
+          "Mian Zhang",
+          "Yebowen Hu",
+          "Shujian Liu",
+          "Simin Ma",
+          "Song Wang",
+          "Sathish Reddy Indurthi",
+          "Xun Wang",
+          "Yiran Chen",
+          "Kaiqiang Song"
+        ],
+        "venue": "arXiv'2508",
+        "venue_type": "preprint",
+        "image": "teaser/MCP101.jpg",
+        "featured": false,
+        "tldr": "Constructs a stress-testing benchmark specifically designed to evaluate and diagnose the stability and limitations of MCP-enabled agents when handling complex, challenging queries.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2508.15760",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
             "url": null,
             "icon": "fab fa-github",
             "coming_soon": true
+          },
+          {
+            "name": "Benchmark",
+            "url": null,
+            "icon": "fas fa-database",
+            "coming_soon": true
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/1949009535743264421",
+            "icon": "fas fa-book-open"
           }
-        ]
+        ],
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-03-02"
       },
       {
-        "title": "A Short Survey of Cat-Themed Benchmarks",
+        "title": "Complex Logical Instruction Generation",
         "authors": [
-          "Professor Meow"
+          "Mian Zhang",
+          "Shujian Liu",
+          "Sixun Dong",
+          "Ming Yin",
+          "Yebowen Hu",
+          "Xun Wang",
+          "Steven Ma",
+          "Song Wang",
+          "Sathish Reddy Indurthi",
+          "Haoyun Deng",
+          "Zhiyu Zoey Chen",
+          "Kaiqiang Song"
+        ],
+        "venue": "arXiv'2508",
+        "venue_type": "preprint",
+        "image": "teaser/logitif.jpg",
+        "featured": false,
+        "tldr": "Introduces an automated data generation framework and evaluation benchmark for complex logical instructions to assess and enhance the multi-step reasoning capabilities of LLMs.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2508.09125",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/mianzhang/LogicIF",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Benchmark",
+            "url": "https://github.com/mianzhang/LogicIF",
+            "icon": "fas fa-database"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/1941376510113059206",
+            "icon": "fas fa-book-open"
+          }
+        ],
+        "_scholar_citations": 2,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
+        "authors": [
+          "Sixun Dong",
+          "Wei Fan",
+          "Teresa Wu",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2506",
+        "venue_type": "under-review",
+        "image": "images/blog/timesclip/fig3.png",
+        "featured": true,
+        "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2506.24124",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/Ironieser/TimesCLIP",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Homepage",
+            "url": "https://sixundong.com/projects/timesclip.html",
+            "icon": "fas fa-home"
+          },
+          {
+            "name": "Blog",
+            "url": "https://sixundong.com/blog.html#timesclip-time-series-forecasting",
+            "icon": "fas fa-blog"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/1936813469446940130",
+            "icon": "fas fa-book-open"
+          }
+        ],
+        "_scholar_citations": 1,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "TimesFrame: Multi-Variable Time Series is a Video of Numerical Data",
+        "authors": [
+          "Sixun Dong",
+          "Nanxu Gong",
+          "Haoyue Bai",
+          "Xinyuan Wang",
+          "Wangyang Ying",
+          "Wei Fan",
+          "Yanjie Fu"
         ],
         "venue": "Under Review",
         "venue_type": "under-review",
-        "image": "teaser/conference.jpg",
-        "featured": true,
+        "image": "teaser/underreview.jpg",
+        "featured": false,
         "links": [
           {
-            "name": "Paper (under review)",
+            "name": "Paper (Coming Soon)",
             "url": null,
             "icon": "ai ai-arxiv",
             "coming_soon": true
           }
         ]
+      },
+      {
+        "title": "Agentic Feature Augmentation: Unifying Selection and Generation with Teaming, Planning, and Memories",
+        "authors": [
+          "Nanxu Gong*",
+          "Sixun Dong*",
+          "Haoyue Bai",
+          "Xinyuan Wang",
+          "Wangyang Ying",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2505",
+        "venue_type": "under-review",
+        "image": "teaser/agentic.jpg",
+        "tldr": "Builds an LLM-driven agentic framework that unifies feature selection and generation through collaborative teaming, task planning, and memory mechanisms.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2505.15076",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 10,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
+        "authors": [
+          "Nanxu Gong*",
+          "Zijun Li*",
+          "Sixun Dong",
+          "Haoyue Bai",
+          "Wangyang Ying",
+          "Xinyuan Wang",
+          "Yanjie Fu"
+        ],
+        "venue": "NeurIPS'25",
+        "venue_type": "conference",
+        "image": "teaser/sculp.jpg",
+        "featured": true,
+        "tldr": "Proposes a reward-guided hierarchical diffusion model that \"sculpts\" data representations from noise to generate optimal feature transformations for specific downstream tasks.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2505.15152",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/NanxuGong/DIFFT",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "知乎",
+            "url": "https://zhuanlan.zhihu.com/p/1933301751826429982",
+            "icon": "fas fa-book-open"
+          }
+        ],
+        "_scholar_citations": 7,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
+        "authors": [
+          "Nanxu Gong",
+          "Sixun Dong",
+          "Haoyue Bai",
+          "Wangyang Ying",
+          "Yanjie Fu"
+        ],
+        "venue": "Under Review",
+        "venue_type": "under-review",
+        "image": "teaser/underreview.jpg",
+        "links": [
+          {
+            "name": "Paper (Coming Soon)",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
+          }
+        ]
+      },
+      {
+        "title": "LLM-ML Teaming: Integrated Symbolic Decoding and Gradient Search for Valid and Stable Generative Feature Transformation",
+        "authors": [
+          "Xinyuan Wang",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Wangyang Ying",
+          "Sixun Dong",
+          "X Cui",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2506",
+        "venue_type": "preprint",
+        "image": "teaser/preprint.jpg",
+        "auto_sync": true,
+        "tldr": "Introduces an LLM-ML teaming framework that integrates symbolic decoding with gradient search to achieve highly stable and valid generative feature transformations.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=j71Y2-4AAAAJ&sortby=pubdate&citation_for_view=j71Y2-4AAAAJ:_FxGoFyzp5QC",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 4,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
+        "authors": [
+          "Xinyuan Wang",
+          "Dongjie Wang",
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Sixun Dong",
+          "Kunpeng Liu",
+          "Yanjie Fu"
+        ],
+        "venue": "AAAI'26",
+        "venue_type": "conference",
+        "image": "teaser/efficientreasoning.jpg",
+        "tldr": "Proposes an efficient post-training refinement strategy specifically designed to optimize and unlock the deep logical reasoning capabilities of LLMs within their latent representation space.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2506.08552",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/anord-wang/Lateng-Reasoning",
+            "icon": "fab fa-github"
+          }
+        ],
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
+        "authors": [
+          "Haoyue Bai",
+          "Guodong Chen",
+          "Wangyang Ying",
+          "Xinyuan Wang",
+          "Nanxu Gong",
+          "Sixun Dong",
+          "Giulia Pedrielli",
+          "Haoyu Wang",
+          "Haifeng Chen",
+          "Yanjie Fu"
+        ],
+        "venue": "AAAI'26",
+        "venue_type": "conference",
+        "image": "teaser/bridge.jpg",
+        "tldr": "Combines Brownian Bridge-augmented surrogate models to provide highly efficient simulation and injection planning for optimizing geological CO2 storage strategies.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2505.18204",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 5,
+        "_scholar_last_updated": "2026-03-02"
+      },
+      {
+        "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
+        "authors": [
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Sixun Dong",
+          "Haifeng Chen",
+          "Yanjie Fu"
+        ],
+        "venue": "IJCAI'25",
+        "venue_type": "conference",
+        "image": "teaser/agentFt.jpg",
+        "tldr": "Presents a fully unsupervised feature transformation framework utilizing generator-critic LLM agents and in-context generation via duet-play teaming to automatically extract high-quality features.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2504.21304",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/NanxuGong/LPFG",
+            "icon": "fab fa-github"
+          }
+        ],
+        "_scholar_citations": 11,
+        "_scholar_last_updated": "2026-03-02",
+        "featured": false
+      },
+      {
+        "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
+        "authors": [
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Sixun Dong",
+          "H Chen",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2505",
+        "venue_type": "preprint",
+        "image": "teaser/preprint.jpg",
+        "auto_sync": true,
+        "tldr": "Introduces a reinforcement learning feedback mechanism to effectively bridge and calibrate the domain gap in equation distillation tasks.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=j71Y2-4AAAAJ&sortby=pubdate&citation_for_view=j71Y2-4AAAAJ:eQOLeE2rZwMC",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 5,
+        "_scholar_last_updated": "2026-03-02"
+      }
+    ],
+    "2026": [
+      {
+        "title": "Rethinking Model Efficiency: Multi-Agent Inference with Large Models",
+        "authors": [
+          "Sixun Dong",
+          "Juhua Hu",
+          "Steven Li",
+          "Wei Wen",
+          "Qi Qian"
+        ],
+        "venue": "arXiv'2604",
+        "venue_type": "preprint",
+        "image": "teaser/rethinking_MAI.jpg",
+        "featured": true,
+        "tldr": "Analyzes VLM end-to-end latency and reveals that output token length dominates inference cost. While large models with short outputs outperform small models with long generations, reasoning remains essential for complex tasks. We bridge this by proposing a multi-agent framework where a small model computes the reasoning tokens and transfers them to a large model, achieving large-model accuracy with minimal latency.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2604.04929",
+            "icon": "ai ai-arxiv"
+          }
+        ]
+      },
+      {
+        "title": "To Think or Not To Think, That is The Question for Large Reasoning Models in Theory of Mind Tasks",
+        "authors": [
+          "Nanxu Gong",
+          "Haotian Li",
+          "Sixun Dong",
+          "Jianxun Lian",
+          "Yanjie Fu",
+          "Xing Xie"
+        ],
+        "venue": "arXiv'2602",
+        "venue_type": "preprint",
+        "image": "teaser/think_tom.jpg",
+        "featured": true,
+        "tldr": "Investigates the capabilities of Large Reasoning Models (like OpenAI o1/o3) on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2602.10625",
+            "icon": "ai ai-arxiv"
+          }
+        ]
+      },
+      {
+        "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
+        "authors": [
+          "Xiuwen Zheng",
+          "Sixun Dong",
+          "Bornali Phukon",
+          "Mark Hasegawa-Johnson",
+          "Chang D. Yoo"
+        ],
+        "venue": "ICASSP'26",
+        "venue_type": "conference",
+        "image": "teaser/judge-editor.jpg",
+        "featured": true,
+        "tldr": "Proposes an LLM-agent-based post-ASR correction framework for dysarthric speech recognition that focuses on semantic accuracy rather than just minimizing Word Error Rate (WER).",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2601.21347",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Code",
+            "url": "https://github.com/xiuwenz2/SAP-Hypo5",
+            "icon": "fab fa-github"
+          },
+          {
+            "name": "Dataset",
+            "url": "https://huggingface.co/datasets/xiuwenz2/SAP-Hypo5",
+            "icon": "fas fa-database"
+          }
+        ]
+      }
+    ],
+    "survey": [
+      {
+        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
+        "authors": [
+          "Dongjie Wang",
+          "Yanyong Huang",
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Sixun Dong",
+          "Tao Zhe",
+          "Kunpeng Liu",
+          "Meng Xiao",
+          "et al."
+        ],
+        "venue": "TKDD'26",
+        "venue_type": "journal",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2501.10555",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 20,
+        "_scholar_last_updated": "2026-03-02",
+        "featured": true
+      },
+      {
+        "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
+        "authors": [
+          "Wangyang Ying",
+          "Cong Wei",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Haoyue Bai",
+          "Arun Vignesh Malarkkan",
+          "Sixun Dong",
+          "Dongjie Wang",
+          "Denghui Zhang",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2502",
+        "venue_type": "under-review",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2502.08828",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 17,
+        "_scholar_last_updated": "2026-03-02",
+        "featured": true
       }
     ]
   },
   "experience": [
     {
-      "position": "Official Cat Picture Curator",
-      "company": "Very Serious Cat Lab",
-      "period": "Summer 2049",
-      "description": "Selected high-quality cat photos for training and slides.",
-      "logo": "images/logo.jpg"
+      "position": "GenAI Research Intern",
+      "company": "Zoom Inc., GenAI Research Group",
+      "period": "May 2025 - Aug 2025",
+      "description": "Worked on VLM and LLM Agent. Published one first-author paper on efficient VLM inference and two collaborative papers on LLM evaluation.",
+      "logo": "images/zoom.jpg"
+    },
+    {
+      "position": "Research Intern",
+      "company": "DGene Digital Technology Co., Ltd., Digital Human Algorithm Department",
+      "period": "May 2023 - Jan 2024",
+      "description": "Led digital human projects: (1) audio-driven talking head video generation, achieving SoTA on commercial and academic benchmarks; (2) 3D human body reconstruction with <7% measurement error; (3) co-speech gesture generation.",
+      "logo": "images/dgene.jpeg"
     }
   ],
   "education": [
     {
-      "degree": "PhD in Cat-Inspired AI (ongoing)",
-      "institution": "Meowstar University, Planet Meow",
-      "period": "2045 - ?",
-      "details": "Trying to graduate. The cat advisor is not impressed yet."
+      "degree": "M.S. in Computer Science",
+      "institution": "ShanghaiTech University, China",
+      "period": "2021 - 2024",
+      "details": "SVIP-Lab, Advisor: Prof. Shenghua Gao"
     },
     {
-      "degree": "B.S. in Computer Science",
-      "institution": "Somewhere on Earth",
-      "period": "2040 - 2044",
-      "details": "Learned the difference between a cat and a segfault."
+      "degree": "B.E. in Computer Science (Dual Degree)",
+      "institution": "Dalian University of Technology, China",
+      "period": "2016 - 2020",
+      "details": ""
+    },
+    {
+      "degree": "B.E. in Process Equipment and Control Engineering",
+      "institution": "Dalian University of Technology, China",
+      "period": "2016 - 2020",
+      "details": ""
     }
   ],
   "service": {
     "reviewer": {
-      "conferences": "CVPR (Cat Vision and Pattern Recognition), NeurIPS (Neural Indoor Pet Systems)",
-      "journals": "Journal of Cat Science"
+      "conferences": "CVPR (2023–2026), ICCV (2023, 2025), ECCV (2024, 2026), NeurIPS (2025), ICML (2025, 2026),ICLR (2026), ACM MM (2023–2025), ACCV (2024), KDD (2025)",
+      "journals": "IEEE Transactions on Multimedia, Neural Networks(Elsevier), ACM Transactions on Knowledge Discovery from Data"
     }
   }
 }
+

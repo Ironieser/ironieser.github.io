@@ -8,6 +8,8 @@ image: "favicon-32x32.png"
 
 # Config-Driven Academic Website Template
 
+> Prefer AI help? If you use an AI-enabled editor like **Cursor**, **Antigravity**, or **Codex**, you can let an agent do most of the initial setup by using the `init-template-setup` skill in this repo. It will read the docs (including this post), ask you for your personal details and SEO info, and then edit `config/site.yaml` and `config/content.json` for you.
+
 This repository is a small opinionated template for academic homepages:
 
 - **No HTML editing** – almost everything lives in config files  

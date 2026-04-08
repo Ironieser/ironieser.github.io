@@ -6,21 +6,36 @@ A simple, config-driven academic website template that generates HTML from conte
 
 ## 🎯 Features
 
-- **Config-driven** — Edit `config/content.json` and `config/site.yaml`; no HTML editing
-- **Automatic generation** via GitHub Actions (`npm run build`)
-- **Clean academic design** with responsive layout
-- **Dark Mode** — three-way toggle (☀️ Day / 🌙 Night / 🌓 Auto), follows system preference by default, persisted via `localStorage`
-- **Blog system** with Markdown support
-- **Publication management** with automatic formatting
-- **TL;DR popovers** — glassmorphism hover popover (desktop) / tap-to-expand accordion (mobile) with blurred-glass background
-- **Mobile-optimized pub images** — blurred-background `object-fit: contain` layout; placeholder images auto-hidden on mobile
-- **Back-to-Top button** — fixed, aligned to content column, smooth scroll
-- **AI agent skills** — built-in `.agents/` workflows and skills for adding papers, debugging, and deploying with AI assistance (compatible with Cursor, Windsurf, etc.)
-- **Easy maintenance** — edit config and push
+![Config-driven](https://img.shields.io/badge/Config--driven-yes-2ea043?style=flat-square)
+![Dark Mode](https://img.shields.io/badge/Dark_Mode-☀️_🌙_🌓-2ea043?style=flat-square)
+![Blog](https://img.shields.io/badge/Blog-Markdown-2ea043?style=flat-square)
+![Publications](https://img.shields.io/badge/Publications-auto-2ea043?style=flat-square)
+![Mobile](https://img.shields.io/badge/Mobile-ready-2ea043?style=flat-square)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-build-2088FF?style=flat-square)
+![AI agents](https://img.shields.io/badge/AI_agents-Cursor_Windsurf-6e5494?style=flat-square)
 
-> 📖 **Want more details?** Check out the [detailed guide and usage tutorial](blog/introducing-config-driven-academic-website-template.html) for comprehensive documentation, examples, and tips. The guide is continuously updated with new features and best practices.
+**Academic-focused features:**
+
+- **TL;DR popovers** — hover (desktop) / tap-to-expand (mobile) for quick skimming
+- **Publication-first layout** — auto-generated publication list from config
+- **Mobile-friendly** — responsive reading, back-to-top
+- **Config-driven content** — no HTML editing; update `content.json` / `site.yaml`
+- **Optional AI agent skills** — Cursor / Windsurf skills for adding papers and deploying
+
+> 📖 **Want more details?** [Detailed guide](blog/introducing-config-driven-academic-website-template.html) · examples and tips.
 
 ## 🚀 Quick Start
+
+### (Optional) Step 0: Let an AI agent set things up
+
+If you use an AI-enabled editor such as **Cursor**, **Antigravity**, or **Codex**, you can let an agent do most of the initial setup for you:
+
+- Open this repo in your editor and enable its AI agent.
+- Ask the agent to use the `init-template-setup` skill for this project.
+- Answer its questions about your name, affiliation, SEO, deployment choice, and favicon/logo.
+- The agent will read `README.md`, `config/README.md`, `docs/FAVICON_SETUP.md`, and the intro blog post, then edit `config/site.yaml` and `config/content.json` for you following the docs.
+
+You can still follow the manual steps below, but the AI-assisted flow is often faster for first-time users.
 
 ### Step 1: Create Your Repository
 
@@ -87,7 +102,7 @@ All configuration files live in the **`config/`** directory. This keeps the repo
 |------|---------|--------------|
 | **config/meta.json** | Template internals, Scholar sync status | Do not edit (used by scripts) |
 | **config/site.yaml** | One-time setup: SEO, visitor map, short URL redirects | Set once when forking |
-| **config/content.json** | Your content: bio, news, publications, experience, education | Edit whenever you update the site |
+| **config/content.json** | Your content: bio, news, publications, roadmap graph, experience, education | Edit whenever you update the site |
 | **config/config.json** | Legacy merge of meta + site (written by Scholar sync) | Do not edit by hand |
 
 #### 5.1 One-time site setup: `config/site.yaml`
@@ -197,6 +212,29 @@ Add your papers in the `publications` section:
 ```
 
 > **💡 TL;DR Popovers**: Adding a `tldr` field to any publication automatically enables an interactive summary tooltip — displayed as a glassmorphism popover on desktop (hover), and a tap-to-expand accordion on mobile.
+
+#### Research Roadmap Graph (optional)
+Add a layered, clickable research graph to the homepage with `research_roadmap`:
+
+```json
+"research_roadmap": {
+  "enabled": true,
+  "tracks": [
+    { "id": "efficient", "name": "Efficient Perception & Inference", "color": "#7c3aed" },
+    { "id": "world_model", "name": "Multimodal Representation & Generation", "color": "#0ea5e9" },
+    { "id": "agentic", "name": "Agentic AI (System 2)", "color": "#f59e0b" }
+  ],
+  "nodes": [
+    { "id": "mmtok", "track": "efficient", "paper_url": "https://arxiv.org/abs/2508.18264", "label": "ICLR'26" }
+  ],
+  "edges": [
+    { "source": "mmtok", "target": "multiagent_infer", "type": "core" }
+  ]
+}
+```
+
+- `paper_url` auto-links to the corresponding publication metadata (`title`, `venue`, `links`, `tldr`).
+- `type: "bridge"` is rendered as a cross-track bridge edge.
 
 #### News Updates
 Add recent news:

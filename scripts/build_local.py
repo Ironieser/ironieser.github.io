@@ -15,6 +15,7 @@ Description: Local development tool for the config-driven academic website templ
 Usage: python scripts/build_local.py
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -27,6 +28,21 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(script_dir)
 if os.path.basename(script_dir) == 'scripts':
     os.chdir(project_root)
+
+
+def publication_image_src(image_path):
+    """Append content-hash ?v= to relative teaser paths (stable across CI runs; busts only when bytes change)."""
+    if not image_path or image_path.startswith(('http://', 'https://', '//')):
+        return image_path
+    clean = image_path.split('?')[0].strip()
+    full = os.path.join(project_root, clean)
+    if os.path.isfile(full):
+        h = hashlib.sha256()
+        with open(full, 'rb') as f:
+            for chunk in iter(lambda: f.read(65536), b''):
+                h.update(chunk)
+        return f"{clean}?v={h.hexdigest()[:8]}"
+    return clean
 
 
 def load_config():
@@ -364,6 +380,12 @@ def generate_navigation(personal, active_page):
     return '\n                '.join(nav_items)
 
 
+BACK_TO_TOP_BUTTON = '''
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>'''
+
+
 
 def generate_footer(personal, template_info=None, visitor_map=None):
     """Generate footer HTML"""
@@ -494,7 +516,8 @@ def generate_index_page(config):
     publications = config['publications']
     template_info = config.get('_template_info')
     visitor_map = config.get('visitor_map')
-    
+    back_to_top = BACK_TO_TOP_BUTTON
+
     # Get selected publications (featured first, then recent)
     selected_pubs = []
     sorted_years = sorted([year for year in publications.keys() if year != 'survey'], reverse=True)
@@ -581,7 +604,7 @@ def generate_index_page(config):
         
         pubs_html.append(f'''
             <div class="publication-item reveal {has_tldr_class}">
-                <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                 <div class="publication-content">
                     <p class="publication-title">{venue_badge} {pub['title']}</p>
                     <p class="publication-authors">{authors_formatted}</p>
@@ -753,8 +776,9 @@ def generate_index_page(config):
         </section>
     </main>
 
+    {back_to_top}
     {generate_footer(personal, template_info, visitor_map)}
-    
+
     <script>
         // News filter functionality
         function initNewsFilter() {{
@@ -853,7 +877,7 @@ def generate_publications_page(config):
             
             pub_items.append(f'''
                 <div class="publication-item reveal {has_tldr_class}">
-                    <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>
@@ -887,7 +911,7 @@ def generate_publications_page(config):
             
             survey_items.append(f'''
                 <div class="publication-item reveal {has_tldr_class}">
-                    <img src="{pub['image']}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="{publication_image_src(pub['image'])}" alt="{pub['title']}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
                     <div class="publication-content">
                         <p class="publication-title">{venue_badge} {pub['title']}</p>
                         <p class="publication-authors">{authors_formatted}</p>
@@ -966,6 +990,7 @@ def generate_publications_page(config):
         </section>
     </main>
 
+    {BACK_TO_TOP_BUTTON}
     {generate_footer(personal, template_info, visitor_map)}
     
     {generate_common_scripts()}
@@ -1076,6 +1101,7 @@ def generate_blog_page(config):
         </div>
     </main>
 
+    {BACK_TO_TOP_BUTTON}
     {generate_footer(personal, template_info, visitor_map)}
     
     <script>
