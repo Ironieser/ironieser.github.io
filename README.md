@@ -102,7 +102,7 @@ All configuration files live in the **`config/`** directory. This keeps the repo
 |------|---------|--------------|
 | **config/meta.json** | Template internals, Scholar sync status | Do not edit (used by scripts) |
 | **config/site.yaml** | One-time setup: SEO, visitor map, short URL redirects | Set once when forking |
-| **config/content.json** | Your content: bio, news, publications, experience, education | Edit whenever you update the site |
+| **config/content.json** | Your content: bio, news, publications, roadmap graph, experience, education | Edit whenever you update the site |
 | **config/config.json** | Legacy merge of meta + site (written by Scholar sync) | Do not edit by hand |
 
 #### 5.1 One-time site setup: `config/site.yaml`
@@ -212,6 +212,29 @@ Add your papers in the `publications` section:
 ```
 
 > **💡 TL;DR Popovers**: Adding a `tldr` field to any publication automatically enables an interactive summary tooltip — displayed as a glassmorphism popover on desktop (hover), and a tap-to-expand accordion on mobile.
+
+#### Research Roadmap Graph (optional)
+Add a layered, clickable research graph to the homepage with `research_roadmap`:
+
+```json
+"research_roadmap": {
+  "enabled": true,
+  "tracks": [
+    { "id": "efficient", "name": "Efficient Perception & Inference", "color": "#7c3aed" },
+    { "id": "world_model", "name": "Multimodal Representation & Generation", "color": "#0ea5e9" },
+    { "id": "agentic", "name": "Agentic AI (System 2)", "color": "#f59e0b" }
+  ],
+  "nodes": [
+    { "id": "mmtok", "track": "efficient", "paper_url": "https://arxiv.org/abs/2508.18264", "label": "ICLR'26" }
+  ],
+  "edges": [
+    { "source": "mmtok", "target": "multiagent_infer", "type": "core" }
+  ]
+}
+```
+
+- `paper_url` auto-links to the corresponding publication metadata (`title`, `venue`, `links`, `tldr`).
+- `type: "bridge"` is rendered as a cross-track bridge edge.
 
 #### News Updates
 Add recent news:
