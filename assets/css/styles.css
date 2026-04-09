@@ -3183,6 +3183,11 @@ body {
     .roadmap-paper-group-grid {
         grid-template-columns: 1fr;
     }
+    .roadmap-paper-card.is-span-2,
+    .roadmap-paper-card.is-span-3,
+    .roadmap-paper-card.is-span-4 {
+        grid-column: span 1;
+    }
     .roadmap-context-cards-grid {
         grid-template-columns: 1fr;
     }
