@@ -234,11 +234,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     const filters = Array.isArray(model.filters) ? model.filters : [];
-    const tracks = Array.isArray(model.tracks) ? model.tracks : [];
     const ongoingItems = Array.isArray(model.ongoing) ? model.ongoing : [];
     const visionLoop = model.vision_loop && typeof model.vision_loop === 'object' ? model.vision_loop : null;
     const papers = Array.isArray(model.nodes) ? model.nodes : [];
-    if (!tracks.length || !papers.length) return;
+    if (!papers.length) return;
 
     let activeFilter = 'all';
     const phases = Array.isArray(model.phases) ? model.phases : [];
@@ -253,9 +252,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return papers;
     }
 
-    function matchesActiveFilter(paper) {
+    function matchesActiveFilter(target) {
         if (activeFilter === 'all') return true;
-        const tags = Array.isArray(paper.tags) ? paper.tags : [];
+        const tags = Array.isArray(target)
+            ? target
+            : (Array.isArray(target?.tags) ? target.tags : []);
         return tags.includes(activeFilter);
     }
 
@@ -275,11 +276,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return picked;
     }
 
-    function phaseTrack(phaseId) {
-        const phase = phases.find(item => item.id === phaseId);
-        return tracks.find(track => track.id === phase?.trackId) || tracks[0];
-    }
-
     function paperPhaseIds(paper) {
         const ids = Array.from(new Set(
             (Array.isArray(paper.stages) ? paper.stages : [])
@@ -289,8 +285,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (ids.length) {
             return ids.sort((a, b) => (phaseOrder.get(a) || 0) - (phaseOrder.get(b) || 0));
         }
-        if (paper.track === 'world_model') return ['world_modeling'];
-        if (paper.track === 'systems') return ['agentic_systems'];
         return ['perception'];
     }
 
@@ -316,8 +310,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const venueType = String(paper.venue_type || '').toLowerCase();
         const venue = paper.venue || '';
         const year = paper.year ? String(paper.year) : '';
-        if (venueType.includes('under-review')) return year;
+        // Venue strings like CVPR'22 / arXiv'2506 / NeurIPS'25 already encode time → do not append calendar year.
         if (venue && /(\d{2}|\d{4})/.test(venue)) return venue;
+        if (venueType.includes('under-review')) return year || venue;
         return [venue, year].filter(Boolean).join(' ');
     }
 
@@ -342,9 +337,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 Number(b.year || 0) - Number(a.year || 0)
             ));
         const maxItems = phase.maxItems || 4;
+        const isContext = n => n.card_kind === 'context';
+        const contextItems = all.filter(isContext);
+        const paperList = all.filter(n => !isContext(n));
         return {
-            items: all.slice(0, maxItems),
-            hiddenCount: Math.max(0, all.length - maxItems)
+            items: paperList.slice(0, maxItems),
+            contextItems,
+            hiddenCount: Math.max(0, paperList.length - maxItems)
         };
     }
 
@@ -354,20 +353,94 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderPaperCard(paper, color) {
         const spotlightClass = matchesActiveFilter(paper) ? ' is-spotlight' : ' is-dimmed';
-        const sizeClass = paper.size ? ` is-${paper.size}` : '';
+        const span = Number(paper.size) || 1;
+        const sizeClass = span > 1 ? ` is-span-${span}` : '';
         return `
             <button class="roadmap-paper-card${spotlightClass}${sizeClass}${paper.is_oral || Number(paper.importance || 1) >= 2 ? ' is-featured' : ''}${String(paper.venue_type || '').includes('preprint') ? ' is-preprint' : ''}" data-paper-id="${paper.id}" style="--paper-color:${color || '#7c3aed'}">
                 <div class="roadmap-paper-card-main">
                     <span class="roadmap-paper-card-copy">
                         <span class="roadmap-paper-card-title">${paperKeyword(paper)}</span>
                         <span class="roadmap-paper-card-meta">
+                            ${paper.is_lead_author ? '<span class="roadmap-paper-role" title="First / co-first author">✦</span>' : ''}
                             ${paperVenueMarkup(paper)}
                             ${paper.is_oral ? '<span class="roadmap-paper-oral">🏆 Oral</span>' : ''}
                         </span>
                     </span>
-                    ${paper.is_lead_author ? '<span class="roadmap-paper-role">1st</span>' : ''}
                 </div>
             </button>
+        `;
+    }
+
+    function escapeHtml(str) {
+        if (str == null || str === '') return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;');
+    }
+
+    function renderContextPaperItem(item, color, sectionKicker, registerContextTip, tooltipRoleLine, inheritedFilterTags) {
+        const filterTags = (Array.isArray(item.tags) && item.tags.length)
+            ? item.tags
+            : (Array.isArray(inheritedFilterTags) ? inheritedFilterTags : []);
+        const spotlightClass = matchesActiveFilter({ tags: filterTags }) ? ' is-spotlight' : ' is-dimmed';
+        const hasHoverDetail = Boolean(item.meta || item.detail);
+        const tipRole = (tooltipRoleLine || sectionKicker || '').trim();
+        let tipAttr = '';
+        if (hasHoverDetail && typeof registerContextTip === 'function') {
+            const idx = registerContextTip({
+                title: item.title || '',
+                roleLine: tipRole,
+                meta: item.meta || '',
+                detail: item.detail || ''
+            });
+            tipAttr = ` data-context-tip="${idx}"`;
+        }
+        const metaBits = [];
+        if (sectionKicker) {
+            metaBits.push(`<span class="roadmap-context-subline">${escapeHtml(sectionKicker)}</span>`);
+        }
+        if (!hasHoverDetail) {
+            if (item.meta) metaBits.push(`<span>${escapeHtml(item.meta)}</span>`);
+            if (item.detail) metaBits.push(`<span>${escapeHtml(item.detail)}</span>`);
+        }
+        const metaHtml = metaBits.length
+            ? `<span class="roadmap-paper-card-meta">${metaBits.join('')}</span>`
+            : '';
+        return `
+            <div class="roadmap-paper-card roadmap-paper-card-static${spotlightClass}"${tipAttr} style="--paper-color:${color || '#7c3aed'}">
+                <div class="roadmap-paper-card-main">
+                    <span class="roadmap-paper-card-copy">
+                        <span class="roadmap-paper-card-title">${escapeHtml(item.title || '')}</span>
+                        ${metaHtml}
+                    </span>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderContextNodesBlock(contextItems, color, registerContextTip) {
+        if (!Array.isArray(contextItems) || !contextItems.length) return '';
+        const inheritedFilterTags = [];
+        const reg = typeof registerContextTip === 'function' ? registerContextTip : null;
+        const itemsHtml = contextItems.map(node => {
+            const ctx = node.context || {};
+            const item = {
+                title: node.short_label || node.title || '',
+                tags: Array.isArray(node.tags) ? node.tags : [],
+                meta: ctx.meta || '',
+                detail: ctx.detail || ''
+            };
+            const kicker = ctx.kicker || '';
+            const tooltipRole = (ctx.tooltip_role || '').trim();
+            return renderContextPaperItem(item, color, kicker, reg, tooltipRole, inheritedFilterTags);
+        }).join('');
+        const gridSingleClass = contextItems.length === 1 ? ' is-full-width' : '';
+        return `
+            <div class="roadmap-context-cards">
+                <div class="roadmap-context-cards-grid${gridSingleClass}">${itemsHtml}</div>
+            </div>
         `;
     }
 
@@ -395,17 +468,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 `).join('')}
             </div>
         `;
+        const contextTips = [];
+        function registerContextTip(payload) {
+            return contextTips.push(payload) - 1;
+        }
         const phaseHtml = phases.map(phase => {
-            const track = phaseTrack(phase.id);
             const phasePapers = papersForPhase(phase);
             const phaseOngoing = ongoingForPhase(phase);
-            const color = track?.color || '#7c3aed';
+            const color = phase.color || '#7c3aed';
             const groups = Array.isArray(phase.groups) ? phase.groups : [];
             let cardsHtml, ongoingHtml = '';
 
             if (groups.length) {
                 const grouped = new Map();
                 phasePapers.items.forEach(paper => {
+                    if (paper.card_kind === 'context') return;
                     const gid = paper.group || groups[groups.length - 1].id;
                     if (!grouped.has(gid)) grouped.set(gid, []);
                     grouped.get(gid).push(paper);
@@ -413,8 +490,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 const renderGroup = group => {
                     const items = (grouped.get(group.id) || [])
-                        .sort((a, b) => (a.size === 'wide' ? -1 : 0) - (b.size === 'wide' ? -1 : 0));
-                    const gridStyle = group.gridColumns ? ` style="grid-template-columns:${group.gridColumns}"` : '';
+                        .sort((a, b) => (Number(b.size) || 1) - (Number(a.size) || 1));
+                    const cols = group.gridColumns;
+                    const gridStyle = cols ? ` style="grid-template-columns:${typeof cols === 'number' ? `repeat(${cols},1fr)` : cols}"` : '';
                     return `
                         <div class="roadmap-paper-group roadmap-paper-group-${group.id}" style="--paper-color:${color}">
                             <div class="roadmap-paper-group-label">
@@ -466,11 +544,21 @@ document.addEventListener('DOMContentLoaded', function () {
                     </h3>
                     <p class="roadmap-phase-summary">${phase.summary || ''}</p>
                     <div class="roadmap-phase-papers"${colStyle}>${cardsHtml || '<p class="roadmap-phase-empty">No representative papers in this view.</p>'}</div>
+                    ${renderContextNodesBlock(phasePapers.contextItems, color, registerContextTip)}
                     ${ongoingHtml ? `<div class="roadmap-phase-ongoing">${ongoingHtml}</div>` : ''}
                     ${phasePapers.hiddenCount ? `<div class="roadmap-phase-more">+${phasePapers.hiddenCount} more papers in this line</div>` : ''}
                 </section>
             `;
         }).join('');
+
+        const futureLoopHtml = visionLoop?.text ? `
+                    <div class="roadmap-future-loop">
+                        <div class="roadmap-future-loop-copy">
+                            <span class="roadmap-future-loop-label">${visionLoop.label || 'Future Loop'}</span>
+                            <span class="roadmap-future-loop-text">${visionLoop.text}</span>
+                        </div>
+                    </div>
+                ` : '';
 
         graphEl.innerHTML = `
             <div class="roadmap-flow">
@@ -482,14 +570,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${filtersHtml}
                 </div>
                 <div class="roadmap-phase-grid">${phaseHtml}</div>
-                ${visionLoop?.text ? `
-                    <div class="roadmap-future-loop">
-                        <div class="roadmap-future-loop-copy">
-                            <span class="roadmap-future-loop-label">${visionLoop.label || 'Future Loop'}</span>
-                            <span class="roadmap-future-loop-text">${visionLoop.text}</span>
-                        </div>
-                    </div>
-                ` : ''}
+                <div class="roadmap-flow-footer">
+                    <p class="roadmap-lead-legend" role="note" aria-label="Legend: star indicates first or co-first author">
+                        <span class="roadmap-lead-legend-mark" aria-hidden="true">✦</span>
+                        <span>First / co-first author</span>
+                    </p>
+                    ${futureLoopHtml}
+                </div>
             </div>
             <div class="roadmap-hover-tooltip" id="roadmap-hover-tooltip" hidden></div>
         `;
@@ -513,22 +600,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 160);
         }
 
-        function showTooltip(target, paper) {
+        function layoutRoadmapTooltip(target) {
             if (!tooltip) return;
-            cancelHideTooltip();
-            const authors = Array.isArray(paper.authors) && paper.authors.length
-                ? paper.authors.slice(0, 4).join(', ') + (paper.authors.length > 4 ? ', ...' : '')
-                : '';
-            const links = tooltipLinks(paper).map(link => (
-                `<a href="${link.url}" target="_blank" rel="noopener">${link.name}</a>`
-            )).join('');
-
-            tooltip.innerHTML = `
-                <div class="roadmap-tooltip-title">${paper.title}</div>
-                <div class="roadmap-tooltip-meta">${[authors, paper.venue, paper.year].filter(Boolean).join(' · ')}</div>
-                ${links ? `<div class="roadmap-tooltip-links">${links}</div>` : ''}
-            `;
-
             const graphRect = graphEl.getBoundingClientRect();
             const targetRect = target.getBoundingClientRect();
             tooltip.hidden = false;
@@ -542,6 +615,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
             tooltip.style.left = `${left}px`;
             tooltip.style.top = `${top}px`;
+        }
+
+        function showTooltip(target, paper) {
+            if (!tooltip) return;
+            cancelHideTooltip();
+            const authors = Array.isArray(paper.authors) && paper.authors.length
+                ? paper.authors.slice(0, 4).join(', ') + (paper.authors.length > 4 ? ', ...' : '')
+                : '';
+            const links = tooltipLinks(paper).map(link => (
+                `<a href="${link.url}" target="_blank" rel="noopener">${link.name}</a>`
+            )).join('');
+
+            const venueYear = paperVenueYear(paper);
+            tooltip.innerHTML = `
+                <div class="roadmap-tooltip-title">${escapeHtml(paper.title)}</div>
+                <div class="roadmap-tooltip-meta">${escapeHtml([authors, venueYear].filter(Boolean).join(' · '))}</div>
+                ${links ? `<div class="roadmap-tooltip-links">${links}</div>` : ''}
+            `;
+
+            layoutRoadmapTooltip(target);
+        }
+
+        function showContextTooltip(target, tip) {
+            if (!tooltip) return;
+            cancelHideTooltip();
+            const parts = [];
+            if (tip.title) parts.push(`<div class="roadmap-tooltip-title">${escapeHtml(tip.title)}</div>`);
+            if (tip.roleLine) parts.push(`<div class="roadmap-tooltip-meta">${escapeHtml(tip.roleLine)}</div>`);
+            if (tip.meta) parts.push(`<div class="roadmap-tooltip-meta">${escapeHtml(tip.meta)}</div>`);
+            if (tip.detail) parts.push(`<div class="roadmap-tooltip-meta">${escapeHtml(tip.detail)}</div>`);
+            tooltip.innerHTML = parts.join('');
+            layoutRoadmapTooltip(target);
         }
 
         function hideTooltip() {
@@ -558,6 +663,15 @@ document.addEventListener('DOMContentLoaded', function () {
             el.addEventListener('mouseenter', function () {
                 const paper = papers.find(item => item.id === this.getAttribute('data-paper-id'));
                 if (paper) showTooltip(this, paper);
+            });
+            el.addEventListener('mouseleave', hideTooltip);
+        });
+        graphEl.querySelectorAll('[data-context-tip]').forEach(el => {
+            const idx = Number(el.getAttribute('data-context-tip'));
+            const tip = contextTips[idx];
+            if (!tip) return;
+            el.addEventListener('mouseenter', function () {
+                showContextTooltip(this, tip);
             });
             el.addEventListener('mouseleave', hideTooltip);
         });

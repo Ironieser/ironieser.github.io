@@ -213,28 +213,38 @@ Add your papers in the `publications` section:
 
 > **💡 TL;DR Popovers**: Adding a `tldr` field to any publication automatically enables an interactive summary tooltip — displayed as a glassmorphism popover on desktop (hover), and a tap-to-expand accordion on mobile.
 
-#### Research Roadmap Graph (optional)
-Add a layered, clickable research graph to the homepage with `research_roadmap`:
+#### Research Roadmap (optional)
+Add a stage-based roadmap to the homepage with `research_roadmap`: define **`phases`** (each with `color`, `stageIds`, layout), **`filters`**, and **`nodes`** (`stages`, `tags`, `paper_url`, optional `group` / `size`). See `config/content.json` and `.agents/skills/update-roadmap/references/roadmap-schema.md` for the full schema.
 
 ```json
 "research_roadmap": {
   "enabled": true,
-  "tracks": [
-    { "id": "efficient", "name": "Efficient Perception & Inference", "color": "#7c3aed" },
-    { "id": "world_model", "name": "Multimodal Representation & Generation", "color": "#0ea5e9" },
-    { "id": "agentic", "name": "Agentic AI (System 2)", "color": "#f59e0b" }
+  "title": "Research Roadmap",
+  "phases": [
+    {
+      "id": "perception",
+      "title": "Perception",
+      "kicker": "Stage 01",
+      "stageIds": ["perception"],
+      "color": "#7c3aed",
+      "maxItems": 4,
+      "columns": 1
+    }
   ],
+  "filters": [{ "id": "video_multimodal", "name": "Multimodal" }],
   "nodes": [
-    { "id": "mmtok", "track": "efficient", "paper_url": "https://arxiv.org/abs/2508.18264", "label": "ICLR'26" }
-  ],
-  "edges": [
-    { "source": "mmtok", "target": "multiagent_infer", "type": "core" }
+    {
+      "id": "example_paper",
+      "paper_url": "https://arxiv.org/abs/2508.18264",
+      "short_label": "Example",
+      "tags": ["video_multimodal"],
+      "stages": ["perception"]
+    }
   ]
 }
 ```
 
-- `paper_url` auto-links to the corresponding publication metadata (`title`, `venue`, `links`, `tldr`).
-- `type: "bridge"` is rendered as a cross-track bridge edge.
+- `paper_url` merges publication metadata (`title`, `venue`, `links`, `tldr`) from `publications` when the URL matches.
 
 #### News Updates
 Add recent news:

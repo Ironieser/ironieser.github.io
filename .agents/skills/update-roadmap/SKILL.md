@@ -17,7 +17,7 @@ Update the homepage research roadmap by editing `config/content.json` only. No C
 
 ### 1. Read the current roadmap config
 
-Open `config/content.json` and find the `"research_roadmap"` section. Understand the existing phases, nodes, filters, and tracks.
+Open `config/content.json` and find the `"research_roadmap"` section. Understand the existing phases, nodes, and filters.
 
 See `references/roadmap-schema.md` for the full field reference.
 
@@ -28,7 +28,6 @@ See `references/roadmap-schema.md` for the full field reference.
 ```json
 {
   "id": "my_paper",
-  "track": "systems",
   "paper_url": "https://arxiv.org/abs/XXXX.XXXXX",
   "short_label": "My Paper",
   "tags": ["efficient_ai"],
@@ -38,11 +37,13 @@ See `references/roadmap-schema.md` for the full field reference.
 }
 ```
 
-- `track` must match a `tracks[].id` (`foundations` / `world_model` / `systems`)
+- Do **not** set `track` on nodes; each phase has a `color` for that column. Omit `importance` when it is `1` (default).
 - `tags` must match `filters[].id` values for spotlight filtering to work
 - `stages` determines which phase the paper appears in (mapped via `phases[].stageIds`)
 - `group` assigns the paper to a sub-group within its phase (must match `phases[].groups[].id`)
-- Set `"size": "wide"` for 2-column span or `"full"` for full-row span
+- Set `"size": 2` (or `3`) for wider cards inside a group grid (see schema)
+
+**Context strip** (internship, etc.) — add a node with `"card_kind": "context"`, no `paper_url`, plus a `context` object (`kicker`, `tooltip_role`, `meta`, `detail`). See `references/roadmap-schema.md`.
 
 **Add a phase** — append to `research_roadmap.phases`:
 
@@ -54,13 +55,11 @@ See `references/roadmap-schema.md` for the full field reference.
   "icon": "🔬",
   "summary": "Short description.",
   "stageIds": ["new_stage_id"],
-  "trackId": "existing_or_new_track_id",
+  "color": "#6366f1",
   "maxItems": 4,
   "columns": 1
 }
 ```
-
-Add a matching track to `tracks` if `trackId` is new.
 
 **Add sub-groups** — add `"groups"` array to a phase:
 

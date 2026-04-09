@@ -228,21 +228,31 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
     if (paperUrl) pubByPaperUrl.set(paperUrl, pub);
   });
 
-  const tracks = Array.isArray(roadmapConfig.tracks) ? roadmapConfig.tracks : [];
   const filters = Array.isArray(roadmapConfig.filters) ? roadmapConfig.filters : [];
   const stages = Array.isArray(roadmapConfig.stages) ? roadmapConfig.stages : [];
   const ongoing = Array.isArray(roadmapConfig.ongoing) ? roadmapConfig.ongoing : [];
   const visionLoop = roadmapConfig.vision_loop && typeof roadmapConfig.vision_loop === 'object'
     ? roadmapConfig.vision_loop
     : null;
-  const trackIds = new Set(tracks.map(t => t.id));
+  const phaseList = Array.isArray(roadmapConfig.phases) ? roadmapConfig.phases : [];
+  const legacyTrackColors = {
+    foundations: '#7c3aed',
+    world_model: '#0ea5e9',
+    systems: '#f59e0b'
+  };
+  const phases = phaseList.map(phase => ({
+    ...phase,
+    color: phase.color || (phase.trackId && legacyTrackColors[phase.trackId]) || '#7c3aed'
+  }));
+
   const rawNodes = Array.isArray(roadmapConfig.nodes) ? roadmapConfig.nodes : [];
   const nodes = rawNodes.map(node => {
     const pub = node.paper_url ? pubByPaperUrl.get(node.paper_url) : null;
     const links = pub?.links || node.links || [];
     return {
       id: node.id,
-      track: node.track,
+      card_kind: node.card_kind === 'context' ? 'context' : 'paper',
+      context: node.context && typeof node.context === 'object' ? node.context : null,
       year: node.year || pub?._year || null,
       title: node.title || pub?.title || 'Untitled Paper',
       authors: Array.isArray(node.authors) ? node.authors : (pub?.authors || []),
@@ -258,11 +268,11 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
       subtitle: node.subtitle || '',
       stages: Array.isArray(node.stages) ? node.stages : [],
       importance: typeof node.importance === 'number' ? node.importance : 1,
-      size: node.size || '',
+      size: typeof node.size === 'number' ? node.size : (parseInt(node.size, 10) || 0),
       links,
       paper_url: node.paper_url || getPublicationPaperLink(pub) || null
     };
-  }).filter(node => node.id && trackIds.has(node.track));
+  }).filter(node => node.id);
 
   const nodeIds = new Set(nodes.map(node => node.id));
   const edges = (Array.isArray(roadmapConfig.edges) ? roadmapConfig.edges : []).filter(edge => (
@@ -271,15 +281,12 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
     nodeIds.has(edge.target)
   ));
 
-  const phases = Array.isArray(roadmapConfig.phases) ? roadmapConfig.phases : [];
-
   return {
     title: roadmapConfig.title || 'Research Roadmap',
     subtitle: roadmapConfig.subtitle || '',
     description: roadmapConfig.description || '',
     phases,
     filters,
-    tracks,
     ongoing,
     vision_loop: visionLoop,
     nodes

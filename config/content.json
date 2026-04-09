@@ -86,7 +86,7 @@
           "perception",
           "alignment"
         ],
-        "trackId": "foundations",
+        "color": "#7c3aed",
         "maxItems": 2,
         "columns": 1
       },
@@ -99,7 +99,7 @@
         "stageIds": [
           "world_modeling"
         ],
-        "trackId": "world_model",
+        "color": "#0ea5e9",
         "maxItems": 3,
         "columns": 2
       },
@@ -113,7 +113,7 @@
           "efficient_systems",
           "agentic_reasoning"
         ],
-        "trackId": "systems",
+        "color": "#f59e0b",
         "maxItems": 7,
         "columns": 2,
         "groups": [
@@ -157,20 +157,6 @@
         "name": "Reasoning & Agents"
       }
     ],
-    "tracks": [
-      {
-        "id": "foundations",
-        "color": "#7c3aed"
-      },
-      {
-        "id": "world_model",
-        "color": "#0ea5e9"
-      },
-      {
-        "id": "systems",
-        "color": "#f59e0b"
-      }
-    ],
     "nodes": [
       {
         "id": "transrac",
@@ -193,8 +179,7 @@
         ],
         "stages": [
           "alignment"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "timesclip",
@@ -204,13 +189,10 @@
           "video_multimodal",
           "generative_modeling"
         ],
-        "venue": "arXiv'2506",
-        "venue_type": "preprint",
         "stages": [
           "alignment",
           "world_modeling"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "roomdesigner",
@@ -221,8 +203,7 @@
         ],
         "stages": [
           "world_modeling"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "sculpting",
@@ -233,8 +214,7 @@
         ],
         "stages": [
           "world_modeling"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "dgene_digital_human",
@@ -247,7 +227,6 @@
         "stages": [
           "world_modeling"
         ],
-        "importance": 1,
         "context": {
           "kicker": "Multimodal Generative Modeling",
           "tooltip_role": "Research Intern",
@@ -297,8 +276,7 @@
         "group": "reasoning",
         "stages": [
           "agentic_reasoning"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "tom",
@@ -310,8 +288,7 @@
         "group": "reasoning",
         "stages": [
           "agentic_reasoning"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "asr_agent",
@@ -323,8 +300,7 @@
         "group": "reasoning",
         "stages": [
           "agentic_reasoning"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "livemcp",
@@ -336,8 +312,7 @@
         "group": "reasoning",
         "stages": [
           "agentic_reasoning"
-        ],
-        "importance": 1
+        ]
       },
       {
         "id": "logicif",
@@ -349,8 +324,7 @@
         "group": "reasoning",
         "stages": [
           "agentic_reasoning"
-        ],
-        "importance": 1
+        ]
       }
     ]
   },
@@ -783,7 +757,7 @@
           "Yanjie Fu"
         ],
         "venue": "arXiv'2506",
-        "venue_type": "under-review",
+        "venue_type": "preprint",
         "image": "images/blog/timesclip/fig3.png",
         "featured": true,
         "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
