@@ -82,7 +82,10 @@
         "kicker": "Stage 01",
         "icon": "🎬",
         "summary": "Video understanding, representation learning, and alignment.",
-        "stageIds": ["perception", "alignment"],
+        "stageIds": [
+          "perception",
+          "alignment"
+        ],
         "trackId": "foundations",
         "maxItems": 2,
         "columns": 1
@@ -93,10 +96,12 @@
         "kicker": "Stage 02",
         "icon": "🪄",
         "summary": "3D, diffusion, and generative modeling across modalities.",
-        "stageIds": ["world_modeling"],
+        "stageIds": [
+          "world_modeling"
+        ],
         "trackId": "world_model",
         "maxItems": 3,
-        "columns": 1
+        "columns": 2
       },
       {
         "id": "agentic_systems",
@@ -104,7 +109,10 @@
         "kicker": "Stage 03",
         "icon": "🧠",
         "summary": "Efficient inference, tool use, and agentic reasoning.",
-        "stageIds": ["efficient_systems", "agentic_reasoning"],
+        "stageIds": [
+          "efficient_systems",
+          "agentic_reasoning"
+        ],
         "trackId": "systems",
         "maxItems": 7,
         "columns": 2,
@@ -114,14 +122,14 @@
             "label": "Inference Acceleration",
             "icon": "⚡",
             "row": "top",
-            "gridColumns": "2fr 1fr"
+            "gridColumns": 3
           },
           {
             "id": "reasoning",
             "label": "Reasoning & Execution",
             "icon": "🛠️",
             "row": "bottom",
-            "gridColumns": "repeat(3, 1fr)"
+            "gridColumns": 3
           }
         ],
         "ongoingGroup": {
@@ -166,7 +174,6 @@
     "nodes": [
       {
         "id": "transrac",
-        "track": "foundations",
         "paper_url": "https://arxiv.org/abs/2204.01018",
         "short_label": "TransRAC",
         "tags": [
@@ -179,7 +186,6 @@
       },
       {
         "id": "weaksvr",
-        "track": "foundations",
         "paper_url": "https://arxiv.org/abs/2303.12370",
         "short_label": "WeakSVR",
         "tags": [
@@ -192,7 +198,6 @@
       },
       {
         "id": "timesclip",
-        "track": "foundations",
         "paper_url": "https://arxiv.org/abs/2506.24124",
         "short_label": "TimesCLIP",
         "tags": [
@@ -209,7 +214,6 @@
       },
       {
         "id": "roomdesigner",
-        "track": "world_model",
         "paper_url": "https://arxiv.org/abs/2310.10027",
         "short_label": "RoomDesigner",
         "tags": [
@@ -222,7 +226,6 @@
       },
       {
         "id": "sculpting",
-        "track": "world_model",
         "paper_url": "https://arxiv.org/abs/2505.15152",
         "short_label": "Feature Sculpting",
         "tags": [
@@ -234,8 +237,26 @@
         "importance": 1
       },
       {
+        "id": "dgene_digital_human",
+        "card_kind": "context",
+        "short_label": "Digital Human Gen. & Anim.",
+        "tags": [
+          "generative_modeling",
+          "video_multimodal"
+        ],
+        "stages": [
+          "world_modeling"
+        ],
+        "importance": 1,
+        "context": {
+          "kicker": "Multimodal Generative Modeling",
+          "tooltip_role": "Research Intern",
+          "meta": "DGene, Digital Human Algorithm Dept. · May 2023 – Jan 2024",
+          "detail": "(1) Talking-head video (SoTA on commercial & academic benchmarks); (2) 3D body reconstruction (<7% error); (3) co-speech gesture generation."
+        }
+      },
+      {
         "id": "mmtok",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2508.18264",
         "short_label": "MMTok",
         "tags": [
@@ -250,10 +271,8 @@
       },
       {
         "id": "multiagent_infer",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2604.04929",
         "short_label": "Rethinking Model Efficiency",
-        "size": "wide",
         "tags": [
           "video_multimodal",
           "efficient_ai",
@@ -264,11 +283,11 @@
           "efficient_systems",
           "agentic_reasoning"
         ],
-        "importance": 2
+        "importance": 2,
+        "size": 2
       },
       {
         "id": "mllm_tool",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2401.10727",
         "short_label": "MLLM-Tool",
         "tags": [
@@ -283,7 +302,6 @@
       },
       {
         "id": "tom",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2602.10625",
         "short_label": "ToM Reasoning",
         "tags": [
@@ -297,7 +315,6 @@
       },
       {
         "id": "asr_agent",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2601.21347",
         "short_label": "Agentic Dysarthric ASR",
         "tags": [
@@ -311,7 +328,6 @@
       },
       {
         "id": "livemcp",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2508.15760",
         "short_label": "LiveMCP-101",
         "tags": [
@@ -325,7 +341,6 @@
       },
       {
         "id": "logicif",
-        "track": "systems",
         "paper_url": "https://arxiv.org/abs/2508.09125",
         "short_label": "LogicIF",
         "tags": [
@@ -343,7 +358,7 @@
     {
       "date": "Apr 2026",
       "icon": "🗺️",
-      "content": "Added an interactive <strong>Research Roadmap</strong> to the homepage — visualizing the research trajectory from Perception → World Modeling → Agentic Systems, with spotlight filtering by topic.",
+      "content": "The homepage now includes an interactive <strong>Research Roadmap</strong>.",
       "category": "projects"
     },
     {
@@ -1234,4 +1249,3 @@
     }
   }
 }
-
