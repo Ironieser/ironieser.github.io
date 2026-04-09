@@ -20,8 +20,8 @@ seo:
   website_url: "https://yourusername.github.io"
   github_pages_url: "https://yourusername.github.io"
   legacy_urls: []
-  website_name: "Doge Zhang - Academic Homepage"
-  website_description: "Such research. Very PhD. Wow."
+  website_name: "Academic Website Template - Demo Profile"
+  website_description: "Template demo site for academic homepage setup and customization."
   keywords:
     - computer vision
     - multimodal AI
@@ -30,10 +30,10 @@ seo:
     - artificial intelligence
     - academic research
   author:
-    name: "Doge Zhang"
-    alternate_name: "DogePhD"
-    email: "please-dont-email@example.edu"
-    academic_email: "please-dont-email@example.edu"
+    name: "Template Demo User"
+    alternate_name: "Template Profile"
+    email: "meow@example.edu"
+    academic_email: "meow@example.edu"
     affiliation: "PhD Candidate (Allegedly), Meowstar University, Planet Meow"
     job_title: "PhD Student"
     research_areas:

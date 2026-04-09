@@ -35,8 +35,8 @@
     "website_url": "https://yourusername.github.io",
     "github_pages_url": "https://yourusername.github.io",
     "legacy_urls": [],
-    "website_name": "Alex Zhang - Academic Homepage",
-    "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
+    "website_name": "Academic Website Template - Demo Profile",
+    "website_description": "Template demo site for academic homepage setup and customization.",
     "keywords": [
       "computer vision",
       "multimodal AI",
@@ -44,20 +44,20 @@
       "deep learning",
       "artificial intelligence",
       "academic research",
-      "Alex Zhang"
+      "Template Demo User"
     ],
     "author": {
-      "name": "Alex Zhang",
-      "alternate_name": "AlexZ",
-      "email": "alex.zhang@example.edu",
-      "academic_email": "alex.zhang@example.edu",
-      "affiliation": "PhD Student, Example University, USA",
+      "name": "Template Demo User",
+      "alternate_name": "Template Profile",
+      "email": "meow@example.edu",
+      "academic_email": "meow@example.edu",
+      "affiliation": "PhD Candidate (Allegedly), Meowstar University, Planet Meow",
       "job_title": "PhD Student",
       "research_areas": [
         "multimodal AI systems",
         "computer vision",
         "natural language processing",
-        "machine learning"
+      "procrastination"
       ],
       "google_scholar_id": "YOUR_SCHOLAR_ID",
       "orcid": null,
@@ -65,13 +65,13 @@
       "twitter": "yourusername"
     },
     "organization": {
-      "name": "Example University",
+      "name": "Meowstar University",
       "type": "CollegeOrUniversity",
       "url": "https://yourusername.github.io",
       "address": {
-        "addressCountry": "USA",
-        "addressLocality": "Your City",
-        "addressRegion": "Your State"
+        "addressCountry": "Planet Meow",
+        "addressLocality": "Cat City",
+        "addressRegion": "Cat Province"
       }
     }
   }
