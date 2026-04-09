@@ -3148,6 +3148,25 @@ body {
     background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
 }
 
+/* Narrow desktop/tablet fallback: phase 03 groups use inline grid columns, so force collapse here. */
+@media (max-width: 1200px) {
+    .roadmap-phase-grid {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+    .roadmap-agentic-top-row {
+        grid-template-columns: 1fr;
+    }
+    .roadmap-paper-group-grid {
+        grid-template-columns: 1fr !important;
+    }
+    .roadmap-paper-card.is-span-2,
+    .roadmap-paper-card.is-span-3,
+    .roadmap-paper-card.is-span-4 {
+        grid-column: span 1;
+    }
+}
+
 @media (max-width: 960px) {
     .roadmap-points {
         grid-template-columns: 1fr;
