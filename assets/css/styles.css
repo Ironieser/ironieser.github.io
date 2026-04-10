@@ -2381,9 +2381,10 @@ body {
     margin-bottom: 0.65rem;
 }
 
+/* Auto-wrap by min width; Stage 02 can prefer 2 equal columns on wide desktop (see media query). */
 .roadmap-phase-papers {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     gap: 0.4rem;
 }
 
@@ -2429,10 +2430,37 @@ body {
     font-size: 0.72rem;
 }
 
+/* Flex wrap: no flex-grow on default cards — otherwise each row stretches to full width (looks like a single column). */
 .roadmap-paper-group-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
     gap: 0.35rem;
+}
+
+.roadmap-paper-group-grid > .roadmap-paper-card {
+    width: auto;
+    flex: 0 1 auto;
+    min-width: min(100%, 8.8rem);
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-2 {
+    flex: 1 1 10.8rem;
+    min-width: min(100%, 9.2rem);
+}
+
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-3 {
+    flex: 2 1 20rem;
+    min-width: min(100%, 14.2rem);
+}
+
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
+    flex: 3 1 24rem;
+    min-width: min(100%, 16.8rem);
 }
 
 .roadmap-paper-card {
@@ -3148,22 +3176,29 @@ body {
     background: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
 }
 
-/* Narrow desktop/tablet fallback: phase 03 groups use inline grid columns, so force collapse here. */
+@media (min-width: 1201px) {
+    .roadmap-phase-papers.papers-prefer-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Stacked phases: more room → same auto-fit behavior (no inline 1fr blocking). */
 @media (max-width: 1200px) {
     .roadmap-phase-grid {
         grid-template-columns: 1fr;
         gap: 0.6rem;
     }
     .roadmap-agentic-top-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
     }
-    .roadmap-paper-group-grid {
-        grid-template-columns: 1fr !important;
+    .roadmap-phase-papers.papers-prefer-2 {
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     }
-    .roadmap-paper-card.is-span-2,
-    .roadmap-paper-card.is-span-3,
-    .roadmap-paper-card.is-span-4 {
-        grid-column: span 1;
+    .roadmap-paper-card-title {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        word-break: break-word;
     }
 }
 
@@ -3194,18 +3229,28 @@ body {
         gap: 0.6rem;
     }
     .roadmap-agentic-top-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
     }
-    .roadmap-phase-papers {
-        grid-template-columns: 1fr;
+    .roadmap-phase-papers,
+    .roadmap-phase-papers.papers-prefer-2 {
+        grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
     }
     .roadmap-paper-group-grid {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
     }
-    .roadmap-paper-card.is-span-2,
-    .roadmap-paper-card.is-span-3,
-    .roadmap-paper-card.is-span-4 {
-        grid-column: span 1;
+    .roadmap-paper-group-grid > .roadmap-paper-card {
+        min-width: min(100%, 8.6rem);
+    }
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-2 {
+        min-width: min(100%, 9rem);
+    }
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-3 {
+        min-width: min(100%, 14rem);
+    }
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
+        min-width: min(100%, 16rem);
     }
     .roadmap-context-cards-grid {
         grid-template-columns: 1fr;
@@ -3230,5 +3275,26 @@ body {
     .research-roadmap-graph {
         min-height: 0;
         height: auto;
+    }
+}
+
+@media (max-width: 350px) {
+    .roadmap-agentic-top-row {
+        grid-template-columns: 1fr;
+    }
+    .roadmap-phase-papers,
+    .roadmap-phase-papers.papers-prefer-2 {
+        grid-template-columns: 1fr;
+    }
+    .roadmap-paper-group-grid {
+        flex-direction: column;
+    }
+    .roadmap-paper-group-grid > .roadmap-paper-card,
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-2,
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-3,
+    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
     }
 }

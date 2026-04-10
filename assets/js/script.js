@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ongoingHtml = phaseOngoing.map(item => renderOngoingItem(item, color)).join('');
             }
 
-            const colStyle = phase.columns === 1 ? ' style="grid-template-columns:1fr"' : '';
+            const papersClass = `roadmap-phase-papers${Number(phase.columns) === 2 ? ' papers-prefer-2' : ''}`;
             return `
                 <section class="roadmap-phase-card phase-${phase.id}" style="--phase-color:${color}">
                     <div class="roadmap-phase-kicker">${phase.kicker || ''}</div>
@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <span>${phase.title}</span>
                     </h3>
                     <p class="roadmap-phase-summary">${phase.summary || ''}</p>
-                    <div class="roadmap-phase-papers"${colStyle}>${cardsHtml || '<p class="roadmap-phase-empty">No representative papers in this view.</p>'}</div>
+                    <div class="${papersClass}">${cardsHtml || '<p class="roadmap-phase-empty">No representative papers in this view.</p>'}</div>
                     ${renderContextNodesBlock(phasePapers.contextItems, color, registerContextTip)}
                     ${ongoingHtml ? `<div class="roadmap-phase-ongoing">${ongoingHtml}</div>` : ''}
                     ${phasePapers.hiddenCount ? `<div class="roadmap-phase-more">+${phasePapers.hiddenCount} more papers in this line</div>` : ''}
