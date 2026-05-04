@@ -10,25 +10,8 @@
     "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
   },
   "_scholar_sync": {
-    "last_sync_date": "2026-02-02",
+    "last_sync_date": "2026-05-04",
     "last_sync_status": "No new publications found (0 existing checked)"
-  },
-  "redirects": [
-    {
-      "alias": "mmtok",
-      "target": "/projects/mmtok.html"
-    },
-    {
-      "alias": "timesclip",
-      "target": "/projects/timesclip.html"
-    }
-  ],
-  "visitor_map": {
-    "enabled": true,
-    "provider": "clustrmaps",
-    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU",
-    "color": "ffffff",
-    "width": "a"
   },
   "seo": {
     "enable_json_ld": true,
@@ -37,7 +20,7 @@
     "legacy_urls": [
       "https://cv.ironieser.cc"
     ],
-    "website_name": "Sixun Dong (Ironieser) - Academic Homepage",
+    "website_name": "Sixun Dong (董思勋) - Academic Homepage",
     "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
     "keywords": [
       "computer vision",
@@ -51,7 +34,7 @@
     ],
     "author": {
       "name": "Sixun Dong",
-      "alternate_name": "Ironieser",
+      "alternate_name": "董思勋",
       "email": "ironieser@gmail.com",
       "academic_email": "sixundong.ai@gmail.com",
       "affiliation": "Independent Researcher, AZ, USA",
@@ -77,5 +60,18 @@
         "addressRegion": "AZ"
       }
     }
-  }
+  },
+  "visitor_map": {
+    "domain_id": "r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU"
+  },
+  "redirects": [
+    {
+      "alias": "mmtok",
+      "target": "/projects/mmtok.html"
+    },
+    {
+      "alias": "timesclip",
+      "target": "/projects/timesclip.html"
+    }
+  ]
 }

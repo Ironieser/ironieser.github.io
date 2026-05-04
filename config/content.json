@@ -58,276 +58,6 @@
     ],
     "max_featured_publications": 10
   },
-  "research_roadmap": {
-    "enabled": true,
-    "title": "Research Roadmap",
-    "subtitle": "From Perception to Agentic Intelligence",
-    "description": "Building next-generation multimodal systems.",
-    "ongoing": [
-      {
-        "phase": "agentic_systems",
-        "label": "Long-term Memory",
-        "status": "Ongoing",
-        "note": "Memory-augmented agent cognition and retrieval."
-      }
-    ],
-    "vision_loop": {
-      "label": "Future Loop",
-      "text": "Agent traces and synthetic data feed back into multimodal understanding and generative modeling."
-    },
-    "phases": [
-      {
-        "id": "perception",
-        "title": "Perception",
-        "kicker": "Stage 01",
-        "icon": "🎬",
-        "summary": "Video understanding, representation learning, and alignment.",
-        "stageIds": [
-          "perception",
-          "alignment"
-        ],
-        "color": "#7c3aed",
-        "maxItems": 2,
-        "columns": 1
-      },
-      {
-        "id": "world_modeling",
-        "title": "World Modeling",
-        "kicker": "Stage 02",
-        "icon": "🪄",
-        "summary": "3D, diffusion, and generative modeling across modalities.",
-        "stageIds": [
-          "world_modeling"
-        ],
-        "color": "#0ea5e9",
-        "maxItems": 3,
-        "columns": 2
-      },
-      {
-        "id": "agentic_systems",
-        "title": "Agentic Systems",
-        "kicker": "Stage 03",
-        "icon": "🧠",
-        "summary": "Efficient inference, tool use, and agentic reasoning.",
-        "stageIds": [
-          "efficient_systems",
-          "agentic_reasoning"
-        ],
-        "color": "#f59e0b",
-        "maxItems": 7,
-        "columns": 2,
-        "groups": [
-          {
-            "id": "inference",
-            "label": "Inference Acceleration",
-            "icon": "⚡",
-            "row": "top",
-            "gridColumns": 3
-          },
-          {
-            "id": "reasoning",
-            "label": "Reasoning & Execution",
-            "icon": "🛠️",
-            "row": "bottom",
-            "gridColumns": 3
-          }
-        ],
-        "ongoingGroup": {
-          "label": "Memory",
-          "icon": "💾",
-          "row": "top"
-        }
-      }
-    ],
-    "filters": [
-      {
-        "id": "video_multimodal",
-        "name": "Multimodal"
-      },
-      {
-        "id": "generative_modeling",
-        "name": "Generative Modeling"
-      },
-      {
-        "id": "efficient_ai",
-        "name": "Efficient AI"
-      },
-      {
-        "id": "reasoning_agents",
-        "name": "Reasoning & Agents"
-      }
-    ],
-    "nodes": [
-      {
-        "id": "transrac",
-        "paper_url": "https://arxiv.org/abs/2204.01018",
-        "short_label": "TransRAC",
-        "tags": [
-          "video_multimodal"
-        ],
-        "stages": [
-          "perception"
-        ],
-        "importance": 2
-      },
-      {
-        "id": "weaksvr",
-        "paper_url": "https://arxiv.org/abs/2303.12370",
-        "short_label": "WeakSVR",
-        "tags": [
-          "video_multimodal"
-        ],
-        "stages": [
-          "alignment"
-        ]
-      },
-      {
-        "id": "timesclip",
-        "paper_url": "https://arxiv.org/abs/2506.24124",
-        "short_label": "TimesCLIP",
-        "tags": [
-          "video_multimodal",
-          "generative_modeling"
-        ],
-        "stages": [
-          "alignment",
-          "world_modeling"
-        ]
-      },
-      {
-        "id": "roomdesigner",
-        "paper_url": "https://arxiv.org/abs/2310.10027",
-        "short_label": "RoomDesigner",
-        "tags": [
-          "generative_modeling"
-        ],
-        "stages": [
-          "world_modeling"
-        ]
-      },
-      {
-        "id": "sculpting",
-        "paper_url": "https://arxiv.org/abs/2505.15152",
-        "short_label": "Feature Sculpting",
-        "tags": [
-          "generative_modeling"
-        ],
-        "stages": [
-          "world_modeling"
-        ]
-      },
-      {
-        "id": "dgene_digital_human",
-        "card_kind": "context",
-        "short_label": "Digital Human Gen. & Anim.",
-        "tags": [
-          "generative_modeling",
-          "video_multimodal"
-        ],
-        "stages": [
-          "world_modeling"
-        ],
-        "context": {
-          "kicker": "Multimodal Generative Modeling",
-          "tooltip_role": "Research Intern",
-          "meta": "DGene, Digital Human Algorithm Dept. · May 2023 – Jan 2024",
-          "detail": "(1) Talking-head video (SoTA on commercial & academic benchmarks); (2) 3D body reconstruction (<7% error); (3) co-speech gesture generation."
-        }
-      },
-      {
-        "id": "mmtok",
-        "paper_url": "https://arxiv.org/abs/2508.18264",
-        "short_label": "MMTok",
-        "tags": [
-          "video_multimodal",
-          "efficient_ai"
-        ],
-        "group": "inference",
-        "stages": [
-          "efficient_systems"
-        ],
-        "importance": 2
-      },
-      {
-        "id": "multiagent_infer",
-        "paper_url": "https://arxiv.org/abs/2604.04929",
-        "short_label": "Rethinking Model Efficiency",
-        "tags": [
-          "video_multimodal",
-          "efficient_ai",
-          "reasoning_agents"
-        ],
-        "group": "inference",
-        "stages": [
-          "efficient_systems",
-          "agentic_reasoning"
-        ],
-        "importance": 2,
-        "size": 2
-      },
-      {
-        "id": "mllm_tool",
-        "paper_url": "https://arxiv.org/abs/2401.10727",
-        "short_label": "MLLM-Tool",
-        "tags": [
-          "video_multimodal",
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ]
-      },
-      {
-        "id": "tom",
-        "paper_url": "https://arxiv.org/abs/2602.10625",
-        "short_label": "ToM Reasoning",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ]
-      },
-      {
-        "id": "asr_agent",
-        "paper_url": "https://arxiv.org/abs/2601.21347",
-        "short_label": "Agentic Dysarthric ASR",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ]
-      },
-      {
-        "id": "livemcp",
-        "paper_url": "https://arxiv.org/abs/2508.15760",
-        "short_label": "LiveMCP-101",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ]
-      },
-      {
-        "id": "logicif",
-        "paper_url": "https://arxiv.org/abs/2508.09125",
-        "short_label": "LogicIF",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ]
-      }
-    ]
-  },
   "news": [
     {
       "date": "Apr 2026",
@@ -493,8 +223,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 95,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 102,
+        "_scholar_last_updated": "2026-05-04"
       }
     ],
     "2023": [
@@ -540,8 +270,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 25,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 26,
+        "_scholar_last_updated": "2026-05-04"
       }
     ],
     "2024": [
@@ -573,8 +303,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 77,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 88,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
@@ -588,7 +318,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "Presents RoomDesigner, which encodes \"anchor-latents\" to guide the generation of 3D indoor scenes that are both highly style-consistent and shape-compatible.",
         "links": [
           {
@@ -602,8 +332,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 17,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 18,
+        "_scholar_last_updated": "2026-05-04"
       }
     ],
     "2025": [
@@ -649,8 +379,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
@@ -699,8 +429,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 9,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Complex Logical Instruction Generation",
@@ -746,7 +476,7 @@
           }
         ],
         "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
@@ -789,7 +519,7 @@
           }
         ],
         "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "TimesFrame: Multi-Variable Time Series is a Video of Numerical Data",
@@ -836,8 +566,9 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 10,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 12,
+        "_scholar_last_updated": "2026-05-04",
+        "featured": true
       },
       {
         "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
@@ -872,8 +603,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 7,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 8,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
@@ -919,8 +650,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
@@ -950,8 +681,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 7,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
@@ -979,7 +710,7 @@
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
@@ -1008,9 +739,9 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 11,
-        "_scholar_last_updated": "2026-03-02",
-        "featured": false
+        "_scholar_citations": 13,
+        "_scholar_last_updated": "2026-05-04",
+        "featured": true
       },
       {
         "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
@@ -1036,7 +767,7 @@
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_last_updated": "2026-05-04"
       }
     ],
     "2026": [
@@ -1083,7 +814,9 @@
             "url": "https://arxiv.org/abs/2602.10625",
             "icon": "ai ai-arxiv"
           }
-        ]
+        ],
+        "_scholar_citations": 1,
+        "_scholar_last_updated": "2026-05-04"
       },
       {
         "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
@@ -1115,7 +848,9 @@
             "url": "https://huggingface.co/datasets/xiuwenz2/SAP-Hypo5",
             "icon": "fas fa-database"
           }
-        ]
+        ],
+        "_scholar_citations": 1,
+        "_scholar_last_updated": "2026-05-04"
       }
     ],
     "survey": [
@@ -1145,8 +880,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 20,
-        "_scholar_last_updated": "2026-03-02",
+        "_scholar_citations": 23,
+        "_scholar_last_updated": "2026-05-04",
         "featured": true
       },
       {
@@ -1174,8 +909,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 17,
-        "_scholar_last_updated": "2026-03-02",
+        "_scholar_citations": 22,
+        "_scholar_last_updated": "2026-05-04",
         "featured": true
       }
     ]
