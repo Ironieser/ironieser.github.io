@@ -536,7 +536,6 @@ const LEGACY_CONFIG_PATH = `${CONFIG_DIR}/config.json`;
 
 const META_KEYS = ['_template_info', '_scholar_sync'];
 const SITE_KEYS = ['seo', 'visitor_map', 'redirects'];
-const CONTENT_KEYS = ['personal', 'research', 'news', 'publications', 'experience', 'education', 'service'];
 
 function loadCombinedConfig() {
   const hasContent = fs.existsSync(CONTENT_CONFIG_PATH);
@@ -579,7 +578,12 @@ function saveCombinedConfig(configData) {
   const meta = {};
   const content = {};
   META_KEYS.forEach(k => { if (configData[k] !== undefined) meta[k] = configData[k]; });
-  CONTENT_KEYS.forEach(k => { if (configData[k] !== undefined) content[k] = configData[k]; });
+  const nonContentKeys = new Set([...META_KEYS, ...SITE_KEYS]);
+  Object.keys(configData).forEach(k => {
+    if (!nonContentKeys.has(k) && configData[k] !== undefined) {
+      content[k] = configData[k];
+    }
+  });
 
   fs.writeFileSync(META_CONFIG_PATH, JSON.stringify(meta, null, 2), 'utf8');
   fs.writeFileSync(CONTENT_CONFIG_PATH, JSON.stringify(content, null, 2), 'utf8');
