@@ -318,7 +318,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": true,
+        "featured": false,
         "tldr": "Presents RoomDesigner, which encodes \"anchor-latents\" to guide the generation of 3D indoor scenes that are both highly style-consistent and shape-compatible.",
         "links": [
           {
@@ -568,7 +568,7 @@
         ],
         "_scholar_citations": 12,
         "_scholar_last_updated": "2026-05-04",
-        "featured": true
+        "featured": false
       },
       {
         "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
@@ -741,7 +741,7 @@
         ],
         "_scholar_citations": 13,
         "_scholar_last_updated": "2026-05-04",
-        "featured": true
+        "featured": false
       },
       {
         "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
@@ -757,7 +757,7 @@
         "venue": "arXiv'2505",
         "venue_type": "preprint",
         "image": "teaser/preprint.jpg",
-        "auto_sync": true,
+        "auto_sync": false,
         "tldr": "Introduces a reinforcement learning feedback mechanism to effectively bridge and calibrate the domain gap in equation distillation tasks.",
         "links": [
           {
@@ -882,7 +882,7 @@
         ],
         "_scholar_citations": 23,
         "_scholar_last_updated": "2026-05-04",
-        "featured": true
+        "featured": false
       },
       {
         "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
@@ -911,7 +911,7 @@
         ],
         "_scholar_citations": 22,
         "_scholar_last_updated": "2026-05-04",
-        "featured": true
+        "featured": false
       }
     ]
   },
