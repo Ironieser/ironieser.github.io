@@ -318,7 +318,7 @@
         "venue": "3DV'24",
         "venue_type": "conference",
         "image": "teaser/room.jpg",
-        "featured": true,
+        "featured": false,
         "tldr": "Presents RoomDesigner, which encodes \"anchor-latents\" to guide the generation of 3D indoor scenes that are both highly style-consistent and shape-compatible.",
         "links": [
           {
@@ -349,7 +349,7 @@
         ],
         "venue": "ICLR'26",
         "venue_type": "conference",
-        "image": "images/blog/mmtok/combined_plots.png",
+        "image": "teaser/mmtok.jpg",
         "featured": true,
         "tldr": "Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.",
         "links": [
@@ -488,7 +488,7 @@
         ],
         "venue": "arXiv'2506",
         "venue_type": "preprint",
-        "image": "images/blog/timesclip/fig3.png",
+        "image": "teaser/timesclip.jpg",
         "featured": true,
         "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
         "links": [
@@ -568,7 +568,7 @@
         ],
         "_scholar_citations": 14,
         "_scholar_last_updated": "2026-06-01",
-        "featured": true
+        "featured": false
       },
       {
         "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
@@ -741,7 +741,7 @@
         ],
         "_scholar_citations": 14,
         "_scholar_last_updated": "2026-06-01",
-        "featured": true
+        "featured": false
       },
       {
         "title": "Bridging the domain gap in equation distillation with reinforcement feedback",
@@ -882,7 +882,7 @@
         ],
         "_scholar_citations": 24,
         "_scholar_last_updated": "2026-06-01",
-        "featured": true
+        "featured": false
       },
       {
         "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
@@ -911,7 +911,7 @@
         ],
         "_scholar_citations": 23,
         "_scholar_last_updated": "2026-06-01",
-        "featured": true
+        "featured": false
       }
     ]
   },

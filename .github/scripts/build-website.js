@@ -452,11 +452,28 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
             <!-- Visitor Map Section -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
-                    </div>
+                    <!-- Visitor Map Widget (lazy-loaded when scrolled into view so a slow/unreachable ClustrMaps never blocks page load) -->
+                    <div class="visitor-map" id="visitor-map-mount" data-clustrmaps-src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></div>
+                    <script>
+                    (function(){
+                        var mount=document.getElementById('visitor-map-mount');
+                        if(!mount) return;
+                        var loaded=false;
+                        function load(){
+                            if(loaded) return; loaded=true;
+                            var s=document.createElement('script');
+                            s.type='text/javascript'; s.id='clustrmaps';
+                            s.src=mount.getAttribute('data-clustrmaps-src');
+                            mount.appendChild(s);
+                        }
+                        if('IntersectionObserver' in window){
+                            var io=new IntersectionObserver(function(entries){
+                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
+                            },{rootMargin:'300px'});
+                            io.observe(mount);
+                        } else { load(); }
+                    })();
+                    </script>
                 </div>
             </div>`;
   }
@@ -631,7 +648,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -716,9 +733,6 @@ function generateIndexPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
     <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>
@@ -934,7 +948,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -969,7 +983,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -1039,9 +1053,6 @@ function generatePublicationsPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
     <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>

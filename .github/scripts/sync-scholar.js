@@ -245,13 +245,9 @@ function updateExistingPublication(existing, scholarData) {
   // 只更新非手动编辑的基础信息，保护用户的手动修改
   let updated = false;
   
-  // 1. 更新引用数相关的featured状态（如果用户没有手动设置）
-  const shouldBeFeatured = scholarData.citations > 10;
-  if (shouldBeFeatured && !existing.featured) {
-    existing.featured = true;
-    updated = true;
-  }
-  
+  // 1. featured 状态完全由用户手动维护，自动同步不再根据引用数修改它
+  //    （历史问题：>10 引用会被自动加成 featured，覆盖用户的精选列表）
+
   // 2. 保护用户手动设置的venue信息
   const isUserCustomizedVenue = isVenueUserCustomized(existing.venue);
   if (!isUserCustomizedVenue) {
@@ -494,11 +490,9 @@ function convertToConfigFormat(scholarPubs, existingConfig) {
         ]
       };
       
-      // 如果引用数较高，标记为featured
-      if (pub.citations > 10) {
-        configPub.featured = true;
-      }
-      
+      // 新论文默认不进精选；featured 由用户手动维护，自动同步不再设置
+      configPub.featured = false;
+
       publicationsByYear[year].push(configPub);
       console.log(`✅ Added new: ${pub.title} (${year})`);
     } else {
