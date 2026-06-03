@@ -1,0 +1,11 @@
+# Cloudflare Pages config — binds the D1 database used by functions/api/* for
+# self-hosted visitor analytics. Secrets (IP_SALT, ADMIN_KEY) are set separately
+# via `wrangler pages secret put` / the dashboard, never committed here.
+name = "ironieser-github-io"
+pages_build_output_dir = "."
+compatibility_date = "2024-11-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "homepage-visits"
+database_id = "b4a65f12-a25d-44ad-8d12-ae62e5217c07"
