@@ -47,5 +47,12 @@ export async function publicStats(db) {
     .all();
   const countries = (cRes.results || []).map((r) => ({ code: r.code, count: r.c }));
 
-  return { total, today, month: monthCount, unique, since, countries };
+  // City-level dots for the map: lat/lon rounded to ~0.1deg (~11km) and aggregated,
+  // so we never expose a single visitor's precise coordinates.
+  const pRes = await db
+    .prepare('SELECT ROUND(lat,1) AS lat, ROUND(lon,1) AS lon, COUNT(*) AS c FROM visits WHERE lat IS NOT NULL AND lon IS NOT NULL GROUP BY ROUND(lat,1), ROUND(lon,1) ORDER BY c DESC LIMIT 300')
+    .all();
+  const points = (pRes.results || []).map((r) => ({ lat: r.lat, lon: r.lon, c: r.c }));
+
+  return { total, today, month: monthCount, unique, since, countries, points };
 }

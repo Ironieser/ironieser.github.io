@@ -52,19 +52,22 @@
   }
 
   function loadMap(stats) {
-    var values = {};
-    (stats.countries || []).forEach(function (c) { if (c.code) values[c.code] = c.count; });
     loadScript(VENDOR + 'jsvectormap.min.js')
       .then(function () { return loadScript(VENDOR + 'jsvectormap-world.js'); })
-      .then(function () { initMap(values); })
+      .then(function () { initMap(stats); })
       .catch(function () { /* map optional; counts already shown */ });
   }
 
-  function initMap(values) {
+  function initMap(stats) {
     if (typeof jsVectorMap === 'undefined') return;
     var cs = getComputedStyle(document.documentElement);
-    var empty = (cs.getPropertyValue('--color-border') || '#e6e9ef').trim() || '#e6e9ef';
-    var low = '#bcd4ff', high = (cs.getPropertyValue('--color-primary') || '#1d4ed8').trim() || '#1d4ed8';
+    var region = (cs.getPropertyValue('--color-border') || '#e6e9ef').trim() || '#e6e9ef';
+    var pts = stats.points || [];
+    var maxC = pts.reduce(function (m, p) { return Math.max(m, p.c); }, 1);
+    var markers = pts.map(function (p) {
+      var r = 3 + Math.min(10, Math.sqrt(p.c / maxC) * 10);
+      return { name: p.c + (p.c > 1 ? ' visits' : ' visit'), coords: [p.lat, p.lon], style: { r: r } };
+    });
     try {
       new jsVectorMap({
         selector: '#vw-map',
@@ -72,21 +75,14 @@
         zoomButtons: false,
         zoomOnScroll: false,
         backgroundColor: 'transparent',
-        regionStyle: {
-          initial: { fill: empty, stroke: 'rgba(0,0,0,.08)', strokeWidth: 0.4 },
-          hover: { fillOpacity: 0.85 }
+        regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 } },
+        markers: markers,
+        markerStyle: {
+          initial: { fill: '#ff5a6e', stroke: '#ffffff', strokeWidth: 1, fillOpacity: 0.78, r: 5 },
+          hover: { fill: '#ff2d55', fillOpacity: 1 }
         },
-        series: {
-          regions: [{
-            attribute: 'fill',
-            scale: [low, high],
-            normalizeFunction: 'polynomial',
-            values: values
-          }]
-        },
-        onRegionTooltipShow: function (event, tooltip, code) {
-          var n = values[code] || 0;
-          try { tooltip.text(tooltip.text() + ': ' + n, true); } catch (e) {}
+        onMarkerTooltipShow: function (event, tooltip, i) {
+          try { tooltip.text(markers[i].name, true); } catch (e) {}
         }
       });
     } catch (e) { /* ignore map errors */ }
@@ -157,6 +153,8 @@
       '.jvm-container{width:100%;height:100%;position:relative;overflow:hidden;touch-action:none}' +
       '.jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;pointer-events:none;z-index:60}' +
       '.jvm-tooltip.active{display:block}.jvm-zoom-btn{display:none}' +
+      '.jvm-marker{filter:drop-shadow(0 0 3px rgba(255,90,110,.55));transition:fill .15s}' +
+      '.vw-map svg{overflow:visible}' +
       '@media(max-width:600px){.vw-num b{font-size:17px}.vw-map{height:190px}}';
     var st = document.createElement('style');
     st.id = 'vw-style'; st.textContent = css;

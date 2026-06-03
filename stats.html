@@ -53,6 +53,8 @@
   .err{color:#ef4444;font-size:13px;margin-top:10px;min-height:18px}
   .jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.3);white-space:nowrap;pointer-events:none;z-index:60}
   .jvm-tooltip.active{display:block}.jvm-zoom-btn{display:none}
+  .jvm-marker{filter:drop-shadow(0 0 4px rgba(255,90,110,.6));transition:fill .15s}
+  #map svg{overflow:visible}
   .legend{display:flex;gap:16px;color:var(--muted);font-size:12px;margin-top:8px}
   .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
 </style>
@@ -196,14 +198,18 @@
         '</td><td class="mut">'+esc(v.path||'')+'</td><td class="mut">'+esc(v.ip||'')+'</td></tr>';
     }).join('') || '<tr><td colspan="6" class="mut">No visits yet</td></tr>';
 
-    // map
+    // map — visitor dots (ClustrMaps-style)
     try{
-      var values={}; (a.countries||[]).forEach(function(c){ if(c.code) values[c.code]=c.c; });
       if(typeof jsVectorMap!=='undefined'){
+        var pts=(s.points||[]); var maxC=pts.reduce(function(m,p){return Math.max(m,p.c);},1);
+        var markers=pts.map(function(p){ var r=3+Math.min(13,Math.sqrt(p.c/maxC)*13);
+          return {name:p.c+(p.c>1?' visits':' visit'),coords:[p.lat,p.lon],style:{r:r}}; });
+        var region=(getComputedStyle(document.documentElement).getPropertyValue('--bar')||'#2b3a5c').trim();
         new jsVectorMap({ selector:'#map', map:'world', zoomButtons:false, zoomOnScroll:false, backgroundColor:'transparent',
-          regionStyle:{ initial:{ fill:getComputedStyle(document.documentElement).getPropertyValue('--bar')||'#2b3a5c', stroke:'rgba(127,127,127,.15)', strokeWidth:0.4 }, hover:{ fillOpacity:0.85 } },
-          series:{ regions:[{ attribute:'fill', scale:['#9ec1ff','#1d4ed8'], normalizeFunction:'polynomial', values:values }] },
-          onRegionTooltipShow:function(e,t,code){ try{ t.text(t.text()+': '+(values[code]||0),true); }catch(x){} }
+          regionStyle:{ initial:{ fill:region, stroke:'transparent', strokeWidth:0 } },
+          markers:markers,
+          markerStyle:{ initial:{ fill:'#ff5a6e', stroke:'#fff', strokeWidth:1, fillOpacity:.82, r:5 }, hover:{ fill:'#ff2d55', fillOpacity:1 } },
+          onMarkerTooltipShow:function(e,t,i){ try{ t.text(markers[i].name,true); }catch(x){} }
         });
       }
     }catch(e){}
