@@ -78,8 +78,8 @@
         regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 } },
         markers: markers,
         markerStyle: {
-          initial: { fill: '#ff5a6e', stroke: '#ffffff', strokeWidth: 1, fillOpacity: 0.78, r: 5 },
-          hover: { fill: '#ff2d55', fillOpacity: 1 }
+          initial: { fill: '#3b82f6', stroke: '#3b82f6', strokeWidth: 1.3, fillOpacity: 0.45, r: 5 },
+          hover: { fillOpacity: 0.85 }
         },
         onMarkerTooltipShow: function (event, tooltip, i) {
           try { tooltip.text(markers[i].name, true); } catch (e) {}
@@ -153,7 +153,7 @@
       '.jvm-container{width:100%;height:100%;position:relative;overflow:hidden;touch-action:none}' +
       '.jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;pointer-events:none;z-index:60}' +
       '.jvm-tooltip.active{display:block}.jvm-zoom-btn{display:none}' +
-      '.jvm-marker{filter:drop-shadow(0 0 3px rgba(255,90,110,.55));transition:fill .15s}' +
+      '.jvm-marker{filter:drop-shadow(0 0 5px rgba(59,130,246,.5));transition:opacity .15s}' +
       '.vw-map svg{overflow:visible}' +
       '@media(max-width:600px){.vw-num b{font-size:17px}.vw-map{height:190px}}';
     var st = document.createElement('style');
