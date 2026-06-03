@@ -52,8 +52,11 @@
 
   function initMap(stats) {
     if (typeof jsVectorMap === 'undefined') return;
-    var cs = getComputedStyle(document.documentElement);
-    var region = (cs.getPropertyValue('--color-border') || '#e6e9ef').trim() || '#e6e9ef';
+    // Neutral "no data" land color (NOT the near-black --color-border, which made
+    // un-visited countries look deliberately blacked out next to a blue one).
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    var region = dark ? '#33405a' : '#dde3ec';
+    var scale = dark ? ['#3f5f93', '#86b0f5'] : ['#c3d8ff', '#4d86e6'];
     var pts = stats.points || [];
     var maxC = pts.reduce(function (m, p) { return Math.max(m, p.c); }, 1);
     var markers = pts.map(function (p) {
@@ -69,8 +72,8 @@
         zoomButtons: false,
         zoomOnScroll: false,
         backgroundColor: 'transparent',
-        regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 }, hover: { fillOpacity: 0.9 } },
-        series: { regions: [{ attribute: 'fill', scale: ['#e3edff', '#7aa7f0'], normalizeFunction: 'polynomial', values: values }] },
+        regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 }, hover: { fillOpacity: 0.85 } },
+        series: { regions: [{ attribute: 'fill', scale: scale, normalizeFunction: 'polynomial', values: values }] },
         markers: markers,
         markerStyle: {
           initial: { fill: '#3b82f6', stroke: '#3b82f6', strokeWidth: 1.3, fillOpacity: 0.45, r: 5 },
@@ -140,9 +143,6 @@
       '.vw-num b{display:block;font-size:20px;line-height:1.1;color:var(--color-primary,#1d4ed8)}' +
       '.vw-num span{font-size:11px;color:var(--color-text-muted,#888)}' +
       '.vw-map{width:100%;height:240px;margin:6px 0 10px}' +
-      '.vw-countries{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center}' +
-      '.vw-cc{font-size:12px;color:var(--color-text-muted,#666)}' +
-      '.vw-cc b{color:var(--color-text,#333);font-weight:600}' +
       '.vw-since{text-align:center;font-size:11px;color:var(--color-text-muted,#9aa3b2);margin-top:12px;opacity:.8}' +
       '.jvm-container{width:100%;height:100%;position:relative;overflow:hidden;touch-action:none}' +
       '.jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;pointer-events:none;z-index:60}' +

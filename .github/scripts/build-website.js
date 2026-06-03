@@ -456,7 +456,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=5'; s.defer=true;
+                            s.src='assets/js/visitor-map.js?v=6'; s.defer=true;
                             document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){
