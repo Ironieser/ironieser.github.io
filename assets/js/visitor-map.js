@@ -56,15 +56,16 @@
     // un-visited countries look deliberately blacked out next to a blue one).
     var dark = document.documentElement.getAttribute('data-theme') === 'dark';
     var region = dark ? '#33405a' : '#dde3ec';
-    var scale = dark ? ['#3f5f93', '#86b0f5'] : ['#c3d8ff', '#4d86e6'];
+    var lo = dark ? '#3f5f93' : '#cfe0ff', hi = dark ? '#8fb6f7' : '#3f7fe0';
     var pts = stats.points || [];
-    var maxC = pts.reduce(function (m, p) { return Math.max(m, p.c); }, 1);
+    var maxP = pts.reduce(function (m, p) { return Math.max(m, p.c); }, 1);
     var markers = pts.map(function (p) {
-      var r = 3 + Math.min(10, Math.sqrt(p.c / maxC) * 10);
+      var r = 3 + Math.min(10, Math.sqrt(p.c / maxP) * 10);
       return { name: p.c + (p.c > 1 ? ' visits' : ' visit'), coords: [p.lat, p.lon], style: { r: r } };
     });
-    var values = {};
-    (stats.countries || []).forEach(function (c) { if (c.code) values[c.code] = c.count; });
+    var byCode = {};
+    (stats.countries || []).forEach(function (c) { if (c.code) byCode[c.code] = c.count; });
+    var maxC = Math.max.apply(null, (stats.countries || []).map(function (c) { return c.count; }).concat([1]));
     try {
       new jsVectorMap({
         selector: '#vw-map',
@@ -73,7 +74,6 @@
         zoomOnScroll: false,
         backgroundColor: 'transparent',
         regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 }, hover: { fillOpacity: 0.85 } },
-        series: { regions: [{ attribute: 'fill', scale: scale, normalizeFunction: 'polynomial', values: values }] },
         markers: markers,
         markerStyle: {
           initial: { fill: '#3b82f6', stroke: '#3b82f6', strokeWidth: 1.3, fillOpacity: 0.45, r: 5 },
@@ -83,7 +83,27 @@
           try { tooltip.text(markers[i].name, true); } catch (e) {}
         }
       });
+      // Choropleth done manually (jsVectorMap's built-in scale can emit invalid
+      // colors -> black regions when the value range is tiny). Set each visited
+      // country's fill directly on its SVG path.
+      var mapEl = document.getElementById('vw-map');
+      if (mapEl) {
+        var nodes = mapEl.querySelectorAll('[data-code]');
+        for (var i = 0; i < nodes.length; i++) {
+          var code = (nodes[i].getAttribute('data-code') || '').toUpperCase();
+          if (byCode[code] != null) {
+            var t = maxC > 1 ? Math.log(byCode[code] + 1) / Math.log(maxC + 1) : 1;
+            nodes[i].style.fill = lerpHex(lo, hi, t);
+          }
+        }
+      }
     } catch (e) { /* ignore map errors */ }
+  }
+
+  function lerpHex(a, b, t) {
+    function h(x) { return parseInt(x, 16); }
+    function c(x, y) { return Math.round(x + (y - x) * t).toString(16).padStart(2, '0'); }
+    return '#' + c(h(a.slice(1, 3)), h(b.slice(1, 3))) + c(h(a.slice(3, 5)), h(b.slice(3, 5))) + c(h(a.slice(5, 7)), h(b.slice(5, 7)));
   }
 
   /* ---------- helpers ---------- */
