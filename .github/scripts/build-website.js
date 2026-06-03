@@ -967,41 +967,8 @@ function generatePublicationsPage(config) {
             </div>`);
   }
   
-  // Generate survey papers section
-  if (publications.survey) {
-    const surveyItems = publications.survey.map(pub => {
-      const venueBadge = formatPublicationVenue(pub.venue_type, pub.venue);
-      const authorsFormatted = highlightAuthorName(pub.authors, targetName);
-      const linksFormatted = formatPublicationLinks(pub.links);
-      
-      const hasTldrClass = pub.tldr ? "has-tldr" : "";
-      const tldrHtml = pub.tldr ? `
-          <div class="tldr-wrapper">
-              <span class="tldr-badge">TL;DR</span>
-              <p class="tldr-text">${pub.tldr}</p>
-          </div>` : "";
-      
-      return `
-                <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
-                    <div class="publication-content">
-                        <p class="publication-title">${venueBadge} ${pub.title}</p>
-                        <p class="publication-authors">${authorsFormatted}</p>
-                        <p class="publication-links">${linksFormatted}</p>
-                    </div>
-                    ${tldrHtml}
-                </div>`;
-    }).join('');
-    
-    yearSections.push(`
-            <div class="year-group">
-                <h3 class="year-title">Survey Papers</h3>
-                <div class="publications-list">
-                    ${surveyItems}
-                </div>
-            </div>`);
-  }
-  
+  // Survey papers are no longer listed separately; they live in their year groups by date.
+
   // Generate stats
   const statsHtml = research.stats.map(stat => `<span class="stat-item">${stat}</span>`).join(' <span class="stat-divider">•</span> ');
   

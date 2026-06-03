@@ -768,6 +768,65 @@
         ],
         "_scholar_citations": 5,
         "_scholar_last_updated": "2026-05-04"
+      },
+      {
+        "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
+        "authors": [
+          "Wangyang Ying",
+          "Cong Wei",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Haoyue Bai",
+          "Arun Vignesh Malarkkan",
+          "Sixun Dong",
+          "Dongjie Wang",
+          "Denghui Zhang",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2502",
+        "venue_type": "under-review",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2502.08828",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 23,
+        "_scholar_last_updated": "2026-06-01",
+        "featured": false
+      },
+      {
+        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
+        "authors": [
+          "Dongjie Wang",
+          "Yanyong Huang",
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Sixun Dong",
+          "Tao Zhe",
+          "Kunpeng Liu",
+          "Meng Xiao",
+          "et al."
+        ],
+        "venue": "TKDD'26",
+        "venue_type": "journal",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2501.10555",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 24,
+        "_scholar_last_updated": "2026-06-01",
+        "featured": false
       }
     ],
     "2026": [
@@ -851,67 +910,6 @@
         ],
         "_scholar_citations": 1,
         "_scholar_last_updated": "2026-06-03"
-      }
-    ],
-    "survey": [
-      {
-        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
-        "authors": [
-          "Dongjie Wang",
-          "Yanyong Huang",
-          "Wangyang Ying",
-          "Haoyue Bai",
-          "Nanxu Gong",
-          "Xinyuan Wang",
-          "Sixun Dong",
-          "Tao Zhe",
-          "Kunpeng Liu",
-          "Meng Xiao",
-          "et al."
-        ],
-        "venue": "TKDD'26",
-        "venue_type": "journal",
-        "image": "teaser/underreview.jpg",
-        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/abs/2501.10555",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 24,
-        "_scholar_last_updated": "2026-06-01",
-        "featured": false
-      },
-      {
-        "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
-        "authors": [
-          "Wangyang Ying",
-          "Cong Wei",
-          "Nanxu Gong",
-          "Xinyuan Wang",
-          "Haoyue Bai",
-          "Arun Vignesh Malarkkan",
-          "Sixun Dong",
-          "Dongjie Wang",
-          "Denghui Zhang",
-          "Yanjie Fu"
-        ],
-        "venue": "arXiv'2502",
-        "venue_type": "under-review",
-        "image": "teaser/underreview.jpg",
-        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/abs/2502.08828",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 23,
-        "_scholar_last_updated": "2026-06-01",
-        "featured": false
       }
     ]
   },
