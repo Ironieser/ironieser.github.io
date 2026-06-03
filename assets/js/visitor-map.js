@@ -41,14 +41,6 @@
         sinceEl.textContent = '';
       }
     }
-    var top = (s.countries || []).slice(0, 8);
-    var row = document.getElementById('vw-countries');
-    if (row) {
-      row.innerHTML = top.map(function (c) {
-        return '<span class="vw-cc" title="' + c.code + ': ' + c.count + '">' + flag(c.code) +
-          ' <b>' + c.code + '</b> ' + fmt(c.count) + '</span>';
-      }).join('');
-    }
   }
 
   function loadMap(stats) {
@@ -68,6 +60,8 @@
       var r = 3 + Math.min(10, Math.sqrt(p.c / maxC) * 10);
       return { name: p.c + (p.c > 1 ? ' visits' : ' visit'), coords: [p.lat, p.lon], style: { r: r } };
     });
+    var values = {};
+    (stats.countries || []).forEach(function (c) { if (c.code) values[c.code] = c.count; });
     try {
       new jsVectorMap({
         selector: '#vw-map',
@@ -75,7 +69,8 @@
         zoomButtons: false,
         zoomOnScroll: false,
         backgroundColor: 'transparent',
-        regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 } },
+        regionStyle: { initial: { fill: region, stroke: 'transparent', strokeWidth: 0 }, hover: { fillOpacity: 0.9 } },
+        series: { regions: [{ attribute: 'fill', scale: ['#e3edff', '#7aa7f0'], normalizeFunction: 'polynomial', values: values }] },
         markers: markers,
         markerStyle: {
           initial: { fill: '#3b82f6', stroke: '#3b82f6', strokeWidth: 1.3, fillOpacity: 0.45, r: 5 },
@@ -100,7 +95,6 @@
       '    <div class="vw-num"><b id="vw-today">—</b><span>Today</span></div>' +
       '  </div>' +
       '  <div id="vw-map" class="vw-map"></div>' +
-      '  <div id="vw-countries" class="vw-countries"></div>' +
       '  <div id="vw-since" class="vw-since"></div>' +
       '</div>';
   }
