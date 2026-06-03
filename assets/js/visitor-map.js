@@ -31,6 +31,16 @@
     set('vw-today', fmt(s.today));
     set('vw-month', fmt(s.month));
     set('vw-unique', fmt(s.unique));
+    var sinceEl = document.getElementById('vw-since');
+    if (sinceEl) {
+      if (s.since) {
+        var d = new Date(s.since * 1000);
+        var ds = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+        sinceEl.textContent = 'Tracking since ' + ds;
+      } else {
+        sinceEl.textContent = '';
+      }
+    }
     var top = (s.countries || []).slice(0, 8);
     var row = document.getElementById('vw-countries');
     if (row) {
@@ -95,6 +105,7 @@
       '  </div>' +
       '  <div id="vw-map" class="vw-map"></div>' +
       '  <div id="vw-countries" class="vw-countries"></div>' +
+      '  <div id="vw-since" class="vw-since"></div>' +
       '</div>';
   }
 
@@ -142,6 +153,7 @@
       '.vw-countries{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center}' +
       '.vw-cc{font-size:12px;color:var(--color-text-muted,#666)}' +
       '.vw-cc b{color:var(--color-text,#333);font-weight:600}' +
+      '.vw-since{text-align:center;font-size:11px;color:var(--color-text-muted,#9aa3b2);margin-top:12px;opacity:.8}' +
       '.jvm-container{width:100%;height:100%;position:relative;overflow:hidden;touch-action:none}' +
       '.jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap;pointer-events:none;z-index:60}' +
       '.jvm-tooltip.active{display:block}.jvm-zoom-btn{display:none}' +

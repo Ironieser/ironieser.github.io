@@ -40,11 +40,12 @@ export async function publicStats(db) {
   const today = (await db.prepare('SELECT COUNT(*) AS c FROM visits WHERE day=?').bind(day).first('c')) || 0;
   const monthCount = (await db.prepare('SELECT COUNT(*) AS c FROM visits WHERE month=?').bind(month).first('c')) || 0;
   const unique = (await db.prepare('SELECT COUNT(DISTINCT ip_hash) AS c FROM visits').first('c')) || 0;
+  const since = (await db.prepare('SELECT MIN(ts) AS t FROM visits').first('t')) || null;
 
   const cRes = await db
     .prepare("SELECT country AS code, COUNT(*) AS c FROM visits WHERE country IS NOT NULL AND country<>'' GROUP BY country ORDER BY c DESC")
     .all();
   const countries = (cRes.results || []).map((r) => ({ code: r.code, count: r.c }));
 
-  return { total, today, month: monthCount, unique, countries };
+  return { total, today, month: monthCount, unique, since, countries };
 }

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Visitor Analytics</title>
+<style>
+  :root{
+    --bg:#0b0f17; --panel:#121826; --panel2:#1a2336; --line:#26314a;
+    --text:#e8edf6; --muted:#8b97ad; --accent:#4f8cff; --accent2:#22c55e;
+    --bar:#2b3a5c;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#f4f6fb; --panel:#fff; --panel2:#f1f4fa; --line:#e3e8f2;
+      --text:#1c2333; --muted:#6b7488; --accent:#1d4ed8; --accent2:#16a34a; --bar:#dbe4f5; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 60px}
+  h1{font-size:20px;margin:0 0 2px;display:flex;align-items:center;gap:10px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 3px rgba(34,197,94,.18)}
+  .grid{display:grid;gap:16px}
+  .cards{grid-template-columns:repeat(4,1fr)}
+  @media(max-width:720px){.cards{grid-template-columns:repeat(2,1fr)}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .stat .n{font-size:28px;font-weight:700;line-height:1.1;color:var(--accent)}
+  .stat .l{color:var(--muted);font-size:12px;margin-top:4px}
+  .two{grid-template-columns:1.3fr 1fr}
+  @media(max-width:860px){.two{grid-template-columns:1fr}}
+  .ttl{font-weight:600;font-size:13px;margin:0 0 14px;color:var(--text)}
+  #map{width:100%;height:340px}
+  .row{display:flex;align-items:center;gap:10px;margin:7px 0}
+  .row .k{width:34%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text)}
+  .row .b{flex:1;height:8px;background:var(--panel2);border-radius:5px;overflow:hidden}
+  .row .b i{display:block;height:100%;background:var(--accent);border-radius:5px}
+  .row .v{width:54px;text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{color:var(--muted);font-weight:500;font-size:12px}
+  td.mut{color:var(--muted)}
+  .scroll{overflow:auto;max-height:420px;border-radius:12px;border:1px solid var(--line)}
+  .bars{display:flex;align-items:flex-end;gap:6px;height:120px}
+  .bars .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px}
+  .bars .col .bar{width:100%;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+  .bars .col .bar.u{background:var(--accent2)}
+  .bars .col small{color:var(--muted);font-size:10px}
+  .gate{max-width:380px;margin:14vh auto;text-align:center}
+  .gate input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:14px}
+  .gate button{margin-top:10px;width:100%;padding:11px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:14px;font-weight:600;cursor:pointer}
+  .err{color:#ef4444;font-size:13px;margin-top:10px;min-height:18px}
+  .jvm-tooltip{border-radius:6px;background:#1f2937;color:#fff;font-size:12px;padding:4px 8px;position:absolute;display:none;box-shadow:0 2px 8px rgba(0,0,0,.3);white-space:nowrap;pointer-events:none;z-index:60}
+  .jvm-tooltip.active{display:block}.jvm-zoom-btn{display:none}
+  .legend{display:flex;gap:16px;color:var(--muted);font-size:12px;margin-top:8px}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" style="display:none">
+  <h1><span class="dot"></span> Visitor Analytics</h1>
+  <div class="sub" id="sub">—</div>
+
+  <div class="grid cards" style="margin-bottom:16px">
+    <div class="card stat"><div class="n" id="s-total">—</div><div class="l">Total visits</div></div>
+    <div class="card stat"><div class="n" id="s-unique">—</div><div class="l">Unique visitors</div></div>
+    <div class="card stat"><div class="n" id="s-month">—</div><div class="l">This month</div></div>
+    <div class="card stat"><div class="n" id="s-today">—</div><div class="l">Today</div></div>
+  </div>
+
+  <div class="grid two" style="margin-bottom:16px">
+    <div class="card"><p class="ttl">World map</p><div id="map"></div></div>
+    <div class="card"><p class="ttl">Monthly trend</p><div class="bars" id="monthly"></div>
+      <div class="legend"><span><i style="background:var(--accent)"></i>Visits</span><span><i style="background:var(--accent2)"></i>Unique</span></div>
+    </div>
+  </div>
+
+  <div class="grid two" style="margin-bottom:16px">
+    <div class="card"><p class="ttl">Top countries</p><div id="countries"></div></div>
+    <div class="card"><p class="ttl">Top sources (referrers)</p><div id="referers"></div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px"><p class="ttl">Top cities</p><div id="cities"></div></div>
+
+  <div class="card"><p class="ttl">Recent visits</p>
+    <div class="scroll"><table id="recent"><thead><tr>
+      <th>Time</th><th>Country</th><th>City</th><th>Source</th><th>Path</th><th>IP#</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+</div>
+
+<div class="gate" id="gate" style="display:none">
+  <h1 style="justify-content:center"><span class="dot"></span> Visitor Analytics</h1>
+  <p class="sub" style="text-align:center">Enter your admin key</p>
+  <input id="key" type="password" placeholder="ADMIN_KEY" autocomplete="off">
+  <button id="go">View</button>
+  <div class="err" id="err"></div>
+</div>
+
+<script src="assets/js/vendor/jsvectormap.min.js"></script>
+<script src="assets/js/vendor/jsvectormap-world.js"></script>
+<script>
+(function(){
+  var qs = new URLSearchParams(location.search);
+  var key = qs.get('key') || localStorage.getItem('vw_admin_key') || '';
+  var gate = document.getElementById('gate'), app = document.getElementById('app');
+
+  if (key) load(key); else showGate();
+
+  document.getElementById('go').onclick = function(){
+    var k = document.getElementById('key').value.trim();
+    if (k) load(k);
+  };
+  document.getElementById('key').addEventListener('keydown', function(e){ if(e.key==='Enter') document.getElementById('go').click(); });
+
+  function showGate(msg){ gate.style.display='block'; app.style.display='none'; if(msg) document.getElementById('err').textContent=msg; }
+
+  function load(k){
+    Promise.all([
+      fetch('/api/admin?key='+encodeURIComponent(k)).then(r=>r.json()),
+      fetch('/api/stats').then(r=>r.json()).catch(()=>({}))
+    ]).then(function(res){
+      var a=res[0], s=res[1]||{};
+      if(!a || a.error){ showGate(a && a.error==='unauthorized' ? 'Wrong key.' : 'Error loading data.'); return; }
+      localStorage.setItem('vw_admin_key', k);
+      if(history.replaceState) history.replaceState(null,'',location.pathname); // drop key from URL
+      gate.style.display='none'; app.style.display='block';
+      render(a, s);
+    }).catch(function(){ showGate('Network error.'); });
+  }
+
+  function fmt(n){ n=Number(n||0); return n>=1000 ? (n/1000).toFixed(n>=10000?0:1).replace(/\.0$/,'')+'k' : String(n); }
+  function flag(cc){ if(!cc||cc.length!==2) return '🌐'; var A=0x1f1e6; return String.fromCodePoint(A+cc.charCodeAt(0)-65, A+cc.charCodeAt(1)-65); }
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+  function bars(elId, items, keyFn, valFn){
+    var el=document.getElementById(elId); if(!el) return;
+    if(!items || !items.length){ el.innerHTML='<div class="row"><span class="k mut">No data</span></div>'; return; }
+    var max=Math.max.apply(null, items.map(valFn));
+    el.innerHTML = items.map(function(it){
+      var v=valFn(it), w=max? Math.max(3, v/max*100):0;
+      return '<div class="row"><span class="k">'+keyFn(it)+'</span><span class="b"><i style="width:'+w+'%"></i></span><span class="v">'+fmt(v)+'</span></div>';
+    }).join('');
+  }
+
+  function render(a, s){
+    document.getElementById('s-total').textContent  = fmt(a.total);
+    document.getElementById('s-unique').textContent = fmt(a.unique);
+    var thisMonth = (a.monthly && a.monthly[0]) ? a.monthly[0].visits : (s.month||0);
+    document.getElementById('s-month').textContent = fmt(thisMonth);
+    document.getElementById('s-today').textContent = fmt(s.today||0);
+    var sinceTxt = '';
+    if (s.since){ var sd=new Date(s.since*1000); sinceTxt = 'Tracking since ' + sd.getFullYear()+'-'+String(sd.getMonth()+1).padStart(2,'0')+'-'+String(sd.getDate()).padStart(2,'0') + '  ·  '; }
+    document.getElementById('sub').textContent = sinceTxt + 'Updated ' + new Date().toLocaleString();
+
+    // monthly trend (oldest -> newest)
+    var mEl=document.getElementById('monthly');
+    var months=(a.monthly||[]).slice(0,12).reverse();
+    var mMax=Math.max(1, Math.max.apply(null, months.map(function(m){return m.visits;}).concat([1])));
+    mEl.innerHTML = months.length ? months.map(function(m){
+      var hv=Math.max(2, m.visits/mMax*100), hu=Math.max(2, m.uniques/mMax*100);
+      return '<div class="col" title="'+m.month+': '+m.visits+' visits, '+m.uniques+' unique">'+
+        '<div style="display:flex;gap:2px;align-items:flex-end;width:100%;height:100px">'+
+          '<div class="bar" style="height:'+hv+'%"></div><div class="bar u" style="height:'+hu+'%"></div>'+
+        '</div><small>'+m.month.slice(2)+'</small></div>';
+    }).join('') : '<span class="row mut">No data</span>';
+
+    bars('countries', a.countries, function(c){ return flag(c.code)+' '+c.code; }, function(c){ return c.c; });
+    bars('referers', a.referers, function(r){ return esc(r.referer||'direct'); }, function(r){ return r.c; });
+    bars('cities', a.cities, function(c){ return esc((c.city||'?'))+(c.country?(' '+flag(c.country)):''); }, function(c){ return c.c; });
+
+    // recent table
+    var tb=document.querySelector('#recent tbody');
+    tb.innerHTML=(a.recent||[]).map(function(v){
+      var t=new Date(v.ts*1000).toLocaleString();
+      return '<tr><td class="mut">'+esc(t)+'</td><td>'+flag(v.country)+' '+esc(v.country||'')+
+        '</td><td class="mut">'+esc(v.city||'')+'</td><td>'+esc(v.referer||'direct')+
+        '</td><td class="mut">'+esc(v.path||'')+'</td><td class="mut">'+esc(v.ip||'')+'</td></tr>';
+    }).join('') || '<tr><td colspan="6" class="mut">No visits yet</td></tr>';
+
+    // map
+    try{
+      var values={}; (a.countries||[]).forEach(function(c){ if(c.code) values[c.code]=c.c; });
+      if(typeof jsVectorMap!=='undefined'){
+        new jsVectorMap({ selector:'#map', map:'world', zoomButtons:false, zoomOnScroll:false, backgroundColor:'transparent',
+          regionStyle:{ initial:{ fill:getComputedStyle(document.documentElement).getPropertyValue('--bar')||'#2b3a5c', stroke:'rgba(127,127,127,.15)', strokeWidth:0.4 }, hover:{ fillOpacity:0.85 } },
+          series:{ regions:[{ attribute:'fill', scale:['#9ec1ff','#1d4ed8'], normalizeFunction:'polynomial', values:values }] },
+          onRegionTooltipShow:function(e,t,code){ try{ t.text(t.text()+': '+(values[code]||0),true); }catch(x){} }
+        });
+      }
+    }catch(e){}
+  }
+})();
+</script>
+</body>
+</html>
