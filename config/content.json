@@ -223,8 +223,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 102,
-        "_scholar_last_updated": "2026-05-04"
+        "_scholar_citations": 105,
+        "_scholar_last_updated": "2026-06-03"
       }
     ],
     "2023": [
@@ -271,7 +271,7 @@
           }
         ],
         "_scholar_citations": 26,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       }
     ],
     "2024": [
@@ -303,8 +303,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 94,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_citations": 96,
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
@@ -333,7 +333,7 @@
           }
         ],
         "_scholar_citations": 19,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       }
     ],
     "2025": [
@@ -380,7 +380,7 @@
           }
         ],
         "_scholar_citations": 8,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
@@ -430,7 +430,7 @@
           }
         ],
         "_scholar_citations": 9,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "Complex Logical Instruction Generation",
@@ -475,8 +475,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 3,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_citations": 4,
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
@@ -519,7 +519,7 @@
           }
         ],
         "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "TimesFrame: Multi-Variable Time Series is a Video of Numerical Data",
@@ -567,7 +567,7 @@
           }
         ],
         "_scholar_citations": 14,
-        "_scholar_last_updated": "2026-06-01",
+        "_scholar_last_updated": "2026-06-03",
         "featured": false
       },
       {
@@ -604,7 +604,7 @@
           }
         ],
         "_scholar_citations": 8,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
@@ -682,7 +682,7 @@
           }
         ],
         "_scholar_citations": 8,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
@@ -710,7 +710,7 @@
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
@@ -740,7 +740,7 @@
           }
         ],
         "_scholar_citations": 14,
-        "_scholar_last_updated": "2026-06-01",
+        "_scholar_last_updated": "2026-06-03",
         "featured": false
       },
       {
@@ -816,7 +816,7 @@
           }
         ],
         "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       },
       {
         "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
@@ -850,7 +850,7 @@
           }
         ],
         "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-06-01"
+        "_scholar_last_updated": "2026-06-03"
       }
     ],
     "survey": [
