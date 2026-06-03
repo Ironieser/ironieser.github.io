@@ -29,11 +29,17 @@ export async function onRequest(context) {
       const path = (url.searchParams.get('p') || '/').slice(0, 200);
       const host = refHost(request.headers.get('Referer'));
       const src = host === url.hostname ? 'internal' : host;
+      const num = (v) => (v === undefined || v === null || v === '' || isNaN(Number(v)) ? null : Number(v));
       await db
         .prepare(
-          'INSERT INTO visits (ts, day, month, ip_hash, country, city, region, referer, path) VALUES (?,?,?,?,?,?,?,?,?)'
+          'INSERT INTO visits (ts, day, month, ip_hash, country, city, region, postal, lat, lon, timezone, org, referer, path) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
         )
-        .bind(now, day, month, ipHash, cf.country || null, cf.city || null, cf.region || null, src, path)
+        .bind(
+          now, day, month, ipHash,
+          cf.country || null, cf.city || null, cf.region || null, cf.postalCode || null,
+          num(cf.latitude), num(cf.longitude), cf.timezone || null, cf.asOrganization || null,
+          src, path
+        )
         .run();
     }
 

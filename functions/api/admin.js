@@ -20,19 +20,22 @@ export async function onRequest({ request, env }) {
       "SELECT country AS code, COUNT(*) AS c FROM visits WHERE country IS NOT NULL AND country<>'' GROUP BY country ORDER BY c DESC LIMIT 60"
     );
     const cities = await rows(
-      "SELECT city, region, country, COUNT(*) AS c FROM visits WHERE city IS NOT NULL AND city<>'' GROUP BY city, country ORDER BY c DESC LIMIT 40"
+      "SELECT city, region, postal, country, COUNT(*) AS c FROM visits WHERE city IS NOT NULL AND city<>'' GROUP BY city, region, country ORDER BY c DESC LIMIT 50"
     );
     const referers = await rows(
       'SELECT referer, COUNT(*) AS c FROM visits GROUP BY referer ORDER BY c DESC LIMIT 40'
     );
+    const orgs = await rows(
+      "SELECT org, COUNT(*) AS c FROM visits WHERE org IS NOT NULL AND org<>'' GROUP BY org ORDER BY c DESC LIMIT 30"
+    );
     const recent = await rows(
-      "SELECT ts, country, city, region, referer, path, substr(ip_hash,1,8) AS ip FROM visits ORDER BY ts DESC LIMIT 150"
+      "SELECT ts, country, city, region, postal, lat, lon, timezone, org, referer, path, substr(ip_hash,1,8) AS ip FROM visits ORDER BY ts DESC LIMIT 150"
     );
 
     const total = (await db.prepare('SELECT COUNT(*) AS c FROM visits').first('c')) || 0;
     const unique = (await db.prepare('SELECT COUNT(DISTINCT ip_hash) AS c FROM visits').first('c')) || 0;
 
-    return json({ total, unique, monthly, countries, cities, referers, recent });
+    return json({ total, unique, monthly, countries, cities, referers, orgs, recent });
   } catch (e) {
     return json({ error: String(e) });
   }
