@@ -86,14 +86,10 @@ function generateRedirects(config) {
 }
 
 function expandVisitorMap(siteVisitorMap) {
-  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
-  return {
-    enabled: siteVisitorMap.enabled !== false,
-    provider: siteVisitorMap.provider || 'clustrmaps',
-    domain_id: siteVisitorMap.domain_id,
-    color: siteVisitorMap.color || 'ffffff',
-    width: siteVisitorMap.width || 'a'
-  };
+  // Self-hosted visitor analytics (Cloudflare Pages Functions + D1).
+  // Only a single on/off switch; everything else lives in the Function + widget.
+  if (!siteVisitorMap) return siteVisitorMap;
+  return { enabled: siteVisitorMap.enabled !== false };
 }
 
 function loadConfig() {
@@ -442,29 +438,26 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
     ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
     : '';
   
-  // Generate visitor map section if enabled
+  // Generate visitor analytics section if enabled.
+  // Self-hosted (Cloudflare Pages Functions + D1); the widget is lazy-loaded when
+  // the footer scrolls into view so it never blocks initial page load.
   let visitorMapHtml = '';
   if (visitorMap && visitorMap.enabled) {
-    const domainId = visitorMap.domain_id || '';
-    const color = visitorMap.color || 'ffffff';
-    const width = visitorMap.width || 'a';
     visitorMapHtml = `
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget (lazy-loaded when scrolled into view so a slow/unreachable ClustrMaps never blocks page load) -->
-                    <div class="visitor-map" id="visitor-map-mount" data-clustrmaps-src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
                     <script>
                     (function(){
-                        var mount=document.getElementById('visitor-map-mount');
+                        var mount=document.getElementById('visitor-widget-mount');
                         if(!mount) return;
                         var loaded=false;
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.type='text/javascript'; s.id='clustrmaps';
-                            s.src=mount.getAttribute('data-clustrmaps-src');
-                            mount.appendChild(s);
+                            s.src='assets/js/visitor-map.js?v=1'; s.defer=true;
+                            document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){
                             var io=new IntersectionObserver(function(entries){

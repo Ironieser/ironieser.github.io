@@ -922,22 +922,20 @@
     <footer class="footer">
         <div class="container">
             
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget (lazy-loaded when scrolled into view so a slow/unreachable ClustrMaps never blocks page load) -->
-                    <div class="visitor-map" id="visitor-map-mount" data-clustrmaps-src="//clustrmaps.com/map_v2.js?d=r_cMMykDPAdqK2GTahWbR__mtnzcj9svUgejZ86OXnU&cl=ffffff&w=a"></div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
                     <script>
                     (function(){
-                        var mount=document.getElementById('visitor-map-mount');
+                        var mount=document.getElementById('visitor-widget-mount');
                         if(!mount) return;
                         var loaded=false;
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.type='text/javascript'; s.id='clustrmaps';
-                            s.src=mount.getAttribute('data-clustrmaps-src');
-                            mount.appendChild(s);
+                            s.src='assets/js/visitor-map.js?v=1'; s.defer=true;
+                            document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){
                             var io=new IntersectionObserver(function(entries){
