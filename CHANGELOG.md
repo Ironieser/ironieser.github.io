@@ -1,5 +1,41 @@
 # Changelog
 
+## [v1.6.0] - 2026-06-04
+
+### 📊 Self-hosted Visitor Analytics + 🗺️ Map + ⚡ Perf + 🧹 Cleanup
+
+#### ✨ New: Self-hosted visitor analytics (replaces ClustrMaps)
+
+- **Own your data** — Cloudflare Pages Functions (`functions/api/hit|stats|admin.js`) + D1 database replace the third-party ClustrMaps widget, which had a multi-day authoritative-DNS outage and frequently blocked/slowed load for visitors in China.
+- **Counter + world map** in the footer: total / unique / this-month / today, plus an ECharts world map shaded by visit count with rippling city dots (ClustrMaps-style), `Tracking since <date>`.
+- **Privacy-first** — IPs stored as salted-SHA-256, truncated (one-way); visitor de-dup window = 1h. Records country/region/city/postal/lat-lon/timezone/ISP per visit (city-level max precision).
+- **Private dashboard** at `/stats` (key-gated): monthly trend, top countries/cities/sources/ISPs, recent-visits log, and the same map. See `docs/VISITOR_ANALYTICS.md`.
+- **Lazy-loaded** — the whole widget (incl. map libs) only loads when the footer scrolls into view, so it never blocks initial page load.
+
+#### 🗺️ Map: ECharts (slim, self-hosted)
+
+- Switched from jsVectorMap to a **custom slim ECharts build** (only map + effectScatter + geo/visualMap/tooltip, ~172KB gzip) + an ISO-2-indexed, coordinate-simplified world map (~51KB gzip). Build script: `scripts/build-echarts-slim.js`.
+- Choropleth via `visualMap` gradient (fixes jsVectorMap's bug that rendered the max-value country pure black) + rippling visitor dots from lat/lon.
+
+#### ⚡ Performance
+
+- **Removed unused CDN scripts** — cytoscape / dagre / cytoscape-dagre (~1MB) were loaded on every page but never actually called; deleted.
+- **Compressed teasers** — 19 teaser images 5.8MB → ~700KB (resize 640px / q82); homepage referenced image weight ~2.5MB+ → ~400KB.
+- **Lazy-load** publication images (`loading="lazy"` + width/height) and the visitor widget.
+
+#### 🔧 Content / fixes
+
+- **Featured publications are now fully manual** — removed the citation-based auto-featuring in `sync-scholar.js` that kept re-adding papers the user had curated out; restored the hand-picked 9.
+- **Survey papers merged into year listing** — dropped the separate "Survey Papers" section on the publications page; they now sit in their by-date year group.
+
+#### 🧹 Repository cleanup
+
+- Removed orphaned/leftover assets: unused teasers (`data_survey`, `Journal`), blog images (`mmtok/tab3-4`, `timesclip/fig5-6`), `profile.jpg`, `transsion.jpeg`, three unlinked paper PDFs (~10MB), and `pagelogo*` favicon source images (~2.5MB).
+- Removed the superseded `scripts/scholar_sync_python.py` (the Node `sync-scholar.js` is what runs).
+- _Note:_ `config/config.json` (legacy fallback) retained for now; slated for removal at v2.0.
+
+---
+
 ## [v1.5.0] - 2026-03-06
 
 ### 🌿 Template / Personal Branch Separation

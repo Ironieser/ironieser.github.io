@@ -86,14 +86,10 @@ function generateRedirects(config) {
 }
 
 function expandVisitorMap(siteVisitorMap) {
-  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
-  return {
-    enabled: siteVisitorMap.enabled !== false,
-    provider: siteVisitorMap.provider || 'clustrmaps',
-    domain_id: siteVisitorMap.domain_id,
-    color: siteVisitorMap.color || 'ffffff',
-    width: siteVisitorMap.width || 'a'
-  };
+  // Self-hosted visitor analytics (Cloudflare Pages Functions + D1).
+  // Only a single on/off switch; everything else lives in the Function + widget.
+  if (!siteVisitorMap) return siteVisitorMap;
+  return { enabled: siteVisitorMap.enabled !== false };
 }
 
 function loadConfig() {
@@ -228,21 +224,31 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
     if (paperUrl) pubByPaperUrl.set(paperUrl, pub);
   });
 
-  const tracks = Array.isArray(roadmapConfig.tracks) ? roadmapConfig.tracks : [];
   const filters = Array.isArray(roadmapConfig.filters) ? roadmapConfig.filters : [];
   const stages = Array.isArray(roadmapConfig.stages) ? roadmapConfig.stages : [];
   const ongoing = Array.isArray(roadmapConfig.ongoing) ? roadmapConfig.ongoing : [];
   const visionLoop = roadmapConfig.vision_loop && typeof roadmapConfig.vision_loop === 'object'
     ? roadmapConfig.vision_loop
     : null;
-  const trackIds = new Set(tracks.map(t => t.id));
+  const phaseList = Array.isArray(roadmapConfig.phases) ? roadmapConfig.phases : [];
+  const legacyTrackColors = {
+    foundations: '#7c3aed',
+    world_model: '#0ea5e9',
+    systems: '#f59e0b'
+  };
+  const phases = phaseList.map(phase => ({
+    ...phase,
+    color: phase.color || (phase.trackId && legacyTrackColors[phase.trackId]) || '#7c3aed'
+  }));
+
   const rawNodes = Array.isArray(roadmapConfig.nodes) ? roadmapConfig.nodes : [];
   const nodes = rawNodes.map(node => {
     const pub = node.paper_url ? pubByPaperUrl.get(node.paper_url) : null;
     const links = pub?.links || node.links || [];
     return {
       id: node.id,
-      track: node.track,
+      card_kind: node.card_kind === 'context' ? 'context' : 'paper',
+      context: node.context && typeof node.context === 'object' ? node.context : null,
       year: node.year || pub?._year || null,
       title: node.title || pub?.title || 'Untitled Paper',
       authors: Array.isArray(node.authors) ? node.authors : (pub?.authors || []),
@@ -258,11 +264,11 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
       subtitle: node.subtitle || '',
       stages: Array.isArray(node.stages) ? node.stages : [],
       importance: typeof node.importance === 'number' ? node.importance : 1,
-      size: node.size || '',
+      size: typeof node.size === 'number' ? node.size : (parseInt(node.size, 10) || 0),
       links,
       paper_url: node.paper_url || getPublicationPaperLink(pub) || null
     };
-  }).filter(node => node.id && trackIds.has(node.track));
+  }).filter(node => node.id);
 
   const nodeIds = new Set(nodes.map(node => node.id));
   const edges = (Array.isArray(roadmapConfig.edges) ? roadmapConfig.edges : []).filter(edge => (
@@ -271,15 +277,12 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
     nodeIds.has(edge.target)
   ));
 
-  const phases = Array.isArray(roadmapConfig.phases) ? roadmapConfig.phases : [];
-
   return {
     title: roadmapConfig.title || 'Research Roadmap',
     subtitle: roadmapConfig.subtitle || '',
     description: roadmapConfig.description || '',
     phases,
     filters,
-    tracks,
     ongoing,
     vision_loop: visionLoop,
     nodes
@@ -435,21 +438,35 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
     ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
     : '';
   
-  // Generate visitor map section if enabled
+  // Generate visitor analytics section if enabled.
+  // Self-hosted (Cloudflare Pages Functions + D1); the widget is lazy-loaded when
+  // the footer scrolls into view so it never blocks initial page load.
   let visitorMapHtml = '';
   if (visitorMap && visitorMap.enabled) {
-    const domainId = visitorMap.domain_id || '';
-    const color = visitorMap.color || 'ffffff';
-    const width = visitorMap.width || 'a';
     visitorMapHtml = `
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
-                    </div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
+                    <script>
+                    (function(){
+                        var mount=document.getElementById('visitor-widget-mount');
+                        if(!mount) return;
+                        var loaded=false;
+                        function load(){
+                            if(loaded) return; loaded=true;
+                            var s=document.createElement('script');
+                            s.src='assets/js/visitor-map.js?v=8'; s.defer=true;
+                            document.body.appendChild(s);
+                        }
+                        if('IntersectionObserver' in window){
+                            var io=new IntersectionObserver(function(entries){
+                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
+                            },{rootMargin:'300px'});
+                            io.observe(mount);
+                        } else { load(); }
+                    })();
+                    </script>
                 </div>
             </div>`;
   }
@@ -624,7 +641,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -709,9 +726,6 @@ function generateIndexPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
     <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>
@@ -927,7 +941,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -946,41 +960,8 @@ function generatePublicationsPage(config) {
             </div>`);
   }
   
-  // Generate survey papers section
-  if (publications.survey) {
-    const surveyItems = publications.survey.map(pub => {
-      const venueBadge = formatPublicationVenue(pub.venue_type, pub.venue);
-      const authorsFormatted = highlightAuthorName(pub.authors, targetName);
-      const linksFormatted = formatPublicationLinks(pub.links);
-      
-      const hasTldrClass = pub.tldr ? "has-tldr" : "";
-      const tldrHtml = pub.tldr ? `
-          <div class="tldr-wrapper">
-              <span class="tldr-badge">TL;DR</span>
-              <p class="tldr-text">${pub.tldr}</p>
-          </div>` : "";
-      
-      return `
-                <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" onerror="this.onerror=null;this.src='images/default-paper.png';">
-                    <div class="publication-content">
-                        <p class="publication-title">${venueBadge} ${pub.title}</p>
-                        <p class="publication-authors">${authorsFormatted}</p>
-                        <p class="publication-links">${linksFormatted}</p>
-                    </div>
-                    ${tldrHtml}
-                </div>`;
-    }).join('');
-    
-    yearSections.push(`
-            <div class="year-group">
-                <h3 class="year-title">Survey Papers</h3>
-                <div class="publications-list">
-                    ${surveyItems}
-                </div>
-            </div>`);
-  }
-  
+  // Survey papers are no longer listed separately; they live in their year groups by date.
+
   // Generate stats
   const statsHtml = research.stats.map(stat => `<span class="stat-item">${stat}</span>`).join(' <span class="stat-divider">•</span> ');
   
@@ -1032,9 +1013,6 @@ function generatePublicationsPage(config) {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-    <script src="https://unpkg.com/dagre@0.8.5/dist/dagre.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js" defer></script>
-    <script src="https://unpkg.com/cytoscape-dagre@2.5.0/cytoscape-dagre.js" defer></script>
     <script src="assets/js/script.js?v=5" defer></script>
 </head>
 <body>
