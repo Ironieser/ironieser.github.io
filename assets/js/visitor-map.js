@@ -32,11 +32,8 @@
     set('vw-unique', fmt(s.unique));
     var sinceEl = document.getElementById('vw-since');
     if (sinceEl) {
-      if (s.since) {
-        var d = new Date(s.since * 1000);
-        sinceEl.textContent = 'Tracking since ' + d.getFullYear() + '-' +
-          String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-      } else { sinceEl.textContent = ''; }
+      // Display in UTC to match the UTC day/month buckets the counters use.
+      sinceEl.textContent = s.since ? 'Tracking since ' + new Date(s.since * 1000).toISOString().slice(0, 10) + ' UTC' : '';
     }
   }
 

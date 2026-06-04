@@ -37,11 +37,12 @@ try {
 const NE = process.argv[2] || '/tmp/ne110.json';
 if (fs.existsSync(NE)) {
   const d = JSON.parse(fs.readFileSync(NE, 'utf8'));
-  const iso2 = (p) => {
-    let a = p.ISO_A2;
-    if (!a || a === '-99') a = p.ISO_A2_EH;
-    return !a || a === '-99' ? null : a;
-  };
+  // Prefer a clean 2-letter ISO code. Natural Earth sometimes stores '-99'
+  // (disputed) or composite codes like 'CN-TW' in ISO_A2; fall back to ISO_A2_EH
+  // so e.g. Taiwan resolves to 'TW' and colours correctly. (HK/MO have no
+  // separate polygon at 110m — they appear as dots via lat/lon instead.)
+  const clean = (a) => (typeof a === 'string' && /^[A-Z]{2}$/.test(a) ? a : null);
+  const iso2 = (p) => clean(p.ISO_A2) || clean(p.ISO_A2_EH);
   const round = (c, n = 2) => (typeof c === 'number' ? Math.round(c * 10 ** n) / 10 ** n : c.map((x) => round(x, n)));
   const out = { type: 'FeatureCollection', features: [] };
   for (const ft of d.features) {

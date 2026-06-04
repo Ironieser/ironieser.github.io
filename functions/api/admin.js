@@ -1,13 +1,13 @@
 // GET /api/admin?key=<ADMIN_KEY> — private analytics.
 // Returns monthly totals, top countries/cities/referrers, and a recent-visit log.
 // IPs are never returned in full (only an 8-char hash prefix).
-import { json } from './_lib.js';
+import { json, timingSafeEqual } from './_lib.js';
 
 export async function onRequest({ request, env }) {
   const db = env.DB;
   const url = new URL(request.url);
-  const key = url.searchParams.get('key') || request.headers.get('x-admin-key');
-  if (!env.ADMIN_KEY || key !== env.ADMIN_KEY) return json({ error: 'unauthorized' }, 401);
+  const key = url.searchParams.get('key') || request.headers.get('x-admin-key') || '';
+  if (!env.ADMIN_KEY || !timingSafeEqual(key, env.ADMIN_KEY)) return json({ error: 'unauthorized' }, 401);
   if (!db) return json({ error: 'no-db' });
 
   try {

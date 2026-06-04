@@ -1,5 +1,16 @@
 # Changelog
 
+## [v1.6.1] - 2026-06-04
+
+### 🐞 Visitor-analytics review fixes
+
+- **Blog page regression fixed** — `build-blog-page.js` still emitted the old ClustrMaps `<script>` (with an empty domain); migrated it to the self-hosted widget so all three pages match.
+- **Atomic visitor de-dup** — replaced the racy SELECT-then-INSERT with a `bucket` column + `UNIQUE(ip_hash, bucket)` index and `INSERT OR IGNORE`, so concurrent hits from one visitor in the same hour can no longer double-count (verified with a 5-way concurrent burst).
+- **Record only on POST** — `GET /api/hit` no longer records, stopping prefetch/crawler/`<img>` inflation.
+- **Map coverage** — fixed ISO-2 extraction in the world-map build (e.g. Taiwan now colours; HK/MO have no separate polygon at 110m and show as dots).
+- **Security/privacy** — constant-time admin-key comparison; `IP_SALT` fallback now a per-isolate random value (lazily generated; never a public constant) instead of a hardcoded salt.
+- **Hardening/perf** — escape country code in the dashboard; collapse five scalar stat queries into one scan; UTC-consistent "Tracking since" display; remove dead `lerpHex`.
+
 ## [v1.6.0] - 2026-06-04
 
 ### 📊 Self-hosted Visitor Analytics + 🗺️ Map + ⚡ Perf + 🧹 Cleanup
