@@ -103,8 +103,8 @@
   <div class="err" id="err"></div>
 </div>
 
-<script src="assets/js/vendor/jsvectormap.min.js"></script>
-<script src="assets/js/vendor/jsvectormap-world.js"></script>
+<script src="assets/js/vendor/echarts-slim.js"></script>
+<script src="assets/js/vendor/echarts-world.js"></script>
 <script>
 (function(){
   var qs = new URLSearchParams(location.search);
@@ -199,27 +199,29 @@
         '</td><td class="mut">'+esc(v.path||'')+'</td><td class="mut">'+esc(v.ip||'')+'</td></tr>';
     }).join('') || '<tr><td colspan="6" class="mut">No visits yet</td></tr>';
 
-    // map — visitor dots (ClustrMaps-style)
+    // map — ECharts choropleth + rippling visitor dots
     try{
-      if(typeof jsVectorMap!=='undefined'){
-        var pts=(s.points||[]); var maxC=pts.reduce(function(m,p){return Math.max(m,p.c);},1);
-        var markers=pts.map(function(p){ var r=3+Math.min(13,Math.sqrt(p.c/maxC)*13);
-          return {name:p.c+(p.c>1?' visits':' visit'),coords:[p.lat,p.lon],style:{r:r}}; });
-        var region=(getComputedStyle(document.documentElement).getPropertyValue('--bar')||'#2b3a5c').trim();
-        var byCode={}; (a.countries||[]).forEach(function(c){ if(c.code) byCode[c.code]=c.c; });
+      if(typeof echarts!=='undefined' && window.__ECHARTS_WORLD__){
         var maxCC=Math.max.apply(null,(a.countries||[]).map(function(c){return c.c;}).concat([1]));
-        new jsVectorMap({ selector:'#map', map:'world', zoomButtons:false, zoomOnScroll:false, backgroundColor:'transparent',
-          regionStyle:{ initial:{ fill:region, stroke:'transparent', strokeWidth:0 }, hover:{ fillOpacity:0.9 } },
-          markers:markers,
-          markerStyle:{ initial:{ fill:'#3b82f6', stroke:'#3b82f6', strokeWidth:1.3, fillOpacity:.45, r:5 }, hover:{ fillOpacity:.85 } },
-          onMarkerTooltipShow:function(e,t,i){ try{ t.text(markers[i].name,true); }catch(x){} }
+        try{ echarts.registerMap('world', window.__ECHARTS_WORLD__); }catch(e){}
+        var chart=echarts.init(document.getElementById('map'),null,{renderer:'canvas'});
+        chart.setOption({
+          backgroundColor:'transparent',
+          tooltip:{ trigger:'item', backgroundColor:'#0f1729', borderColor:'transparent', textStyle:{color:'#fff',fontSize:12}, padding:[5,9],
+            formatter:function(p){ if(p.seriesType==='effectScatter') return p.name+': '+p.value[2]; var v=(p.value==null||isNaN(p.value))?0:p.value; return p.name+': '+v; } },
+          visualMap:{ type:'continuous', min:0, max:maxCC, show:false, inRange:{ color:['#1e3a63','#7aa7f0'] } },
+          geo:{ map:'world', roam:false, left:0, right:0, top:8, bottom:8,
+            itemStyle:{ areaColor:'#222c40', borderColor:'#33405a', borderWidth:0.5 },
+            emphasis:{ itemStyle:{ areaColor:'#3a496b' }, label:{ show:false } } },
+          series:[
+            { type:'map', map:'world', geoIndex:0, data:(a.countries||[]).map(function(c){return {name:c.code,value:c.c};}) },
+            { type:'effectScatter', coordinateSystem:'geo', zlevel:2, rippleEffect:{ brushType:'stroke', scale:3 },
+              symbolSize:function(val){ return Math.max(5,Math.sqrt(val[2])*5); },
+              itemStyle:{ color:'#38bdf8', shadowBlur:8, shadowColor:'#38bdf8' },
+              data:(s.points||[]).map(function(p){return {name:'Visitors',value:[p.lon,p.lat,p.c]};}) }
+          ]
         });
-        // manual choropleth (avoid jsVectorMap scale producing black regions)
-        var mapEl=document.getElementById('map');
-        if(mapEl){ var nd=mapEl.querySelectorAll('[data-code]');
-          for(var k=0;k<nd.length;k++){ var cc=(nd[k].getAttribute('data-code')||'').toUpperCase();
-            if(byCode[cc]!=null){ var tt=maxCC>1?Math.log(byCode[cc]+1)/Math.log(maxCC+1):1;
-              nd[k].style.fill=lerpHex('#274a86','#7aa7f0',tt); } } }
+        window.addEventListener('resize',function(){ try{chart.resize();}catch(e){} });
       }
     }catch(e){}
   }
