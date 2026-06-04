@@ -16,9 +16,5 @@
   "dependencies": {
     "js-yaml": "^4.1.1",
     "marked": "^17.0.3"
-  },
-  "devDependencies": {
-    "echarts": "^5.5.1",
-    "esbuild": "^0.21.5"
   }
 }
