@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.6.2] - 2026-06-08
+
+### 🗺️ Map aspect-ratio fix
+
+- **Distorted world map fixed** — the `geo` block pinned all four edges (`left/right/top/bottom`), which stretched the map to fill its box and warped country shapes. Switched both the footer widget (`visitor-map.js`) and the admin dashboard (`stats.html`) to `aspectScale:1` + `layoutCenter`/`layoutSize`, so the map fits its container while preserving true geographic proportions. Cache-buster bumped to `v=10`.
+
 ## [v1.6.1] - 2026-06-04
 
 ### 🐞 Visitor-analytics review fixes

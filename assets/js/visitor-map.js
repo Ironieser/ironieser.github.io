@@ -78,7 +78,10 @@
       },
       geo: {
         map: 'world', roam: false, silent: false,
-        left: 0, right: 0, top: 6, bottom: 6,
+        // Keep the map's true geographic proportions (equirectangular ~2:1).
+        // Pinning all four edges would stretch it to fill the box and distort it;
+        // layoutSize/layoutCenter fit-to-box while preserving aspect ratio instead.
+        aspectScale: 1, layoutCenter: ['50%', '50%'], layoutSize: '100%',
         itemStyle: { areaColor: land, borderColor: border, borderWidth: 0.5 },
         emphasis: { itemStyle: { areaColor: dark ? '#3a496b' : '#dfe6f2' }, label: { show: false } }
       },

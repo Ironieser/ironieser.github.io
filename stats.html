@@ -209,7 +209,7 @@
           tooltip:{ trigger:'item', backgroundColor:'#0f1729', borderColor:'transparent', textStyle:{color:'#fff',fontSize:12}, padding:[5,9],
             formatter:function(p){ if(p.seriesType==='effectScatter') return p.name+': '+p.value[2]; var v=(p.value==null||isNaN(p.value))?0:p.value; return p.name+': '+v; } },
           visualMap:{ type:'continuous', min:0, max:maxCC, show:false, inRange:{ color:['#1e3a63','#7aa7f0'] } },
-          geo:{ map:'world', roam:false, left:0, right:0, top:8, bottom:8,
+          geo:{ map:'world', roam:false, aspectScale:1, layoutCenter:['50%','50%'], layoutSize:'100%',
             itemStyle:{ areaColor:'#222c40', borderColor:'#33405a', borderWidth:0.5 },
             emphasis:{ itemStyle:{ areaColor:'#3a496b' }, label:{ show:false } } },
           series:[
