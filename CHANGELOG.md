@@ -1,5 +1,11 @@
 # Changelog
 
+## [v1.6.3] - 2026-06-23
+
+### 📄 New publication: Better Call CineCrew (ECCV 2026)
+
+- Added **Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation** (ECCV'26, co-first author, joint work with UMass & MIT) to Selected Publications, with a News announcement. Teaser compressed to 640px/q82 (`teaser/cinecrew.jpg`). Paper/arXiv/code links to follow once public.
+
 ## [v1.6.2] - 2026-06-08
 
 ### 🗺️ Map aspect-ratio fix

@@ -60,6 +60,12 @@
   },
   "news": [
     {
+      "date": "Jun 2026",
+      "icon": "🎉",
+      "content": "Paper on <strong>Better Call CineCrew</strong> accepted to [[ECCV 2026]]! Our multi-agent framework for ultra-long narrative-to-film generation. Joint work with UMass &amp; MIT — thanks to all coauthors!",
+      "category": "papers"
+    },
+    {
       "date": "Apr 2026",
       "icon": "🗺️",
       "content": "The homepage now includes an interactive <strong>Research Roadmap</strong>.",
@@ -830,6 +836,24 @@
       }
     ],
     "2026": [
+      {
+        "title": "Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation",
+        "authors": [
+          "Jiaben Chen*",
+          "Sixun Dong*",
+          "Qinhong Zhou",
+          "Raine Ma",
+          "Zhiyang Dou",
+          "Wojciech Matusik",
+          "Chuang Gan"
+        ],
+        "venue": "ECCV'26",
+        "venue_type": "conference",
+        "image": "teaser/cinecrew.jpg",
+        "featured": true,
+        "tldr": "A multi-agent 'film crew' framework that turns long-form narratives into coherent ultra-long films, maintaining character and scene consistency across extended video generation. Joint work with UMass & MIT.",
+        "links": []
+      },
       {
         "title": "Rethinking Model Efficiency: Multi-Agent Inference with Large Models",
         "authors": [
