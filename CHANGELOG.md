@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.7.0] - 2026-06-23
+
+### 🗺️ Research Roadmap redesign ("Research Atlas") + CineCrew details
+
+- **Roadmap reimagined as an editorial journey map** — a continuous drawn "route" with numbered stations (Ⅰ/Ⅱ/Ⅲ), Georgia-serif chapter headers with hairline rules, a faint paper-grain texture, and a serif "Feedback Loop" return note. Route draws in on first load (gated to first render so filter clicks no longer replay the intro animation; honours `prefers-reduced-motion`).
+- **Roadmap interaction fixes** — paper cards are now clickable (open the paper, or pin a details tooltip for "coming soon" papers); tooltips work on touch via tap; flagship papers (oral / importance≥2) get a soft colored ring.
+- **CineCrew placement & metadata** — moved to the Agentic Systems stage (reasoning group); rewrote the TL;DR from the paper (FilmDSL orchestration layer, appearance + persona consistency); added "Coming Soon" arXiv/Code links. WeakSVR promoted to flagship. Stage year labels show "…–Now" for stages with an ongoing direction; World Modeling gains a "Generative World Models · Ongoing" marker. Agentic `maxItems` raised to 8 so MLLM-Tool stays visible.
+
 ## [v1.6.3] - 2026-06-23
 
 ### 📄 New publication: Better Call CineCrew (ECCV 2026)

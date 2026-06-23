@@ -240,6 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!papers.length) return;
 
     let activeFilter = 'all';
+    let pinnedEl = null;
+    let firstRender = true;
     const phases = Array.isArray(model.phases) ? model.phases : [];
     if (!phases.length) return;
     const phaseOrder = new Map(phases.map((phase, idx) => [phase.id, idx]));
@@ -327,6 +329,31 @@ document.addEventListener('DOMContentLoaded', function () {
             return `<span class="roadmap-paper-venue is-preprint">${text}</span>`;
         }
         return `<span class="roadmap-paper-venue">${text}</span>`;
+    }
+
+    function paperPrimaryLink(paper) {
+        if (paper && paper.paper_url) return paper.paper_url;
+        const links = Array.isArray(paper && paper.links) ? paper.links : [];
+        const withUrl = links.find(link => link && link.url);
+        return withUrl ? withUrl.url : '';
+    }
+
+    function phaseYearRange(phaseId) {
+        const hasOngoing = ongoingItems.some(item => item && item.phase === phaseId);
+        const ys = papers
+            .filter(paper => primaryPhaseId(paper) === phaseId)
+            .map(paper => Number(paper.year))
+            .filter(year => year > 1900);
+        if (!ys.length) return hasOngoing ? 'Now' : '';
+        const mn = Math.min(...ys);
+        const mx = Math.max(...ys);
+        // An ongoing direction means the line is still active → label as "…–Now".
+        if (hasOngoing) return `${mn}–Now`;
+        return mn === mx ? String(mn) : `${mn}–${mx}`;
+    }
+
+    function romanNumeral(n) {
+        return ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ', 'Ⅶ', 'Ⅷ'][n] || String(n);
     }
 
     function papersForPhase(phase) {
@@ -460,6 +487,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderGraph() {
+        pinnedEl = null;
         const filtersHtml = `
             <div class="roadmap-toolbar roadmap-toolbar-inline">
                 <button class="roadmap-filter-btn${activeFilter === 'all' ? ' active' : ''}" data-filter="all">All Themes</button>
@@ -551,17 +579,38 @@ document.addEventListener('DOMContentLoaded', function () {
             `;
         }).join('');
 
-        const futureLoopHtml = visionLoop?.text ? `
-                    <div class="roadmap-future-loop">
-                        <div class="roadmap-future-loop-copy">
-                            <span class="roadmap-future-loop-label">${visionLoop.label || 'Future Loop'}</span>
-                            <span class="roadmap-future-loop-text">${visionLoop.text}</span>
-                        </div>
-                    </div>
-                ` : '';
+        const routeInset = `${(100 / (phases.length * 2)).toFixed(3)}%`;
+        const routeHtml = `
+            <div class="roadmap-atlas-route" aria-hidden="true">
+                <span class="roadmap-route-line" style="left:${routeInset};right:${routeInset}"></span>
+                <ol class="roadmap-route-stations">
+                    ${phases.map((phase, i) => {
+                        const yr = phaseYearRange(phase.id);
+                        return `
+                            <li class="roadmap-route-station" style="--phase-color:${phase.color || '#7c3aed'};--i:${i}">
+                                <span class="roadmap-route-numeral">${romanNumeral(i + 1)}</span>
+                                <span class="roadmap-route-dot"></span>
+                                <span class="roadmap-route-name">${phase.title || ''}</span>
+                                ${yr ? `<span class="roadmap-route-years">${yr}</span>` : ''}
+                            </li>
+                        `;
+                    }).join('')}
+                </ol>
+            </div>
+        `;
+
+        const loopbackHtml = visionLoop?.text ? `
+            <div class="roadmap-loopback">
+                <span class="roadmap-loopback-mark" aria-hidden="true">↺</span>
+                <span class="roadmap-loopback-copy">
+                    <span class="roadmap-loopback-label">${visionLoop.label || 'Feedback Loop'}</span>
+                    <span class="roadmap-loopback-text">${visionLoop.text}</span>
+                </span>
+            </div>
+        ` : '';
 
         graphEl.innerHTML = `
-            <div class="roadmap-flow">
+            <div class="roadmap-flow${firstRender ? ' is-intro' : ''}">
                 <div class="roadmap-flow-header">
                     <div class="roadmap-flow-heading">
                         ${model.subtitle ? `<div class="roadmap-flow-title">${model.subtitle}</div>` : ''}
@@ -569,17 +618,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                     ${filtersHtml}
                 </div>
+                ${routeHtml}
                 <div class="roadmap-phase-grid">${phaseHtml}</div>
+                ${loopbackHtml}
                 <div class="roadmap-flow-footer">
                     <p class="roadmap-lead-legend" role="note" aria-label="Legend: star indicates first or co-first author">
                         <span class="roadmap-lead-legend-mark" aria-hidden="true">✦</span>
                         <span>First / co-first author</span>
                     </p>
-                    ${futureLoopHtml}
+                    <p class="roadmap-tap-hint">Tap a paper for details &amp; links</p>
                 </div>
             </div>
             <div class="roadmap-hover-tooltip" id="roadmap-hover-tooltip" hidden></div>
         `;
+        firstRender = false;
 
         const tooltip = graphEl.querySelector('#roadmap-hover-tooltip');
         let hideTooltipTimer = null;
@@ -659,12 +711,37 @@ document.addEventListener('DOMContentLoaded', function () {
             tooltip.addEventListener('mouseleave', scheduleHideTooltip);
         }
 
+        function unpin() {
+            pinnedEl = null;
+            if (tooltip) tooltip.hidden = true;
+        }
         graphEl.querySelectorAll('[data-paper-id]').forEach(el => {
+            const paper = papers.find(item => item.id === el.getAttribute('data-paper-id'));
+            if (!paper) return;
             el.addEventListener('mouseenter', function () {
-                const paper = papers.find(item => item.id === this.getAttribute('data-paper-id'));
-                if (paper) showTooltip(this, paper);
+                if (pinnedEl) return;
+                showTooltip(this, paper);
             });
-            el.addEventListener('mouseleave', hideTooltip);
+            el.addEventListener('mouseleave', function () {
+                if (pinnedEl) return;
+                hideTooltip();
+            });
+            el.addEventListener('click', function (ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                const link = paperPrimaryLink(paper);
+                if (link) {
+                    window.open(link, '_blank', 'noopener');
+                    return;
+                }
+                // No public link yet (e.g. "coming soon") → pin the tooltip so touch users can read details.
+                if (pinnedEl === this) {
+                    unpin();
+                    return;
+                }
+                pinnedEl = this;
+                showTooltip(this, paper);
+            });
         });
         graphEl.querySelectorAll('[data-context-tip]').forEach(el => {
             const idx = Number(el.getAttribute('data-context-tip'));
@@ -684,4 +761,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     renderGraph();
+
+    // Dismiss a pinned roadmap tooltip when clicking/tapping outside it (bound once).
+    document.addEventListener('click', function (ev) {
+        if (!pinnedEl) return;
+        const tip = graphEl.querySelector('#roadmap-hover-tooltip');
+        if (pinnedEl.contains(ev.target)) return;
+        if (tip && tip.contains(ev.target)) return;
+        pinnedEl = null;
+        if (tip) tip.hidden = true;
+    });
 });
