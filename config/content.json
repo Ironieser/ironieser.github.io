@@ -8,7 +8,7 @@
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
+      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
@@ -50,10 +50,10 @@
     ]
   },
   "research": {
-    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
+    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26, ECCV'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
     "stats": [
       "10+ publications",
-      "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV, ICASSP, 3DV )",
+      "9 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, IJCAI, AAAI, WACV, ICASSP, 3DV)",
       "1 CVPR Oral presentation"
     ],
     "max_featured_publications": 10
