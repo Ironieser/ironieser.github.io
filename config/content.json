@@ -229,8 +229,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 105,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_citations": 109,
+        "_scholar_last_updated": "2026-06-29"
       }
     ],
     "2023": [
@@ -277,7 +277,7 @@
           }
         ],
         "_scholar_citations": 26,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       }
     ],
     "2024": [
@@ -309,8 +309,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 98,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_citations": 101,
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
@@ -339,7 +339,7 @@
           }
         ],
         "_scholar_citations": 19,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       }
     ],
     "2025": [
@@ -386,7 +386,7 @@
           }
         ],
         "_scholar_citations": 9,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
@@ -436,7 +436,7 @@
           }
         ],
         "_scholar_citations": 10,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Complex Logical Instruction Generation",
@@ -482,7 +482,7 @@
           }
         ],
         "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
@@ -524,8 +524,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_citations": 3,
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "TimesFrame: Multi-Variable Time Series is a Video of Numerical Data",
@@ -573,7 +573,7 @@
           }
         ],
         "_scholar_citations": 14,
-        "_scholar_last_updated": "2026-06-08",
+        "_scholar_last_updated": "2026-06-29",
         "featured": false
       },
       {
@@ -610,7 +610,7 @@
           }
         ],
         "_scholar_citations": 8,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
@@ -657,7 +657,7 @@
           }
         ],
         "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
@@ -687,8 +687,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 9,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_citations": 11,
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
@@ -715,8 +715,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
@@ -745,8 +745,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 14,
-        "_scholar_last_updated": "2026-06-08",
+        "_scholar_citations": 15,
+        "_scholar_last_updated": "2026-06-29",
         "featured": false
       },
       {
@@ -800,8 +800,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 23,
-        "_scholar_last_updated": "2026-06-08",
+        "_scholar_citations": 21,
+        "_scholar_last_updated": "2026-06-29",
         "featured": false
       },
       {
@@ -830,8 +830,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 25,
-        "_scholar_last_updated": "2026-06-08",
+        "_scholar_citations": 26,
+        "_scholar_last_updated": "2026-06-29",
         "featured": false
       }
     ],
@@ -912,7 +912,7 @@
           }
         ],
         "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       },
       {
         "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
@@ -946,7 +946,7 @@
           }
         ],
         "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-06-08"
+        "_scholar_last_updated": "2026-06-29"
       }
     ]
   },
