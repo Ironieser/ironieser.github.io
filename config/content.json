@@ -148,7 +148,7 @@
     {
       "date": "Jan 2024",
       "icon": "💼",
-      "content": "Completed <strong>Team Leader</strong> internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading co-speech gesture generation and 3D human body reconstruction projects.",
+      "content": "Completed <strong>Research Intern</strong>ship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading digital human projects: audio-driven talking-head video generation achieving SoTA on commercial and academic benchmarks, 3D human body reconstruction, and co-speech gesture generation.",
       "category": "career"
     },
     {
@@ -157,12 +157,6 @@
       "link": "https://arxiv.org/abs/2401.10727",
       "content": "Paper on <strong>MLLM-Tool</strong> {{link}} accepted to [[WACV 2024]]",
       "category": "papers"
-    },
-    {
-      "date": "Aug 2023",
-      "icon": "💼",
-      "content": "Completed <strong>Team Leader</strong> internship at <strong>Transsion Holdings</strong> (Audio-Video Generation Dept.), leading audio-driven talking-head video generation research with SoTA performance.",
-      "category": "career"
     },
     {
       "date": "Mar 2023",
