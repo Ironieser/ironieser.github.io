@@ -63,7 +63,7 @@
       "date": "Jul 2026",
       "icon": "🎉",
       "link": "https://arxiv.org/abs/2508.09125",
-      "content": "Paper on <strong>LogicIF</strong> {{link}} accepted to [[COLM 2026]]! Congratulations to Mian Zhang and all coauthors.",
+      "content": "Paper on <strong>LogicIF</strong> {{link}} accepted to [[COLM 2026]]! A framework and benchmark for evaluating LLMs' complex logical instruction-following ability. Congratulations to Mian Zhang and all coauthors.",
       "category": "papers"
     },
     {
