@@ -53,12 +53,19 @@
     "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26, ECCV'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
     "stats": [
       "10+ publications",
-      "9 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, IJCAI, AAAI, WACV, ICASSP, 3DV)",
+      "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",
       "1 CVPR Oral presentation"
     ],
     "max_featured_publications": 10
   },
   "news": [
+    {
+      "date": "Jul 2026",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2508.09125",
+      "content": "Paper on <strong>LogicIF</strong> {{link}} accepted to [[COLM 2026]]! Congratulations to Mian Zhang and all coauthors.",
+      "category": "papers"
+    },
     {
       "date": "Jun 2026",
       "icon": "🎉",
@@ -448,10 +455,10 @@
           "Zhiyu Zoey Chen",
           "Kaiqiang Song"
         ],
-        "venue": "arXiv'2508",
-        "venue_type": "preprint",
+        "venue": "COLM'26",
+        "venue_type": "conference",
         "image": "teaser/logitif.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "Introduces an automated data generation framework and evaluation benchmark for complex logical instructions to assess and enhance the multi-step reasoning capabilities of LLMs.",
         "links": [
           {
