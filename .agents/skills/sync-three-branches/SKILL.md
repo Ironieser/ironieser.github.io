@@ -30,6 +30,11 @@ To bring something from master to your site (e.g. README, skills):
 
 ```bash
 git checkout ironieser
-git checkout origin/master -- README.md CHANGELOG.md docs/ .agents/skills/ .github/workflows/deploy-waline.yml
-git add . && git commit -m "chore: sync from template" && git push origin ironieser
+git checkout origin/master -- <specific shared paths>
+git diff --check
+git add <the same reviewed paths>
+git commit -m "chore: sync selected files from template"
+git push origin ironieser
 ```
+
+Do not copy `README.md`, `CHANGELOG.md`, or deployment workflows wholesale unless their branch-specific wording and triggers have been reviewed.

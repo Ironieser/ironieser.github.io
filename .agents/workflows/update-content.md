@@ -5,7 +5,7 @@ description: How to update and deploy website content (publications, TL;DR, news
 ## Overview
 
 This site uses a **config-driven** architecture. Content lives in `config/content.json`.
-The site is built by `npm run build` (via `.github/scripts/build-website.js`) and deployed by **Cloudflare Pages** on every push to `master`.
+The site is built by `npm run build` (via `.github/scripts/build-website.js`) and deployed by **Cloudflare Pages** on every push to `ironieser`.
 
 > No HTML editing needed. Edit config → build locally → preview → commit → push.
 
@@ -92,3 +92,4 @@ The live site at `https://sixundong.com` updates in ~1-2 minutes.
 - Styles: `assets/css/styles.css`
 - Interactions/Animations: `assets/js/script.js`
 - After editing CSS/JS, rebuild and commit the generated `index.html` / `publications.html` too, since Cloudflare will regenerate them from the JS build script.
+- GitHub Actions also runs the Node build on every `ironieser` push as a read-only CI check; Cloudflare Pages remains the production deployer.

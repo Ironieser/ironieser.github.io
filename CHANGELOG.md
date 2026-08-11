@@ -1,5 +1,15 @@
 # Changelog
 
+## [Unreleased] - 2026-08-11
+
+### 🔧 Branch maintenance and CI cleanup
+
+- Added read-only GitHub Actions build validation for every push and pull request targeting `ironieser`; Cloudflare Pages remains the only production deployer.
+- Hardened the `ironieser` copy of the Scholar workflow by explicitly checking out and pushing `ironieser`, using Node.js 20, preventing overlapping sync runs, and removing the obsolete repository-dispatch rebuild.
+- Updated the link-check workflow to rebuild pages before scanning, remove an obsolete Lychee flag, and stop trying to create issues while Issues are disabled. The scheduled copy on the default branch must receive the same update before the monthly run uses it.
+- Corrected stale branch/deployment documentation and replaced the old ClustrMaps troubleshooting instructions with the current Cloudflare D1 analytics setup.
+- Reviewed repository skills and updated publication, roadmap, initialization, migration, and branch-sync instructions to match the current config-driven Cloudflare workflow and safer selective Git staging.
+
 ## [v1.7.0] - 2026-06-23
 
 ### 🗺️ Research Roadmap redesign ("Research Atlas") + CineCrew details

@@ -2,7 +2,7 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **📢 Latest (v1.5.0)**: **Template/personal branch separation** — `master` is now a clean, one-click GitHub Template with fictitious demo data; personal content lives in a separate branch. Scholar sync workflow updated to target the personal branch. See [CHANGELOG.md](CHANGELOG.md) for details.
+> **Branch note:** This is the `ironieser` personal-site branch, currently including the v1.7.0 Research Atlas and self-hosted visitor analytics. The clean reusable template remains on `master`; shared features are staged through `dev`. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 
@@ -59,12 +59,11 @@ This template supports two common deployment options. You can pick the one that 
 #### Option A: GitHub Pages only (no Cloudflare)
 
 1. In your repository, go to **Settings → Pages**  
-2. Under **Source**, select **"Deploy from a branch"**  
-3. Choose your default branch (e.g. `master` or `main`) and the **"/ (root)"** folder  
-4. Click **Save**  
+2. Under **Source**, select **"GitHub Actions"**
+3. Keep the template branch's Pages deployment workflow enabled
+4. Push your configuration changes
 
-GitHub Actions workflows (such as `build-website.yml` and `sync-scholar.yml`) will run automatically, generate static files, and your site will be served via GitHub Pages, for example:  
-`https://yourusername.github.io`
+The template branch's workflow then builds and deploys the site automatically at, for example, `https://yourusername.github.io`.
 
 #### Option B: Cloudflare Pages only (recommended)
 
@@ -82,8 +81,9 @@ GitHub Actions workflows (such as `build-website.yml` and `sync-scholar.yml`) wi
 
 For both options:
 
-- The GitHub Actions workflows in this repo (`build-website.yml`, `sync-scholar.yml`, `deploy-waline.yml`, etc.) will continue to work for generating pages, syncing Google Scholar, and deploying the comment system.  
-- Template users only need to choose **either** GitHub Pages **or** Cloudflare Pages as their final public site.
+- Use only one production deployment path to avoid duplicate or conflicting deployments.
+- `sync-scholar.yml` updates publication data independently of the hosting provider.
+- On the `ironieser` branch, GitHub Actions validates the build while Cloudflare Pages performs the production deployment.
 
 ### Step 4: Clone to Your Computer
 
@@ -109,11 +109,11 @@ All configuration files live in the **`config/`** directory. This keeps the repo
 
 **SEO & identity** — Edit the `seo` section with your website URL, name, description, keywords, and `author` / `organization` (used in meta tags and JSON-LD).
 
-**Visitor map** — Paste your ClustrMaps `domain_id` only (get it from [clustrmaps.com](https://clustrmaps.com) after creating a map). Other fields use defaults:
+**Visitor analytics** — The current map and counters are self-hosted with Cloudflare Pages Functions and D1. Use `visitor_map.enabled` as the on/off switch, then follow [`docs/VISITOR_ANALYTICS.md`](docs/VISITOR_ANALYTICS.md) to create and bind the database:
 
 ```yaml
 visitor_map:
-  domain_id: "YOUR_CLUSTRMAPS_ID"   # ← paste your ID here
+  enabled: true
 ```
 
 **Redirects** (optional) — Add short URLs, e.g. `/mmtok` → `/projects/mmtok.html`:
@@ -415,8 +415,8 @@ python scripts/local_server.py
 
 ### Visitor map not showing
 - Check that `visitor_map.enabled` is set to `true`
-- Verify your ClustrMaps `domain_id` is correct
-- Make sure you've signed up at clustrmaps.com and created a map
+- For the current self-hosted analytics implementation, verify the Cloudflare D1 binding and Pages Functions setup in [`docs/VISITOR_ANALYTICS.md`](docs/VISITOR_ANALYTICS.md)
+- Confirm `/api/stats` and `/api/hit` are available on the deployed domain
 
 ## 🎨 Customization
 

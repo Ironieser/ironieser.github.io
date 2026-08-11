@@ -77,7 +77,8 @@ Use this workflow when something looks wrong on the live site at `https://sixund
 
 5. Commit and push the fix:
    ```bash
-   git add .
+   git status --short
+   git add <reviewed files>
    git commit -m "fix: [description of fix]"
    git push
    ```

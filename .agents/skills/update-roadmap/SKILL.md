@@ -97,10 +97,12 @@ Check:
 ### 4. Commit
 
 ```bash
-git add config/content.json index.html
+git add config/content.json
 git commit -m "feat: update research roadmap — [brief description]"
 git push
 ```
+
+Do not stage `index.html` only because the local build changed its embedded build date. Cloudflare Pages regenerates it during deployment.
 
 ## References (on-demand)
 

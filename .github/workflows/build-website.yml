@@ -1,40 +1,23 @@
-# When using Cloudflare Pages: CF runs `npm run build` on each push and deploys.
-# This workflow is disabled for push so we don't double-build or push generated files.
-#
-# To enable (use GitHub Pages and have Actions commit built files):
-# 1. Uncomment on.push and on.repository_dispatch below
-# 2. Set permissions to contents: write, and add pages: write, id-token: write
-# 3. Rename jobs.build to jobs.build-and-deploy and add environment: name: github-pages
-# 4. Uncomment the "Commit and push changes" step at the bottom
-
-name: Build Website from Config
+name: Build Website (CI)
 
 on:
-  # Uncomment the next two blocks when using GitHub Pages:
-  # push:
-  #   branches: [ main, master ]
+  push:
+    branches: [ ironieser ]
   pull_request:
-    branches: [ main, master ]
-  # repository_dispatch:
-  #   types: [rebuild-website]
+    branches: [ ironieser ]
+  workflow_dispatch:
 
-# Current (CF Pages): read-only. When enabling GitHub Pages, replace with the block below:
 permissions:
   contents: read
-# When enabling GitHub Pages, use this instead:
-# permissions:
-#   contents: write
-#   pages: write
-#   id-token: write
 
-# When enabling GitHub Pages: change "build" to "build-and-deploy" and uncomment the environment block below
+concurrency:
+  group: website-ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:  # when enabling: rename to build-and-deploy
-    # when enabling GitHub Pages, uncomment these 4 lines:
-    # environment:
-    #   name: github-pages
-    #   url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -43,6 +26,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
@@ -50,13 +34,5 @@ jobs:
       - name: Build website
         run: npm run build
 
-      # ---------- Uncomment the block below when using GitHub Pages ----------
-      # - name: Commit and push changes
-      #   run: |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "GitHub Action"
-      #     git add -f index.html publications.html blog.html assets/js/blog-data.js
-      #     git diff --staged --quiet || git commit -m "🚀 Auto-update website from config/"
-      #     git push
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Verify generated pages
+        run: test -s index.html && test -s publications.html && test -s blog.html
