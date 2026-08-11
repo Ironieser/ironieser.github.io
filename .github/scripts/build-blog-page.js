@@ -20,14 +20,10 @@ const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const BLOG_OUTPUT = path.join(__dirname, '../../blog.html');
 
 function expandVisitorMap(siteVisitorMap) {
-  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
-  return {
-    enabled: siteVisitorMap.enabled !== false,
-    provider: siteVisitorMap.provider || 'clustrmaps',
-    domain_id: siteVisitorMap.domain_id,
-    color: siteVisitorMap.color || 'ffffff',
-    width: siteVisitorMap.width || 'a'
-  };
+  // Self-hosted visitor analytics (Cloudflare Pages Functions + D1).
+  // Only a single on/off switch; everything else lives in the Function + widget.
+  if (!siteVisitorMap) return siteVisitorMap;
+  return { enabled: siteVisitorMap.enabled !== false };
 }
 
 function loadConfig() {
@@ -113,21 +109,33 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
     ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
     : '';
   
-  // Generate visitor map section if enabled
+  // Generate visitor analytics section if enabled (self-hosted; lazy-loaded on footer scroll).
   let visitorMapHtml = '';
   if (visitorMap && visitorMap.enabled) {
-    const domainId = visitorMap.domain_id || '';
-    const color = visitorMap.color || 'ffffff';
-    const width = visitorMap.width || 'a';
     visitorMapHtml = `
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
-                    </div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
+                    <script>
+                    (function(){
+                        var mount=document.getElementById('visitor-widget-mount');
+                        if(!mount) return;
+                        var loaded=false;
+                        function load(){
+                            if(loaded) return; loaded=true;
+                            var s=document.createElement('script');
+                            s.src='assets/js/visitor-map.js?v=10'; s.defer=true;
+                            document.body.appendChild(s);
+                        }
+                        if('IntersectionObserver' in window){
+                            var io=new IntersectionObserver(function(entries){
+                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
+                            },{rootMargin:'300px'});
+                            io.observe(mount);
+                        } else { load(); }
+                    })();
+                    </script>
                 </div>
             </div>`;
   }

@@ -10,32 +10,17 @@
     "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
   },
   "_scholar_sync": {
-    "last_sync_date": "2026-02-02",
+    "last_sync_date": "2026-08-10",
     "last_sync_status": "No new publications found (0 existing checked)"
-  },
-  "redirects": [
-    {
-      "alias": "efficientvlm",
-      "target": "/projects/efficientvlm.html"
-    },
-    {
-      "alias": "timesclip",
-      "target": "/projects/timesclip.html"
-    }
-  ],
-  "visitor_map": {
-    "enabled": false,
-    "provider": "clustrmaps",
-    "domain_id": "YOUR_CLUSTRMAPS_ID",
-    "color": "ffffff",
-    "width": "a"
   },
   "seo": {
     "enable_json_ld": true,
-    "website_url": "https://yourusername.github.io",
-    "github_pages_url": "https://yourusername.github.io",
-    "legacy_urls": [],
-    "website_name": "Alex Zhang - Academic Homepage",
+    "website_url": "https://sixundong.com",
+    "github_pages_url": "https://ironieser.github.io",
+    "legacy_urls": [
+      "https://cv.ironieser.cc"
+    ],
+    "website_name": "Sixun Dong (董思勋) - Academic Homepage",
     "website_description": "A researcher in the field of multimodal AI systems, computer vision, and machine learning",
     "keywords": [
       "computer vision",
@@ -44,35 +29,49 @@
       "deep learning",
       "artificial intelligence",
       "academic research",
-      "Alex Zhang"
+      "Sixun Dong",
+      "Ironieser"
     ],
     "author": {
-      "name": "Alex Zhang",
-      "alternate_name": "AlexZ",
-      "email": "alex.zhang@example.edu",
-      "academic_email": "alex.zhang@example.edu",
-      "affiliation": "PhD Student, Example University, USA",
-      "job_title": "PhD Student",
+      "name": "Sixun Dong",
+      "alternate_name": "董思勋",
+      "email": "ironieser@gmail.com",
+      "academic_email": "sixundong.ai@gmail.com",
+      "affiliation": "Independent Researcher, AZ, USA",
+      "job_title": "Researcher",
       "research_areas": [
         "multimodal AI systems",
         "computer vision",
         "natural language processing",
         "machine learning"
       ],
-      "google_scholar_id": "YOUR_SCHOLAR_ID",
+      "google_scholar_id": "j71Y2-4AAAAJ",
       "orcid": null,
-      "github": "yourusername",
-      "twitter": "yourusername"
+      "github": "Ironieser",
+      "twitter": "ironieser"
     },
     "organization": {
-      "name": "Example University",
-      "type": "CollegeOrUniversity",
-      "url": "https://yourusername.github.io",
+      "name": "Independent Researcher, AZ, USA",
+      "type": "Independent Researcher",
+      "url": "https://sixundong.com",
       "address": {
         "addressCountry": "USA",
-        "addressLocality": "Your City",
-        "addressRegion": "Your State"
+        "addressLocality": "Tempe",
+        "addressRegion": "AZ"
       }
     }
-  }
+  },
+  "visitor_map": {
+    "enabled": true
+  },
+  "redirects": [
+    {
+      "alias": "mmtok",
+      "target": "/projects/mmtok.html"
+    },
+    {
+      "alias": "timesclip",
+      "target": "/projects/timesclip.html"
+    }
+  ]
 }

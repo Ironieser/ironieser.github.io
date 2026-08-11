@@ -1,5 +1,47 @@
 # Changelog
 
+## [Unreleased] - 2026-08-11
+
+### 🔧 Branch maintenance and CI cleanup
+
+- Added read-only GitHub Actions build validation for every push and pull request targeting `ironieser`; Cloudflare Pages remains the only production deployer.
+- Synchronized the current `ironieser` tree into `dev`, switched the staging branch to read-only build CI, and explicitly prevented `dev` from running production-oriented Waline or Scholar jobs.
+- Hardened the `ironieser` copy of the Scholar workflow by explicitly checking out and pushing `ironieser`, using Node.js 20, preventing overlapping sync runs, and removing the obsolete repository-dispatch rebuild.
+- Updated the link-check workflow to rebuild pages before scanning, remove an obsolete Lychee flag, and stop trying to create issues while Issues are disabled. The scheduled copy on the default branch must receive the same update before the monthly run uses it.
+- Corrected stale branch/deployment documentation and replaced the old ClustrMaps troubleshooting instructions with the current Cloudflare D1 analytics setup.
+- Reviewed repository skills and updated publication, roadmap, initialization, migration, and branch-sync instructions to match the current config-driven Cloudflare workflow and safer selective Git staging.
+
+## [v1.7.0] - 2026-06-23
+
+### 🗺️ Research Roadmap redesign ("Research Atlas") + CineCrew details
+
+- **Roadmap reimagined as an editorial journey map** — a continuous drawn "route" with numbered stations (Ⅰ/Ⅱ/Ⅲ), Georgia-serif chapter headers with hairline rules, a faint paper-grain texture, and a serif "Feedback Loop" return note. Route draws in on first load (gated to first render so filter clicks no longer replay the intro animation; honours `prefers-reduced-motion`).
+- **Roadmap interaction fixes** — paper cards are now clickable (open the paper, or pin a details tooltip for "coming soon" papers); tooltips work on touch via tap; flagship papers (oral / importance≥2) get a soft colored ring.
+- **CineCrew placement & metadata** — moved to the Agentic Systems stage (reasoning group); rewrote the TL;DR from the paper (FilmDSL orchestration layer, appearance + persona consistency); added "Coming Soon" arXiv/Code links. WeakSVR promoted to flagship. Stage year labels show "…–Now" for stages with an ongoing direction; World Modeling gains a "Generative World Models · Ongoing" marker. Agentic `maxItems` raised to 8 so MLLM-Tool stays visible.
+
+## [v1.6.3] - 2026-06-23
+
+### 📄 New publication: Better Call CineCrew (ECCV 2026)
+
+- Added **Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation** (ECCV'26, co-first author, joint work with UMass & MIT) to Selected Publications, with a News announcement. Teaser compressed to 640px/q82 (`teaser/cinecrew.jpg`). Paper/arXiv/code links to follow once public.
+
+## [v1.6.2] - 2026-06-08
+
+### 🗺️ Map aspect-ratio fix
+
+- **Distorted world map fixed** — the `geo` block pinned all four edges (`left/right/top/bottom`), which stretched the map to fill its box and warped country shapes. Switched both the footer widget (`visitor-map.js`) and the admin dashboard (`stats.html`) to `aspectScale:1` + `layoutCenter`/`layoutSize`, so the map fits its container while preserving true geographic proportions. Cache-buster bumped to `v=10`.
+
+## [v1.6.1] - 2026-06-04
+
+### 🐞 Visitor-analytics review fixes
+
+- **Blog page regression fixed** — `build-blog-page.js` still emitted the old ClustrMaps `<script>` (with an empty domain); migrated it to the self-hosted widget so all three pages match.
+- **Atomic visitor de-dup** — replaced the racy SELECT-then-INSERT with a `bucket` column + `UNIQUE(ip_hash, bucket)` index and `INSERT OR IGNORE`, so concurrent hits from one visitor in the same hour can no longer double-count (verified with a 5-way concurrent burst).
+- **Record only on POST** — `GET /api/hit` no longer records, stopping prefetch/crawler/`<img>` inflation.
+- **Map coverage** — fixed ISO-2 extraction in the world-map build (e.g. Taiwan now colours; HK/MO have no separate polygon at 110m and show as dots).
+- **Security/privacy** — constant-time admin-key comparison; `IP_SALT` fallback now a per-isolate random value (lazily generated; never a public constant) instead of a hardcoded salt.
+- **Hardening/perf** — escape country code in the dashboard; collapse five scalar stat queries into one scan; UTC-consistent "Tracking since" display; remove dead `lerpHex`.
+
 ## [v1.6.0] - 2026-06-04
 
 ### 📊 Self-hosted Visitor Analytics + 🗺️ Map + ⚡ Perf + 🧹 Cleanup

@@ -1,7 +1,7 @@
 # ============================================================
 # One-time site setup (do not change often)
 # - SEO / meta / JSON-LD
-# - Visitor map (ClustrMaps domain_id only; rest use defaults)
+# - Visitor analytics (self-hosted on/off switch; see docs/VISITOR_ANALYTICS.md)
 # - Short URL redirects for project pages
 # - Copyright (footer line: "© {start_year} - {current_year} {name}. All rights reserved.")
 # ============================================================
@@ -9,19 +9,20 @@
 # Copyright: start year for footer (current year is added automatically, e.g. 2025 - 2026)
 copyright_start_year: 2025
 
-# Visitor map: domain_id from clustrmaps.com (this one is for the template demo at ironieser.github.io)
+# Visitor analytics: self-hosted via Cloudflare Pages Functions + D1.
+# Just an on/off switch here; setup steps in docs/VISITOR_ANALYTICS.md
 visitor_map:
   enabled: true
-  domain_id: "C9TZ0TIOsqBUZDnNhUJVfOLeQ885rfZOfyRRCumKrsE"
 
 # SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:
   enable_json_ld: true
-  website_url: "https://yourusername.github.io"
-  github_pages_url: "https://yourusername.github.io"
-  legacy_urls: []
-  website_name: "Doge Zhang - Academic Homepage"
-  website_description: "Such research. Very PhD. Wow."
+  website_url: "https://sixundong.com"
+  github_pages_url: "https://ironieser.github.io"
+  legacy_urls:
+    - "https://cv.ironieser.cc"
+  website_name: "Sixun Dong (董思勋) - Academic Homepage"
+  website_description: "A researcher in the field of multimodal AI systems, computer vision, and machine learning"
   keywords:
     - computer vision
     - multimodal AI
@@ -29,32 +30,36 @@ seo:
     - deep learning
     - artificial intelligence
     - academic research
+    - Sixun Dong
+    - Ironieser
   author:
-    name: "Doge Zhang"
-    alternate_name: "DogePhD"
-    email: "please-dont-email@example.edu"
-    academic_email: "please-dont-email@example.edu"
-    affiliation: "PhD Candidate (Allegedly), Meowstar University, Planet Meow"
-    job_title: "PhD Student"
+    name: "Sixun Dong"
+    alternate_name: "董思勋"
+    email: "ironieser@gmail.com"
+    academic_email: "sixundong.ai@gmail.com"
+    affiliation: "Independent Researcher, AZ, USA"
+    job_title: "Researcher"
     research_areas:
       - multimodal AI systems
       - computer vision
       - natural language processing
-      - procrastination
-    google_scholar_id: "YOUR_SCHOLAR_ID"
+      - machine learning
+    google_scholar_id: "j71Y2-4AAAAJ"
     orcid: null
-    github: "yourusername"
-    twitter: "yourusername"
+    github: "Ironieser"
+    twitter: "ironieser"
   organization:
-    name: "Meowstar University"
-    type: "CollegeOrUniversity"
-    url: "https://yourusername.github.io"
+    name: "Independent Researcher, AZ, USA"
+    type: "Independent Researcher"
+    url: "https://sixundong.com"
     address:
-      addressCountry: "Planet Meow"
-      addressLocality: "Cat City"
-      addressRegion: "Cat Province"
+      addressCountry: "USA"
+      addressLocality: "Tempe"
+      addressRegion: "AZ"
 
-# Short URL redirects (e.g. /mypaper -> /projects/mypaper.html)
+# Short URL redirects (e.g. /mmtok -> /projects/mmtok.html)
 redirects:
-  - alias: mypaper
-    target: /projects/mypaper.html
+  - alias: mmtok
+    target: /projects/mmtok.html
+  - alias: timesclip
+    target: /projects/timesclip.html

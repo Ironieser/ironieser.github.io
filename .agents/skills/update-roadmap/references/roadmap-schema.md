@@ -21,7 +21,8 @@ All fields live under `config/content.json` → `"research_roadmap"`.
 | `icon` | string | | Emoji shown before title |
 | `summary` | string | | One-line description below title |
 | `stageIds` | string[] | ✅ | Fine-grained stage IDs that map to this phase |
-| `trackId` | string | ✅ | Must match a `tracks[].id` for color |
+| `color` | string | ✅ | CSS accent for this stage column (e.g. `"#7c3aed"`) |
+| `trackId` | string | | **Legacy:** if `color` is omitted, build can fill color from this key (`foundations` / `world_model` / `systems`). Prefer setting `color` only. |
 | `maxItems` | number | | Max papers shown (default: 4) |
 | `columns` | number | | Paper grid columns (`1` = single, `2` = double) |
 | `groups` | object[] | | Sub-group definitions (see below) |
@@ -35,7 +36,7 @@ All fields live under `config/content.json` → `"research_roadmap"`.
 | `label` | string | ✅ | Display title |
 | `icon` | string | | Emoji before label |
 | `row` | string | ✅ | `"top"` (side-by-side layout) or `"bottom"` (full-width below) |
-| `gridColumns` | string | | CSS `grid-template-columns` value (e.g. `"2fr 1fr"`, `"repeat(3, 1fr)"`) |
+| `gridColumns` | number \| string | | Number of equal columns (e.g. `3`) or CSS value (e.g. `"repeat(3, 1fr)"`). Cards use `size` to span across columns. |
 
 ## `phases[].ongoingGroup` — Ongoing panel config
 
@@ -52,33 +53,43 @@ All fields live under `config/content.json` → `"research_roadmap"`.
 | `id` | string | Filter identifier (referenced in `node.tags`) |
 | `name` | string | Button label |
 
-## `tracks[]` — Color definitions
+## `nodes[]` — Roadmap entries (papers + optional context cards)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Track identifier (referenced in `node.track` and `phase.trackId`) |
-| `color` | string | CSS color value (e.g. `"#7c3aed"`) |
+Nodes are **not** given a `track` field. Phase placement comes from `stages[]` → `phases[].stageIds`. Stage **color** comes from the matching phase’s `color` (no separate `tracks` array).
 
-## `nodes[]` — Paper entries
+### Paper nodes (`card_kind` omitted or `"paper"`)
 
-### Required fields
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | ✅ | Unique identifier |
+| `paper_url` | string | ✅ | arXiv or paper URL (metadata merged from publications) |
+| `short_label` | string | ✅ | Display name on roadmap card |
+| `tags` | string[] | ✅ | Filter tag IDs for spotlight |
+| `stages` | string[] | ✅ | Stage IDs for phase mapping |
+| `importance` | number | | Sort priority; default `1`. Use `2` for featured styling. |
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `id` | string | Unique paper identifier |
-| `track` | string | Must match a `tracks[].id` |
-| `paper_url` | string | arXiv or paper URL (auto-pulls metadata from publications) |
-| `short_label` | string | Display name on roadmap card |
-| `tags` | string[] | Filter tag IDs for spotlight filtering |
-| `stages` | string[] | Fine-grained stage IDs for phase mapping |
-| `importance` | number | Sort priority (higher = first; `2` = featured styling) |
+### Context nodes (`"card_kind": "context"`)
 
-### Optional fields
+Non-paper strip below that phase’s paper grid (internship, etc.): static card, no `data-paper-id`, optional rich hover tooltip.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `id` | string | ✅ | Unique identifier |
+| `card_kind` | string | ✅ | Must be `"context"` |
+| `short_label` | string | ✅ | Card title |
+| `tags` | string[] | ✅ | Same spotlight `filters[].id` values as papers |
+| `stages` | string[] | ✅ | Which phase shows this block (same rules as papers) |
+| `importance` | number | | Default `1` if omitted |
+| `context` | object | ✅ | `kicker` (second line on card), `tooltip_role` (first tooltip line after title), `meta`, `detail` (tooltip only when both used like papers) |
+
+Context nodes omit `paper_url`.
+
+### Optional fields (papers)
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `group` | string | Sub-group ID within phase (e.g. `"inference"`, `"reasoning"`) |
-| `size` | string | Card width: `""` = default, `"wide"` = 2-col span, `"full"` = full row |
+| `size` | number | Card span in group grid (`1`–`3`) |
 | `venue` | string | Override venue label (e.g. `"ICLR'26"`) |
 | `venue_type` | string | `"conference"` / `"preprint"` / `"under-review"` / `"journal"` |
 | `is_oral` | boolean | Show 🏆 Oral badge |

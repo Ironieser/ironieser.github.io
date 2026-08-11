@@ -112,14 +112,29 @@
     <footer class="footer">
         <div class="container">
             
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=C9TZ0TIOsqBUZDnNhUJVfOLeQ885rfZOfyRRCumKrsE&cl=ffffff&w=a"></script>
-                    </div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
+                    <script>
+                    (function(){
+                        var mount=document.getElementById('visitor-widget-mount');
+                        if(!mount) return;
+                        var loaded=false;
+                        function load(){
+                            if(loaded) return; loaded=true;
+                            var s=document.createElement('script');
+                            s.src='assets/js/visitor-map.js?v=10'; s.defer=true;
+                            document.body.appendChild(s);
+                        }
+                        if('IntersectionObserver' in window){
+                            var io=new IntersectionObserver(function(entries){
+                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
+                            },{rootMargin:'300px'});
+                            io.observe(mount);
+                        } else { load(); }
+                    })();
+                    </script>
                 </div>
             </div>
             <div class="footer-stats">
@@ -572,7 +587,7 @@
         
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
-            const buildDate = '2026-06-04';
+            const buildDate = '2026-07-03';
             const date = new Date(buildDate + 'T12:00:00'); // Add noon time to avoid timezone issues
             const formatted = date.toLocaleDateString('en-US', { 
                 year: 'numeric', 

@@ -11,12 +11,29 @@ export function json(obj, status = 200) {
   });
 }
 
+// Per-isolate random fallback salt, used only if IP_SALT is unset (preview env,
+// unbound secret). Never a known constant, so stored hashes stay non-reversible
+// even when misconfigured (dedup just degrades within that isolate). Lazily
+// generated on first use — Workers forbid random generation in global scope.
+let _fallbackSalt = null;
+
 // Salted, truncated SHA-256 of the IP. One-way: we can dedupe/count visitors
 // but never recover the original address.
 export async function hashIp(ip, salt) {
-  const data = new TextEncoder().encode((salt || 'cv-default-salt') + '|' + (ip || ''));
+  if (!salt) _fallbackSalt = _fallbackSalt || crypto.randomUUID();
+  const data = new TextEncoder().encode((salt || _fallbackSalt) + '|' + (ip || ''));
   const buf = await crypto.subtle.digest('SHA-256', data);
   return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 16);
+}
+
+// Constant-time string compare (avoids leaking the admin key's length/prefix via
+// response timing). Length difference still returns false but in fixed time.
+export function timingSafeEqual(a, b) {
+  a = String(a); b = String(b);
+  const len = Math.max(a.length, b.length);
+  let diff = a.length ^ b.length;
+  for (let i = 0; i < len; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
 }
 
 // Reduce a referrer URL to its hostname (the useful "source"), or 'direct'.
@@ -36,11 +53,23 @@ export async function publicStats(db) {
   const day = now.toISOString().slice(0, 10);
   const month = day.slice(0, 7);
 
-  const total = (await db.prepare('SELECT COUNT(*) AS c FROM visits').first('c')) || 0;
-  const today = (await db.prepare('SELECT COUNT(*) AS c FROM visits WHERE day=?').bind(day).first('c')) || 0;
-  const monthCount = (await db.prepare('SELECT COUNT(*) AS c FROM visits WHERE month=?').bind(month).first('c')) || 0;
-  const unique = (await db.prepare('SELECT COUNT(DISTINCT ip_hash) AS c FROM visits').first('c')) || 0;
-  const since = (await db.prepare('SELECT MIN(ts) AS t FROM visits').first('t')) || null;
+  // All five scalar aggregates in one scan instead of five round-trips.
+  const agg = (await db
+    .prepare(
+      'SELECT COUNT(*) AS total, ' +
+        'SUM(CASE WHEN day=? THEN 1 ELSE 0 END) AS today, ' +
+        'SUM(CASE WHEN month=? THEN 1 ELSE 0 END) AS month, ' +
+        'COUNT(DISTINCT ip_hash) AS uniq, ' +
+        'MIN(ts) AS since ' +
+        'FROM visits'
+    )
+    .bind(day, month)
+    .first()) || {};
+  const total = agg.total || 0;
+  const today = agg.today || 0;
+  const monthCount = agg.month || 0;
+  const unique = agg.uniq || 0;
+  const since = agg.since || null;
 
   const cRes = await db
     .prepare("SELECT country AS code, COUNT(*) AS c FROM visits WHERE country IS NOT NULL AND country<>'' GROUP BY country ORDER BY c DESC")

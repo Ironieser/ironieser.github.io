@@ -1,14 +1,14 @@
 {
   "personal": {
     "name": "Sixun Dong",
-    "aka": "Ironieser",
+    "aka": "董思勋",
     "title": "Multimodal Learning, VLM, LLM Agent",
     "affiliation": "Independent Researcher, AZ, USA",
     "email": "sixundong.ai@gmail.com",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
+      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
@@ -50,300 +50,32 @@
     ]
   },
   "research": {
-    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
+    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26, ECCV'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
     "stats": [
       "10+ publications",
-      "8 top-tier venues (CVPR, NeurIPS, ICLR, IJCAI, AAAI, WACV, ICASSP, 3DV )",
+      "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",
       "1 CVPR Oral presentation"
     ],
     "max_featured_publications": 10
   },
-  "research_roadmap": {
-    "enabled": true,
-    "title": "Research Roadmap",
-    "subtitle": "From Perception to Agentic Intelligence",
-    "description": "Building next-generation multimodal systems.",
-    "ongoing": [
-      {
-        "phase": "agentic_systems",
-        "label": "Long-term Memory",
-        "status": "Ongoing",
-        "note": "Memory-augmented agent cognition and retrieval."
-      }
-    ],
-    "vision_loop": {
-      "label": "Future Loop",
-      "text": "Agent traces and synthetic data feed back into multimodal understanding and generative modeling."
-    },
-    "phases": [
-      {
-        "id": "perception",
-        "title": "Perception",
-        "kicker": "Stage 01",
-        "icon": "🎬",
-        "summary": "Video understanding, representation learning, and alignment.",
-        "stageIds": ["perception", "alignment"],
-        "trackId": "foundations",
-        "maxItems": 2,
-        "columns": 1
-      },
-      {
-        "id": "world_modeling",
-        "title": "World Modeling",
-        "kicker": "Stage 02",
-        "icon": "🪄",
-        "summary": "3D, diffusion, and generative modeling across modalities.",
-        "stageIds": ["world_modeling"],
-        "trackId": "world_model",
-        "maxItems": 3,
-        "columns": 1
-      },
-      {
-        "id": "agentic_systems",
-        "title": "Agentic Systems",
-        "kicker": "Stage 03",
-        "icon": "🧠",
-        "summary": "Efficient inference, tool use, and agentic reasoning.",
-        "stageIds": ["efficient_systems", "agentic_reasoning"],
-        "trackId": "systems",
-        "maxItems": 7,
-        "columns": 2,
-        "groups": [
-          {
-            "id": "inference",
-            "label": "Inference Acceleration",
-            "icon": "⚡",
-            "row": "top",
-            "gridColumns": "2fr 1fr"
-          },
-          {
-            "id": "reasoning",
-            "label": "Reasoning & Execution",
-            "icon": "🛠️",
-            "row": "bottom",
-            "gridColumns": "repeat(3, 1fr)"
-          }
-        ],
-        "ongoingGroup": {
-          "label": "Memory",
-          "icon": "💾",
-          "row": "top"
-        }
-      }
-    ],
-    "filters": [
-      {
-        "id": "video_multimodal",
-        "name": "Multimodal"
-      },
-      {
-        "id": "generative_modeling",
-        "name": "Generative Modeling"
-      },
-      {
-        "id": "efficient_ai",
-        "name": "Efficient AI"
-      },
-      {
-        "id": "reasoning_agents",
-        "name": "Reasoning & Agents"
-      }
-    ],
-    "tracks": [
-      {
-        "id": "foundations",
-        "color": "#7c3aed"
-      },
-      {
-        "id": "world_model",
-        "color": "#0ea5e9"
-      },
-      {
-        "id": "systems",
-        "color": "#f59e0b"
-      }
-    ],
-    "nodes": [
-      {
-        "id": "transrac",
-        "track": "foundations",
-        "paper_url": "https://arxiv.org/abs/2204.01018",
-        "short_label": "TransRAC",
-        "tags": [
-          "video_multimodal"
-        ],
-        "stages": [
-          "perception"
-        ],
-        "importance": 2
-      },
-      {
-        "id": "weaksvr",
-        "track": "foundations",
-        "paper_url": "https://arxiv.org/abs/2303.12370",
-        "short_label": "WeakSVR",
-        "tags": [
-          "video_multimodal"
-        ],
-        "stages": [
-          "alignment"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "timesclip",
-        "track": "foundations",
-        "paper_url": "https://arxiv.org/abs/2506.24124",
-        "short_label": "TimesCLIP",
-        "tags": [
-          "video_multimodal",
-          "generative_modeling"
-        ],
-        "venue": "arXiv'2506",
-        "venue_type": "preprint",
-        "stages": [
-          "alignment",
-          "world_modeling"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "roomdesigner",
-        "track": "world_model",
-        "paper_url": "https://arxiv.org/abs/2310.10027",
-        "short_label": "RoomDesigner",
-        "tags": [
-          "generative_modeling"
-        ],
-        "stages": [
-          "world_modeling"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "sculpting",
-        "track": "world_model",
-        "paper_url": "https://arxiv.org/abs/2505.15152",
-        "short_label": "Feature Sculpting",
-        "tags": [
-          "generative_modeling"
-        ],
-        "stages": [
-          "world_modeling"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "mmtok",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2508.18264",
-        "short_label": "MMTok",
-        "tags": [
-          "video_multimodal",
-          "efficient_ai"
-        ],
-        "group": "inference",
-        "stages": [
-          "efficient_systems"
-        ],
-        "importance": 2
-      },
-      {
-        "id": "multiagent_infer",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2604.04929",
-        "short_label": "Rethinking Model Efficiency",
-        "size": "wide",
-        "tags": [
-          "video_multimodal",
-          "efficient_ai",
-          "reasoning_agents"
-        ],
-        "group": "inference",
-        "stages": [
-          "efficient_systems",
-          "agentic_reasoning"
-        ],
-        "importance": 2
-      },
-      {
-        "id": "mllm_tool",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2401.10727",
-        "short_label": "MLLM-Tool",
-        "tags": [
-          "video_multimodal",
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "tom",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2602.10625",
-        "short_label": "ToM Reasoning",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "asr_agent",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2601.21347",
-        "short_label": "Agentic Dysarthric ASR",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "livemcp",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2508.15760",
-        "short_label": "LiveMCP-101",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ],
-        "importance": 1
-      },
-      {
-        "id": "logicif",
-        "track": "systems",
-        "paper_url": "https://arxiv.org/abs/2508.09125",
-        "short_label": "LogicIF",
-        "tags": [
-          "reasoning_agents"
-        ],
-        "group": "reasoning",
-        "stages": [
-          "agentic_reasoning"
-        ],
-        "importance": 1
-      }
-    ]
-  },
   "news": [
+    {
+      "date": "Jul 2026",
+      "icon": "🎉",
+      "link": "https://arxiv.org/abs/2508.09125",
+      "content": "Paper on <strong>LogicIF</strong> {{link}} accepted to [[COLM 2026]]! A framework and benchmark for evaluating and improving LLMs' complex logical instruction-following ability. Congratulations to Mian Zhang and all coauthors.",
+      "category": "papers"
+    },
+    {
+      "date": "Jun 2026",
+      "icon": "🎉",
+      "content": "Paper on <strong>Better Call CineCrew</strong> accepted to [[ECCV 2026]]! Our multi-agent framework for ultra-long narrative-to-film generation. Joint work with UMass &amp; MIT — thanks to all coauthors!",
+      "category": "papers"
+    },
     {
       "date": "Apr 2026",
       "icon": "🗺️",
-      "content": "Added an interactive <strong>Research Roadmap</strong> to the homepage — visualizing the research trajectory from Perception → World Modeling → Agentic Systems, with spotlight filtering by topic.",
+      "content": "The homepage now includes an interactive <strong>Research Roadmap</strong>.",
       "category": "projects"
     },
     {
@@ -423,7 +155,7 @@
     {
       "date": "Jan 2024",
       "icon": "💼",
-      "content": "Completed <strong>Team Leader</strong> internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading co-speech gesture generation and 3D human body reconstruction projects.",
+      "content": "Completed a research internship at <strong>DGene</strong> (Digital Human Algorithm Dept.), leading digital human projects: audio-driven talking-head video generation achieving SoTA on commercial and academic benchmarks, 3D human body reconstruction, and co-speech gesture generation.",
       "category": "career"
     },
     {
@@ -432,12 +164,6 @@
       "link": "https://arxiv.org/abs/2401.10727",
       "content": "Paper on <strong>MLLM-Tool</strong> {{link}} accepted to [[WACV 2024]]",
       "category": "papers"
-    },
-    {
-      "date": "Aug 2023",
-      "icon": "💼",
-      "content": "Completed <strong>Team Leader</strong> internship at <strong>Transsion Holdings</strong> (Audio-Video Generation Dept.), leading audio-driven talking-head video generation research with SoTA performance.",
-      "category": "career"
     },
     {
       "date": "Mar 2023",
@@ -504,8 +230,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 95,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 112,
+        "_scholar_last_updated": "2026-08-10"
       }
     ],
     "2023": [
@@ -551,8 +277,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 25,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 26,
+        "_scholar_last_updated": "2026-08-10"
       }
     ],
     "2024": [
@@ -584,8 +310,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 77,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 109,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "RoomDesigner: Encoding Anchor-latents for Style-consistent and Shape-compatible Indoor Scene Generation",
@@ -613,8 +339,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 17,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 22,
+        "_scholar_last_updated": "2026-08-10"
       }
     ],
     "2025": [
@@ -630,7 +356,7 @@
         ],
         "venue": "ICLR'26",
         "venue_type": "conference",
-        "image": "images/blog/mmtok/combined_plots.png",
+        "image": "teaser/mmtok.jpg",
         "featured": true,
         "tldr": "Proposes MMTok to efficiently select informative vision tokens via a multimodal coverage maximization strategy, significantly accelerating VLM inference while maintaining model performance.",
         "links": [
@@ -660,8 +386,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 16,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "LiveMCP-101: Stress Testing and Diagnosing MCP-enabled Agents on Challenging Queries",
@@ -710,8 +436,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 12,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Complex Logical Instruction Generation",
@@ -729,10 +455,10 @@
           "Zhiyu Zoey Chen",
           "Kaiqiang Song"
         ],
-        "venue": "arXiv'2508",
-        "venue_type": "preprint",
+        "venue": "COLM'26",
+        "venue_type": "conference",
         "image": "teaser/logitif.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "Introduces an automated data generation framework and evaluation benchmark for complex logical instructions to assess and enhance the multi-step reasoning capabilities of LLMs.",
         "links": [
           {
@@ -756,8 +482,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 2,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 4,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Teaching Time Series to See and Speak: Forecasting with Aligned Visual and Textual Perspectives",
@@ -768,8 +494,8 @@
           "Yanjie Fu"
         ],
         "venue": "arXiv'2506",
-        "venue_type": "under-review",
-        "image": "images/blog/timesclip/fig3.png",
+        "venue_type": "preprint",
+        "image": "teaser/timesclip.jpg",
         "featured": true,
         "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
         "links": [
@@ -799,8 +525,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 1,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 3,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "TimesFrame: Multi-Variable Time Series is a Video of Numerical Data",
@@ -847,8 +573,9 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 10,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 15,
+        "_scholar_last_updated": "2026-08-10",
+        "featured": false
       },
       {
         "title": "Sculpting Features from Noise: Reward-Guided Hierarchical Diffusion for Task-Optimal Feature Transformation",
@@ -883,8 +610,8 @@
             "icon": "fas fa-book-open"
           }
         ],
-        "_scholar_citations": 7,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 11,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "MECT: From Multimodal Knowledge Acquisition To Contrastive Embedding Construction For Generative Feature Transformation",
@@ -930,8 +657,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 4,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 7,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Efficient Post-Training Refinement of Latent Reasoning in Large Language Models",
@@ -961,8 +688,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 6,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 12,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Brownian Bridge Augmented Surrogate Simulation and Injection Planning for Geological CO2 Storage",
@@ -989,8 +716,8 @@
             "icon": "ai ai-arxiv"
           }
         ],
-        "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_citations": 6,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Unsupervised feature transformation via in-context generation, generator-critic llm agents, and duet-play teaming",
@@ -1019,8 +746,8 @@
             "icon": "fab fa-github"
           }
         ],
-        "_scholar_citations": 11,
-        "_scholar_last_updated": "2026-03-02",
+        "_scholar_citations": 16,
+        "_scholar_last_updated": "2026-08-10",
         "featured": false
       },
       {
@@ -1037,7 +764,7 @@
         "venue": "arXiv'2505",
         "venue_type": "preprint",
         "image": "teaser/preprint.jpg",
-        "auto_sync": true,
+        "auto_sync": false,
         "tldr": "Introduces a reinforcement learning feedback mechanism to effectively bridge and calibrate the domain gap in equation distillation tasks.",
         "links": [
           {
@@ -1047,10 +774,100 @@
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-03-02"
+        "_scholar_last_updated": "2026-05-04"
+      },
+      {
+        "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
+        "authors": [
+          "Wangyang Ying",
+          "Cong Wei",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Haoyue Bai",
+          "Arun Vignesh Malarkkan",
+          "Sixun Dong",
+          "Dongjie Wang",
+          "Denghui Zhang",
+          "Yanjie Fu"
+        ],
+        "venue": "arXiv'2502",
+        "venue_type": "under-review",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2502.08828",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 25,
+        "_scholar_last_updated": "2026-08-10",
+        "featured": false
+      },
+      {
+        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
+        "authors": [
+          "Dongjie Wang",
+          "Yanyong Huang",
+          "Wangyang Ying",
+          "Haoyue Bai",
+          "Nanxu Gong",
+          "Xinyuan Wang",
+          "Sixun Dong",
+          "Tao Zhe",
+          "Kunpeng Liu",
+          "Meng Xiao",
+          "et al."
+        ],
+        "venue": "TKDD'26",
+        "venue_type": "journal",
+        "image": "teaser/underreview.jpg",
+        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://arxiv.org/abs/2501.10555",
+            "icon": "ai ai-arxiv"
+          }
+        ],
+        "_scholar_citations": 34,
+        "_scholar_last_updated": "2026-08-10",
+        "featured": false
       }
     ],
     "2026": [
+      {
+        "title": "Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation",
+        "authors": [
+          "Jiaben Chen*",
+          "Sixun Dong*",
+          "Qinhong Zhou",
+          "Raine Ma",
+          "Zhiyang Dou",
+          "Wojciech Matusik",
+          "Chuang Gan"
+        ],
+        "venue": "ECCV'26",
+        "venue_type": "conference",
+        "image": "teaser/cinecrew.jpg",
+        "featured": true,
+        "tldr": "A multi-agent 'film crew' that orchestrates off-the-shelf video generators for long-form narrative-to-film generation, coordinated through FilmDSL—a film-oriented domain-specific language that makes cinematic constraints (shots, camera, assets, character personas) explicit. Generation and critic agents plan, synthesize, and repair clips to keep both visual identity and character behavior consistent across the film. Joint work with UMass & MIT.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
+          },
+          {
+            "name": "Code",
+            "url": null,
+            "icon": "fab fa-github",
+            "coming_soon": true
+          }
+        ]
+      },
       {
         "title": "Rethinking Model Efficiency: Multi-Agent Inference with Large Models",
         "authors": [
@@ -1094,7 +911,9 @@
             "url": "https://arxiv.org/abs/2602.10625",
             "icon": "ai ai-arxiv"
           }
-        ]
+        ],
+        "_scholar_citations": 1,
+        "_scholar_last_updated": "2026-08-10"
       },
       {
         "title": "Towards Robust Dysarthric Speech Recognition: LLM-Agent Post-ASR Correction Beyond WER",
@@ -1126,68 +945,9 @@
             "url": "https://huggingface.co/datasets/xiuwenz2/SAP-Hypo5",
             "icon": "fas fa-database"
           }
-        ]
-      }
-    ],
-    "survey": [
-      {
-        "title": "Towards Data-Centric AI: A Comprehensive Survey of Traditional, Reinforcement, and Generative Approaches for Tabular Data Transformation",
-        "authors": [
-          "Dongjie Wang",
-          "Yanyong Huang",
-          "Wangyang Ying",
-          "Haoyue Bai",
-          "Nanxu Gong",
-          "Xinyuan Wang",
-          "Sixun Dong",
-          "Tao Zhe",
-          "Kunpeng Liu",
-          "Meng Xiao",
-          "et al."
         ],
-        "venue": "TKDD'26",
-        "venue_type": "journal",
-        "image": "teaser/underreview.jpg",
-        "tldr": "A comprehensive survey mapping the evolution of Data-Centric AI in tabular data transformation, covering traditional statistical methods, reinforcement learning, and generative AI approaches.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/abs/2501.10555",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 20,
-        "_scholar_last_updated": "2026-03-02",
-        "featured": true
-      },
-      {
-        "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",
-        "authors": [
-          "Wangyang Ying",
-          "Cong Wei",
-          "Nanxu Gong",
-          "Xinyuan Wang",
-          "Haoyue Bai",
-          "Arun Vignesh Malarkkan",
-          "Sixun Dong",
-          "Dongjie Wang",
-          "Denghui Zhang",
-          "Yanjie Fu"
-        ],
-        "venue": "arXiv'2502",
-        "venue_type": "under-review",
-        "image": "teaser/underreview.jpg",
-        "tldr": "A systematic review focusing on how state-of-the-art reinforcement learning and generative AI models can be leveraged to improve the quality and efficiency of tabular data learning.",
-        "links": [
-          {
-            "name": "Paper",
-            "url": "https://arxiv.org/abs/2502.08828",
-            "icon": "ai ai-arxiv"
-          }
-        ],
-        "_scholar_citations": 17,
-        "_scholar_last_updated": "2026-03-02",
-        "featured": true
+        "_scholar_citations": 3,
+        "_scholar_last_updated": "2026-08-10"
       }
     ]
   },
@@ -1232,6 +992,310 @@
       "conferences": "CVPR (2023–2026), ICCV (2023, 2025), ECCV (2024, 2026), NeurIPS (2025), ICML (2025, 2026),ICLR (2026), ACM MM (2023–2025), ACCV (2024), KDD (2025)",
       "journals": "IEEE Transactions on Multimedia, Neural Networks(Elsevier), ACM Transactions on Knowledge Discovery from Data"
     }
-  }
+  },
+  "research_roadmap": {
+    "enabled": true,
+    "title": "Research Roadmap",
+    "subtitle": "From Perception to Agentic Intelligence",
+    "description": "Building next-generation multimodal systems.",
+    "ongoing": [
+      {
+        "phase": "world_modeling",
+        "label": "Generative World Models",
+        "status": "Ongoing",
+        "note": "Continuing work on controllable video & 3D generative modeling."
+      },
+      {
+        "phase": "agentic_systems",
+        "label": "Long-term Memory",
+        "status": "Ongoing",
+        "note": "Memory-augmented agent cognition and retrieval."
+      }
+    ],
+    "vision_loop": {
+      "label": "Future Loop",
+      "text": "Agent traces and synthetic data feed back into multimodal understanding and generative modeling."
+    },
+    "phases": [
+      {
+        "id": "perception",
+        "title": "Perception",
+        "kicker": "Stage 01",
+        "icon": "🎬",
+        "summary": "Video understanding, representation learning, and alignment.",
+        "stageIds": [
+          "perception",
+          "alignment"
+        ],
+        "color": "#7c3aed",
+        "maxItems": 2,
+        "columns": 1
+      },
+      {
+        "id": "world_modeling",
+        "title": "World Modeling",
+        "kicker": "Stage 02",
+        "icon": "🪄",
+        "summary": "3D, diffusion, and generative modeling across modalities.",
+        "stageIds": [
+          "world_modeling"
+        ],
+        "color": "#0ea5e9",
+        "maxItems": 3,
+        "columns": 2
+      },
+      {
+        "id": "agentic_systems",
+        "title": "Agentic Systems",
+        "kicker": "Stage 03",
+        "icon": "🧠",
+        "summary": "Efficient inference, tool use, and agentic reasoning.",
+        "stageIds": [
+          "efficient_systems",
+          "agentic_reasoning"
+        ],
+        "color": "#f59e0b",
+        "maxItems": 8,
+        "columns": 2,
+        "groups": [
+          {
+            "id": "inference",
+            "label": "Inference Acceleration",
+            "icon": "⚡",
+            "row": "top",
+            "gridColumns": 3
+          },
+          {
+            "id": "reasoning",
+            "label": "Reasoning & Execution",
+            "icon": "🛠️",
+            "row": "bottom",
+            "gridColumns": 3
+          }
+        ],
+        "ongoingGroup": {
+          "label": "Memory",
+          "icon": "💾",
+          "row": "top"
+        }
+      }
+    ],
+    "filters": [
+      {
+        "id": "video_multimodal",
+        "name": "Multimodal"
+      },
+      {
+        "id": "generative_modeling",
+        "name": "Generative Modeling"
+      },
+      {
+        "id": "efficient_ai",
+        "name": "Efficient AI"
+      },
+      {
+        "id": "reasoning_agents",
+        "name": "Reasoning & Agents"
+      }
+    ],
+    "nodes": [
+      {
+        "id": "transrac",
+        "paper_url": "https://arxiv.org/abs/2204.01018",
+        "short_label": "TransRAC",
+        "tags": [
+          "video_multimodal"
+        ],
+        "stages": [
+          "perception"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "weaksvr",
+        "paper_url": "https://arxiv.org/abs/2303.12370",
+        "short_label": "WeakSVR",
+        "tags": [
+          "video_multimodal"
+        ],
+        "stages": [
+          "alignment"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "timesclip",
+        "paper_url": "https://arxiv.org/abs/2506.24124",
+        "short_label": "TimesCLIP",
+        "tags": [
+          "video_multimodal",
+          "generative_modeling"
+        ],
+        "stages": [
+          "alignment",
+          "world_modeling"
+        ]
+      },
+      {
+        "id": "roomdesigner",
+        "paper_url": "https://arxiv.org/abs/2310.10027",
+        "short_label": "RoomDesigner",
+        "tags": [
+          "generative_modeling"
+        ],
+        "stages": [
+          "world_modeling"
+        ]
+      },
+      {
+        "id": "sculpting",
+        "paper_url": "https://arxiv.org/abs/2505.15152",
+        "short_label": "Feature Sculpting",
+        "tags": [
+          "generative_modeling"
+        ],
+        "stages": [
+          "world_modeling"
+        ]
+      },
+      {
+        "id": "cinecrew",
+        "short_label": "CineCrew",
+        "title": "Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation",
+        "authors": [
+          "Jiaben Chen*",
+          "Sixun Dong*",
+          "Qinhong Zhou",
+          "Raine Ma",
+          "Zhiyang Dou",
+          "Wojciech Matusik",
+          "Chuang Gan"
+        ],
+        "venue": "ECCV'26",
+        "venue_type": "conference",
+        "group": "reasoning",
+        "tags": [
+          "reasoning_agents",
+          "generative_modeling",
+          "video_multimodal"
+        ],
+        "stages": [
+          "agentic_reasoning"
+        ],
+        "importance": 2,
+        "tldr": "A multi-agent 'film crew' framework that turns long-form narratives into coherent ultra-long films, maintaining character and scene consistency across extended video generation. Joint work with UMass & MIT."
+      },
+      {
+        "id": "dgene_digital_human",
+        "card_kind": "context",
+        "short_label": "Digital Human Gen. & Anim.",
+        "tags": [
+          "generative_modeling",
+          "video_multimodal"
+        ],
+        "stages": [
+          "world_modeling"
+        ],
+        "context": {
+          "kicker": "Multimodal Generative Modeling",
+          "tooltip_role": "Research Intern",
+          "meta": "DGene, Digital Human Algorithm Dept. · May 2023 – Jan 2024",
+          "detail": "(1) Talking-head video (SoTA on commercial & academic benchmarks); (2) 3D body reconstruction (<7% error); (3) co-speech gesture generation."
+        }
+      },
+      {
+        "id": "mmtok",
+        "paper_url": "https://arxiv.org/abs/2508.18264",
+        "short_label": "MMTok",
+        "tags": [
+          "video_multimodal",
+          "efficient_ai"
+        ],
+        "group": "inference",
+        "stages": [
+          "efficient_systems"
+        ],
+        "importance": 2
+      },
+      {
+        "id": "multiagent_infer",
+        "paper_url": "https://arxiv.org/abs/2604.04929",
+        "short_label": "Rethinking Model Efficiency",
+        "tags": [
+          "video_multimodal",
+          "efficient_ai",
+          "reasoning_agents"
+        ],
+        "group": "inference",
+        "stages": [
+          "efficient_systems",
+          "agentic_reasoning"
+        ],
+        "importance": 2,
+        "size": 2
+      },
+      {
+        "id": "mllm_tool",
+        "paper_url": "https://arxiv.org/abs/2401.10727",
+        "short_label": "MLLM-Tool",
+        "tags": [
+          "video_multimodal",
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ]
+      },
+      {
+        "id": "tom",
+        "paper_url": "https://arxiv.org/abs/2602.10625",
+        "short_label": "ToM Reasoning",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ]
+      },
+      {
+        "id": "asr_agent",
+        "paper_url": "https://arxiv.org/abs/2601.21347",
+        "short_label": "Agentic Dysarthric ASR",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ]
+      },
+      {
+        "id": "livemcp",
+        "paper_url": "https://arxiv.org/abs/2508.15760",
+        "short_label": "LiveMCP-101",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ]
+      },
+      {
+        "id": "logicif",
+        "paper_url": "https://arxiv.org/abs/2508.09125",
+        "short_label": "LogicIF",
+        "tags": [
+          "reasoning_agents"
+        ],
+        "group": "reasoning",
+        "stages": [
+          "agentic_reasoning"
+        ]
+      }
+    ]
+  },
+  "copyright_start_year": 2025
 }
-

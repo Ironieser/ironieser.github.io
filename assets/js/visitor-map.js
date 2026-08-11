@@ -32,11 +32,8 @@
     set('vw-unique', fmt(s.unique));
     var sinceEl = document.getElementById('vw-since');
     if (sinceEl) {
-      if (s.since) {
-        var d = new Date(s.since * 1000);
-        sinceEl.textContent = 'Tracking since ' + d.getFullYear() + '-' +
-          String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-      } else { sinceEl.textContent = ''; }
+      // Display in UTC to match the UTC day/month buckets the counters use.
+      sinceEl.textContent = s.since ? 'Tracking since ' + new Date(s.since * 1000).toISOString().slice(0, 10) + ' UTC' : '';
     }
   }
 
@@ -81,7 +78,10 @@
       },
       geo: {
         map: 'world', roam: false, silent: false,
-        left: 0, right: 0, top: 6, bottom: 6,
+        // Keep the map's true geographic proportions (equirectangular ~2:1).
+        // Pinning all four edges would stretch it to fill the box and distort it;
+        // layoutSize/layoutCenter fit-to-box while preserving aspect ratio instead.
+        aspectScale: 1, layoutCenter: ['50%', '50%'], layoutSize: '100%',
         itemStyle: { areaColor: land, borderColor: border, borderWidth: 0.5 },
         emphasis: { itemStyle: { areaColor: dark ? '#3a496b' : '#dfe6f2' }, label: { show: false } }
       },

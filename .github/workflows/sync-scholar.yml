@@ -2,37 +2,42 @@ name: Sync Google Scholar Publications
 
 on:
   schedule:
-    # 每周一早上8点运行 (UTC时间)
+    # Every Monday at 08:00 UTC. Scheduled workflows run from the
+    # repository's default branch, so that copy must keep this job in sync.
     - cron: '0 8 * * 1'
-  workflow_dispatch: # 允许手动触发
-  push:
-    paths:
-      - '.github/workflows/sync-scholar.yml'
-      - '.github/scripts/sync-scholar.js'
+  workflow_dispatch:
 
 permissions:
   contents: write
-  actions: write
+
+concurrency:
+  group: scholar-sync-ironieser
+  cancel-in-progress: false
 
 jobs:
   sync-publications:
+    # Scheduled workflows are loaded from the default branch. Keep the dev
+    # staging copy inert if someone manually dispatches it from dev.
+    if: github.ref != 'refs/heads/dev'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        ref: ironieser   # Always sync to personal branch, not template master
+        ref: ironieser
       
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
+        cache: npm
         
     - name: Install dependencies
       run: |
-        npm init -y
-        npm install puppeteer cheerio axios
+        npm ci
+        npm install --no-save --package-lock=false puppeteer cheerio axios
         
     - name: Sync Google Scholar publications
       run: node .github/scripts/sync-scholar.js
@@ -55,14 +60,6 @@ jobs:
         git config --local user.name "GitHub Action"
         git add config/content.json config/meta.json config/config.json
         git commit -m "🔄 Auto-sync publications from Google Scholar"
-        git push origin ironieser
+        git push origin HEAD:ironieser
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Trigger website rebuild
-      if: steps.check_changes.outputs.changes == 'true'
-      uses: peter-evans/repository-dispatch@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        event-type: rebuild-website
-        client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}' 

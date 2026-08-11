@@ -10,6 +10,9 @@ on:
 
 jobs:
   deploy:
+    # The dev branch is staging only and must never deploy the production
+    # comment service, including when this workflow is manually dispatched.
+    if: github.ref != 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
