@@ -51,4 +51,4 @@ All publications live under the `"publications"` key in `config/content.json`, g
 
 ## Author highlighting
 
-The build script auto-bolds authors matching `personal.name` (first name match). Append `*` for co-first authorship convention, e.g. `"Sixun Dong*"`.
+The build script auto-bolds authors matching `personal.name`. Append `*` for the co-first authorship convention, e.g. `"Your Name*"`.

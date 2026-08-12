@@ -14,7 +14,7 @@
     "links": [
       {
         "name": "Email",
-        "url": "mailto:meow@sixundong.com",
+        "url": "mailto:meow@example.edu",
         "icon": "fas fa-envelope",
         "color": "#dc3545"
       },

@@ -1,7 +1,6 @@
 ---
 name: init-template-setup
 description: Initialize this academic website template with a new user's personal information, SEO settings, and favicon, by reading the existing docs and editing config files. Use this skill when the user has just forked/created the repo and wants an AI agent to do the initial setup for them.
-compatibility: "Node.js (npm) or Python 3 for build; Python 3 for local_server.py and generate_favicons.py"
 ---
 
 # Init Template Setup
@@ -51,7 +50,7 @@ Ask the user (or infer from existing content) for:
 - **SEO & site meta**
   - Desired website name and short description
   - Any important keywords they want in SEO
-  - Whether they want a visitor map (ClustrMaps) and, if so, their `domain_id`
+  - Whether they want self-hosted visitor analytics (requires Cloudflare Pages Functions + D1)
 - **Content preferences**
   - Whether they already have real publications to add now, or want to keep demo papers for the moment
   - Whether they want a blog section from day one
@@ -74,8 +73,8 @@ See `references/site-yaml-schema.md` for the full field reference. Follow the gu
    - `website_name` / `website_description`
    - `author` block (name, emails, Scholar ID, social links)
 3. Configure `visitor_map`:
-   - If user provides a ClustrMaps `domain_id`, set it.
-   - If they do **not** want a visitor map, set `visitor_map.enabled: false` (or remove/clear the `visitor_map` block).
+   - Set `visitor_map.enabled: true` only when the user will deploy with Cloudflare Pages Functions + D1; follow `docs/VISITOR_ANALYTICS.md`.
+   - Otherwise set `visitor_map.enabled: false` (or remove/clear the `visitor_map` block).
 4. Optionally set `copyright_start_year` for the footer (e.g. year the site started).
 5. Configure `redirects` if the user wants short URLs (optional).
 
@@ -164,7 +163,7 @@ git commit -m "chore: initial personal site setup"
 git push
 ```
 
-Remind the user that GitHub Pages or Cloudflare Pages will redeploy automatically depending on their chosen setup.
+Do not stage generated HTML only because its embedded build date changed. Remind the user that their selected GitHub Pages or Cloudflare Pages deployment will rebuild from config.
 
 ## References (on-demand)
 

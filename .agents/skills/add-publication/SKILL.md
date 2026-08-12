@@ -40,7 +40,8 @@ See `references/publication-schema.md` for the full JSON schema and all optional
 ### 3. Build and preview locally
 
 ```bash
-python scripts/build_local.py
+npm run build
+python scripts/local_server.py
 ```
 
 Then open `http://localhost:8000` and verify:
@@ -51,9 +52,10 @@ Then open `http://localhost:8000` and verify:
 ### 4. Commit and push
 
 ```bash
-git add config/content.json index.html publications.html
+git add config/content.json
+# Add a new teaser or project page explicitly if this publication introduced one.
 git commit -m "feat: add [Paper Short Name] to publications"
 git push
 ```
 
-Cloudflare Pages redeploys automatically in ~1-2 min.
+Generated HTML snapshots are ignored locally; Cloudflare Pages rebuilds them from config during deployment.

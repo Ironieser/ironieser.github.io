@@ -5,7 +5,7 @@
 
 // Waline configuration
 const WALINE_CONFIG = {
-    serverURL: 'https://comments.sixundong.com',
+    serverURL: 'https://your-waline-server.vercel.app',
     path: location.pathname,
     lang: 'en-US',
     locale: {

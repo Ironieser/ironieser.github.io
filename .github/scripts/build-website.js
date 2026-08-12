@@ -9,6 +9,7 @@
  * @description Generates HTML files from content.json + meta.json for academic websites
  */
 
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
@@ -22,6 +23,24 @@ const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
 const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
+const PROJECT_ROOT = path.join(__dirname, '../..');
+
+/** Append content-hash ?v= to local teaser paths (stable across CI; busts only when file bytes change). */
+function publicationImageSrc(imagePath) {
+  if (!imagePath || /^https?:\/\//i.test(imagePath) || imagePath.startsWith('//')) {
+    return imagePath;
+  }
+  const clean = imagePath.split('?')[0].trim();
+  const full = path.join(PROJECT_ROOT, clean);
+  try {
+    const buf = fs.readFileSync(full);
+    const hash = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 8);
+    return `${clean}?v=${hash}`;
+  } catch (_) {
+    /* missing file */
+  }
+  return clean;
+}
 
 /**
  * Generate Cloudflare Pages style _redirects file from config.json
@@ -67,14 +86,10 @@ function generateRedirects(config) {
 }
 
 function expandVisitorMap(siteVisitorMap) {
-  if (!siteVisitorMap || !siteVisitorMap.domain_id) return siteVisitorMap;
-  return {
-    enabled: siteVisitorMap.enabled !== false,
-    provider: siteVisitorMap.provider || 'clustrmaps',
-    domain_id: siteVisitorMap.domain_id,
-    color: siteVisitorMap.color || 'ffffff',
-    width: siteVisitorMap.width || 'a'
-  };
+  // Self-hosted visitor analytics (Cloudflare Pages Functions + D1).
+  // Only a single on/off switch; everything else lives in the Function + widget.
+  if (!siteVisitorMap) return siteVisitorMap;
+  return { enabled: siteVisitorMap.enabled !== false };
 }
 
 function loadConfig() {
@@ -185,6 +200,11 @@ function generateNavigation(personal, activePage) {
   return navItems.join('\n                ') + '\n                ' + themeToggle;
 }
 
+const BACK_TO_TOP_BUTTON = `
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>`;
+
 function generateJsonLd(config) {
   const { personal, seo, publications } = config;
   
@@ -292,21 +312,35 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
     ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
     : '';
   
-  // Generate visitor map section if enabled
+  // Generate visitor analytics section if enabled.
+  // Self-hosted (Cloudflare Pages Functions + D1); the widget is lazy-loaded when
+  // the footer scrolls into view so it never blocks initial page load.
   let visitorMapHtml = '';
   if (visitorMap && visitorMap.enabled) {
-    const domainId = visitorMap.domain_id || '';
-    const color = visitorMap.color || 'ffffff';
-    const width = visitorMap.width || 'a';
     visitorMapHtml = `
-            <!-- Visitor Map Section -->
+            <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=${domainId}&cl=${color}&w=${width}"></script>
-                    </div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
+                    <script>
+                    (function(){
+                        var mount=document.getElementById('visitor-widget-mount');
+                        if(!mount) return;
+                        var loaded=false;
+                        function load(){
+                            if(loaded) return; loaded=true;
+                            var s=document.createElement('script');
+                            s.src='assets/js/visitor-map.js?v=10'; s.defer=true;
+                            document.body.appendChild(s);
+                        }
+                        if('IntersectionObserver' in window){
+                            var io=new IntersectionObserver(function(entries){
+                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
+                            },{rootMargin:'300px'});
+                            io.observe(mount);
+                        } else { load(); }
+                    })();
+                    </script>
                 </div>
             </div>`;
   }
@@ -422,7 +456,7 @@ function generateIndexPage(config) {
   // First, add featured publications
   const featuredPubs = allPubs.filter(pub => pub.featured === true);
   selectedPubs.push(...featuredPubs.slice(0, maxFeatured));
-  
+
   // Generate bio HTML
   const bioHtml = personal.bio.map(para => `<p>${para}</p>`).join('\n                            ');
   
@@ -478,7 +512,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -677,6 +711,7 @@ function generateIndexPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
@@ -775,7 +810,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
@@ -794,41 +829,8 @@ function generatePublicationsPage(config) {
             </div>`);
   }
   
-  // Generate survey papers section
-  if (publications.survey) {
-    const surveyItems = publications.survey.map(pub => {
-      const venueBadge = formatPublicationVenue(pub.venue_type, pub.venue);
-      const authorsFormatted = highlightAuthorName(pub.authors, targetName);
-      const linksFormatted = formatPublicationLinks(pub.links);
-      
-      const hasTldrClass = pub.tldr ? "has-tldr" : "";
-      const tldrHtml = pub.tldr ? `
-          <div class="tldr-wrapper">
-              <span class="tldr-badge">TL;DR</span>
-              <p class="tldr-text">${pub.tldr}</p>
-          </div>` : "";
-      
-      return `
-                <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${pub.image}" alt="${pub.title}" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
-                    <div class="publication-content">
-                        <p class="publication-title">${venueBadge} ${pub.title}</p>
-                        <p class="publication-authors">${authorsFormatted}</p>
-                        <p class="publication-links">${linksFormatted}</p>
-                    </div>
-                    ${tldrHtml}
-                </div>`;
-    }).join('');
-    
-    yearSections.push(`
-            <div class="year-group">
-                <h3 class="year-title">Survey Papers</h3>
-                <div class="publications-list">
-                    ${surveyItems}
-                </div>
-            </div>`);
-  }
-  
+  // Survey papers are no longer listed separately; they live in their year groups by date.
+
   // Generate stats
   const statsHtml = research.stats.map(stat => `<span class="stat-item">${stat}</span>`).join(' <span class="stat-divider">•</span> ');
   
@@ -856,14 +858,14 @@ function generatePublicationsPage(config) {
     <meta property="og:title" content="Publications - ${personal.name}">
     <meta property="og:description" content="Publications by ${personal.name} - ${personal.title} at ${personal.affiliation}">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="${config.seo?.website_url || 'https://sixundong.com'}/publications.html">
-    <meta property="og:image" content="${config.seo?.website_url || 'https://sixundong.com'}/${personal.profile_image}">
+    <meta property="og:url" content="${config.seo?.website_url || 'https://yourusername.github.io'}/publications.html">
+    <meta property="og:image" content="${config.seo?.website_url || 'https://yourusername.github.io'}/${personal.profile_image}">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Publications - ${personal.name}">
     <meta name="twitter:description" content="Publications by ${personal.name} - ${personal.title} at ${personal.affiliation}">
-    <meta name="twitter:image" content="${config.seo?.website_url || 'https://sixundong.com'}/${personal.profile_image}">
+    <meta name="twitter:image" content="${config.seo?.website_url || 'https://yourusername.github.io'}/${personal.profile_image}">
     
     <!-- JSON-LD Structured Data -->
     ${generateJsonLd(config)}
@@ -919,6 +921,7 @@ function generatePublicationsPage(config) {
         </section>
     </main>
 
+    ${BACK_TO_TOP_BUTTON}
     ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     ${generateCommonScripts()}

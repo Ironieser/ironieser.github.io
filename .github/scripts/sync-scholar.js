@@ -3,7 +3,7 @@ const yaml = require('js-yaml');
 const puppeteer = require('puppeteer');
 
 // Google Scholar用户ID，从环境变量获取
-const SCHOLAR_USER_ID = process.env.SCHOLAR_USER_ID || 'j71Y2-4AAAAJ'; // 默认使用你的ID
+const SCHOLAR_USER_ID = process.env.SCHOLAR_USER_ID;
 
 if (!SCHOLAR_USER_ID) {
   console.error('❌ SCHOLAR_USER_ID environment variable is required');
@@ -245,13 +245,9 @@ function updateExistingPublication(existing, scholarData) {
   // 只更新非手动编辑的基础信息，保护用户的手动修改
   let updated = false;
   
-  // 1. 更新引用数相关的featured状态（如果用户没有手动设置）
-  const shouldBeFeatured = scholarData.citations > 10;
-  if (shouldBeFeatured && !existing.featured) {
-    existing.featured = true;
-    updated = true;
-  }
-  
+  // 1. featured 状态完全由用户手动维护，自动同步不再根据引用数修改它
+  //    （历史问题：>10 引用会被自动加成 featured，覆盖用户的精选列表）
+
   // 2. 保护用户手动设置的venue信息
   const isUserCustomizedVenue = isVenueUserCustomized(existing.venue);
   if (!isUserCustomizedVenue) {
@@ -494,11 +490,9 @@ function convertToConfigFormat(scholarPubs, existingConfig) {
         ]
       };
       
-      // 如果引用数较高，标记为featured
-      if (pub.citations > 10) {
-        configPub.featured = true;
-      }
-      
+      // 新论文默认不进精选；featured 由用户手动维护，自动同步不再设置
+      configPub.featured = false;
+
       publicationsByYear[year].push(configPub);
       console.log(`✅ Added new: ${pub.title} (${year})`);
     } else {
@@ -536,7 +530,6 @@ const LEGACY_CONFIG_PATH = `${CONFIG_DIR}/config.json`;
 
 const META_KEYS = ['_template_info', '_scholar_sync'];
 const SITE_KEYS = ['seo', 'visitor_map', 'redirects'];
-const CONTENT_KEYS = ['personal', 'research', 'news', 'publications', 'experience', 'education', 'service'];
 
 function loadCombinedConfig() {
   const hasContent = fs.existsSync(CONTENT_CONFIG_PATH);
@@ -579,7 +572,12 @@ function saveCombinedConfig(configData) {
   const meta = {};
   const content = {};
   META_KEYS.forEach(k => { if (configData[k] !== undefined) meta[k] = configData[k]; });
-  CONTENT_KEYS.forEach(k => { if (configData[k] !== undefined) content[k] = configData[k]; });
+  const nonContentKeys = new Set([...META_KEYS, ...SITE_KEYS]);
+  Object.keys(configData).forEach(k => {
+    if (!nonContentKeys.has(k) && configData[k] !== undefined) {
+      content[k] = configData[k];
+    }
+  });
 
   fs.writeFileSync(META_CONFIG_PATH, JSON.stringify(meta, null, 2), 'utf8');
   fs.writeFileSync(CONTENT_CONFIG_PATH, JSON.stringify(content, null, 2), 'utf8');
