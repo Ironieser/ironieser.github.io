@@ -50,7 +50,6 @@ def load_config():
     content_path = 'config/content.json'
     meta_path = 'config/meta.json'
     site_path = 'config/site.yaml'
-    legacy_path = 'config/config.json'
 
     if os.path.exists(content_path):
         with open(content_path, 'r', encoding='utf-8') as f:
@@ -81,15 +80,7 @@ def load_config():
         merged.update(site)
         return merged
 
-    if os.path.exists(legacy_path):
-        print('⚠ Legacy config detected. Run: node scripts/migrate-config.js')
-        print('  Legacy fallback will be removed in v2.0.')
-        with open(legacy_path, 'r', encoding='utf-8') as f:
-            return json.load(f)
-
-    raise FileNotFoundError(
-        'No configuration file found (expected config/content.json or config/config.json)'
-    )
+    raise FileNotFoundError('Missing config/content.json. Run: npm run migrate-config')
 
 
 def parse_frontmatter(content):

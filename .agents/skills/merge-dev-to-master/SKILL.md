@@ -26,7 +26,7 @@ Update the **template** (master) from **dev**. Master is **never** modified dire
 3. **In the PR — main job: remove personal content, keep demo content.**
    - **Keep / take from dev (new features):** `.github/scripts/`, `.agents/`, `README`, `CHANGELOG`, `docs/`, `assets/css`, `assets/js`, `scripts/build_local.py`, etc.
    - **Do not merge personal content into master:** on master, keep **demo** for:
-     - `config/content.json`, `config/site.yaml`, `config/config.json`
+     - `config/content.json`, `config/roadmap.yaml`, `config/site.yaml`
      - `CNAME`, `_redirects`
      - `index.html`, `publications.html`, `blog.html`, `assets/js/blog-data.js`
      - `blog/*.md` (template demo posts only), `teaser/`, `images/`, `files/`, `projects/`

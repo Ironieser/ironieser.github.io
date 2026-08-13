@@ -121,7 +121,7 @@ If the user wants advanced automation:
 
 - **Scholar sync**:
   - Confirm which branch will be their personal branch.
-  - Ensure `config/meta.json` and `config/config.json` are left untouched (managed by scripts).
+  - Ensure `config/meta.json` is left untouched (managed by scripts).
   - Help the user set the appropriate GitHub Actions secrets and confirm that the Scholar workflow targets the correct branch.
 
 - **Waline comments**:

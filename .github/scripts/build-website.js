@@ -3,7 +3,7 @@
  * Build Script for GitHub Actions
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.9.0
+ * @version 2.0.0
  * @license MIT
  * @repository https://github.com/Ironieser/ironieser.github.io
  * @description Generates HTML files from content.json + meta.json for academic websites
@@ -20,7 +20,6 @@ const CONTENT_CONFIG_FILE = path.join(CONFIG_DIR, 'content.json');
 const META_CONFIG_FILE = path.join(CONFIG_DIR, 'meta.json');
 const SITE_CONFIG_FILE = path.join(CONFIG_DIR, 'site.yaml');
 const ROADMAP_CONFIG_FILE = path.join(CONFIG_DIR, 'roadmap.yaml');
-const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
 const REDIRECTS_OUTPUT = path.join(__dirname, '../../_redirects');
@@ -135,10 +134,10 @@ function loadConfig() {
         }
       }
 
-      let roadmapConfig = contentConfig.research_roadmap;
-      if (fs.existsSync(ROADMAP_CONFIG_FILE)) {
-        roadmapConfig = yaml.load(fs.readFileSync(ROADMAP_CONFIG_FILE, 'utf-8')) || {};
+      if (!fs.existsSync(ROADMAP_CONFIG_FILE)) {
+        throw new Error('Missing config/roadmap.yaml. Run: npm run migrate-config');
       }
+      const roadmapConfig = yaml.load(fs.readFileSync(ROADMAP_CONFIG_FILE, 'utf-8')) || {};
       const merged = {
         ...metaConfig,
         ...contentConfig,
@@ -153,18 +152,11 @@ function loadConfig() {
       return merged;
     }
 
-    if (fs.existsSync(LEGACY_CONFIG_FILE)) {
-      console.warn('⚠ Legacy config detected. Run: node scripts/migrate-config.js');
-      console.warn('  Legacy fallback will be removed in v2.0.');
-      console.log('ℹ️ config/content.json not found, falling back to config/config.json');
-      const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
-      return JSON.parse(legacyRaw);
-    }
   } catch (error) {
     throw new Error(`Error parsing configuration files: ${error.message}`);
   }
 
-  throw new Error('No configuration file found (expected config/content.json or config/config.json).');
+  throw new Error('Missing config/content.json. Run: npm run migrate-config');
 }
 
 function highlightAuthorName(authors, targetName) {

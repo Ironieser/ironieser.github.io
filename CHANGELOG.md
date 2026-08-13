@@ -1,5 +1,14 @@
 # Changelog
 
+## [v2.0.0] - 2026-08-13
+
+### Config cleanup
+
+- Removed `config/config.json` and all build, blog, local-build, and Scholar-sync legacy fallbacks.
+- Made `config/content.json`, `config/roadmap.yaml`, `config/site.yaml`, and `config/meta.json` the only supported config structure.
+- Kept `npm run migrate-config` as the supported upgrade path for older forks.
+- Removed legacy config writes from Scholar sync and its GitHub Actions staging list.
+
 ## [v1.9.0] - 2026-08-13
 
 ### Non-breaking config simplification

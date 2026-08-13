@@ -15,9 +15,10 @@ function duplicates(values) { return values.filter((value, index) => values.inde
 const content = readJson('content.json');
 const site = yaml.load(fs.readFileSync(path.join(CONFIG, 'site.yaml'), 'utf8')) || {};
 const roadmapPath = path.join(CONFIG, 'roadmap.yaml');
+if (!fs.existsSync(roadmapPath)) fail('config/roadmap.yaml missing; run npm run migrate-config');
 const roadmap = fs.existsSync(roadmapPath)
   ? (yaml.load(fs.readFileSync(roadmapPath, 'utf8')) || {})
-  : content.research_roadmap;
+  : null;
 
 for (const key of ['personal', 'research', 'news', 'publications', 'experience', 'education', 'service']) {
   if (content[key] == null) fail(`content.json missing "${key}"`);

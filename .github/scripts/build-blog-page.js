@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.9.0
+ * @version 2.0.0
  * @license MIT
  */
 
@@ -16,7 +16,6 @@ const CONFIG_DIR = path.join(__dirname, '../../config');
 const CONTENT_CONFIG_FILE = path.join(CONFIG_DIR, 'content.json');
 const META_CONFIG_FILE = path.join(CONFIG_DIR, 'meta.json');
 const SITE_CONFIG_FILE = path.join(CONFIG_DIR, 'site.yaml');
-const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const BLOG_OUTPUT = path.join(__dirname, '../../blog.html');
 
 function expandVisitorMap(siteVisitorMap) {
@@ -60,18 +59,11 @@ function loadConfig() {
       return { ...metaConfig, ...contentConfig, ...siteConfig };
     }
 
-    if (fs.existsSync(LEGACY_CONFIG_FILE)) {
-      console.warn('⚠ Legacy config detected. Run: node scripts/migrate-config.js');
-      console.warn('  Legacy fallback will be removed in v2.0.');
-      console.log('ℹ️ config/content.json not found, falling back to config/config.json');
-      const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
-      return JSON.parse(legacyRaw);
-    }
   } catch (error) {
     throw new Error(`Error parsing configuration files: ${error.message}`);
   }
 
-  throw new Error('No configuration file found (expected config/content.json or config/config.json).');
+  throw new Error('Missing config/content.json. Run: npm run migrate-config');
 }
 
 function generateNavigation(personal, activePage) {
