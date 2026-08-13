@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.8.0] - 2026-08-13
+
+### Page-view analytics
+
+- Records the lightweight analytics hit as soon as the page finishes parsing instead of waiting for the visitor to scroll near the footer. Heavy ECharts map assets remain lazy-loaded.
+- Adds a dedicated `pageviews` table for every page opening while retaining `visits` as the hourly session table.
+- Seeds the new table from existing hourly visits and includes an idempotent runtime migration for existing Cloudflare D1 deployments.
+- Tracks query-specific pages such as individual blog posts and uses a per-load event ID to prevent accidental duplicate inserts.
+- Adds page views, hourly sessions, top pages, and estimated unique visitors per path to the private dashboard.
+
 ## [v1.7.2] - 2026-08-13
 
 ### Referrer tracking hotfix

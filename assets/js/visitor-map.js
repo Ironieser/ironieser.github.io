@@ -15,18 +15,40 @@
   hit().then(function (stats) {
     if (!stats || stats.error) { renderError(); return; }
     renderCounts(stats);
-    loadMap(stats);
+    loadMapWhenVisible(stats);
   }).catch(renderError);
 
   function hit() {
-    var p = encodeURIComponent(location.pathname || '/');
+    var p = encodeURIComponent((location.pathname || '/') + (location.search || ''));
     var referrer = '';
+    var eventId = '';
     try {
       referrer = document.referrer ? new URL(document.referrer).hostname : '';
     } catch (e) {}
-    return fetch(api + '/hit?p=' + p + '&r=' + encodeURIComponent(referrer), { method: 'POST', keepalive: true })
+    try {
+      eventId = crypto.randomUUID();
+    } catch (e) {
+      eventId = Date.now().toString(36) + Math.random().toString(36).slice(2);
+    }
+    return fetch(api + '/hit?p=' + p + '&r=' + encodeURIComponent(referrer) + '&e=' + encodeURIComponent(eventId), { method: 'POST', keepalive: true })
       .then(function (r) { return r.json(); })
       .catch(function () { return fetch(api + '/stats').then(function (r) { return r.json(); }); });
+  }
+
+  function loadMapWhenVisible(stats) {
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            io.disconnect();
+            loadMap(stats);
+          }
+        });
+      }, { rootMargin: '300px' });
+      io.observe(mount);
+    } else {
+      loadMap(stats);
+    }
   }
 
   function renderCounts(s) {

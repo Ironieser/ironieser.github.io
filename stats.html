@@ -47,7 +47,7 @@
   .btn:disabled{opacity:.55;cursor:wait;transform:none}
   .btn-danger:hover{border-color:var(--danger);color:var(--danger)}
   .grid{display:grid;gap:16px}
-  .cards{grid-template-columns:repeat(4,1fr);margin-bottom:16px}
+  .cards{grid-template-columns:repeat(5,1fr);margin-bottom:16px}
   .card{
     background:var(--panel);border:1px solid var(--line);border-radius:15px;
     padding:17px 18px;box-shadow:var(--shadow);min-width:0
@@ -74,6 +74,7 @@
   .source.direct .source-badge{background:var(--accent2)}
   .source.internal .source-badge{background:#a78bfa}
   .source.external .source-badge{background:var(--accent)}
+  .page-unique{display:block;color:var(--muted);font-size:10px;margin-top:1px}
   .bars{display:flex;align-items:flex-end;gap:7px;height:120px}
   .bars .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;min-width:0}
   .bars .bar-pair{display:flex;gap:2px;align-items:flex-end;width:100%;height:98px}
@@ -113,6 +114,7 @@
   .err{color:var(--danger);font-size:12px;margin-top:10px;min-height:18px}
   @media(max-width:860px){
     .two{grid-template-columns:1fr}
+    .cards{grid-template-columns:repeat(3,1fr)}
     #map{height:290px}
   }
   @media(max-width:720px){
@@ -148,10 +150,11 @@
   </header>
 
   <div class="grid cards">
-    <div class="card stat"><div class="n" id="s-total">—</div><div class="l">Total visits</div></div>
-    <div class="card stat"><div class="n" id="s-unique">—</div><div class="l">Unique visitors</div></div>
-    <div class="card stat"><div class="n" id="s-month">—</div><div class="l">This month</div></div>
-    <div class="card stat"><div class="n" id="s-today">—</div><div class="l">Today</div></div>
+    <div class="card stat"><div class="n" id="s-total">—</div><div class="l">Page views</div></div>
+    <div class="card stat"><div class="n" id="s-unique">—</div><div class="l">Estimated unique</div></div>
+    <div class="card stat"><div class="n" id="s-sessions">—</div><div class="l">Hourly sessions</div></div>
+    <div class="card stat"><div class="n" id="s-month">—</div><div class="l">Views this month</div></div>
+    <div class="card stat"><div class="n" id="s-today">—</div><div class="l">Views today</div></div>
   </div>
 
   <div class="grid two">
@@ -167,7 +170,10 @@
   </div>
 
   <div class="grid two">
-    <section class="card"><div class="section-head"><p class="ttl">Top countries</p></div><div id="countries"></div></section>
+    <section class="card">
+      <div class="section-head"><div><p class="ttl">Top pages</p><p class="hint">Every page load, with estimated unique IPs per path.</p></div></div>
+      <div id="pages"></div>
+    </section>
     <section class="card">
       <div class="section-head">
         <p class="ttl">Top sources</p>
@@ -177,9 +183,11 @@
   </div>
 
   <div class="grid two">
+    <section class="card"><div class="section-head"><p class="ttl">Top countries</p></div><div id="countries"></div></section>
     <section class="card"><div class="section-head"><p class="ttl">Top cities</p></div><div id="cities"></div></section>
-    <section class="card"><div class="section-head"><p class="ttl">Top ISP / networks</p></div><div id="orgs"></div></section>
   </div>
+
+  <section class="card" style="margin-bottom:16px"><div class="section-head"><p class="ttl">Top ISP / networks</p></div><div id="orgs"></div></section>
 
   <section class="card recent-card">
     <div class="recent-head">
@@ -304,6 +312,7 @@
   function render(a,s){
     document.getElementById('s-total').textContent=fmt(a.total);
     document.getElementById('s-unique').textContent=fmt(a.unique);
+    document.getElementById('s-sessions').textContent=fmt(a.sessions);
     var thisMonth=(a.monthly&&a.monthly[0])?a.monthly[0].visits:(s.month||0);
     document.getElementById('s-month').textContent=fmt(thisMonth);
     document.getElementById('s-today').textContent=fmt(s.today||0);
@@ -322,6 +331,7 @@
 
     bars('countries',a.countries,function(c){return flag(c.code)+' '+esc(c.code);},function(c){return c.c;});
     bars('referers',a.referers,function(r){return sourceLabel(r.referer);},function(r){return r.c;});
+    bars('pages',a.pages,function(p){return esc(p.path||'/')+'<span class="page-unique">'+fmt(p.uniques)+' unique</span>';},function(p){return p.views;});
     bars('orgs',a.orgs,function(o){return esc(o.org||'?');},function(o){return o.c;});
     bars('cities',a.cities,function(c){
       return flag(c.country)+' '+esc(c.city||'?')+(c.region&&c.region!==c.city?(', '+esc(c.region)):'');

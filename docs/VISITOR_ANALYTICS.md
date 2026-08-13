@@ -14,6 +14,8 @@ can query IP-hash / source / monthly totals later.
 - **Referrer source**: the browser sends only the original page referrer's hostname.
   Empty referrers are stored as `direct`, same-site navigation as `internal`, and
   external sources as their hostname.
+- **Counting model**: `pageviews` records every page opening, while `visits` keeps
+  one hourly session per IP hash. The dashboard reports both page views and sessions.
 
 ## One-time setup (~5 minutes)
 

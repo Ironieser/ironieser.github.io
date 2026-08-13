@@ -74,21 +74,52 @@ export function viewerLocation(request) {
   return location.city || location.region || location.country ? location : null;
 }
 
+let _pageviewsReady = false;
+
+// Idempotent runtime migration. This keeps existing deployments working even
+// when Wrangler credentials are unavailable during a code-only deployment.
+export async function ensurePageviews(db) {
+  if (_pageviewsReady) return;
+  await db.prepare(
+    'CREATE TABLE IF NOT EXISTS pageviews (' +
+      'id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT NOT NULL UNIQUE, ' +
+      'ts INTEGER NOT NULL, day TEXT NOT NULL, month TEXT NOT NULL, visitor_hash TEXT NOT NULL, ' +
+      'country TEXT, city TEXT, region TEXT, postal TEXT, lat REAL, lon REAL, ' +
+      'timezone TEXT, org TEXT, referer TEXT, path TEXT)'
+  ).run();
+  for (const sql of [
+    'CREATE INDEX IF NOT EXISTS idx_pageviews_ts ON pageviews(ts)',
+    'CREATE INDEX IF NOT EXISTS idx_pageviews_day ON pageviews(day)',
+    'CREATE INDEX IF NOT EXISTS idx_pageviews_month ON pageviews(month)',
+    'CREATE INDEX IF NOT EXISTS idx_pageviews_path ON pageviews(path)',
+    'CREATE INDEX IF NOT EXISTS idx_pageviews_visitor ON pageviews(visitor_hash)',
+  ]) {
+    await db.prepare(sql).run();
+  }
+  await db.prepare(
+    "INSERT OR IGNORE INTO pageviews " +
+      "(event_id, ts, day, month, visitor_hash, country, city, region, postal, lat, lon, timezone, org, referer, path) " +
+      "SELECT 'legacy-' || id, ts, day, month, ip_hash, country, city, region, postal, lat, lon, timezone, org, referer, path FROM visits"
+  ).run();
+  _pageviewsReady = true;
+}
+
 // Aggregate numbers that are safe to expose publicly (no IPs, no per-visit rows).
 export async function publicStats(db) {
+  await ensurePageviews(db);
   const now = new Date();
   const day = now.toISOString().slice(0, 10);
   const month = day.slice(0, 7);
 
-  // All five scalar aggregates in one scan instead of five round-trips.
+  // Page-view counters. The unique value remains an estimated distinct IP hash.
   const agg = (await db
     .prepare(
       'SELECT COUNT(*) AS total, ' +
         'SUM(CASE WHEN day=? THEN 1 ELSE 0 END) AS today, ' +
         'SUM(CASE WHEN month=? THEN 1 ELSE 0 END) AS month, ' +
-        'COUNT(DISTINCT ip_hash) AS uniq, ' +
+        'COUNT(DISTINCT visitor_hash) AS uniq, ' +
         'MIN(ts) AS since ' +
-        'FROM visits'
+        'FROM pageviews'
     )
     .bind(day, month)
     .first()) || {};
@@ -99,14 +130,14 @@ export async function publicStats(db) {
   const since = agg.since || null;
 
   const cRes = await db
-    .prepare("SELECT country AS code, COUNT(*) AS c FROM visits WHERE country IS NOT NULL AND country<>'' GROUP BY country ORDER BY c DESC")
+    .prepare("SELECT country AS code, COUNT(*) AS c FROM pageviews WHERE country IS NOT NULL AND country<>'' GROUP BY country ORDER BY c DESC")
     .all();
   const countries = (cRes.results || []).map((r) => ({ code: r.code, count: r.c }));
 
   // City-level dots for the map: lat/lon rounded to ~0.1deg (~11km) and aggregated,
   // so we never expose a single visitor's precise coordinates.
   const pRes = await db
-    .prepare('SELECT ROUND(lat,1) AS lat, ROUND(lon,1) AS lon, COUNT(*) AS c FROM visits WHERE lat IS NOT NULL AND lon IS NOT NULL GROUP BY ROUND(lat,1), ROUND(lon,1) ORDER BY c DESC LIMIT 300')
+    .prepare('SELECT ROUND(lat,1) AS lat, ROUND(lon,1) AS lon, COUNT(*) AS c FROM pageviews WHERE lat IS NOT NULL AND lon IS NOT NULL GROUP BY ROUND(lat,1), ROUND(lon,1) ORDER BY c DESC LIMIT 300')
     .all();
   const points = (pRes.results || []).map((r) => ({ lat: r.lat, lon: r.lon, c: r.c }));
 

@@ -24,3 +24,30 @@ CREATE INDEX IF NOT EXISTS idx_visits_ts        ON visits(ts);
 CREATE INDEX IF NOT EXISTS idx_visits_day        ON visits(day);
 CREATE INDEX IF NOT EXISTS idx_visits_month      ON visits(month);
 CREATE INDEX IF NOT EXISTS idx_visits_country    ON visits(country);
+
+-- Every page load. `visits` remains the hourly session table; `pageviews`
+-- records each page opening so per-page traffic is not lost to session de-dup.
+CREATE TABLE IF NOT EXISTS pageviews (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  event_id     TEXT    NOT NULL UNIQUE,
+  ts           INTEGER NOT NULL,
+  day          TEXT    NOT NULL,
+  month        TEXT    NOT NULL,
+  visitor_hash TEXT    NOT NULL,
+  country      TEXT,
+  city         TEXT,
+  region       TEXT,
+  postal       TEXT,
+  lat          REAL,
+  lon          REAL,
+  timezone     TEXT,
+  org          TEXT,
+  referer      TEXT,
+  path         TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_pageviews_ts      ON pageviews(ts);
+CREATE INDEX IF NOT EXISTS idx_pageviews_day     ON pageviews(day);
+CREATE INDEX IF NOT EXISTS idx_pageviews_month   ON pageviews(month);
+CREATE INDEX IF NOT EXISTS idx_pageviews_path    ON pageviews(path);
+CREATE INDEX IF NOT EXISTS idx_pageviews_visitor ON pageviews(visitor_hash);

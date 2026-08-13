@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.7.2
+ * @version 1.8.0
  * @license MIT
  */
 
@@ -119,25 +119,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
                     <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
-                    <script>
-                    (function(){
-                        var mount=document.getElementById('visitor-widget-mount');
-                        if(!mount) return;
-                        var loaded=false;
-                        function load(){
-                            if(loaded) return; loaded=true;
-                            var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=13'; s.defer=true;
-                            document.body.appendChild(s);
-                        }
-                        if('IntersectionObserver' in window){
-                            var io=new IntersectionObserver(function(entries){
-                                entries.forEach(function(e){ if(e.isIntersecting){ load(); io.disconnect(); } });
-                            },{rootMargin:'300px'});
-                            io.observe(mount);
-                        } else { load(); }
-                    })();
-                    </script>
+                    <script src="assets/js/visitor-map.js?v=14" defer></script>
                 </div>
             </div>`;
   }
