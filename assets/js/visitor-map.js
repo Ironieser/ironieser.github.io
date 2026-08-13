@@ -78,10 +78,10 @@
       },
       geo: {
         map: 'world', roam: false, silent: false,
-        // Keep the map's true geographic proportions (equirectangular ~2:1).
-        // Pinning all four edges would stretch it to fill the box and distort it;
-        // layoutSize/layoutCenter fit-to-box while preserving aspect ratio instead.
-        aspectScale: 1, layoutCenter: ['50%', '50%'], layoutSize: '100%',
+        // Keep the map's true geographic proportions while filling the compact
+        // footer canvas. A larger layoutSize removes the empty bands that appear
+        // when ECharts scales from the canvas's shorter dimension.
+        aspectScale: 1, layoutCenter: ['50%', '50%'], layoutSize: '180%',
         itemStyle: { areaColor: land, borderColor: border, borderWidth: 0.5 },
         emphasis: { itemStyle: { areaColor: dark ? '#3a496b' : '#dfe6f2' }, label: { show: false } }
       },
@@ -139,15 +139,15 @@
     var css =
       '.visitor-widget{max-width:560px;margin:0 auto}' +
       '.vw-card{border:1px solid var(--color-border,#e6e9ef);border-radius:16px;padding:18px 18px 14px;background:var(--color-surface,#fff)}' +
-      '.vw-head{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--color-text,#222);margin-bottom:14px}' +
+      '.vw-head{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--color-primary,#222);margin-bottom:12px}' +
       '.vw-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18)}' +
       '.vw-nums{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:6px}' +
       '.vw-num{text-align:center}' +
       '.vw-num b{display:block;font-size:20px;line-height:1.1;color:var(--color-primary,#1d4ed8);font-variant-numeric:tabular-nums}' +
-      '.vw-num span{font-size:11px;color:var(--color-text-muted,#888)}' +
-      '.vw-map{width:100%;height:260px;margin:4px 0 6px}' +
-      '.vw-since{text-align:center;font-size:11px;color:var(--color-text-muted,#9aa3b2);margin-top:8px;opacity:.8}' +
-      '@media(max-width:600px){.vw-num b{font-size:17px}.vw-map{height:210px}}';
+      '.vw-num span{font-size:11px;color:var(--color-secondary,#888)}' +
+      '.vw-map{width:100%;height:150px;margin:2px 0}' +
+      '.vw-since{text-align:center;font-size:11px;color:var(--color-secondary,#9aa3b2);margin-top:4px;opacity:.8}' +
+      '@media(max-width:600px){.vw-num b{font-size:17px}.vw-map{height:140px}}';
     var st = document.createElement('style');
     st.id = 'vw-style'; st.textContent = css;
     document.head.appendChild(st);

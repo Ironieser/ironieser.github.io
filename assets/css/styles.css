@@ -1509,7 +1509,7 @@ body {
 .footer {
     background: var(--color-surface);
     border-top: 1px solid var(--color-border);
-    padding: var(--spacing-xl) 0;
+    padding: var(--spacing-lg) 0;
     margin-top: var(--spacing-3xl);
     text-align: center;
     color: var(--color-secondary);
@@ -1518,7 +1518,7 @@ body {
 
 /* Visitor Map Styles */
 .visitor-map-section {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
 }
 
 .visitor-map-container {
