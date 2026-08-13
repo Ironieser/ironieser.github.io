@@ -2,7 +2,7 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **Branch note:** This is the `ironieser` personal-site branch, currently including the v1.8.1 Research Atlas and page-view analytics. The clean reusable template remains on `master`; shared features are staged through `dev`. See [CHANGELOG.md](CHANGELOG.md) for details.
+> **Branch note:** This is the `ironieser` personal-site branch, currently including the v1.9.0 split Roadmap config and page-view analytics. The clean reusable template remains on `master`; shared features are staged through `dev`. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 
@@ -102,8 +102,17 @@ All configuration files live in the **`config/`** directory. This keeps the repo
 |------|---------|--------------|
 | **config/meta.json** | Template internals, Scholar sync status | Do not edit (used by scripts) |
 | **config/site.yaml** | One-time setup: SEO, visitor map, short URL redirects | Set once when forking |
-| **config/content.json** | Your content: bio, news, publications, roadmap graph, experience, education | Edit whenever you update the site |
+| **config/content.json** | Your content: bio, news, publications, experience, education | Edit whenever you update the site |
+| **config/roadmap.yaml** | Research Roadmap phases, themes, papers, and layout | Edit when the research map changes |
 | **config/config.json** | Legacy merge of meta + site (written by Scholar sync) | Do not edit by hand |
+
+For older forks:
+
+```bash
+npm run migrate-config
+npm run validate
+npm run build
+```
 
 #### 5.1 One-time site setup: `config/site.yaml`
 

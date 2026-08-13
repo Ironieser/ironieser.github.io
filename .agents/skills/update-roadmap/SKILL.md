@@ -5,7 +5,7 @@ description: Update the research roadmap on the homepage — add papers, adjust 
 
 # Update Research Roadmap
 
-Update the homepage research roadmap by editing `config/content.json` only. No CSS or JS changes needed for normal updates.
+Update the homepage research roadmap by editing `config/roadmap.yaml` only. No CSS or JS changes are needed for normal updates.
 
 ## When to Use
 
@@ -17,7 +17,7 @@ Update the homepage research roadmap by editing `config/content.json` only. No C
 
 ### 1. Read the current roadmap config
 
-Open `config/content.json` and find the `"research_roadmap"` section. Understand the existing phases, nodes, and filters.
+Open `config/roadmap.yaml`. Understand the existing phases, nodes, and filters.
 
 See `references/roadmap-schema.md` for the full field reference.
 
@@ -97,7 +97,7 @@ Check:
 ### 4. Commit
 
 ```bash
-git add config/content.json
+git add config/roadmap.yaml
 git commit -m "feat: update research roadmap — [brief description]"
 git push
 ```

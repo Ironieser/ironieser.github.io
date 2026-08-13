@@ -3,7 +3,7 @@
  * Build Script for GitHub Actions
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.8.1
+ * @version 1.9.0
  * @license MIT
  * @repository https://github.com/Ironieser/ironieser.github.io
  * @description Generates HTML files from content.json + meta.json for academic websites
@@ -19,6 +19,7 @@ const CONFIG_DIR = path.join(__dirname, '../../config');
 const CONTENT_CONFIG_FILE = path.join(CONFIG_DIR, 'content.json');
 const META_CONFIG_FILE = path.join(CONFIG_DIR, 'meta.json');
 const SITE_CONFIG_FILE = path.join(CONFIG_DIR, 'site.yaml');
+const ROADMAP_CONFIG_FILE = path.join(CONFIG_DIR, 'roadmap.yaml');
 const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const INDEX_OUTPUT = path.join(__dirname, '../../index.html');
 const PUBLICATIONS_OUTPUT = path.join(__dirname, '../../publications.html');
@@ -92,6 +93,21 @@ function expandVisitorMap(siteVisitorMap) {
   return { enabled: siteVisitorMap.enabled !== false };
 }
 
+function normalizeRoadmap(roadmap) {
+  if (!roadmap || typeof roadmap !== 'object') return roadmap;
+  const colors = ['#7c3aed', '#0ea5e9', '#f59e0b', '#10b981', '#ec4899'];
+  return {
+    ...roadmap,
+    phases: (roadmap.phases || []).map((phase, index) => ({
+      kicker: `Stage ${String(index + 1).padStart(2, '0')}`,
+      color: colors[index % colors.length],
+      maxItems: 4,
+      columns: 1,
+      ...phase,
+    })),
+  };
+}
+
 function loadConfig() {
   console.log('Loading configuration...');
 
@@ -119,15 +135,27 @@ function loadConfig() {
         }
       }
 
-      const merged = { ...metaConfig, ...contentConfig, ...siteConfig };
+      let roadmapConfig = contentConfig.research_roadmap;
+      if (fs.existsSync(ROADMAP_CONFIG_FILE)) {
+        roadmapConfig = yaml.load(fs.readFileSync(ROADMAP_CONFIG_FILE, 'utf-8')) || {};
+      }
+      const merged = {
+        ...metaConfig,
+        ...contentConfig,
+        ...siteConfig,
+        research_roadmap: normalizeRoadmap(roadmapConfig),
+      };
       const parts = ['config/content.json'];
       if (hasMeta) parts.push('config/meta.json');
       if (hasSite) parts.push('config/site.yaml');
+      if (fs.existsSync(ROADMAP_CONFIG_FILE)) parts.push('config/roadmap.yaml');
       console.log('✓ Loaded config from ' + parts.join(' + '));
       return merged;
     }
 
     if (fs.existsSync(LEGACY_CONFIG_FILE)) {
+      console.warn('⚠ Legacy config detected. Run: node scripts/migrate-config.js');
+      console.warn('  Legacy fallback will be removed in v2.0.');
       console.log('ℹ️ config/content.json not found, falling back to config/config.json');
       const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
       return JSON.parse(legacyRaw);

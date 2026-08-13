@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.8.1
+ * @version 1.9.0
  * @license MIT
  */
 
@@ -61,6 +61,8 @@ function loadConfig() {
     }
 
     if (fs.existsSync(LEGACY_CONFIG_FILE)) {
+      console.warn('⚠ Legacy config detected. Run: node scripts/migrate-config.js');
+      console.warn('  Legacy fallback will be removed in v2.0.');
       console.log('ℹ️ config/content.json not found, falling back to config/config.json');
       const legacyRaw = fs.readFileSync(LEGACY_CONFIG_FILE, 'utf-8');
       return JSON.parse(legacyRaw);

@@ -82,6 +82,8 @@ def load_config():
         return merged
 
     if os.path.exists(legacy_path):
+        print('⚠ Legacy config detected. Run: node scripts/migrate-config.js')
+        print('  Legacy fallback will be removed in v2.0.')
         with open(legacy_path, 'r', encoding='utf-8') as f:
             return json.load(f)
 

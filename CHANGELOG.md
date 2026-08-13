@@ -1,5 +1,15 @@
 # Changelog
 
+## [v1.9.0] - 2026-08-13
+
+### Non-breaking config simplification
+
+- Moved the Research Roadmap from `config/content.json` to `config/roadmap.yaml`.
+- Added Roadmap phase defaults while keeping the v1.x schema compatible.
+- Removed duplicate `copyright_start_year` from content; `site.yaml` is now its single source of truth.
+- Added automated config migration and validation scripts.
+- Added v2.0 deprecation warnings when the legacy fallback is used.
+
 ## [v1.8.1] - 2026-08-13
 
 ### Session counting adjustment

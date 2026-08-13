@@ -48,7 +48,18 @@ This file contains the authoritative, version-specific migration instructions wi
 
 ### 3. Apply migration steps
 
-Follow the CHANGELOG instructions for the detected version gap. Key migrations:
+Run the automated config migration first:
+
+```bash
+npm ci
+npm run migrate-config
+npm run validate
+```
+
+This splits a full legacy config, moves root-level config files, extracts
+`research_roadmap` into `config/roadmap.yaml`, and creates backups.
+
+Then follow the CHANGELOG instructions for the detected version gap:
 
 | From | To | Key changes |
 |---|---|---|
@@ -61,6 +72,9 @@ Follow the CHANGELOG instructions for the detected version gap. Key migrations:
 ```bash
 # Install dependencies
 npm ci
+
+# Validate config references
+npm run validate
 
 # Build the site
 npm run build

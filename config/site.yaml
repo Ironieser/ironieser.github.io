@@ -1,28 +1,14 @@
-# ============================================================
-# One-time site setup (do not change often)
-# - SEO / meta / JSON-LD
-# - Visitor analytics (self-hosted on/off switch; see docs/VISITOR_ANALYTICS.md)
-# - Short URL redirects for project pages
-# - Copyright (footer line: "© {start_year} - {current_year} {name}. All rights reserved.")
-# ============================================================
-
-# Copyright: start year for footer (current year is added automatically, e.g. 2025 - 2026)
 copyright_start_year: 2025
-
-# Visitor analytics: self-hosted via Cloudflare Pages Functions + D1.
-# Just an on/off switch here; setup steps in docs/VISITOR_ANALYTICS.md
 visitor_map:
   enabled: true
-
-# SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:
   enable_json_ld: true
-  website_url: "https://sixundong.com"
-  github_pages_url: "https://ironieser.github.io"
+  website_url: https://sixundong.com
+  github_pages_url: https://ironieser.github.io
   legacy_urls:
-    - "https://cv.ironieser.cc"
-  website_name: "Sixun Dong (董思勋) - Academic Homepage"
-  website_description: "A researcher in the field of multimodal AI systems, computer vision, and machine learning"
+    - https://cv.ironieser.cc
+  website_name: Sixun Dong (董思勋) - Academic Homepage
+  website_description: A researcher in the field of multimodal AI systems, computer vision, and machine learning
   keywords:
     - computer vision
     - multimodal AI
@@ -33,31 +19,29 @@ seo:
     - Sixun Dong
     - Ironieser
   author:
-    name: "Sixun Dong"
-    alternate_name: "董思勋"
-    email: "ironieser@gmail.com"
-    academic_email: "sixundong.ai@gmail.com"
-    affiliation: "Independent Researcher, AZ, USA"
-    job_title: "Researcher"
+    name: Sixun Dong
+    alternate_name: 董思勋
+    email: ironieser@gmail.com
+    academic_email: sixundong.ai@gmail.com
+    affiliation: Independent Researcher, AZ, USA
+    job_title: Researcher
     research_areas:
       - multimodal AI systems
       - computer vision
       - natural language processing
       - machine learning
-    google_scholar_id: "j71Y2-4AAAAJ"
+    google_scholar_id: j71Y2-4AAAAJ
     orcid: null
-    github: "Ironieser"
-    twitter: "ironieser"
+    github: Ironieser
+    twitter: ironieser
   organization:
-    name: "Independent Researcher, AZ, USA"
-    type: "Independent Researcher"
-    url: "https://sixundong.com"
+    name: Independent Researcher, AZ, USA
+    type: Independent Researcher
+    url: https://sixundong.com
     address:
-      addressCountry: "USA"
-      addressLocality: "Tempe"
-      addressRegion: "AZ"
-
-# Short URL redirects (e.g. /mmtok -> /projects/mmtok.html)
+      addressCountry: USA
+      addressLocality: Tempe
+      addressRegion: AZ
 redirects:
   - alias: mmtok
     target: /projects/mmtok.html

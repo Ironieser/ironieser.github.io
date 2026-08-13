@@ -560,6 +560,8 @@ function loadCombinedConfig() {
   }
 
   if (fs.existsSync(LEGACY_CONFIG_PATH)) {
+    console.warn('⚠ Legacy config detected. Run: node scripts/migrate-config.js');
+    console.warn('  Legacy fallback will be removed in v2.0.');
     console.log('ℹ️ config/content.json not found, falling back to config/config.json');
     const legacyRaw = fs.readFileSync(LEGACY_CONFIG_PATH, 'utf8');
     return JSON.parse(legacyRaw);
@@ -657,4 +659,4 @@ async function updateConfig() {
 }
 
 // 运行同步
-updateConfig(); 
+updateConfig();
