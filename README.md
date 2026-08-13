@@ -435,6 +435,10 @@ python scripts/local_server.py
 
 MIT License - free to use and modify!
 
+## Acknowledgments
+
+Parts of this template were developed with assistance from Cursor IDE, Claude, and GPT-based tools.
+
 ---
 
 **Created by [Sixun Dong](https://sixundong.com)** - Independent Researcher

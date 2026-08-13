@@ -6,8 +6,7 @@
     "repository": "https://github.com/Ironieser/ironieser.github.io",
     "license": "MIT",
     "description": "A GitHub Actions-powered template for easy academic website management",
-    "show_template_credit": true,
-    "acknowledgments": "Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools"
+    "show_template_credit": true
   },
   "_scholar_sync": {
     "last_sync_date": "2026-08-10",

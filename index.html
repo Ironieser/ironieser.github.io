@@ -973,7 +973,7 @@
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
-                    Last updated from: <span id="owner-location">Loading...</span>
+                    Based in: <span>Tempe, AZ, USA</span>
                 </div>
                 <div class="stats-item">
                     <i class="fas fa-clock"></i>
@@ -983,7 +983,6 @@
             
             <div class="template-credit">
                 <p>Built with <a href="https://github.com/Ironieser/ironieser.github.io" target="_blank" rel="noopener">Config-Driven Academic Website Template</a> by <a href="https://github.com/Ironieser/ironieser.github.io" target="_blank" rel="noopener">Sixun Dong (ironieser)</a></p>
-                <p class="template-acknowledgments">Built with the help of Cursor IDE, Claude AI, and GPT - enabling non-experts to create personalized academic websites through modern AI tools</p>
             </div>
             
             <p>&copy; 2025 - 2026 Sixun Dong. All rights reserved.</p>
@@ -1033,45 +1032,6 @@
     
     
     <script>
-        // Get website owner's location during build (not visitor's location)
-        async function getOwnerLocation() {
-            try {
-                // Try primary API first
-                let response = await fetch('https://ipapi.co/json/');
-                let data = await response.json();
-                
-                if (data.city && data.country_name) {
-                    const location = `${data.city}, ${data.country_name}`;
-                    document.getElementById('owner-location').textContent = location;
-                    return;
-                }
-                
-                // If primary API fails, try backup API
-                response = await fetch('https://api.ipify.org?format=json');
-                const ipData = await response.json();
-                
-                if (ipData.ip) {
-                    // Use a different geolocation service
-                    response = await fetch(`https://ip-api.com/json/${ipData.ip}`);
-                    data = await response.json();
-                    
-                    if (data.city && data.country) {
-                        const location = `${data.city}, ${data.country}`
-                        document.getElementById('owner-location').textContent = location;
-                        return;
-                    }
-                }
-                
-                // If all APIs fail, show a default message
-                document.getElementById('owner-location').textContent = 'Remote Server';
-                
-            } catch (error) {
-                console.log('Location detection failed:', error);
-                // For GitHub Actions builds, show a more appropriate message
-                document.getElementById('owner-location').textContent = 'GitHub Actions';
-            }
-        }
-        
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
             const buildDate = '2026-08-13';
@@ -1086,7 +1046,6 @@
         
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            getOwnerLocation();
             setLastUpdated();
         });
     </script>

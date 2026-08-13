@@ -423,16 +423,30 @@ ${JSON.stringify(schemas, null, 2)}
 </script>`;
 }
 
-function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null) {
+function formatOwnerLocation(seo, personal) {
+  const address = seo && seo.organization && seo.organization.address
+    ? seo.organization.address
+    : {};
+  const location = [
+    address.addressLocality,
+    address.addressRegion,
+    address.addressCountry
+  ].filter(Boolean).join(', ');
+  return location || personal.affiliation || 'Remote';
+}
+
+function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null, ownerLocation = '') {
   const startYear = copyrightStartYear != null ? Number(copyrightStartYear) : 2025;
   const currentYear = new Date().getFullYear();
   const copyrightYears = currentYear === startYear ? `${startYear}` : `${startYear} - ${currentYear}`;
   
   // Template credit: full block if enabled; otherwise a single "Template by" line (so attribution stays when others use the template)
+  const templateAcknowledgment = templateInfo && templateInfo.acknowledgments
+    ? `\n                <p class="template-acknowledgments">${templateInfo.acknowledgments}</p>`
+    : '';
   const templateCredit = templateInfo && templateInfo.show_template_credit ? `
             <div class="template-credit">
-                <p>Built with <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.name}</a> by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>
-                ${templateInfo.acknowledgments ? `<p class="template-acknowledgments">${templateInfo.acknowledgments}</p>` : ''}
+                <p>Built with <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.name}</a> by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>${templateAcknowledgment}
             </div>` : '';
   const templateAttribution = templateInfo && templateInfo.author && templateInfo.repository && !templateInfo.show_template_credit
     ? `<p class="template-attribution">Template by <a href="${templateInfo.repository}" target="_blank" rel="noopener">${templateInfo.author}</a></p>`
@@ -478,7 +492,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
-                    Last updated from: <span id="owner-location">Loading...</span>
+                    Based in: <span>${ownerLocation}</span>
                 </div>
                 <div class="stats-item">
                     <i class="fas fa-clock"></i>
@@ -502,45 +516,6 @@ function generateCommonScripts() {
   
   return `
     <script>
-        // Get website owner's location during build (not visitor's location)
-        async function getOwnerLocation() {
-            try {
-                // Try primary API first
-                let response = await fetch('https://ipapi.co/json/');
-                let data = await response.json();
-                
-                if (data.city && data.country_name) {
-                    const location = \`\${data.city}, \${data.country_name}\`;
-                    document.getElementById('owner-location').textContent = location;
-                    return;
-                }
-                
-                // If primary API fails, try backup API
-                response = await fetch('https://api.ipify.org?format=json');
-                const ipData = await response.json();
-                
-                if (ipData.ip) {
-                    // Use a different geolocation service
-                    response = await fetch(\`https://ip-api.com/json/\${ipData.ip}\`);
-                    data = await response.json();
-                    
-                    if (data.city && data.country) {
-                        const location = \`\${data.city}, \${data.country}\`
-                        document.getElementById('owner-location').textContent = location;
-                        return;
-                    }
-                }
-                
-                // If all APIs fail, show a default message
-                document.getElementById('owner-location').textContent = 'Remote Server';
-                
-            } catch (error) {
-                console.log('Location detection failed:', error);
-                // For GitHub Actions builds, show a more appropriate message
-                document.getElementById('owner-location').textContent = 'GitHub Actions';
-            }
-        }
-        
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
             const buildDate = '${buildTime}';
@@ -555,7 +530,6 @@ function generateCommonScripts() {
         
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            getOwnerLocation();
             setLastUpdated();
         });
     </script>`;
@@ -564,7 +538,7 @@ function generateCommonScripts() {
 function generateIndexPage(config) {
   console.log('Generating index.html...');
   
-  const { personal, research, research_roadmap, news, experience, education, service, publications, _template_info, visitor_map } = config;
+  const { personal, research, research_roadmap, news, experience, education, service, publications, _template_info, visitor_map, seo } = config;
   
   // Get selected publications (featured first, then recent)
   const selectedPubs = [];
@@ -843,7 +817,7 @@ function generateIndexPage(config) {
     </main>
 
     ${BACK_TO_TOP_BUTTON}
-    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year, formatOwnerLocation(seo, personal))}
     
     <script>
         // News filter functionality
@@ -894,7 +868,7 @@ function generateIndexPage(config) {
 function generatePublicationsPage(config) {
   console.log('Generating publications.html...');
   
-  const { personal, research, publications, _template_info, _scholar_sync, visitor_map } = config;
+  const { personal, research, publications, _template_info, _scholar_sync, visitor_map, seo } = config;
   const targetName = personal.name.split(' ')[0];
   
   // Separate auto-synced and manual publications
@@ -1053,7 +1027,7 @@ function generatePublicationsPage(config) {
     </main>
 
     ${BACK_TO_TOP_BUTTON}
-    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year, formatOwnerLocation(seo, personal))}
     
     ${generateCommonScripts()}
 </body>
