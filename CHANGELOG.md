@@ -1,5 +1,20 @@
 # Changelog
 
+## [v1.7.2] - 2026-08-13
+
+### Referrer tracking hotfix
+
+- Fixed source attribution by sending the original page referrer's hostname from the browser instead of reading the same-origin `/api/hit` request header.
+- New visits are classified as `direct`, `internal`, or the external hostname such as `google.com` and `github.com`.
+- Old cached clients without the new referrer parameter now fall back to `direct` rather than incorrectly adding more `internal` records.
+- Existing historical `internal` rows are unchanged because their original referrer was never stored.
+
+### Analytics dashboard refresh
+
+- Redesigned `/stats` with clearer KPI cards, improved map and trend layouts, readable source labels, and responsive styling.
+- Added refresh and logout controls, recent-visit filtering, sticky table headers, and a privacy note for the truncated IP hash.
+- Added an on-page notice explaining that pre-v1.7.2 `internal` source data may be misclassified.
+
 ## [v1.7.1] - 2026-08-13
 
 ### 🔧 Branch maintenance and CI cleanup

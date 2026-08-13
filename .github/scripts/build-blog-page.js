@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.7.1
+ * @version 1.7.2
  * @license MIT
  */
 
@@ -127,7 +127,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=12'; s.defer=true;
+                            s.src='assets/js/visitor-map.js?v=13'; s.defer=true;
                             document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){

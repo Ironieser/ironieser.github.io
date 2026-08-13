@@ -40,11 +40,26 @@ export function timingSafeEqual(a, b) {
 export function refHost(referer) {
   if (!referer) return 'direct';
   try {
-    const h = new URL(referer).hostname;
+    const raw = String(referer).trim();
+    const url = /^[a-z][a-z0-9+.-]*:\/\//i.test(raw) ? raw : `https://${raw}`;
+    const h = new URL(url).hostname.toLowerCase().replace(/\.$/, '').replace(/^www\./, '');
     return h || 'direct';
   } catch {
     return 'direct';
   }
+}
+
+// Classify the original page referrer reported by the browser. The Referer on
+// fetch('/api/hit') points to the current site, so it cannot identify the page
+// that originally sent the visitor. Old cached clients without `r` fall back to
+// the request header, treating a same-site header as direct rather than internal.
+export function refSource(reportedReferrer, requestReferer, siteHost) {
+  const hasReportedReferrer = reportedReferrer !== null && reportedReferrer !== undefined;
+  const host = refHost(hasReportedReferrer ? reportedReferrer : requestReferer);
+  if (host === 'direct') return 'direct';
+  const currentHost = refHost(siteHost);
+  if (host === currentHost) return hasReportedReferrer ? 'internal' : 'direct';
+  return host;
 }
 
 // Coarse location for the current requester, supplied by Cloudflare at the edge.

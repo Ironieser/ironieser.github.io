@@ -2,7 +2,7 @@
 // Records one visit, de-duplicated per visitor (ip_hash) within a 1-hour bucket,
 // then returns the public aggregate stats so the widget can render in one round-trip.
 // Only POST records a visit; GET just returns stats (prevents prefetch/crawler/img inflation).
-import { json, hashIp, refHost, publicStats, viewerLocation } from './_lib.js';
+import { json, hashIp, refSource, publicStats, viewerLocation } from './_lib.js';
 
 const BUCKET_SECONDS = 3600; // visitors are de-duped per clock-hour bucket
 
@@ -23,8 +23,11 @@ export async function onRequest(context) {
       const day = d.toISOString().slice(0, 10);
       const month = day.slice(0, 7);
       const path = (url.searchParams.get('p') || '/').slice(0, 200);
-      const host = refHost(request.headers.get('Referer'));
-      const src = host === url.hostname ? 'internal' : host;
+      const src = refSource(
+        url.searchParams.get('r'),
+        request.headers.get('Referer'),
+        url.hostname
+      );
       const num = (v) => (v === undefined || v === null || v === '' || isNaN(Number(v)) ? null : Number(v));
       // Atomic de-dup: a UNIQUE index on (ip_hash, bucket) makes a concurrent
       // second insert from the same visitor in the same hour a no-op.

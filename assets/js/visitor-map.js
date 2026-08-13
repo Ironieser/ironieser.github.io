@@ -20,7 +20,11 @@
 
   function hit() {
     var p = encodeURIComponent(location.pathname || '/');
-    return fetch(api + '/hit?p=' + p, { method: 'POST', keepalive: true })
+    var referrer = '';
+    try {
+      referrer = document.referrer ? new URL(document.referrer).hostname : '';
+    } catch (e) {}
+    return fetch(api + '/hit?p=' + p + '&r=' + encodeURIComponent(referrer), { method: 'POST', keepalive: true })
       .then(function (r) { return r.json(); })
       .catch(function () { return fetch(api + '/stats').then(function (r) { return r.json(); }); });
   }

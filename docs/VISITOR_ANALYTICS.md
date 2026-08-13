@@ -11,6 +11,9 @@ can query IP-hash / source / monthly totals later.
 - **Privacy**: the IP is salted-SHA-256 + truncated before storage; the raw IP is never written.
 - **Current visitor location**: the footer may show the requester's Cloudflare-provided city,
   region, and country. The row is hidden when that coarse metadata is unavailable.
+- **Referrer source**: the browser sends only the original page referrer's hostname.
+  Empty referrers are stored as `direct`, same-site navigation as `internal`, and
+  external sources as their hostname.
 
 ## One-time setup (~5 minutes)
 
