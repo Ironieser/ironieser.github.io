@@ -24,11 +24,8 @@
     }
   ],
   "visitor_map": {
-    "enabled": false,
-    "provider": "clustrmaps",
-    "domain_id": "YOUR_CLUSTRMAPS_ID",
-    "color": "ffffff",
-    "width": "a"
+    "enabled": true,
+    "mode": "demo"
   },
   "seo": {
     "enable_json_ld": true,

@@ -20,10 +20,11 @@ const LEGACY_CONFIG_FILE = path.join(CONFIG_DIR, 'config.json');
 const BLOG_OUTPUT = path.join(__dirname, '../../blog.html');
 
 function expandVisitorMap(siteVisitorMap) {
-  // Self-hosted visitor analytics (Cloudflare Pages Functions + D1).
-  // Only a single on/off switch; everything else lives in the Function + widget.
   if (!siteVisitorMap) return siteVisitorMap;
-  return { enabled: siteVisitorMap.enabled !== false };
+  return {
+    enabled: siteVisitorMap.enabled !== false,
+    mode: siteVisitorMap.mode === 'demo' ? 'demo' : 'live'
+  };
 }
 
 function loadConfig() {
@@ -112,11 +113,12 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
   // Generate visitor analytics section if enabled (self-hosted; lazy-loaded on footer scroll).
   let visitorMapHtml = '';
   if (visitorMap && visitorMap.enabled) {
+    const visitorMode = visitorMap.mode === 'demo' ? 'demo' : 'live';
     visitorMapHtml = `
             <!-- Visitor Analytics Section (self-hosted) -->
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
-                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
+                    <div class="visitor-widget" id="visitor-widget-mount" data-api="/api" data-mode="${visitorMode}"></div>
                     <script>
                     (function(){
                         var mount=document.getElementById('visitor-widget-mount');
@@ -125,7 +127,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=10'; s.defer=true;
+                            s.src='assets/js/visitor-map.js?v=11'; s.defer=true;
                             document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){

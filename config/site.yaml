@@ -9,10 +9,11 @@
 # Copyright: start year for footer (current year is added automatically, e.g. 2025 - 2026)
 copyright_start_year: 2025
 
-# Optional self-hosted visitor analytics requires Cloudflare Pages Functions + D1.
-# Keep disabled for the GitHub Pages demo; see docs/VISITOR_ANALYTICS.md.
+# Visitor map preview. "demo" renders sample data without collecting visits or
+# requiring a backend. After deploying to Cloudflare Pages with D1, use "live".
 visitor_map:
-  enabled: false
+  enabled: true
+  mode: demo
 
 # SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:

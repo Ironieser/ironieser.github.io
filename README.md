@@ -109,12 +109,15 @@ All configuration files live in the **`config/`** directory. This keeps the repo
 
 **SEO & identity** — Edit the `seo` section with your website URL, name, description, keywords, and `author` / `organization` (used in meta tags and JSON-LD).
 
-**Visitor analytics** — The current map and counters are self-hosted with Cloudflare Pages Functions and D1. Use `visitor_map.enabled` as the on/off switch, then follow [`docs/VISITOR_ANALYTICS.md`](docs/VISITOR_ANALYTICS.md) to create and bind the database:
+**Visitor analytics** — The template demo shows the map with clearly labeled sample data, without recording visitors or requiring a backend:
 
 ```yaml
 visitor_map:
   enabled: true
+  mode: demo
 ```
+
+For live counters, deploy with Cloudflare Pages Functions + D1, change `mode` to `live`, and follow [`docs/VISITOR_ANALYTICS.md`](docs/VISITOR_ANALYTICS.md).
 
 **Redirects** (optional) — Add short URLs, e.g. `/mmtok` → `/projects/mmtok.html`:
 

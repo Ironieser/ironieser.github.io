@@ -9,7 +9,8 @@
 - Hardened optional Google Scholar sync with Node.js 20, npm caching, an explicit target branch, serialized runs, and direct pushes to the checked-out branch.
 - Added stable content-hash cache busting and lazy loading for local publication images.
 - Refreshed setup, migration, publication, and branch-maintenance skills to use the current config-driven build and selective staging.
-- Updated visitor-analytics documentation while keeping analytics disabled in the GitHub Pages demo until Cloudflare Pages Functions and D1 are configured.
+- Added an explicit visitor-map demo mode so the GitHub Pages showcase displays the full map with labeled sample data, without collecting visits or requiring Cloudflare Functions.
+- Documented how to switch from the non-tracking demo to live Cloudflare Pages + D1 analytics.
 
 ## [v1.6.2] - 2026-06-08
 

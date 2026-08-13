@@ -4,6 +4,29 @@ Replaces ClustrMaps with a counter + world map that you fully own. No third-part
 service, fast everywhere (Cloudflare edge), and it stores its own visit log so you
 can query IP-hash / source / monthly totals later.
 
+## Demo and live modes
+
+The template's GitHub Pages showcase uses demo mode so the complete widget remains
+visible without pretending that sample counts are real or requiring a server:
+
+```yaml
+visitor_map:
+  enabled: true
+  mode: demo
+```
+
+Demo mode performs no network request and records no visits. It labels the widget
+as `Demo` and uses built-in sample aggregates only for the preview.
+
+After deploying the repository as a Cloudflare Pages project and completing the D1
+setup below, switch to live mode:
+
+```yaml
+visitor_map:
+  enabled: true
+  mode: live
+```
+
 - **Endpoints** (same-origin, so they work on every domain served by the Pages project):
   - `POST /api/hit?p=<path>` — records a visit (1h per-visitor de-dup), returns public stats.
   - `GET  /api/stats` — public aggregate (total / today / month / unique / per-country). No IPs.
@@ -62,6 +85,8 @@ database_id = "<id from d1 create>"
 
 ## Notes
 
+- GitHub Pages cannot execute the `functions/api/*` backend. Keep `mode: demo`
+  there, or disable the widget. Use `mode: live` on a Cloudflare Pages deployment.
 - Until the D1 binding exists, the endpoints return `{"error":"no-db"}` and the footer
   widget simply stays quiet — it never blocks the page.
 - Visitor de-dup window is 1 hour (same visitor within 1h counts once). Change
