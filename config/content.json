@@ -1188,6 +1188,7 @@
       {
         "id": "dgene_digital_human",
         "card_kind": "context",
+        "year": 2023,
         "short_label": "Digital Human Gen. & Anim.",
         "tags": [
           "generative_modeling",
