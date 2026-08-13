@@ -105,19 +105,13 @@
     </main>
 
     
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
     <footer class="footer">
         <div class="container">
             
-            <!-- Visitor Map Section -->
-            <div class="visitor-map-section">
-                <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=YOUR_CLUSTRMAPS_ID&cl=ffffff&w=a"></script>
-                    </div>
-                </div>
-            </div>
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -407,13 +401,21 @@
             if (walineContainer) {
                 walineContainer.innerHTML = '';
             }
+
+            const walineServerURL = 'https://your-waline-server.vercel.app';
+            if (walineServerURL.includes('your-waline-server')) {
+                if (walineContainer) {
+                    walineContainer.innerHTML = '<p class="comments-setup-message">Configure your Waline server URL to enable comments.</p>';
+                }
+                return;
+            }
             
             // Import and initialize Waline
             import('https://unpkg.com/@waline/client@v3/dist/waline.js')
                 .then(({ init }) => {
                     init({
                         el: '#waline',
-                        serverURL: 'https://comments.sixundong.com',
+                        serverURL: walineServerURL,
                         path: window.location.pathname + window.location.search,
                         lang: 'en-US',
                         locale: {
@@ -568,7 +570,7 @@
         
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
-            const buildDate = '2026-03-06';
+            const buildDate = '2026-08-12';
             const date = new Date(buildDate + 'T12:00:00'); // Add noon time to avoid timezone issues
             const formatted = date.toLocaleDateString('en-US', { 
                 year: 'numeric', 

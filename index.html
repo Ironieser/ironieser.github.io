@@ -14,13 +14,13 @@
     <title>Professor Meow (Meowstar University) - Academic Homepage</title>
     
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Such research. Very PhD. Wow.">
+    <meta name="description" content="Template demo site for academic homepage setup and customization.">
     <meta name="keywords" content="computer vision, multimodal AI, machine learning, deep learning, artificial intelligence, academic research">
     <meta name="author" content="Professor Meow">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Professor Meow - Academic Homepage">
-    <meta property="og:description" content="Such research. Very PhD. Wow.">
+    <meta property="og:description" content="Template demo site for academic homepage setup and customization.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://yourusername.github.io">
     <meta property="og:image" content="https://yourusername.github.io/images/logo.jpg">
@@ -28,7 +28,7 @@
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Professor Meow - Academic Homepage">
-    <meta name="twitter:description" content="Such research. Very PhD. Wow.">
+    <meta name="twitter:description" content="Template demo site for academic homepage setup and customization.">
     <meta name="twitter:image" content="https://yourusername.github.io/images/logo.jpg">
     
     <!-- JSON-LD Structured Data -->
@@ -37,9 +37,9 @@
   {
     "@context": "https://schema.org",
     "@type": "Person",
-    "name": "Doge Zhang",
-    "alternateName": "DogePhD",
-    "email": "please-dont-email@example.edu",
+    "name": "Template Demo User",
+    "alternateName": "Template Profile",
+    "email": "meow@example.edu",
     "jobTitle": "PhD Student",
     "affiliation": {
       "@type": "Organization",
@@ -71,12 +71,12 @@
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Doge Zhang - Academic Homepage",
-    "description": "Such research. Very PhD. Wow.",
+    "name": "Academic Website Template - Demo Profile",
+    "description": "Template demo site for academic homepage setup and customization.",
     "url": "https://yourusername.github.io",
     "author": {
       "@type": "Person",
-      "name": "Doge Zhang"
+      "name": "Template Demo User"
     },
     "publisher": {
       "@type": "Organization",
@@ -159,7 +159,7 @@
                         
                         <div class="hero-links">
                             
-            <a href="mailto:meow@sixundong.com" class="hero-link" title="Email">
+            <a href="mailto:meow@example.edu" class="hero-link" title="Email">
                 <i class="fas fa-envelope"></i> Email
             </a>
             <a href="https://scholar.google.com/" class="hero-link" title="Scholar">
@@ -216,7 +216,7 @@
                 <div class="publications-list">
                     
             <div class="publication-item reveal has-tldr">
-                <img src="teaser/conference.jpg" alt="CatVLM: When Your Dataset Is 99% Cat Photos" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="teaser/conference.jpg?v=9a7d4726" alt="CatVLM: When Your Dataset Is 99% Cat Photos" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue">CVPR'50</span><span class="publication-venue-oral">🏆 Oral</span> CatVLM: When Your Dataset Is 99% Cat Photos</p>
                     <p class="publication-authors"><span class="author-highlight">Professor Meow*</span>, Sleepy GPU</p>
@@ -230,7 +230,7 @@
         </div>
             </div>
             <div class="publication-item reveal has-tldr">
-                <img src="teaser/conference.jpg" alt="Do Models Prefer Cats or Dogs? A Minimal Study" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="teaser/conference.jpg?v=9a7d4726" alt="Do Models Prefer Cats or Dogs? A Minimal Study" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue-preprint">arXiv'2050</span> Do Models Prefer Cats or Dogs? A Minimal Study</p>
                     <p class="publication-authors"><span class="author-highlight">Professor Meow</span>, Doggo Reviewer 2</p>
@@ -244,7 +244,7 @@
         </div>
             </div>
             <div class="publication-item reveal ">
-                <img src="teaser/conference.jpg" alt="A Short Survey of Cat-Themed Benchmarks" class="publication-image teaser" onerror="this.src='images/default-paper.png'">
+                <img src="teaser/conference.jpg?v=9a7d4726" alt="A Short Survey of Cat-Themed Benchmarks" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title"><span class="publication-venue-under-review">Under Review</span> A Short Survey of Cat-Themed Benchmarks</p>
                     <p class="publication-authors"><span class="author-highlight">Professor Meow</span></p>
@@ -326,19 +326,13 @@
     </main>
 
     
+    <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+    
     <footer class="footer">
         <div class="container">
             
-            <!-- Visitor Map Section -->
-            <div class="visitor-map-section">
-                <div class="visitor-map-container">
-                    <!-- Visitor Map Widget -->
-                    <div class="visitor-map">
-                        <!-- ClustrMaps Widget -->
-                        <script type="text/javascript" id="clustrmaps" src="//clustrmaps.com/map_v2.js?d=YOUR_CLUSTRMAPS_ID&cl=ffffff&w=a"></script>
-                    </div>
-                </div>
-            </div>
             <div class="footer-stats">
                 <div class="stats-item">
                     <i class="fas fa-map-marker-alt"></i>
@@ -443,7 +437,7 @@
         
         // Set last updated time (when GitHub Actions built the site)
         function setLastUpdated() {
-            const buildDate = '2026-03-06';
+            const buildDate = '2026-08-12';
             const date = new Date(buildDate + 'T12:00:00'); // Add noon time to avoid timezone issues
             const formatted = date.toLocaleDateString('en-US', { 
                 year: 'numeric', 

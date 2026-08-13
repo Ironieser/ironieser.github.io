@@ -4,7 +4,7 @@ description: How to debug site rendering issues (blank pages, broken styles, mis
 
 # Debug Site Issues
 
-Use this workflow when something looks wrong on the live site at `https://sixundong.com`.
+Use this workflow when something looks wrong on the deployed site.
 
 ## Key architecture reminder
 
@@ -60,7 +60,7 @@ Use this workflow when something looks wrong on the live site at `https://sixund
 // turbo
 1. Check what Cloudflare deployed:
    ```bash
-   curl -s https://sixundong.com/publications.html | grep "script.js"
+   curl -s https://your-domain.example/publications.html | grep "script.js"
    ```
 
 2. Check local build works:
@@ -69,7 +69,7 @@ Use this workflow when something looks wrong on the live site at `https://sixund
    ```
 
 3. Compare live vs local:
-   - Open `http://localhost:8000` → `http://sixundong.com` side by side
+   - Open `http://localhost:8000` and the deployed site side by side
    - Use DevTools → Network tab to confirm CSS/JS loaded (status 200)
    - Use DevTools → Console for JS errors
 
@@ -77,7 +77,8 @@ Use this workflow when something looks wrong on the live site at `https://sixund
 
 5. Commit and push the fix:
    ```bash
-   git add .
+   git status --short
+   git add <reviewed files>
    git commit -m "fix: [description of fix]"
    git push
    ```

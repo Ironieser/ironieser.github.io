@@ -9,7 +9,6 @@ copyright_start_year: 2025
 
 visitor_map:
   enabled: true
-  domain_id: "YOUR_CLUSTRMAPS_ID"
 
 seo:
   enable_json_ld: true
@@ -32,8 +31,7 @@ redirects:
 | Field | Required | Description |
 |-------|----------|-------------|
 | `copyright_start_year` | No | Start year for footer: "© {start_year} - {current_year} {name}". Default e.g. 2025. |
-| `visitor_map.enabled` | No | `true` to show ClustrMaps widget; `false` or omit to disable. |
-| `visitor_map.domain_id` | If enabled | Get from [clustrmaps.com](https://clustrmaps.com) after creating a map. |
+| `visitor_map.enabled` | No | `true` to enable the self-hosted visitor map and counters; requires Cloudflare Pages Functions + D1 as described in `docs/VISITOR_ANALYTICS.md`. Set `false` or omit to disable. |
 | `seo.website_url` | Yes | Canonical site URL (e.g. GitHub Pages or custom domain). |
 | `seo.github_pages_url` | Yes | Same as `website_url` if using GitHub Pages. |
 | `seo.website_name` | Yes | Site title in meta and JSON-LD. |
@@ -75,4 +73,4 @@ organization:
 
 ## Disabling visitor map
 
-Set `visitor_map.enabled: false` or remove/clear the `visitor_map` block. Do not leave `enabled: true` without a valid `domain_id` if you want no map.
+Set `visitor_map.enabled: false` or remove/clear the `visitor_map` block. Do not enable it on a deployment that has not configured the required Cloudflare Pages Functions and D1 binding.

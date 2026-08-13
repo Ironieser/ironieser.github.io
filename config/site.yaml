@@ -1,7 +1,7 @@
 # ============================================================
 # One-time site setup (do not change often)
 # - SEO / meta / JSON-LD
-# - Visitor map (ClustrMaps domain_id only; rest use defaults)
+# - Optional visitor analytics
 # - Short URL redirects for project pages
 # - Copyright (footer line: "© {start_year} - {current_year} {name}. All rights reserved.")
 # ============================================================
@@ -9,10 +9,10 @@
 # Copyright: start year for footer (current year is added automatically, e.g. 2025 - 2026)
 copyright_start_year: 2025
 
-# Visitor map: domain_id from clustrmaps.com (this one is for the template demo at ironieser.github.io)
+# Optional self-hosted visitor analytics requires Cloudflare Pages Functions + D1.
+# Keep disabled for the GitHub Pages demo; see docs/VISITOR_ANALYTICS.md.
 visitor_map:
-  enabled: true
-  domain_id: "C9TZ0TIOsqBUZDnNhUJVfOLeQ885rfZOfyRRCumKrsE"
+  enabled: false
 
 # SEO & site identity (meta tags, Open Graph, JSON-LD)
 seo:

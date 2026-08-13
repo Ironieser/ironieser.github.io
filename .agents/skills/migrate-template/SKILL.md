@@ -78,7 +78,9 @@ Check:
 ### 5. Commit the migrated files
 
 ```bash
-git add .
+# Review the migration diff, then stage only intended files.
+git status --short
+git add config/ assets/ scripts/ .github/ package.json package-lock.json
 git commit -m "chore: migrate to template v1.3.0"
 git push
 ```

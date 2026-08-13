@@ -1,5 +1,67 @@
 # Changelog
 
+## [Unreleased] - 2026-08-12
+
+### 🔧 Template maintenance and CI hardening
+
+- Split GitHub Pages validation and deployment so pull requests build safely without attempting a production deployment.
+- Updated the link checker to build generated pages before scanning, removed obsolete Lychee arguments, and stopped trying to create issues in repositories where Issues may be disabled.
+- Hardened optional Google Scholar sync with Node.js 20, npm caching, an explicit target branch, serialized runs, and direct pushes to the checked-out branch.
+- Added stable content-hash cache busting and lazy loading for local publication images.
+- Refreshed setup, migration, publication, and branch-maintenance skills to use the current config-driven build and selective staging.
+- Updated visitor-analytics documentation while keeping analytics disabled in the GitHub Pages demo until Cloudflare Pages Functions and D1 are configured.
+
+## [v1.6.2] - 2026-06-08
+
+### 🗺️ Map aspect-ratio fix
+
+- **Distorted world map fixed** — the `geo` block pinned all four edges (`left/right/top/bottom`), which stretched the map to fill its box and warped country shapes. Switched both the footer widget (`visitor-map.js`) and the admin dashboard (`stats.html`) to `aspectScale:1` + `layoutCenter`/`layoutSize`, so the map fits its container while preserving true geographic proportions. Cache-buster bumped to `v=10`.
+
+## [v1.6.1] - 2026-06-04
+
+### 🐞 Visitor-analytics review fixes
+
+- **Blog page regression fixed** — `build-blog-page.js` still emitted the old ClustrMaps `<script>` (with an empty domain); migrated it to the self-hosted widget so all three pages match.
+- **Atomic visitor de-dup** — replaced the racy SELECT-then-INSERT with a `bucket` column + `UNIQUE(ip_hash, bucket)` index and `INSERT OR IGNORE`, so concurrent hits from one visitor in the same hour can no longer double-count (verified with a 5-way concurrent burst).
+- **Record only on POST** — `GET /api/hit` no longer records, stopping prefetch/crawler/`<img>` inflation.
+- **Map coverage** — fixed ISO-2 extraction in the world-map build (e.g. Taiwan now colours; HK/MO have no separate polygon at 110m and show as dots).
+- **Security/privacy** — constant-time admin-key comparison; `IP_SALT` fallback now a per-isolate random value (lazily generated; never a public constant) instead of a hardcoded salt.
+- **Hardening/perf** — escape country code in the dashboard; collapse five scalar stat queries into one scan; UTC-consistent "Tracking since" display; remove dead `lerpHex`.
+
+## [v1.6.0] - 2026-06-04
+
+### 📊 Self-hosted Visitor Analytics + 🗺️ Map + ⚡ Perf + 🧹 Cleanup
+
+#### ✨ New: Self-hosted visitor analytics (replaces ClustrMaps)
+
+- **Own your data** — Cloudflare Pages Functions (`functions/api/hit|stats|admin.js`) + D1 database replace the third-party ClustrMaps widget, which had a multi-day authoritative-DNS outage and frequently blocked/slowed load for visitors in China.
+- **Counter + world map** in the footer: total / unique / this-month / today, plus an ECharts world map shaded by visit count with rippling city dots (ClustrMaps-style), `Tracking since <date>`.
+- **Privacy-first** — IPs stored as salted-SHA-256, truncated (one-way); visitor de-dup window = 1h. Records country/region/city/postal/lat-lon/timezone/ISP per visit (city-level max precision).
+- **Private dashboard** at `/stats` (key-gated): monthly trend, top countries/cities/sources/ISPs, recent-visits log, and the same map. See `docs/VISITOR_ANALYTICS.md`.
+- **Lazy-loaded** — the whole widget (incl. map libs) only loads when the footer scrolls into view, so it never blocks initial page load.
+
+#### 🗺️ Map: ECharts (slim, self-hosted)
+
+- Switched from jsVectorMap to a **custom slim ECharts build** (only map + effectScatter + geo/visualMap/tooltip, ~172KB gzip) + an ISO-2-indexed, coordinate-simplified world map (~51KB gzip). Build script: `scripts/build-echarts-slim.js`.
+- Choropleth via `visualMap` gradient (fixes jsVectorMap's bug that rendered the max-value country pure black) + rippling visitor dots from lat/lon.
+
+#### ⚡ Performance
+
+- **Removed unused CDN scripts** — cytoscape / dagre / cytoscape-dagre (~1MB) were loaded on every page but never actually called; deleted.
+- **Lazy-load** publication images (`loading="lazy"` + width/height) and the visitor widget.
+
+#### 🔧 Content / fixes
+
+- **Featured publications are now fully manual** — Scholar sync no longer changes a user's curated `featured` flags based on citation count.
+- **Survey papers merged into year listing** — dropped the separate "Survey Papers" section on the publications page; they now sit in their by-date year group.
+
+#### 🧹 Repository cleanup
+
+- Removed the superseded `scripts/scholar_sync_python.py` (the Node `sync-scholar.js` is what runs).
+- _Note:_ `config/config.json` (legacy fallback) retained for now; slated for removal at v2.0.
+
+---
+
 ## [v1.5.0] - 2026-03-06
 
 ### 🌿 Template / Personal Branch Separation
