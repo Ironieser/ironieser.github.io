@@ -1,9 +1,9 @@
 // POST /api/hit?p=<path>
-// Records every page view plus one hourly session per visitor.
+// Records every page view plus one 10-minute session per visitor.
 // Only POST records a visit; GET just returns stats (prevents prefetch/crawler/img inflation).
 import { json, hashIp, refSource, publicStats, viewerLocation, ensurePageviews } from './_lib.js';
 
-const BUCKET_SECONDS = 3600; // visitors are de-duped per clock-hour bucket
+const BUCKET_SECONDS = 600; // visitors are de-duped per clock-aligned 10-minute bucket
 
 export async function onRequest(context) {
   const { request, env } = context;

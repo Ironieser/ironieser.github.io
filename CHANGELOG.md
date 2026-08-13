@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.8.1] - 2026-08-13
+
+### Session counting adjustment
+
+- Reduced session de-duplication from one record per IP per hour to one record per IP in each clock-aligned 10-minute bucket.
+- Page views continue to record every page load; only the session and map aggregation window changed.
+- Updated the analytics dashboard and documentation to distinguish page views from 10-minute sessions.
+
 ## [v1.8.0] - 2026-08-13
 
 ### Page-view analytics

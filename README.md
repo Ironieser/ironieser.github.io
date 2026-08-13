@@ -2,7 +2,7 @@
 
 A simple, config-driven academic website template that generates HTML from content and site config (no HTML editing needed).
 
-> **Branch note:** This is the `ironieser` personal-site branch, currently including the v1.8.0 Research Atlas and page-view analytics. The clean reusable template remains on `master`; shared features are staged through `dev`. See [CHANGELOG.md](CHANGELOG.md) for details.
+> **Branch note:** This is the `ironieser` personal-site branch, currently including the v1.8.1 Research Atlas and page-view analytics. The clean reusable template remains on `master`; shared features are staged through `dev`. See [CHANGELOG.md](CHANGELOG.md) for details.
 
 ## 🎯 Features
 

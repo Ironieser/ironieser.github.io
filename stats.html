@@ -152,14 +152,14 @@
   <div class="grid cards">
     <div class="card stat"><div class="n" id="s-total">—</div><div class="l">Page views</div></div>
     <div class="card stat"><div class="n" id="s-unique">—</div><div class="l">Estimated unique</div></div>
-    <div class="card stat"><div class="n" id="s-sessions">—</div><div class="l">Hourly sessions</div></div>
+    <div class="card stat"><div class="n" id="s-sessions">—</div><div class="l">10-minute sessions</div></div>
     <div class="card stat"><div class="n" id="s-month">—</div><div class="l">Views this month</div></div>
     <div class="card stat"><div class="n" id="s-today">—</div><div class="l">Views today</div></div>
   </div>
 
   <div class="grid two">
     <section class="card">
-      <div class="section-head"><div><p class="ttl">World map</p><p class="hint">Hourly deduplicated visits by country and city-level coordinates.</p></div></div>
+      <div class="section-head"><div><p class="ttl">World map</p><p class="hint">10-minute deduplicated sessions by country and city-level coordinates.</p></div></div>
       <div id="map"></div>
     </section>
     <section class="card">
@@ -191,7 +191,7 @@
 
   <section class="card recent-card">
     <div class="recent-head">
-      <div><p class="ttl">Recent visits</p><p class="hint">Latest 150 hourly deduplicated records.</p></div>
+      <div><p class="ttl">Recent visits</p><p class="hint">Latest 150 page-view records.</p></div>
       <input class="filter" id="visit-filter" type="search" placeholder="Filter location, source, path…" autocomplete="off">
     </div>
     <div class="scroll"><table id="recent"><thead><tr>

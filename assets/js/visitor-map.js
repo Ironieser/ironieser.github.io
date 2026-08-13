@@ -1,5 +1,5 @@
 /* Self-hosted visitor analytics widget.
- * Records a visit via /api/hit (1h de-dup, server-side) and renders a counter
+ * Records a visit via /api/hit (10-minute session de-dup, server-side) and renders a counter
  * plus an ECharts world map: countries shaded by visit count + rippling city
  * dots (lat/lon). No third-party services. Loaded lazily on footer scroll. */
 (function () {

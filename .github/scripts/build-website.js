@@ -3,7 +3,7 @@
  * Build Script for GitHub Actions
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.8.0
+ * @version 1.8.1
  * @license MIT
  * @repository https://github.com/Ironieser/ironieser.github.io
  * @description Generates HTML files from content.json + meta.json for academic websites

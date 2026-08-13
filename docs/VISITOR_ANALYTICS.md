@@ -5,7 +5,7 @@ service, fast everywhere (Cloudflare edge), and it stores its own visit log so y
 can query IP-hash / source / monthly totals later.
 
 - **Endpoints** (same-origin, work on every domain the Pages project serves — `sixundong.com`, `cv.ironieser.cc`, …):
-  - `POST /api/hit?p=<path>` — records a visit (1h per-visitor de-dup), returns public stats.
+  - `POST /api/hit?p=<path>` — records a page view and a 10-minute deduplicated session, then returns public stats.
   - `GET  /api/stats` — public aggregate (total / today / month / unique / per-country). No IPs.
   - `GET  /api/admin?key=<ADMIN_KEY>` — private: monthly series, top countries/cities/referrers, recent visits (only an 8-char IP-hash prefix, never the raw IP).
 - **Privacy**: the IP is salted-SHA-256 + truncated before storage; the raw IP is never written.
@@ -15,7 +15,7 @@ can query IP-hash / source / monthly totals later.
   Empty referrers are stored as `direct`, same-site navigation as `internal`, and
   external sources as their hostname.
 - **Counting model**: `pageviews` records every page opening, while `visits` keeps
-  one hourly session per IP hash. The dashboard reports both page views and sessions.
+  one session per IP hash in each clock-aligned 10-minute bucket. The dashboard reports both.
 
 ## One-time setup (~5 minutes)
 
@@ -71,8 +71,8 @@ database_id = "<id from d1 create>"
 
 - Until the D1 binding exists, the endpoints return `{"error":"no-db"}` and the footer
   widget simply stays quiet — it never blocks the page.
-- Visitor de-dup window is 1 hour (same visitor within 1h counts once). Change
-  `DEDUP_SECONDS` in `functions/api/hit.js` to adjust.
+- Session de-dup uses clock-aligned 10-minute buckets. Change `BUCKET_SECONDS`
+  in `functions/api/hit.js` to adjust.
 - To migrate the old ClustrMaps running total, seed it once:
   `INSERT INTO visits (ts,day,month,ip_hash,country,referer,path) ...` is not needed —
   instead just keep the new count, or add a constant offset in the widget if you want.

@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.8.0
+ * @version 1.8.1
  * @license MIT
  */
 
