@@ -9,6 +9,8 @@ can query IP-hash / source / monthly totals later.
   - `GET  /api/stats` — public aggregate (total / today / month / unique / per-country). No IPs.
   - `GET  /api/admin?key=<ADMIN_KEY>` — private: monthly series, top countries/cities/referrers, recent visits (only an 8-char IP-hash prefix, never the raw IP).
 - **Privacy**: the IP is salted-SHA-256 + truncated before storage; the raw IP is never written.
+- **Current visitor location**: the footer may show the requester's Cloudflare-provided city,
+  region, and country. The row is hidden when that coarse metadata is unavailable.
 
 ## One-time setup (~5 minutes)
 

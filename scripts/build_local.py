@@ -387,18 +387,7 @@ BACK_TO_TOP_BUTTON = '''
 
 
 
-def format_owner_location(seo, personal):
-    """Format the configured owner location for the footer."""
-    address = ((seo or {}).get('organization') or {}).get('address') or {}
-    location = ', '.join(filter(None, [
-        address.get('addressLocality'),
-        address.get('addressRegion'),
-        address.get('addressCountry'),
-    ]))
-    return location or personal.get('affiliation') or 'Remote'
-
-
-def generate_footer(personal, template_info=None, visitor_map=None, seo=None):
+def generate_footer(personal, template_info=None, visitor_map=None):
     """Generate footer HTML"""
     create_year = 2025  # Website creation year for copyright
     
@@ -434,10 +423,6 @@ def generate_footer(personal, template_info=None, visitor_map=None, seo=None):
         <div class="container">
             {visitor_map_html}
             <div class="footer-stats">
-                <div class="stats-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Based in: <span>{format_owner_location(seo, personal)}</span>
-                </div>
                 <div class="stats-item">
                     <i class="fas fa-clock"></i>
                     Content last updated: <span id="last-updated"></span>
@@ -486,7 +471,6 @@ def generate_index_page(config):
     publications = config['publications']
     template_info = config.get('_template_info')
     visitor_map = config.get('visitor_map')
-    seo = config.get('seo')
     back_to_top = BACK_TO_TOP_BUTTON
 
     # Get selected publications (featured first, then recent)
@@ -748,7 +732,7 @@ def generate_index_page(config):
     </main>
 
     {back_to_top}
-    {generate_footer(personal, template_info, visitor_map, seo)}
+    {generate_footer(personal, template_info, visitor_map)}
 
     <script>
         // News filter functionality
@@ -802,7 +786,6 @@ def generate_publications_page(config):
     research = config['research']
     visitor_map = config.get('visitor_map')
     template_info = config.get('_template_info')
-    seo = config.get('seo')
     publications = config['publications']
     scholar_sync = config.get('_scholar_sync', {})
     
@@ -963,7 +946,7 @@ def generate_publications_page(config):
     </main>
 
     {BACK_TO_TOP_BUTTON}
-    {generate_footer(personal, template_info, visitor_map, seo)}
+    {generate_footer(personal, template_info, visitor_map)}
     
     {generate_common_scripts()}
 </body>
@@ -975,7 +958,6 @@ def generate_blog_page(config):
     personal = config['personal']
     template_info = config.get('_template_info')
     visitor_map = config.get('visitor_map')
-    seo = config.get('seo')
     
     return f'''<!DOCTYPE html>
 <!-- 
@@ -1075,7 +1057,7 @@ def generate_blog_page(config):
     </main>
 
     {BACK_TO_TOP_BUTTON}
-    {generate_footer(personal, template_info, visitor_map, seo)}
+    {generate_footer(personal, template_info, visitor_map)}
     
     <script>
         // Blog functionality

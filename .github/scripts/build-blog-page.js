@@ -3,7 +3,7 @@
  * Generates blog.html from content.json + meta.json and blog-data.js
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.0.0
+ * @version 1.7.1
  * @license MIT
  */
 
@@ -94,19 +94,7 @@ const BACK_TO_TOP_BUTTON = `
         <i class="fas fa-chevron-up"></i>
     </button>`;
 
-function formatOwnerLocation(seo, personal) {
-  const address = seo && seo.organization && seo.organization.address
-    ? seo.organization.address
-    : {};
-  const location = [
-    address.addressLocality,
-    address.addressRegion,
-    address.addressCountry
-  ].filter(Boolean).join(', ');
-  return location || personal.affiliation || 'Remote';
-}
-
-function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null, ownerLocation = '') {
+function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null) {
   const startYear = copyrightStartYear != null ? Number(copyrightStartYear) : 2025;
   const currentYear = new Date().getFullYear();
   const copyrightYears = currentYear === startYear ? `${startYear}` : `${startYear} - ${currentYear}`;
@@ -139,7 +127,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=11'; s.defer=true;
+                            s.src='assets/js/visitor-map.js?v=12'; s.defer=true;
                             document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){
@@ -153,16 +141,18 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                 </div>
             </div>`;
   }
+
+  const visitorLocationHtml = visitorMap && visitorMap.enabled ? `
+                <div class="stats-item" id="visitor-location-item" style="display:none" hidden>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Visiting from: <span id="visitor-location"></span>
+                </div>` : '';
   
   return `
     <footer class="footer">
         <div class="container">
             ${visitorMapHtml}
-            <div class="footer-stats">
-                <div class="stats-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Based in: <span>${ownerLocation}</span>
-                </div>
+            <div class="footer-stats">${visitorLocationHtml}
                 <div class="stats-item">
                     <i class="fas fa-clock"></i>
                     Content last updated: <span id="last-updated"></span>
@@ -207,7 +197,7 @@ function generateCommonScripts() {
 function generateBlogPage(config) {
   console.log('Generating blog.html...');
   
-  const { personal, _template_info, visitor_map, seo } = config;
+  const { personal, _template_info, visitor_map } = config;
   
   return `<!DOCTYPE html>
 <!-- 
@@ -313,7 +303,7 @@ function generateBlogPage(config) {
     </main>
 
     ${BACK_TO_TOP_BUTTON}
-    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year, formatOwnerLocation(seo, personal))}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
         // Blog functionality

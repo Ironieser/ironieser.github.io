@@ -3,7 +3,7 @@
  * Build Script for GitHub Actions
  * 
  * @author Sixun Dong (ironieser)
- * @version 1.0.0
+ * @version 1.7.1
  * @license MIT
  * @repository https://github.com/Ironieser/ironieser.github.io
  * @description Generates HTML files from content.json + meta.json for academic websites
@@ -423,19 +423,7 @@ ${JSON.stringify(schemas, null, 2)}
 </script>`;
 }
 
-function formatOwnerLocation(seo, personal) {
-  const address = seo && seo.organization && seo.organization.address
-    ? seo.organization.address
-    : {};
-  const location = [
-    address.addressLocality,
-    address.addressRegion,
-    address.addressCountry
-  ].filter(Boolean).join(', ');
-  return location || personal.affiliation || 'Remote';
-}
-
-function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null, ownerLocation = '') {
+function generateFooter(personal, templateInfo = null, visitorMap = null, copyrightStartYear = null) {
   const startYear = copyrightStartYear != null ? Number(copyrightStartYear) : 2025;
   const currentYear = new Date().getFullYear();
   const copyrightYears = currentYear === startYear ? `${startYear}` : `${startYear} - ${currentYear}`;
@@ -470,7 +458,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                         function load(){
                             if(loaded) return; loaded=true;
                             var s=document.createElement('script');
-                            s.src='assets/js/visitor-map.js?v=11'; s.defer=true;
+                            s.src='assets/js/visitor-map.js?v=12'; s.defer=true;
                             document.body.appendChild(s);
                         }
                         if('IntersectionObserver' in window){
@@ -484,16 +472,18 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
                 </div>
             </div>`;
   }
+
+  const visitorLocationHtml = visitorMap && visitorMap.enabled ? `
+                <div class="stats-item" id="visitor-location-item" style="display:none" hidden>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Visiting from: <span id="visitor-location"></span>
+                </div>` : '';
   
   return `
     <footer class="footer">
         <div class="container">
             ${visitorMapHtml}
-            <div class="footer-stats">
-                <div class="stats-item">
-                    <i class="fas fa-map-marker-alt"></i>
-                    Based in: <span>${ownerLocation}</span>
-                </div>
+            <div class="footer-stats">${visitorLocationHtml}
                 <div class="stats-item">
                     <i class="fas fa-clock"></i>
                     Content last updated: <span id="last-updated"></span>
@@ -538,7 +528,7 @@ function generateCommonScripts() {
 function generateIndexPage(config) {
   console.log('Generating index.html...');
   
-  const { personal, research, research_roadmap, news, experience, education, service, publications, _template_info, visitor_map, seo } = config;
+  const { personal, research, research_roadmap, news, experience, education, service, publications, _template_info, visitor_map } = config;
   
   // Get selected publications (featured first, then recent)
   const selectedPubs = [];
@@ -817,7 +807,7 @@ function generateIndexPage(config) {
     </main>
 
     ${BACK_TO_TOP_BUTTON}
-    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year, formatOwnerLocation(seo, personal))}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     <script>
         // News filter functionality
@@ -868,7 +858,7 @@ function generateIndexPage(config) {
 function generatePublicationsPage(config) {
   console.log('Generating publications.html...');
   
-  const { personal, research, publications, _template_info, _scholar_sync, visitor_map, seo } = config;
+  const { personal, research, publications, _template_info, _scholar_sync, visitor_map } = config;
   const targetName = personal.name.split(' ')[0];
   
   // Separate auto-synced and manual publications
@@ -1027,7 +1017,7 @@ function generatePublicationsPage(config) {
     </main>
 
     ${BACK_TO_TOP_BUTTON}
-    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year, formatOwnerLocation(seo, personal))}
+    ${generateFooter(personal, _template_info, visitor_map, config.copyright_start_year)}
     
     ${generateCommonScripts()}
 </body>

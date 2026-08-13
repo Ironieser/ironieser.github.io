@@ -30,11 +30,43 @@
     set('vw-today', fmt(s.today));
     set('vw-month', fmt(s.month));
     set('vw-unique', fmt(s.unique));
+    renderViewerLocation(s.viewer);
     var sinceEl = document.getElementById('vw-since');
     if (sinceEl) {
       // Display in UTC to match the UTC day/month buckets the counters use.
       sinceEl.textContent = s.since ? 'Tracking since ' + new Date(s.since * 1000).toISOString().slice(0, 10) + ' UTC' : '';
     }
+  }
+
+  function renderViewerLocation(viewer) {
+    var item = document.getElementById('visitor-location-item');
+    var value = document.getElementById('visitor-location');
+    if (!item || !value) return;
+    var text = formatViewerLocation(viewer);
+    if (!text) {
+      item.hidden = true;
+      item.style.display = 'none';
+      return;
+    }
+    value.textContent = text;
+    item.hidden = false;
+    item.style.display = 'flex';
+  }
+
+  function formatViewerLocation(viewer) {
+    if (!viewer) return '';
+    var country = viewer.country || '';
+    try {
+      if (country && typeof Intl !== 'undefined' && Intl.DisplayNames) {
+        country = new Intl.DisplayNames([navigator.language || 'en'], { type: 'region' }).of(country) || country;
+      }
+    } catch (e) {}
+    var parts = [viewer.city, viewer.region, country].filter(Boolean);
+    return parts.filter(function (part, index) {
+      return parts.findIndex(function (candidate) {
+        return String(candidate).toLowerCase() === String(part).toLowerCase();
+      }) === index;
+    }).join(', ');
   }
 
   function loadMap(stats) {

@@ -47,6 +47,18 @@ export function refHost(referer) {
   }
 }
 
+// Coarse location for the current requester, supplied by Cloudflare at the edge.
+// This is returned only to that requester and never includes the raw IP.
+export function viewerLocation(request) {
+  const cf = (request && request.cf) || {};
+  const location = {
+    city: cf.city || null,
+    region: cf.regionCode || cf.region || null,
+    country: cf.country || null,
+  };
+  return location.city || location.region || location.country ? location : null;
+}
+
 // Aggregate numbers that are safe to expose publicly (no IPs, no per-visit rows).
 export async function publicStats(db) {
   const now = new Date();

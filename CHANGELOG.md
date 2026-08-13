@@ -1,6 +1,6 @@
 # Changelog
 
-## [Unreleased] - 2026-08-11
+## [v1.7.1] - 2026-08-13
 
 ### 🔧 Branch maintenance and CI cleanup
 
@@ -9,6 +9,13 @@
 - Updated the link-check workflow to rebuild pages before scanning, remove an obsolete Lychee flag, and stop trying to create issues while Issues are disabled. The scheduled copy on the default branch must receive the same update before the monthly run uses it.
 - Corrected stale branch/deployment documentation and replaced the old ClustrMaps troubleshooting instructions with the current Cloudflare D1 analytics setup.
 - Reviewed repository skills and updated publication, roadmap, initialization, migration, and branch-sync instructions to match the current config-driven Cloudflare workflow and safer selective Git staging.
+
+### Visitor map and footer polish
+
+- Reduced the visitor-map canvas and surrounding footer spacing while preserving the world map's aspect ratio.
+- Replaced the incorrect static owner address with the current visitor's coarse Cloudflare location. The row stays hidden when location metadata is unavailable.
+- Removed third-party IP geolocation calls. The visitor API returns only the requester's city, region, and country, never the raw IP.
+- Moved the AI-tool acknowledgment from the public footer to the README.
 
 ## [v1.7.0] - 2026-06-23
 

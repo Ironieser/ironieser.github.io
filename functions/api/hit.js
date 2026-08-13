@@ -2,7 +2,7 @@
 // Records one visit, de-duplicated per visitor (ip_hash) within a 1-hour bucket,
 // then returns the public aggregate stats so the widget can render in one round-trip.
 // Only POST records a visit; GET just returns stats (prevents prefetch/crawler/img inflation).
-import { json, hashIp, refHost, publicStats } from './_lib.js';
+import { json, hashIp, refHost, publicStats, viewerLocation } from './_lib.js';
 
 const BUCKET_SECONDS = 3600; // visitors are de-duped per clock-hour bucket
 
@@ -41,7 +41,8 @@ export async function onRequest(context) {
         .run();
     }
 
-    return json(await publicStats(db));
+    const stats = await publicStats(db);
+    return json({ ...stats, viewer: viewerLocation(request) });
   } catch (e) {
     return json({ error: String(e) });
   }
