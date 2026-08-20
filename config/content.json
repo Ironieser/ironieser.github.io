@@ -903,7 +903,7 @@
         "venue": "arXiv'2602",
         "venue_type": "preprint",
         "image": "teaser/think_tom.jpg",
-        "featured": true,
+        "featured": false,
         "tldr": "Investigates the capabilities of Large Reasoning Models (like OpenAI o1/o3) on Theory of Mind tasks, revealing that continuous reasoning does not always guarantee better socially-aware outcomes.",
         "links": [
           {
