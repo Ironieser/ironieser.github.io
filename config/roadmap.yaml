@@ -138,12 +138,6 @@ nodes:
     tags: [video_multimodal, reasoning_agents]
     group: capabilities
     stages: [agentic_reasoning]
-  - id: tom
-    paper_url: https://arxiv.org/abs/2602.10625
-    short_label: ToM Reasoning
-    tags: [reasoning_agents]
-    group: capabilities
-    stages: [agentic_reasoning]
   - id: asr_agent
     paper_url: https://arxiv.org/abs/2601.21347
     short_label: Agentic Dysarthric ASR
