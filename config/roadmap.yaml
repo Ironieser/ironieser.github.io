@@ -48,7 +48,7 @@ phases:
         icon: ⚡
         row: top
       - id: agents
-        label: Long-Horizon Agents
+        label: "Long-Horizon Agents: Orchestration · Memory · Execution"
         icon: 🤖
         row: bottom
         ongoing: true
