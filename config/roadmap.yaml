@@ -12,10 +12,14 @@ ongoing:
     label: Long-term Memory
     status: Ongoing
     note: Memory-augmented agent cognition and retrieval.
+  - phase: agentic_systems
+    label: Recursive Self-Improvement
+    status: Next
+    note: Agents that improve the models and harnesses they run on through their own traces and synthetic data.
 
 vision_loop:
-  label: Future Loop
-  text: Agent traces and synthetic data feed back into multimodal understanding and generative modeling.
+  label: Self-Improvement Loop
+  text: Agents generate traces and synthetic data that retrain the models they run on, closing the loop toward recursive self-improvement.
 
 phases:
   - id: perception
