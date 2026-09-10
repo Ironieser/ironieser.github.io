@@ -151,7 +151,7 @@ nodes:
     paper_url: https://arxiv.org/abs/2508.15760
     short_label: LiveMCP-101
     tags: [reasoning_agents]
-    group: agents
+    group: capabilities
     stages: [agentic_reasoning]
   - id: logicif
     paper_url: https://arxiv.org/abs/2508.09125
