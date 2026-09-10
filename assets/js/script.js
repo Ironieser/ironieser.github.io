@@ -529,6 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             </div>
                             <div class="roadmap-paper-group-grid"${gridStyle}>
                                 ${items.map(paper => renderPaperCard(paper, color)).join('')}
+                                ${group.ongoing ? phaseOngoing.map(item => renderOngoingItem(item, color, `is-panel${Number(group.ongoingSize) > 1 ? ` is-span-${Number(group.ongoingSize)}` : ''}`)).join('') : ''}
                             </div>
                         </div>
                     `;
@@ -538,7 +539,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 const bottomGroups = groups.filter(g => g.row !== 'top');
 
                 const topParts = topGroups.map(g => renderGroup(g));
-                if (phase.ongoingGroup && phaseOngoing.length) {
+                const ongoingHostedByGroup = groups.some(g => g.ongoing);
+                if (phase.ongoingGroup && phaseOngoing.length && !ongoingHostedByGroup) {
                     const og = phase.ongoingGroup;
                     topParts.push(`
                         <div class="roadmap-paper-group roadmap-paper-group-ongoing" style="--paper-color:${color}">

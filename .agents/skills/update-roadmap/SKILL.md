@@ -80,6 +80,8 @@ See `references/roadmap-schema.md` for the full field reference.
 
 To display it as a panel alongside sub-groups, add `"ongoingGroup"` to the phase config.
 
+To show ongoing items inside an existing sub-group (e.g. a published paper plus an "Ongoing" note in one panel), set `ongoing: true` on that group instead (optional `ongoingSize` widens the ongoing card).
+
 **Add or change a filter** — append to `research_roadmap.filters` and update relevant nodes' `tags`.
 
 ### 3. Build and verify

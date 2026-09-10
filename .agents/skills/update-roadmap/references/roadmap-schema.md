@@ -1,6 +1,6 @@
 # Roadmap Schema Reference
 
-All fields live under `config/content.json` → `"research_roadmap"`.
+All fields live in `config/roadmap.yaml` (loaded by the build as `research_roadmap`).
 
 ## Top-level fields
 
@@ -26,7 +26,7 @@ All fields live under `config/content.json` → `"research_roadmap"`.
 | `maxItems` | number | | Max papers shown (default: 4) |
 | `columns` | number | | Paper grid columns (`1` = single, `2` = double) |
 | `groups` | object[] | | Sub-group definitions (see below) |
-| `ongoingGroup` | object | | Config for ongoing panel display |
+| `ongoingGroup` | object | | Config for a standalone ongoing panel (ignored when a group sets `ongoing: true`) |
 
 ## `phases[].groups[]` — Sub-groups within a phase
 
@@ -37,6 +37,8 @@ All fields live under `config/content.json` → `"research_roadmap"`.
 | `icon` | string | | Emoji before label |
 | `row` | string | ✅ | `"top"` (side-by-side layout) or `"bottom"` (full-width below) |
 | `gridColumns` | number \| string | | Number of equal columns (e.g. `3`) or CSS value (e.g. `"repeat(3, 1fr)"`). Cards use `size` to span across columns. |
+| `ongoing` | boolean | | If `true`, this phase's `ongoing[]` items render inside this group's grid after the paper cards (replaces the separate `ongoingGroup` panel). |
+| `ongoingSize` | number | | Card span (`1`–`3`) for ongoing items hosted by this group; default `1`. |
 
 ## `phases[].ongoingGroup` — Ongoing panel config
 

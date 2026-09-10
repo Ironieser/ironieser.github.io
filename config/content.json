@@ -8,7 +8,7 @@
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I am an independent researcher working on <em class=\"research-keywords\">multimodal AI systems</em>. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and agentic reasoning (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for next-generation multimodal intelligence. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
+      "I am an independent researcher building <em class=\"research-keywords\">multimodal AI systems</em> that perceive, generate, and act. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative and world modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and LLM-based agentic systems (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for agent harnesses: the inference, memory, and orchestration layer behind long-horizon multimodal agents. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
@@ -50,7 +50,7 @@
     ]
   },
   "research": {
-    "description": "Currently, my research focuses on <strong>multimodal AI systems</strong>, spanning multimodal understanding, generative modeling, and agentic systems. My work evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and agentic systems with reasoning and tool use (WACV'25, ICASSP'26, ECCV'26), with a current focus on system-algorithm co-design for efficient multimodal modeling and agentic reasoning.",
+    "description": "I build <strong>multimodal AI systems</strong> that perceive, generate, and act. My work has evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative and world modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and LLM-based agentic systems with planning, memory, and tool use (WACV'25, ICASSP'26, ECCV'26). My current focus is <strong>system-algorithm co-design for agent harnesses</strong>: the inference, memory, and orchestration layer that lets multimodal agents reason and act reliably over long horizons.",
     "stats": [
       "10+ publications",
       "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",
@@ -69,8 +69,9 @@
     {
       "date": "Jun 2026",
       "icon": "🎉",
-      "content": "Paper on <strong>Better Call CineCrew</strong> accepted to [[ECCV 2026]]! Our multi-agent framework for ultra-long narrative-to-film generation. Joint work with UMass &amp; MIT — thanks to all coauthors!",
-      "category": "papers"
+      "content": "Paper on <strong>Better Call CineCrew</strong> {{link}} accepted to [[ECCV 2026]]! Our multi-agent framework for ultra-long narrative-to-film generation. Joint work with UMass &amp; MIT — thanks to all coauthors!",
+      "category": "papers",
+      "link": "https://arxiv.org/abs/2609.07720"
     },
     {
       "date": "Apr 2026",
@@ -856,15 +857,13 @@
         "links": [
           {
             "name": "Paper",
-            "url": null,
-            "icon": "ai ai-arxiv",
-            "coming_soon": true
+            "url": "https://arxiv.org/abs/2609.07720",
+            "icon": "ai ai-arxiv"
           },
           {
             "name": "Code",
-            "url": null,
-            "icon": "fab fa-github",
-            "coming_soon": true
+            "url": "https://github.com/Ironieser/CineCrew",
+            "icon": "fab fa-github"
           }
         ]
       },

@@ -2475,36 +2475,31 @@ body {
 
 /* Flex wrap: no flex-grow on default cards — otherwise each row stretches to full width (looks like a single column). */
 .roadmap-paper-group-grid {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    align-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(6.6rem, 1fr));
     gap: 0.35rem;
+    align-items: stretch;
 }
 
+/* Uniform tiles: every card takes exactly one grid cell; titles may wrap to two lines. */
 .roadmap-paper-group-grid > .roadmap-paper-card {
-    width: auto;
-    flex: 0 1 auto;
-    min-width: min(100%, 8.8rem);
-    max-width: 100%;
+    width: 100%;
+    min-width: 0;
     box-sizing: border-box;
 }
 
-.roadmap-paper-group-grid > .roadmap-paper-card.is-span-2 {
-    flex: 1 1 10.8rem;
-    min-width: min(100%, 9.2rem);
+.roadmap-paper-group-grid .roadmap-paper-card-title {
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: unset;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
-.roadmap-paper-group-grid > .roadmap-paper-card.is-span-3 {
-    flex: 2 1 20rem;
-    min-width: min(100%, 14.2rem);
-}
-
-.roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
-    flex: 3 1 24rem;
-    min-width: min(100%, 16.8rem);
-}
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-2 { grid-column: span 2; }
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-3,
+.roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 { grid-column: 1 / -1; }
 
 .roadmap-paper-card {
     width: 100%;
@@ -3482,21 +3477,7 @@ body {
         grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
     }
     .roadmap-paper-group-grid {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-    .roadmap-paper-group-grid > .roadmap-paper-card {
-        min-width: min(100%, 8.6rem);
-    }
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-2 {
-        min-width: min(100%, 9rem);
-    }
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-3 {
-        min-width: min(100%, 14rem);
-    }
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
-        min-width: min(100%, 16rem);
+        grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
     }
     .roadmap-context-cards-grid {
         grid-template-columns: 1fr;
@@ -3533,14 +3514,6 @@ body {
         grid-template-columns: 1fr;
     }
     .roadmap-paper-group-grid {
-        flex-direction: column;
-    }
-    .roadmap-paper-group-grid > .roadmap-paper-card,
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-2,
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-3,
-    .roadmap-paper-group-grid > .roadmap-paper-card.is-span-4 {
-        flex: 1 1 auto;
-        min-width: 0;
-        width: 100%;
+        grid-template-columns: 1fr;
     }
 }

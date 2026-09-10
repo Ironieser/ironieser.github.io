@@ -34,25 +34,24 @@ phases:
   - id: agentic_systems
     title: Agentic Systems
     icon: 🧠
-    summary: Efficient inference, tool use, and agentic reasoning.
+    summary: Building and evaluating model capabilities, running them efficiently, and composing them into agents that plan and act over long horizons.
     stageIds: [efficient_systems, agentic_reasoning]
     maxItems: 8
     columns: 2
     groups:
+      - id: capabilities
+        label: Model Capabilities
+        icon: 🧪
+        row: top
       - id: inference
-        label: Inference Acceleration
+        label: Efficient Inference
         icon: ⚡
         row: top
-        gridColumns: 3
-      - id: reasoning
-        label: Reasoning & Execution
-        icon: 🛠️
+      - id: agents
+        label: Long-Horizon Agents
+        icon: 🤖
         row: bottom
-        gridColumns: 3
-    ongoingGroup:
-      label: Memory
-      icon: 💾
-      row: top
+        ongoing: true
 
 filters:
   - id: video_multimodal
@@ -93,16 +92,17 @@ nodes:
     tags: [generative_modeling]
     stages: [world_modeling]
   - id: cinecrew
+    paper_url: https://arxiv.org/abs/2609.07720
     short_label: CineCrew
     title: "Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation"
     authors: [Jiaben Chen*, Sixun Dong*, Qinhong Zhou, Raine Ma, Zhiyang Dou, Wojciech Matusik, Chuang Gan]
     venue: ECCV'26
     venue_type: conference
-    group: reasoning
+    group: agents
     tags: [reasoning_agents, generative_modeling, video_multimodal]
     stages: [agentic_reasoning]
     importance: 2
-    tldr: A multi-agent 'film crew' framework that turns long-form narratives into coherent ultra-long films, maintaining character and scene consistency across extended video generation. Joint work with UMass & MIT.
+    tldr: "A multi-agent 'film crew' for ultra-long narrative-to-film generation: agents plan shots and camera in FilmDSL (reasoning), drive off-the-shelf video generators and repair failed clips (execution), and carry persistent character, asset, and persona state across the whole film (memory) to keep it consistent. Joint work with UMass & MIT."
   - id: dgene_digital_human
     card_kind: context
     year: 2023
@@ -128,34 +128,34 @@ nodes:
     group: inference
     stages: [efficient_systems, agentic_reasoning]
     importance: 2
-    size: 2
   - id: mllm_tool
     paper_url: https://arxiv.org/abs/2401.10727
     short_label: MLLM-Tool
     tags: [video_multimodal, reasoning_agents]
-    group: reasoning
+    group: capabilities
     stages: [agentic_reasoning]
   - id: tom
     paper_url: https://arxiv.org/abs/2602.10625
     short_label: ToM Reasoning
     tags: [reasoning_agents]
-    group: reasoning
+    group: capabilities
     stages: [agentic_reasoning]
   - id: asr_agent
     paper_url: https://arxiv.org/abs/2601.21347
     short_label: Agentic Dysarthric ASR
     tags: [reasoning_agents]
-    group: reasoning
+    group: capabilities
     stages: [agentic_reasoning]
+    tldr: "Trains an LLM to act as a post-ASR correction agent for dysarthric speech: it reasons over ASR hypotheses and uses tools to recover semantic accuracy beyond WER, making correction part of the model's own capability. Released with the SAP-Hypo5 dataset."
   - id: livemcp
     paper_url: https://arxiv.org/abs/2508.15760
     short_label: LiveMCP-101
     tags: [reasoning_agents]
-    group: reasoning
+    group: agents
     stages: [agentic_reasoning]
   - id: logicif
     paper_url: https://arxiv.org/abs/2508.09125
     short_label: LogicIF
     tags: [reasoning_agents]
-    group: reasoning
+    group: capabilities
     stages: [agentic_reasoning]
