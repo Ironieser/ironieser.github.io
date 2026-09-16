@@ -23,8 +23,8 @@ seo:
     alternate_name: 董思勋
     email: ironieser@gmail.com
     academic_email: sixundong.ai@gmail.com
-    affiliation: Independent Researcher, AZ, USA
-    job_title: Researcher
+    affiliation: University of Central Florida, FL, USA
+    job_title: Ph.D. Student
     research_areas:
       - multimodal AI systems
       - computer vision
@@ -35,13 +35,13 @@ seo:
     github: Ironieser
     twitter: ironieser
   organization:
-    name: Independent Researcher, AZ, USA
-    type: Independent Researcher
-    url: https://sixundong.com
+    name: University of Central Florida
+    type: CollegeOrUniversity
+    url: https://www.ucf.edu
     address:
       addressCountry: USA
-      addressLocality: Tempe
-      addressRegion: AZ
+      addressLocality: Orlando
+      addressRegion: FL
 redirects:
   - alias: mmtok
     target: /projects/mmtok.html

@@ -3,12 +3,12 @@
     "name": "Sixun Dong",
     "aka": "董思勋",
     "title": "Multimodal Learning, VLM, LLM Agent",
-    "affiliation": "Independent Researcher, AZ, USA",
+    "affiliation": "University of Central Florida, FL, USA",
     "email": "sixundong.ai@gmail.com",
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I am an independent researcher building <em class=\"research-keywords\">multimodal AI systems</em> that perceive, generate, and act. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative and world modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and LLM-based agentic systems (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for agent harnesses: the inference, memory, and orchestration layer behind long-horizon multimodal agents. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
+      "I am a Ph.D. student at the University of Central Florida (UCF), building <em class=\"research-keywords\">multimodal AI systems</em> that perceive, generate, and act. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative and world modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and LLM-based agentic systems (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for agent harnesses: the inference, memory, and orchestration layer behind long-horizon multimodal agents. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
@@ -60,6 +60,18 @@
   },
   "news": [
     {
+      "date": "Aug 2026",
+      "icon": "🎓",
+      "content": "Started my Ph.D. at the <strong>University of Central Florida (UCF)</strong>!",
+      "category": "career"
+    },
+    {
+      "date": "Aug 2026",
+      "icon": "💼",
+      "content": "Completed Research Internship at <strong>Tencent IEG, Motus AI</strong> (Tencent Qingyun Program), working on motion understanding, motion generation, and evaluation harness.",
+      "category": "career"
+    },
+    {
       "date": "Jul 2026",
       "icon": "🎉",
       "link": "https://arxiv.org/abs/2508.09125",
@@ -72,6 +84,12 @@
       "content": "Paper on <strong>Better Call CineCrew</strong> {{link}} accepted to [[ECCV 2026]]! Our multi-agent framework for ultra-long narrative-to-film generation. Joint work with UMass &amp; MIT — thanks to all coauthors!",
       "category": "papers",
       "link": "https://arxiv.org/abs/2609.07720"
+    },
+    {
+      "date": "May 2026",
+      "icon": "💼",
+      "content": "Started Research Internship at <strong>Tencent IEG, Motus AI</strong> through the Tencent Qingyun Program (Top Young Talent Initiative), focusing on motion understanding, motion generation, and evaluation harness.",
+      "category": "career"
     },
     {
       "date": "Apr 2026",
@@ -952,6 +970,13 @@
   },
   "experience": [
     {
+      "position": "Research Intern, Tencent Qingyun Program (Top Young Talent Initiative)",
+      "company": "Tencent IEG, Motus AI",
+      "period": "May 2026 - Aug 2026",
+      "description": "Responsible for motion understanding, motion generation, and the evaluation harness.",
+      "logo": "images/tencent.png"
+    },
+    {
       "position": "GenAI Research Intern",
       "company": "Zoom Inc., GenAI Research Group",
       "period": "May 2025 - Aug 2025",
@@ -967,6 +992,12 @@
     }
   ],
   "education": [
+    {
+      "degree": "Ph.D. in Computer Science",
+      "institution": "University of Central Florida, USA",
+      "period": "2026.08 - Present",
+      "details": ""
+    },
     {
       "degree": "M.S. in Computer Science",
       "institution": "ShanghaiTech University, China",
