@@ -68,7 +68,7 @@
     {
       "date": "Aug 2026",
       "icon": "💼",
-      "content": "Completed Research Internship at <strong>Tencent IEG, Motus AI</strong> (Tencent Qingyun Program), working on motion understanding, motion generation, and evaluation harness.",
+      "content": "Completed Research Internship at <strong>Tencent IEG, Motus AI Team</strong> (Tencent Qingyun Program), working on motion understanding, motion generation, and evaluation harness.",
       "category": "career"
     },
     {
@@ -88,7 +88,7 @@
     {
       "date": "May 2026",
       "icon": "💼",
-      "content": "Started Research Internship at <strong>Tencent IEG, Motus AI</strong> through the Tencent Qingyun Program (Top Young Talent Initiative), focusing on motion understanding, motion generation, and evaluation harness.",
+      "content": "Started Research Internship at <strong>Tencent IEG, Motus AI Team</strong> through the Tencent Qingyun Program (Top Young Talent Initiative), focusing on motion understanding, motion generation, and evaluation harness.",
       "category": "career"
     },
     {
@@ -971,7 +971,7 @@
   "experience": [
     {
       "position": "Research Intern, Tencent Qingyun Program (Top Young Talent Initiative)",
-      "company": "Tencent IEG, Motus AI",
+      "company": "Tencent IEG, Motus AI Team",
       "period": "May 2026 - Aug 2026",
       "description": "Responsible for motion understanding, motion generation, and the evaluation harness.",
       "logo": "images/tencent.png"
