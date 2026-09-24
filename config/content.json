@@ -52,7 +52,7 @@
   "research": {
     "description": "I build <strong>multimodal AI systems</strong> that perceive, generate, and act. My work has evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative and world modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26, NeurIPS'26), and LLM-based agentic systems with planning, memory, and tool use (WACV'25, ICASSP'26, ECCV'26). My current focus is <strong>system-algorithm co-design for agent harnesses</strong>: the inference, memory, and orchestration layer that lets multimodal agents reason and act reliably over long horizons.",
     "stats": [
-      "10+ publications",
+      "15 publications",
       "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",
       "1 CVPR Oral presentation"
     ],
