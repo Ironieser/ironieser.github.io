@@ -62,7 +62,9 @@
     {
       "date": "Sep 2026",
       "icon": "🎉",
-      "content": "Two papers accepted to [[NeurIPS 2026]]! <strong>Rethinking Long-Video Efficiency</strong> (LoHi, first author; joint work with UCF, Axon &amp; Meta) and <strong>MARS</strong> (joint work with Duke &amp; Meta). Congratulations to Ming Yin and thanks to all coauthors!",
+      "link1": "https://openreview.net/forum?id=a9xLyT4hG4",
+      "link2": "https://openreview.net/forum?id=108F0f6Iau",
+      "content": "Paper on <strong>LoHi</strong> {{link1}} and paper on <strong>MARS</strong> {{link2}} accepted to [[NeurIPS 2026]]! LoHi rethinks long-video VLM efficiency by jointly allocating frames, pixels, and front-end latency; MARS is a linear model for RecSys with multi-resolution user memory. Joint work with UCF, Axon, Duke &amp; Meta — congratulations to Ming Yin and thanks to all coauthors!",
       "category": "papers"
     },
     {
