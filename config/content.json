@@ -56,9 +56,15 @@
       "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",
       "1 CVPR Oral presentation"
     ],
-    "max_featured_publications": 10
+    "max_featured_publications": 12
   },
   "news": [
+    {
+      "date": "Sep 2026",
+      "icon": "🎉",
+      "content": "Two papers accepted to [[NeurIPS 2026]]! <strong>Rethinking Long-Video Efficiency</strong> (LoHi, first author; joint work with UCF, Axon &amp; Meta) and <strong>MARS</strong> (joint work with Duke &amp; Meta). Congratulations to Ming Yin and thanks to all coauthors!",
+      "category": "papers"
+    },
     {
       "date": "Aug 2026",
       "icon": "🎓",
@@ -856,6 +862,65 @@
       }
     ],
     "2026": [
+      {
+        "title": "Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency",
+        "authors": [
+          "Sixun Dong",
+          "Wei Li",
+          "Andong Deng",
+          "Qi Qian",
+          "Victor Zhu",
+          "Zhengping Ji",
+          "Chen Chen"
+        ],
+        "venue": "NeurIPS'26",
+        "venue_type": "conference",
+        "image": "teaser/conference.jpg",
+        "featured": true,
+        "tldr": "Argues long-video VLM efficiency is a joint allocation over frames, per-frame resolution, and front-end decoding latency, not just token selection. Proposes LoHi, a training-free single-pass framework pairing a dense low-resolution video stream with sparse high-resolution frames (picked via codec I-frame metadata or a CLIP-based DPP), improving +10.6% over the native-resolution baseline at matched token budget and cutting decoding latency up to 7x on hour-scale clips. Joint work with UCF, Axon & Meta.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://openreview.net/forum?id=a9xLyT4hG4",
+            "icon": "fas fa-file-alt"
+          },
+          {
+            "name": "Code",
+            "url": null,
+            "icon": "fab fa-github",
+            "coming_soon": true
+          }
+        ]
+      },
+      {
+        "title": "MARS: Multi-resolution Adaptive Routing for Sequential Recommendation",
+        "authors": [
+          "Ming Yin",
+          "Sixun Dong",
+          "Yudong Liu",
+          "Wen-Yun Yang",
+          "Yunjiang Jiang",
+          "Yiran Chen"
+        ],
+        "venue": "NeurIPS'26",
+        "venue_type": "conference",
+        "image": "teaser/conference.jpg",
+        "featured": true,
+        "tldr": "Shows real user histories mix short-lived intent, medium-term interests, and long-term preferences, and proposes MARS: a multi-resolution user memory with recurrent state tracks at different half-life priors plus a sparse routing reader that selects the relevant temporal resolutions per seed, keeping fixed-size candidate scoring. Gains are largest for users with long histories. Joint work with Duke & Meta.",
+        "links": [
+          {
+            "name": "Paper",
+            "url": "https://openreview.net/forum?id=108F0f6Iau",
+            "icon": "fas fa-file-alt"
+          },
+          {
+            "name": "Code",
+            "url": null,
+            "icon": "fab fa-github",
+            "coming_soon": true
+          }
+        ]
+      },
       {
         "title": "Better Call CineCrew: Consistent Ultra-Long Narrative-to-Film Generation",
         "authors": [

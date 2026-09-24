@@ -8,7 +8,7 @@ window.BLOG_DATA = [
     "filename": "mmtok-multimodal-coverage-maximization.md",
     "title": "ICLR'26 | MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs",
     "date": "2026-02-19",
-    "formattedDate": "February 19, 2026",
+    "formattedDate": "February 18, 2026",
     "description": "My ICLR 2026 work on efficient vision token pruning for Vision-Language Models. We propose a training-free, multimodal coverage maximization approach that achieves 1.87× speedup while maintaining 95%+ performance. The key insight: leverage both vision and text tokens to select informative patches, not just one modality.",
     "tags": [
       "Vision-Language Models",
@@ -38,7 +38,7 @@ window.BLOG_DATA = [
     "filename": "timesclip-time-series-forecasting.md",
     "title": "Long-term/Short-term Time Series Forecasting: TimesCLIP — CLIP is ALL you NEED",
     "date": "2025-08-07",
-    "formattedDate": "August 7, 2025",
+    "formattedDate": "August 6, 2025",
     "description": "My first PhD work on applying vision-language contrastive learning (CLIP) to time series forecasting. As far as I know, this is the first work to bring multimodal contrastive learning to time series forecasting. The method is extremely simple but surprisingly effective.",
     "tags": [
       "Time Series",
@@ -68,7 +68,7 @@ window.BLOG_DATA = [
     "filename": "introducing-config-driven-academic-website-template.md",
     "title": "Config-Driven Academic Website Template",
     "date": "2025-06-27",
-    "formattedDate": "June 27, 2025",
+    "formattedDate": "June 26, 2025",
     "description": "A lightweight template for academic homepages powered by JSON/YAML config, GitHub Actions, and optional Cloudflare Pages.",
     "tags": [
       "Academic Website",
@@ -96,7 +96,7 @@ window.BLOG_DATA = [
     "filename": "homepage-introduction.md",
     "title": "Welcome to My Academic Homepage",
     "date": "2025-06-26",
-    "formattedDate": "June 26, 2025",
+    "formattedDate": "June 25, 2025",
     "description": "A brief introduction to my academic homepage and research journey.",
     "tags": [
       "Homepage",
@@ -122,7 +122,7 @@ window.BLOG_DATA = [
     "filename": "mamba-evolution-transformers-ssm.md",
     "title": "The Evolution from Mamba to Efficient Recurrent Transformers and SSM (S4)",
     "date": "2024-03-01",
-    "formattedDate": "March 1, 2024",
+    "formattedDate": "February 29, 2024",
     "description": "This article documents my research work on improving the modeling capabilities of long sequence tasks, primarily covering methods to reduce Transformer complexity to linear complexity, SSM-related work, and explorations in multimodal systems.",
     "tags": [
       "Deep Learning",
