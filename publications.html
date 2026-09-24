@@ -569,7 +569,7 @@
                     
           <div class="tldr-wrapper">
               <span class="tldr-badge">TL;DR</span>
-              <p class="tldr-text">Argues long-video VLM efficiency is a joint allocation over frames, per-frame resolution, and front-end decoding latency, not just token selection. Proposes LoHi, a training-free single-pass framework pairing a dense low-resolution video stream with sparse high-resolution frames (picked via codec I-frame metadata or a CLIP-based DPP), improving +10.6% over the native-resolution baseline at matched token budget and cutting decoding latency up to 7x on hour-scale clips. Joint work with UCF, Axon & Meta.</p>
+              <p class="tldr-text">Reframes long-video VLM efficiency as a joint allocation over frame count, per-frame resolution, and front-end decoding latency, not just which tokens to keep. LoHi is a training-free, single-pass framework that pairs a dense low-resolution video stream with a few high-resolution frames (picked from codec I-frames or by a query-aware CLIP DPP). It gains +10.6% over the native-resolution baseline at matched token budget and +5.2% over the strongest prior efficiency methods, while cutting front-end decoding latency by up to 7x on hour-scale videos. Joint work with UCF, Axon & Meta.</p>
           </div>
                 </div>
                 <div class="publication-item reveal has-tldr">
@@ -582,7 +582,7 @@
                     
           <div class="tldr-wrapper">
               <span class="tldr-badge">TL;DR</span>
-              <p class="tldr-text">Shows real user histories mix short-lived intent, medium-term interests, and long-term preferences, and proposes MARS: a multi-resolution user memory with recurrent state tracks at different half-life priors plus a sparse routing reader that selects the relevant temporal resolutions per seed, keeping fixed-size candidate scoring. Gains are largest for users with long histories. Joint work with Duke & Meta.</p>
+              <p class="tldr-text">Shows that summarization-based recommenders suffer from temporal aliasing: short-lived intent, medium-term interests, and long-term preferences get entangled in one compressed user memory. MARS writes the full history into gated recurrent (linear-attention-style) state tracks with different half-life priors, and a Top-k router lets each cached seed read only the relevant time scales, keeping candidate scoring fixed-size. It beats strong baselines such as VISTA on Amazon, KuaiRand-1K, and KuaiRec, with the largest gains for long-history users. Joint work with Duke & Meta.</p>
           </div>
                 </div>
                 <div class="publication-item reveal has-tldr">

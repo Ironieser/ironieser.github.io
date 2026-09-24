@@ -240,6 +240,10 @@ function buildResearchRoadmapModel(publications, roadmapConfig, personalName) {
   const allPubs = flattenPublicationsByYear(publications);
   const pubByPaperUrl = new Map();
   allPubs.forEach(pub => {
+    // Match roadmap nodes by any link URL (e.g. OpenReview before arXiv is out), preferring "Paper"
+    (pub.links || []).forEach(link => {
+      if (link && link.url && !pubByPaperUrl.has(link.url)) pubByPaperUrl.set(link.url, pub);
+    });
     const paperUrl = getPublicationPaperLink(pub);
     if (paperUrl) pubByPaperUrl.set(paperUrl, pub);
   });

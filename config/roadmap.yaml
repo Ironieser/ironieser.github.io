@@ -40,7 +40,7 @@ phases:
     icon: 🧠
     summary: Building and evaluating model capabilities, running them efficiently, and composing them into agents that plan and act over long horizons.
     stageIds: [efficient_systems, agentic_reasoning]
-    maxItems: 8
+    maxItems: 10
     columns: 2
     groups:
       - id: capabilities
@@ -132,6 +132,19 @@ nodes:
     group: inference
     stages: [efficient_systems, agentic_reasoning]
     importance: 2
+  - id: lohi
+    paper_url: https://openreview.net/forum?id=a9xLyT4hG4
+    short_label: LoHi
+    tags: [video_multimodal, efficient_ai]
+    group: inference
+    stages: [efficient_systems]
+    importance: 2
+  - id: mars
+    paper_url: https://openreview.net/forum?id=108F0f6Iau
+    short_label: MARS
+    tags: [efficient_ai]
+    group: inference
+    stages: [efficient_systems]
   - id: mllm_tool
     paper_url: https://arxiv.org/abs/2401.10727
     short_label: MLLM-Tool
