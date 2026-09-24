@@ -912,7 +912,7 @@
         ],
         "venue": "NeurIPS'26",
         "venue_type": "conference",
-        "image": "teaser/conference.jpg",
+        "image": "teaser/mars.jpg",
         "featured": true,
         "tldr": "Shows that summarization-based recommenders suffer from temporal aliasing: short-lived intent, medium-term interests, and long-term preferences get entangled in one compressed user memory. MARS writes the full history into gated recurrent (linear-attention-style) state tracks with different half-life priors, and a Top-k router lets each cached seed read only the relevant time scales, keeping candidate scoring fixed-size. It beats strong baselines such as VISTA on Amazon, KuaiRand-1K, and KuaiRec, with the largest gains for long-history users. Joint work with Duke & Meta.",
         "links": [
