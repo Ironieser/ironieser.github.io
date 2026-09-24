@@ -64,7 +64,7 @@
       "icon": "🎉",
       "link1": "https://openreview.net/forum?id=a9xLyT4hG4",
       "link2": "https://openreview.net/forum?id=108F0f6Iau",
-      "content": "Paper on <strong>LoHi</strong> {{link1}} and paper on <strong>MARS</strong> {{link2}} accepted to [[NeurIPS 2026]]! LoHi rethinks long-video VLM efficiency by jointly allocating frames, pixels, and front-end latency; MARS scales sequential recommendation to long user histories with multi-resolution recurrent memory — linear-attention-style state tracks with different decay half-lives, read by a sparse router across temporal scales. Joint work with UCF, Axon, Duke &amp; Meta — congratulations to Ming Yin and thanks to all coauthors!",
+      "content": "Paper on <strong>LoHi</strong> {{link1}} and paper on <strong>MARS</strong> {{link2}} accepted to [[NeurIPS 2026]]! LoHi jointly allocates frames, pixels, and decoding latency for long-video VLMs; MARS uses multi-resolution recurrent memory for long-history recommendation. Joint work with UCF, Axon, Duke &amp; Meta — congratulations to Ming Yin and thanks to all coauthors!",
       "category": "papers"
     },
     {
