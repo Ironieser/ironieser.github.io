@@ -882,12 +882,18 @@
         "tldr": "Argues long-video VLM efficiency is a joint allocation over frames, per-frame resolution, and front-end decoding latency, not just token selection. Proposes LoHi, a training-free single-pass framework pairing a dense low-resolution video stream with sparse high-resolution frames (picked via codec I-frame metadata or a CLIP-based DPP), improving +10.6% over the native-resolution baseline at matched token budget and cutting decoding latency up to 7x on hour-scale clips. Joint work with UCF, Axon & Meta.",
         "links": [
           {
-            "name": "Paper",
+            "name": "arXiv (Coming Soon)",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
+          },
+          {
+            "name": "OpenReview",
             "url": "https://openreview.net/forum?id=a9xLyT4hG4",
             "icon": "fas fa-file-alt"
           },
           {
-            "name": "Code",
+            "name": "Code (Coming Soon)",
             "url": null,
             "icon": "fab fa-github",
             "coming_soon": true
@@ -911,12 +917,18 @@
         "tldr": "Shows real user histories mix short-lived intent, medium-term interests, and long-term preferences, and proposes MARS: a multi-resolution user memory with recurrent state tracks at different half-life priors plus a sparse routing reader that selects the relevant temporal resolutions per seed, keeping fixed-size candidate scoring. Gains are largest for users with long histories. Joint work with Duke & Meta.",
         "links": [
           {
-            "name": "Paper",
+            "name": "arXiv (Coming Soon)",
+            "url": null,
+            "icon": "ai ai-arxiv",
+            "coming_soon": true
+          },
+          {
+            "name": "OpenReview",
             "url": "https://openreview.net/forum?id=108F0f6Iau",
             "icon": "fas fa-file-alt"
           },
           {
-            "name": "Code",
+            "name": "Code (Coming Soon)",
             "url": null,
             "icon": "fab fa-github",
             "coming_soon": true
