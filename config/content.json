@@ -8,7 +8,7 @@
     "profile_image": "images/logo.jpg",
     "cv_link": "files/CV_DongSixun.pdf",
     "bio": [
-      "I am a Ph.D. student at the <a href=\"https://ai.ucf.edu/\" class=\"link\">Institute of Artificial Intelligence (IAI)</a>, University of Central Florida, advised by <a href=\"https://www.crcv.ucf.edu/chenchen/\" class=\"link\">Dr. Chen Chen</a>. I build <em class=\"research-keywords\">multimodal AI systems</em> that perceive, generate, and act. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative and world modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and LLM-based agentic systems (ICLR'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for agent harnesses: the inference, memory, and orchestration layer behind long-horizon multimodal agents. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
+      "I am a Ph.D. student at the <a href=\"https://ai.ucf.edu/\" class=\"link\">Institute of Artificial Intelligence (IAI)</a>, University of Central Florida, advised by <a href=\"https://www.crcv.ucf.edu/chenchen/\" class=\"link\">Dr. Chen Chen</a>. I build <em class=\"research-keywords\">multimodal AI systems</em> that perceive, generate, and act. My research evolved from visual-temporal perception (CVPR Oral'22, CVPR'23) through generative and world modeling (3DV'24, NeurIPS'25) to my current focus on efficient multimodal inference and LLM-based agentic systems (ICLR'26, NeurIPS'26, ICASSP'26, ECCV'26), exploring system-algorithm co-design for agent harnesses: the inference, memory, and orchestration layer behind long-horizon multimodal agents. I completed my Master's at ShanghaiTech University under Professor <a href=\"https://scholar.google.com/citations?hl=zh-CN&user=fe-1v0MAAAAJ\" class=\"link\">Shenghua Gao</a>."
     ],
     "links": [
       {
@@ -50,7 +50,7 @@
     ]
   },
   "research": {
-    "description": "I build <strong>multimodal AI systems</strong> that perceive, generate, and act. My work has evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative and world modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26), and LLM-based agentic systems with planning, memory, and tool use (WACV'25, ICASSP'26, ECCV'26). My current focus is <strong>system-algorithm co-design for agent harnesses</strong>: the inference, memory, and orchestration layer that lets multimodal agents reason and act reliably over long horizons.",
+    "description": "I build <strong>multimodal AI systems</strong> that perceive, generate, and act. My work has evolved from visual-temporal understanding (CVPR Oral'22, CVPR'23) to generative and world modeling (3DV'24, NeurIPS'25), efficient multimodal inference (ICLR'26, NeurIPS'26), and LLM-based agentic systems with planning, memory, and tool use (WACV'25, ICASSP'26, ECCV'26). My current focus is <strong>system-algorithm co-design for agent harnesses</strong>: the inference, memory, and orchestration layer that lets multimodal agents reason and act reliably over long horizons.",
     "stats": [
       "10+ publications",
       "10 top-tier venues (CVPR, NeurIPS, ICLR, ECCV, COLM, IJCAI, AAAI, WACV, ICASSP, 3DV)",

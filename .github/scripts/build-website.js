@@ -416,7 +416,7 @@ function generateJsonLd(config) {
   
   // Collect all publications for Article schema
   const allPublications = [];
-  Object.keys(publications).forEach(year => {
+  Object.keys(publications).sort().reverse().forEach(year => {
     if (year !== 'survey') {
       publications[year].forEach(pub => {
         if (pub.venue_type !== 'preprint' && pub.venue_type !== 'under-review') {
@@ -432,7 +432,7 @@ function generateJsonLd(config) {
               "@type": "Organization",
               "name": pub.venue
             },
-            "url": pub.links?.find(link => link.name === "Paper")?.url || null
+            "url": pub.links?.find(link => link.name === "Paper")?.url || pub.links?.find(link => link.url)?.url || null
           });
         }
       });
