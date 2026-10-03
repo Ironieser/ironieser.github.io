@@ -7,7 +7,7 @@
     <meta name="description" content="LoHi (NeurIPS 2026): a training-free, single-pass framework that pairs dense low-resolution video with sparse high-resolution images, improving long-video VLM accuracy by +10.6% at matched token budget and cutting front-end decoding latency by up to 7x.">
     <meta property="og:title" content="LoHi: Rethinking Long-Video Efficiency">
     <meta property="og:description" content="Joint allocation over frames, pixels, and front-end latency for long-video VLMs.">
-    <meta property="og:image" content="https://sixundong.com/images/blog/lohi/lessons.jpg">
+    <meta property="og:image" content="https://sixundong.com/images/blog/lohi/hero_bg.jpg">
     <link rel="canonical" href="https://sixundong.com/projects/lohi">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -52,7 +52,7 @@
         /* Hero Section */
         .hero {
             min-height: 100vh;
-            background: var(--gradient-primary);
+            background: #0c1634;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -69,8 +69,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('../images/blog/lohi/lessons.jpg') center/cover;
-            opacity: 0.1;
+            background:
+                radial-gradient(ellipse at 50% 46%, rgba(8, 16, 40, 0.55) 0%, rgba(8, 16, 40, 0.15) 55%, rgba(8, 16, 40, 0) 80%),
+                url('../images/blog/lohi/hero_bg.jpg') center/cover;
+            opacity: 1;
             z-index: 1;
         }
 
