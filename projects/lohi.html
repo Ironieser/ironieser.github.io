@@ -281,10 +281,11 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 @media (max-width:900px){.hvrow{grid-template-columns:1fr}.hvstat{flex-direction:row;gap:14px;flex-wrap:wrap}.blogcard{grid-template-columns:1fr}.hvkey .dim{margin-left:0}}
 @media (prefers-reduced-motion:reduce){.hvbars i.grow{animation:none}}
 
-.lchips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px auto 4px;max-width:900px}
+.lchips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:22px auto 4px;max-width:900px}
 .lchips a{display:flex;align-items:center;gap:9px;text-decoration:none;color:#e8edf3;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 14px 7px 7px;font-size:14px}
 .lchips a:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.45)}
-.lchips b{background:#edf1f5;color:#1b2230;border-radius:999px;padding:3px 9px;font-size:12.5px}
+.lchips span{text-align:left}
+.lchips b{flex:none;background:#edf1f5;color:#1b2230;border-radius:999px;padding:3px 9px;font-size:12.5px}
 .nav .quick{display:none;gap:18px;margin-left:auto}
 .nav .quick a{color:var(--rebate);text-decoration:none;font-size:14px;font-weight:500}
 .nav .quick a:hover{color:var(--film)}
@@ -340,11 +341,10 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <div class="venue">NeurIPS 2026</div>
   <h1><span class="l">Lo</span><span class="h">Hi</span></h1>
   <p class="title">Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency</p>
-  <p class="tagline">Shrink the frames, not the timeline.</p>
   <nav class="lchips" aria-label="Three lessons">
-    <a href="#l1-head"><b>L1</b><span>Dense low-res beats sparse native frames</span></a>
-    <a href="#l2-head"><b>L2</b><span>Some tasks still need high resolution</span></a>
-    <a href="#l3-head"><b>L3</b><span>On long videos, decoding dominates latency</span></a>
+    <a href="#l1-head"><b>L1</b><span>Your model needs more frames, not more pixels</span></a>
+    <a href="#l2-head"><b>L2</b><span>Low-res frames answer most questions; a few need detail</span></a>
+    <a href="#l3-head"><b>L3</b><span>Don’t ignore the front-end: decoding can outlast the model</span></a>
   </nav>
   <p class="authors">
     <span>Sixun Dong<sup>1</sup></span> &nbsp;·&nbsp; <span>Wei Li<sup>1</sup></span> &nbsp;·&nbsp; <span>Andong Deng<sup>1</sup></span> &nbsp;·&nbsp;
