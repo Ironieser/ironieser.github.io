@@ -257,9 +257,11 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 .hero .wrap{padding:70px 20px 48px}
 .hv{max-width:980px;margin:40px auto 0;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:18px 18px 14px}
 .hvrow{display:grid;grid-template-columns:200px 1fr 150px;gap:16px;align-items:center;margin-bottom:12px}
-.hvlab b{display:block;font-size:15px;color:#fff} .hvlab b.lh{color:#ff7a6e}
+.hvlab b{display:block;font-size:15px;color:#fff} .hvlab b.lh{color:#ff7a6e} .hvlab b.lb{color:#8ec1e6}
+.hvgroup{font-size:12.5px;color:#aeb8c7;margin:4px 0 8px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.1)}
+.hvgroup:not(:first-child){margin-top:14px}
 .hvlab span{display:block;font-size:12.5px;color:#aeb8c7;line-height:1.4;margin-top:2px}
-.hvstrip{position:relative;height:66px;background:#11172a;border-radius:4px;padding:9px 6px}
+.hvstrip{position:relative;height:52px;background:#11172a;border-radius:4px;padding:9px 6px}
 .hvstrip::before,.hvstrip::after{content:"";position:absolute;left:6px;right:6px;height:4px;background:repeating-linear-gradient(90deg,#3a4560 0 6px,transparent 6px 12px)}
 .hvstrip::before{top:2px}.hvstrip::after{bottom:2px}
 .hvbars{position:absolute;left:6px;right:6px;top:9px;bottom:9px;display:flex;align-items:flex-end;gap:1px}
@@ -329,18 +331,30 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   </div>
   <p class="code-note">We are building <b>longvideo-eval</b>, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, with decoding, vision encoding and prefill all measured. LoHi will be released as part of it.</p>
 
-  <div class="hv" aria-label="Comparison of a keyframe-selection pipeline and LoHi on one 60-minute video">
+  <div class="hv" aria-label="Four ways to spend the same token budget on one 60-minute video">
+    <div class="hvgroup">Prior work: keep native resolution, decide what to throw away</div>
     <div class="hvrow">
-      <div class="hvlab"><b>Keyframe selection</b><span>decode 256 frames, keep 16 at native resolution</span></div>
-      <div class="hvstrip"><div class="hvbars" id="hvA"></div></div>
+      <div class="hvlab"><b>Keyframe selection</b><span>decode 256 frames, keep 16</span></div>
+      <div class="hvstrip"><div class="hvbars" data-mode="kf"></div></div>
       <div class="hvstat"><span><b>256</b> decoded</span><span><b>6.0 s</b> to first token</span><span><b>60.8%</b> VideoMME</span></div>
     </div>
     <div class="hvrow">
-      <div class="hvlab"><b class="lh">LoHi</b><span>decode 128 frames, send all at ¼ resolution plus 8 at native</span></div>
-      <div class="hvstrip"><div class="hvbars" id="hvB"></div></div>
+      <div class="hvlab"><b>Token pruning</b><span>encode 256 native frames, drop 94% of tokens</span></div>
+      <div class="hvstrip"><div class="hvbars" data-mode="prune"></div></div>
+      <div class="hvstat"><span><b>256</b> decoded</span><span><b>9.0 s</b> to first token</span><span><b>59.3%</b> VideoMME</span></div>
+    </div>
+    <div class="hvgroup">Our recipe: lower the resolution, keep the whole timeline</div>
+    <div class="hvrow">
+      <div class="hvlab"><b class="lb">Low-Res-Base</b><span>256 frames at ¼ resolution, no selection at all</span></div>
+      <div class="hvstrip"><div class="hvbars" data-mode="low"></div></div>
+      <div class="hvstat"><span><b>256</b> decoded</span><span><b>6.0 s</b> to first token</span><span><b>64.4%</b> VideoMME</span></div>
+    </div>
+    <div class="hvrow">
+      <div class="hvlab"><b class="lh">LoHi</b><span>128 frames at ¼ resolution, plus 8 of them at native</span></div>
+      <div class="hvstrip"><div class="hvbars" data-mode="lohi"></div></div>
       <div class="hvstat"><span><b>128</b> decoded</span><span><b>3.9 s</b> to first token</span><span><b>66.8%</b> VideoMME</span></div>
     </div>
-    <div class="hvkey"><span><i style="background:#edf1f5"></i>native-resolution frame</span><span><i style="background:#7fb3dc"></i>low-resolution frame</span><span><i style="background:#ef5a4c"></i>high-resolution pick</span><span><i style="background:#3d4759"></i>decoded, then discarded</span><span class="dim">one 60-min video, ~5,760 visual tokens, Qwen3-VL-4B</span></div>
+    <div class="hvkey"><span><i style="background:#edf1f5"></i>native-resolution frame</span><span><i style="background:repeating-linear-gradient(180deg,#edf1f5 0 2px,#2b3448 2px 6px)"></i>native frame, mostly pruned</span><span><i style="background:#7fb3dc"></i>low-resolution frame</span><span><i style="background:#ef5a4c"></i>high-resolution pick</span><span><i style="background:#3d4759"></i>decoded, then discarded</span><span class="dim">bar height = resolution · one 60-min video · ~5,760 visual tokens · Qwen3-VL-4B</span></div>
   </div>
 </div></header>
 
@@ -541,16 +555,20 @@ const $=s=>document.querySelector(s);
 const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e};
 
 
-/* ---------------- hero: two labeled strips ---------------- */
-(function(){const A=$('#hvA'),B=$('#hvB');if(!A)return;const n=128;
+/* ---------------- hero: four ways to spend one budget (each slot = 2 frames) ---------------- */
+(function(){const n=128;
   const kf=[3,10,15,23,29,37,45,50,61,68,75,85,95,101,113,123];
-  const hi=[8,22,35,51,75,88,103,119];
-  for(let i=0;i<n;i++){const a=document.createElement('i');
-    if(kf.includes(i)){a.style.height='100%';a.style.background='#edf1f5'}else{a.style.height='100%';a.style.background='#2b3448'}
-    A.appendChild(a);
-    const b=document.createElement('i');
-    if(hi.includes(i)){b.style.height='100%';b.style.background='#ef5a4c';b.className='grow';b.style.animationDelay=(.25+hi.indexOf(i)*.06)+'s'}else{b.style.height='30%';b.style.background='#7fb3dc'}
-    B.appendChild(b)}})();
+  const hi=[8,22,36,52,74,88,104,118];
+  const paint=(i,m)=>{
+    if(m==='kf')return kf.includes(i)?['100%','#edf1f5']:['100%','#2b3448'];
+    if(m==='prune')return ['100%','repeating-linear-gradient(180deg,#edf1f5 0 2px,#2b3448 2px 9px)'];
+    if(m==='low')return ['28%','#7fb3dc'];
+    if(i%2)return null;
+    return hi.includes(i)?['100%','#ef5a4c','hi']:['28%','#7fb3dc'];};
+  document.querySelectorAll('.hvbars[data-mode]').forEach(box=>{const m=box.dataset.mode;
+    for(let i=0;i<n;i++){const e=document.createElement('i');const v=paint(i,m);
+      if(v){e.style.height=v[0];e.style.background=v[1];if(v[2]){e.className='grow';e.style.animationDelay=(.3+hi.indexOf(i)*.06)+'s'}}
+      box.appendChild(e)}});})();
 
 /* ---------------- L1: five ways to spend a budget ---------------- */
 const SLOTS=256;
