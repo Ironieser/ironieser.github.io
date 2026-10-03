@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LoHi: Rethinking Long-Video Efficiency — Frames, Pixels, and Front-End Latency</title>
-<meta name="description" content="LoHi (NeurIPS 2026): fewer frames, less latency, higher accuracy. A training-free, single-pass framework pairing dense low-resolution video with sparse high-resolution images for long-video VLMs.">
+<meta name="description" content="LoHi (NeurIPS 2026): half the decoding, lower latency, higher accuracy. A training-free, single-pass framework pairing dense low-resolution video with sparse high-resolution images for long-video VLMs.">
 <meta property="og:title" content="LoHi: Rethinking Long-Video Efficiency">
-<meta property="og:description" content="Fewer decoded frames, lower latency, higher accuracy: joint allocation over frames, pixels, and front-end latency for long-video VLMs.">
+<meta property="og:description" content="Half the decoding, lower latency, higher accuracy: joint allocation over frames, pixels, and front-end latency for long-video VLMs.">
 <meta property="og:image" content="https://sixundong.com/images/blog/lohi/hero_bg.jpg">
 <link rel="canonical" href="https://sixundong.com/projects/lohi">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -315,7 +315,7 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <div class="venue">NeurIPS 2026</div>
   <h1><span class="l">Lo</span><span class="h">Hi</span></h1>
   <p class="title">Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency</p>
-  <p class="tagline">Fewer frames. Less latency. Higher accuracy.</p>
+  <p class="tagline">Trade pixels for frames. Decode half as many. Answer faster and better.</p>
   <p class="authors">
     <span>Sixun Dong<sup>1</sup></span> &nbsp;·&nbsp; <span>Wei Li<sup>1</sup></span> &nbsp;·&nbsp; <span>Andong Deng<sup>1</sup></span> &nbsp;·&nbsp;
     <span>Qi Qian<sup>2</sup></span> &nbsp;·&nbsp; <span>Victor Zhu<sup>3</sup></span> &nbsp;·&nbsp; <span>Zhengping Ji<sup>3</sup></span> &nbsp;·&nbsp; <span>Chen Chen<sup>1✉</sup></span>
@@ -588,7 +588,7 @@ const MODES=[
   desc:'<b>The new recipe (L1).</b> Spend the same tokens on 256 frames at ¼ resolution. No selection logic at all, and it already beats every keyframe and pruning baseline on average.',
   bars:i=>({h:.25,c:LO})},
  {id:'lohi',label:'LoHi-SemDiv',acc:66.81,avg:62.36,ttft:3906,dec:'128',sent:'128 @ 0.25× + 8 @ 1.0×',
-  desc:'<b>LoHi.</b> Decode only 128 frames once. All 128 go to the video pathway at ¼ resolution, and 8 of them, picked by SemDiv, also go to the image pathway at native resolution. Fewer frames, lowest latency, highest accuracy.',
+  desc:'<b>LoHi.</b> Decode only 128 frames once. All 128 go to the video pathway at ¼ resolution, and 8 of them, picked by SemDiv, also go to the image pathway at native resolution. Half the decoding, the lowest latency, the highest accuracy.',
   bars:i=> i%2? null : ([16,44,70,102,150,176,206,238].includes(i)?{h:1,c:HI}:{h:.25,c:LO})}
 ];
 const barsBox=$('#l1bars'), slots=[];

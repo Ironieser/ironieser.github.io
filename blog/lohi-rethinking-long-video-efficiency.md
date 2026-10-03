@@ -26,7 +26,7 @@ We revisit long-video VLM efficiency as a **joint allocation problem** over fram
 
 **Results:** On VideoMME / MLVU / LVBench with Qwen3-VL-4B, LoHi improves over the default 16-frame native-resolution recipe by **+10.6%** on average at the same token budget, and over the strongest prior efficiency method by **+5.2%**, while decoding only **128 frames instead of 256** and reducing front-end decoding latency by up to **7×** on hour-scale clips.
 
-> **In one sentence:** Fewer frames, less latency, higher accuracy — just stop insisting on native resolution (・ω・)
+> **In one sentence:** Trade pixels for frames — half the decoding, lower latency, higher accuracy. Just stop insisting on native resolution (・ω・)
 
 ---
 
