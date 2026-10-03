@@ -17,239 +17,273 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#0f172a; --ink-2:#334155; --muted:#64748b; --line:#e2e8f0; --bg:#ffffff; --bg-2:#f6f8fb;
-  --lo:#2f6fbf; --lo-soft:#e8f0fb; --hi:#e8742c; --hi-soft:#fdf0e7;
-  --panel:#0d1526; --panel-2:#131d33; --panel-line:#24314d; --fog:#94a3b8; --paper:#e2e8f0;
-  --s-key:#2a78d6; --s-lohi:#eb6834; --s-prune:#1baf7a; --s-ref:#8a94a6;
+  /* palette: an editor's lightbox and a grease pencil */
+  --lightbox:#edf1f5; --lightbox-2:#e1e7ee; --paper:#ffffff;
+  --film:#1b2230;      /* ink, native-res frames, film base */
+  --rebate:#5a6476;    /* secondary text */
+  --lo:#2e6e9e;        /* cyanotype blue: Lo-V, low-res frames */
+  --lo-on-film:#7fb3dc;
+  --lo-wash:#e3edf6;
+  --hi:#d2382c;        /* grease-pencil red: Hi-I only (LoHi's picks) */
+  --hi-on-film:#ef5a4c;
+  --hi-wash:#fbeae8;
+  --cost:#c27c0e;      /* amber: latency, decoding work, degradation */
+  --cost-wash:#f6e7c8;
+  --waste:#b9c2ce;     /* decoded, then thrown away */
+  --good:#1f8a5b;
+  --line:#d6dde6; --line-2:#c5ced9;
+  --s-key:#4a3aa7; --s-prune:#1baf7a; --s-lohi:#d2382c; --s-ref:#8a94a6;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --r:14px; --shadow:0 1px 2px rgba(15,23,42,.06),0 8px 24px rgba(15,23,42,.06);
+  --r:12px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);color:var(--film);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:var(--lo)}
 img{max-width:100%;display:block}
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 .mono{font-family:var(--mono)}
 b,strong{font-weight:650}
+:focus-visible{outline:2px solid var(--lo);outline-offset:2px}
 
 /* nav */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
-.brand{font-weight:800;font-size:18px;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
+.brand{font-weight:800;font-size:18px;text-decoration:none;color:var(--film);letter-spacing:-.02em}
 .brand .l{color:var(--lo)} .brand .h{color:var(--hi)}
 .nav .links{display:flex;gap:18px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .nav .links::-webkit-scrollbar{display:none}
-.nav .links a{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
-.nav .links a:hover{color:var(--ink)}
+.nav .links a{color:var(--rebate);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
+.nav .links a:hover{color:var(--film)}
 
-/* hero */
+/* hero (dark: it is the projected film) */
 .hero{position:relative;color:#fff;background:#0c1634;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(8,16,40,.72) 0%,rgba(8,16,40,.35) 55%,rgba(8,16,40,.1) 85%),url('../images/blog/lohi/hero_bg.jpg') center/cover}
 .hero .wrap{position:relative;padding:84px 20px 64px;text-align:center}
-.venue{display:inline-block;font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#ffd2b0;border:1px solid rgba(255,210,176,.45);padding:6px 12px;border-radius:999px;margin-bottom:22px;background:rgba(12,22,52,.5)}
+.venue{display:inline-block;font-size:14px;font-weight:600;color:#fff;border:1px solid rgba(255,255,255,.4);padding:5px 14px;border-radius:999px;margin-bottom:22px;background:rgba(12,22,52,.5)}
 .hero h1{font-size:clamp(56px,10vw,96px);font-weight:800;letter-spacing:-.04em;line-height:1}
-.hero h1 .l{color:#9ec5ff} .hero h1 .h{color:#ffb27a}
+.hero h1 .l{color:#8ec1e6} .hero h1 .h{color:#ff7a6e}
+.hero .tagline{font-size:clamp(17px,2vw,20px);font-weight:700;color:#fff;margin-top:14px;letter-spacing:-.01em}
 .hero .title{font-size:clamp(19px,2.6vw,27px);font-weight:500;max-width:860px;margin:18px auto 0;line-height:1.35;color:#f1f5f9}
 .authors{margin:24px auto 0;max-width:860px;font-size:16px;color:#e2e8f0}
 .authors span{white-space:nowrap}
 .authors sup{font-size:.7em;color:#cbd5e1}
 .affil{font-size:14px;color:#cbd5e1;margin-top:6px}
 .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35);transition:.2s}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.35)}
 .btn:hover{background:rgba(255,255,255,.22)}
 .btn.primary{background:#fff;color:#0c1634;border-color:#fff}
 .btn.off{opacity:.55;pointer-events:none}
-.btn .soon{font-size:10px;letter-spacing:.08em;text-transform:uppercase;background:rgba(255,255,255,.22);padding:2px 7px;border-radius:999px}
+.btn .soon{font-size:11px;background:rgba(255,255,255,.22);padding:2px 8px;border-radius:999px}
 .code-note{font-size:14px;color:#cbd5e1;margin:14px auto 0;max-width:640px}
 .code-note b{color:#fff}
 
-/* tldr band */
-.tldr{background:var(--bg-2);border-bottom:1px solid var(--line)}
+/* summary band */
+.tldr{background:var(--lightbox);border-bottom:1px solid var(--line)}
 .tldr .wrap{padding:44px 20px}
 .tldr h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;text-align:center;line-height:1.25}
-.tldr h2 em{font-style:normal;color:var(--hi)}
-.tldr p.lead{max-width:780px;margin:12px auto 0;text-align:center;color:var(--ink-2);font-size:17px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;box-shadow:var(--shadow)}
-.stat .k{font-size:12.5px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.tldr p.lead{max-width:760px;margin:12px auto 0;text-align:center;color:var(--rebate);font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px}
+.stat .k{font-size:13.5px;color:var(--rebate);font-weight:600}
 .stat .v{font-size:34px;font-weight:800;letter-spacing:-.03em;margin-top:4px;line-height:1.1}
-.stat .v small{font-size:16px;font-weight:600;color:var(--muted);letter-spacing:0}
-.stat .d{font-size:13.5px;color:var(--ink-2);margin-top:6px;line-height:1.45}
+.stat .v small{font-size:16px;font-weight:600;color:var(--rebate);letter-spacing:0}
+.stat .d{font-size:13.5px;color:var(--rebate);margin-top:6px;line-height:1.45}
 
 /* sections */
 section.sec{padding:72px 0;border-bottom:1px solid var(--line)}
-section.sec.alt{background:var(--bg-2)}
-.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--hi);font-weight:600}
-.sec h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;line-height:1.2;margin-top:6px}
-.sec .intro{color:var(--ink-2);font-size:17px;max-width:800px;margin-top:12px}
+section.sec.alt{background:#f5f7fa}
+.eyebrow{font-size:14px;color:var(--rebate);font-weight:600}
+.sec h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;line-height:1.2;margin-top:4px}
+.sec .intro{color:var(--rebate);font-size:17px;max-width:760px;margin-top:12px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:22px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:var(--shadow)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:22px}
 .card h3{font-size:18px;letter-spacing:-.01em}
-.card p{color:var(--ink-2);font-size:15px;margin-top:8px}
-.takeaway{border-left:4px solid var(--hi);background:var(--hi-soft);padding:14px 18px;border-radius:0 10px 10px 0;margin-top:18px;font-size:15.5px;color:var(--ink)}
-.takeaway b{color:#b4531b}
-.note{font-size:13.5px;color:var(--muted);margin-top:10px}
+.card p{color:var(--rebate);font-size:15px;margin-top:8px}
+.takeaway{border-left:3px solid var(--film);background:var(--lightbox);padding:14px 18px;border-radius:0 8px 8px 0;margin-top:18px;font-size:15.5px;color:var(--film);max-width:880px}
+.note{font-size:13.5px;color:var(--rebate);margin-top:10px;max-width:880px}
 figure{margin-top:22px}
-figure img{border-radius:12px;border:1px solid var(--line);background:#fff}
-figcaption{font-size:14px;color:var(--muted);margin-top:10px;line-height:1.55}
+figure img{border-radius:10px;border:1px solid var(--line);background:#fff}
+figcaption{font-size:14px;color:var(--rebate);margin-top:10px;line-height:1.55;max-width:880px}
 
 /* lesson header */
 .lesson{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:start;margin-top:56px}
 .lesson:first-of-type{margin-top:34px}
-.lesson .num{font-family:var(--mono);font-weight:600;font-size:15px;color:#fff;background:var(--ink);border-radius:10px;padding:8px 11px;line-height:1}
+.lesson .num{font-weight:700;font-size:15px;color:#fff;background:var(--film);border-radius:8px;padding:7px 10px;line-height:1}
 .lesson h3{font-size:24px;letter-spacing:-.02em;line-height:1.25}
-.lesson p{color:var(--ink-2);margin-top:6px;font-size:16px;max-width:820px}
+.lesson p{color:var(--rebate);margin-top:6px;font-size:16px;max-width:760px}
 
-/* dark lab panels (interactives) */
-.lab{margin-top:22px;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--panel-line);border-radius:16px;color:var(--paper);overflow:hidden}
-.lab .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 18px;border-bottom:1px solid var(--panel-line);font-family:var(--mono);font-size:12.5px}
-.lab .lhead .ttl{color:#fff;font-weight:600}
-.lab .lhead .leg{margin-left:auto;display:flex;gap:14px;color:var(--fog);flex-wrap:wrap}
-.chip{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+/* the lightbox: every interactive lives on it */
+.lab{margin-top:22px;background:var(--lightbox);border:1px solid var(--line-2);border-radius:14px;color:var(--film);overflow:hidden;box-shadow:inset 0 0 0 6px rgba(255,255,255,.55)}
+.lab .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 18px;border-bottom:1px solid var(--line-2);font-size:13px}
+.lab .lhead .ttl{font-weight:650;font-size:14.5px}
+.lab .lhead .leg{margin-left:auto;display:flex;gap:14px;color:var(--rebate);flex-wrap:wrap}
+.chip{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
 .lab .lbody{padding:18px}
 .modes{display:flex;flex-wrap:wrap;gap:8px}
-.mode{font-family:var(--mono);font-size:12.5px;color:var(--paper);background:transparent;border:1px solid var(--panel-line);border-radius:9px;padding:8px 12px;cursor:pointer;transition:.15s}
-.mode:hover{border-color:#3b4b6e;background:rgba(255,255,255,.04)}
-.mode[aria-pressed="true"]{border-color:#ffb27a;background:rgba(232,116,44,.14);color:#fff}
-.mode .acc{color:var(--fog);margin-left:6px}
-.mode[aria-pressed="true"] .acc{color:#ffb27a}
-.lfoot{display:flex;flex-wrap:wrap;gap:8px 24px;padding:14px 18px;border-top:1px solid var(--panel-line);font-family:var(--mono);font-size:12.5px;color:var(--fog)}
-.lfoot b{color:#fff;font-weight:600}
-.lfoot .hot{color:#ff9b9b} .lfoot .ok{color:#7ee2b8}
+.mode{font-family:var(--sans);font-size:13.5px;font-weight:500;color:var(--film);background:var(--paper);border:1px solid var(--line-2);border-radius:8px;padding:8px 12px;cursor:pointer}
+.mode:hover{border-color:var(--film)}
+.mode[aria-pressed="true"]{background:var(--film);border-color:var(--film);color:#fff}
+.mode .acc{color:var(--rebate);margin-left:6px;font-variant-numeric:tabular-nums}
+.mode[aria-pressed="true"] .acc{color:#c9d3e0}
+.lfoot{display:flex;flex-wrap:wrap;gap:8px 24px;padding:14px 18px;border-top:1px solid var(--line-2);font-size:13.5px;color:var(--rebate);background:rgba(255,255,255,.5)}
+.lfoot b{color:var(--film);font-weight:650;font-variant-numeric:tabular-nums}
+.lfoot .hot{color:var(--cost);font-weight:600} .lfoot .ok{color:var(--hi);font-weight:650}
 .lfoot .push{margin-left:auto}
-.desc{font-size:14.5px;color:#cbd5e1;margin-top:14px;line-height:1.6;min-height:46px}
-.desc b{color:#fff}
+.desc{font-size:15px;color:var(--film);margin-top:14px;line-height:1.6;min-height:48px;max-width:860px}
 
-/* film strip */
-.film{position:relative;height:150px;margin-top:16px;border-bottom:1px solid var(--panel-line)}
-.film .bars{position:absolute;inset:0;display:flex;align-items:flex-end;gap:1px}
+/* L1: the film strip, with perforations */
+.film{position:relative;height:178px;margin-top:16px;background:var(--film);border-radius:6px;padding:20px 10px}
+.film::before,.film::after{content:"";position:absolute;left:8px;right:8px;height:7px;background:repeating-linear-gradient(90deg,var(--lightbox) 0 9px,transparent 9px 18px);border-radius:2px;opacity:.9}
+.film::before{top:7px} .film::after{bottom:7px}
+.film .bars{position:absolute;left:10px;right:10px;top:20px;bottom:20px;display:flex;align-items:flex-end;gap:1px}
 .film .slot{flex:1 1 0;min-width:0;position:relative;height:100%}
-.film .bar{position:absolute;left:0;right:0;bottom:0;border-radius:2px 2px 0 0;transition:height .35s ease,opacity .35s ease,background .35s ease}
-.timeline{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--fog);margin-top:6px}
+.film .bar{position:absolute;left:0;right:0;bottom:0;border-radius:1px 1px 0 0;transition:height .3s ease,opacity .3s ease}
+.timeline{display:flex;justify-content:space-between;font-size:12px;color:var(--rebate);margin-top:6px;font-variant-numeric:tabular-nums}
 .meters{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px;margin-top:16px}
-.meter .mk{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--fog)}
-.meter .mk b{color:#fff}
-.meter .track{height:8px;border-radius:99px;background:#1c2742;margin-top:6px;overflow:hidden}
-.meter .fill{height:100%;border-radius:99px;transition:width .4s ease}
+.meter .mk{display:flex;justify-content:space-between;font-size:13px;color:var(--rebate)}
+.meter .mk b{color:var(--film);font-variant-numeric:tabular-nums}
+.meter .track{height:8px;border-radius:99px;background:var(--lightbox-2);margin-top:6px;overflow:hidden}
+.meter .fill{height:100%;border-radius:99px;transition:width .35s ease}
 
-/* L2 lab */
+/* L2: the resolution dial */
+.dial{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center}
+.dial label{font-size:13.5px;color:var(--rebate)}
+.dial input[type=range]{width:100%;accent-color:var(--film);height:28px}
+.dial .ticks{grid-column:2;display:flex;justify-content:space-between;font-size:12px;color:var(--rebate);font-variant-numeric:tabular-nums}
 .l2grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
-.canvasbox{background:#0a1020;border:1px solid var(--panel-line);border-radius:12px;padding:10px}
-.canvasbox canvas{width:100%;height:auto;display:block;border-radius:8px;image-rendering:pixelated}
-.canvasbox .cap{font-family:var(--mono);font-size:11.5px;color:var(--fog);margin-top:8px;display:flex;justify-content:space-between}
-.tasks .row{display:grid;grid-template-columns:150px 1fr 54px;gap:10px;align-items:center;margin-bottom:12px;font-size:13.5px}
-.tasks .name{color:var(--paper)} .tasks .name small{display:block;color:var(--fog);font-size:11px;font-family:var(--mono)}
-.tasks .track{position:relative;height:14px;background:#1c2742;border-radius:4px}
-.tasks .fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;transition:width .4s ease,background .3s}
-.tasks .ref{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff;opacity:.75}
-.tasks .val{font-family:var(--mono);font-size:13px;color:#fff;text-align:right}
-.tasks .legend{font-family:var(--mono);font-size:11.5px;color:var(--fog);margin-bottom:12px}
+.canvasbox{background:var(--film);border-radius:8px;padding:10px}
+.canvasbox canvas{width:100%;height:auto;display:block;border-radius:4px;image-rendering:pixelated}
+.canvasbox .cap{font-size:12px;color:#aeb8c7;margin-top:8px;display:flex;justify-content:space-between;gap:10px}
+.hitoggle{display:flex;align-items:center;gap:8px;font-size:13px;color:#e8edf3;margin-top:10px;cursor:pointer}
+.hitoggle input{accent-color:var(--hi-on-film);width:16px;height:16px}
+.budget{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.budget .bk{background:var(--paper);border:1px solid var(--line-2);border-radius:8px;padding:10px 12px;font-size:12.5px;color:var(--rebate)}
+.budget .bk b{display:block;color:var(--film);font-size:26px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+.checks{list-style:none;margin-top:14px}
+.checks li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line-2);font-size:14.5px}
+.checks li .ic{font-weight:800;text-align:center}
+.checks li .st{font-size:12.5px;font-weight:600}
+.checks li small{display:block;color:var(--rebate);font-size:12px}
+.checks li.ok .ic,.checks li.ok .st{color:var(--good)}
+.checks li.mid .ic,.checks li.mid .st{color:var(--cost)}
+.checks li.no .ic,.checks li.no .st{color:#8a94a6}
+.checks li.no > span:nth-child(2){color:#8a94a6;text-decoration:line-through;text-decoration-color:#b9c2ce}
+.evidence{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
+.ev{background:var(--paper);border:1px solid var(--line-2);border-radius:10px;padding:12px 14px}
+.ev .evk{font-size:12.5px;color:var(--rebate)}
+.ev .evv{font-size:15px;margin-top:4px;font-variant-numeric:tabular-nums}
+.ev .evv .neg{color:var(--cost)}
+.ev .evd{font-size:13px;color:var(--rebate);margin-top:4px}
 
-/* L3 lab */
+/* L3: GoP chain */
 .gop{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:4px;margin-top:14px}
-.fr{aspect-ratio:3/4;border-radius:5px;border:1px solid #2b3a5c;background:#16213b;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--fog);cursor:pointer;transition:.15s;user-select:none}
-.fr.i{background:#21345e;color:#cfe0ff;border-color:#4b6aa8;font-weight:600}
-.fr:hover{border-color:#ffb27a}
-.fr.dec{background:rgba(232,116,44,.28);border-color:#e8742c;color:#fff}
-.fr.tgt{background:#e8742c;border-color:#ffb27a;color:#fff;font-weight:700}
-.l3cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:6px}
-.l3cols h4{font-size:14px;color:#fff;font-weight:600}
-.l3cols p{font-size:13.5px;color:#cbd5e1;margin-top:4px}
-.counter{font-family:var(--mono);font-size:13px;color:var(--fog);margin-top:10px}
-.counter b{color:#ffb27a}
-.durbars .row{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;margin-bottom:10px;font-family:var(--mono);font-size:12px;color:var(--fog)}
+.fr{aspect-ratio:3/4;border-radius:4px;border:1.5px solid var(--line-2);background:var(--paper);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--rebate);cursor:pointer;user-select:none;transition:background .15s,border-color .15s}
+.fr.i{background:var(--film);color:#fff;border-color:var(--film)}
+.fr:hover{border-color:var(--film)}
+.fr.dec{background:var(--cost-wash);border-color:var(--cost);color:#7a4d06}
+.fr.i.dec{background:#7a4d06;border-color:#7a4d06;color:#fff}
+.fr.tgt{background:var(--hi);border-color:var(--hi);color:#fff}
+.l3cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;margin-top:6px}
+.l3cols h4{font-size:15px;font-weight:650}
+.l3cols p{font-size:14px;color:var(--rebate);margin-top:4px}
+.counter{font-size:14px;color:var(--rebate);margin-top:10px;font-variant-numeric:tabular-nums}
+.counter b{color:var(--film)}
+.durbars .row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;margin-bottom:10px;font-size:13px;color:var(--rebate)}
 .durbars .pair{display:flex;flex-direction:column;gap:3px}
-.durbars .b{height:13px;border-radius:0 4px 4px 0;position:relative;transition:width .4s ease;min-width:2px}
-.durbars .b span{position:absolute;left:calc(100% + 6px);top:-2px;font-size:11.5px;color:#fff;white-space:nowrap}
+.durbars .b{height:14px;border-radius:0 4px 4px 0;position:relative;transition:width .35s ease;min-width:2px}
+.durbars .b span{position:absolute;left:calc(100% + 6px);top:-2px;font-size:13px;font-weight:600;color:var(--film);white-space:nowrap;font-variant-numeric:tabular-nums}
 
 /* paradigm cards */
 .para{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
-.pcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column}
-.pcard.ours{border-color:#f3b48c;box-shadow:0 0 0 3px rgba(232,116,44,.12),var(--shadow)}
-.pcard .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.pcard h3{font-size:17px;margin-top:4px}
-.pcard .flow{font-family:var(--mono);font-size:12px;color:var(--ink-2);background:var(--bg-2);border-radius:8px;padding:9px 10px;margin-top:10px;line-height:1.7}
-.pcard .flow .x{color:#c2410c}
-.pcard ul{list-style:none;margin-top:10px;font-size:13.5px;color:var(--ink-2)}
-.pcard li{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:5px 0}
-.pcard li b{color:var(--ink)}
-.pcard .verdict{margin-top:auto;padding-top:12px;font-size:13.5px;color:var(--ink-2)}
+.pcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px;display:flex;flex-direction:column}
+.pcard.ours{border:2px solid var(--hi)}
+.pcard .tag{font-size:13px;color:var(--rebate);font-weight:600}
+.pcard.ours .tag{color:var(--hi)}
+.pcard h3{font-size:17px;margin-top:2px}
+.pcard .flow{font-size:13px;color:var(--film);background:var(--lightbox);border-radius:6px;padding:9px 10px;margin-top:10px;line-height:1.7}
+.pcard .flow .x{color:var(--cost);font-weight:650}
+.pcard ul{list-style:none;margin-top:10px;font-size:13.5px;color:var(--rebate)}
+.pcard li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:5px 0}
+.pcard li b{color:var(--film);font-variant-numeric:tabular-nums}
+.pcard .verdict{margin-top:auto;padding-top:12px;font-size:13.5px;color:var(--rebate)}
 
 /* scatter */
-.chartcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 10px;box-shadow:var(--shadow);margin-top:22px;position:relative}
+.chartcard{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 10px;margin-top:22px;position:relative}
 .chartcard h3{font-size:16px}
-.chartcard .sub{font-size:13.5px;color:var(--muted)}
-.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-2);margin-top:10px}
+.chartcard .sub{font-size:13.5px;color:var(--rebate)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--film);margin-top:10px}
 .legend .sw{display:inline-block;width:11px;height:11px;margin-right:6px;vertical-align:-1px}
 svg text{font-family:var(--sans)}
-.tip{position:absolute;pointer-events:none;background:#0f172a;color:#fff;font-size:12.5px;padding:8px 10px;border-radius:8px;line-height:1.45;opacity:0;transition:opacity .12s;white-space:nowrap;z-index:5}
-.tip b{color:#ffd2b0}
+.tip{position:absolute;pointer-events:none;background:var(--film);color:#fff;font-size:12.5px;padding:8px 10px;border-radius:6px;line-height:1.45;opacity:0;transition:opacity .12s;white-space:nowrap;z-index:5}
+.tip b{color:#fff}
 
 /* tables */
-.tbl{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:12px;background:#fff}
-table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+.tbl{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px;font-variant-numeric:tabular-nums}
 th,td{padding:9px 12px;text-align:center;border-bottom:1px solid var(--line);white-space:nowrap}
 th:first-child,td:first-child{text-align:left}
-thead th{background:var(--ink);color:#fff;font-weight:600;font-size:13px}
-tr.grp td{background:var(--bg-2);color:var(--muted);font-style:italic;text-align:left;font-size:13px}
-tr.ours td{background:var(--hi-soft)}
-tr.base td{background:var(--lo-soft)}
-td.best{font-weight:700;color:#b4531b}
+thead th{background:var(--film);color:#fff;font-weight:600;font-size:13px}
+tr.grp td{background:#f5f7fa;color:var(--rebate);text-align:left;font-size:13px}
+tr.ours td{background:var(--hi-wash)}
+tr.base td{background:var(--lo-wash)}
+td.best{font-weight:800;color:var(--film)}
 tbody tr:last-child td{border-bottom:none}
 .tables2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .tables2 table{min-width:0}
 
 /* selectors */
 .sel h3{display:flex;align-items:center;gap:8px}
-.sel .cost{font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:6px}
-.bridge{font-style:italic;color:var(--ink-2);background:var(--bg-2);border:1px dashed #cbd5e1;border-radius:10px;padding:12px 14px;margin-top:14px;font-size:15px}
-.eq{font-family:"Times New Roman",Georgia,serif;font-size:21px;text-align:center;margin:16px 0 4px;color:var(--ink)}
+.sel .cost{font-size:12.5px;color:var(--rebate);margin-top:6px}
+.bridge{font-style:italic;color:var(--film);background:var(--lightbox);border-radius:8px;padding:12px 14px;margin-top:14px;font-size:15px}
+.eq{font-family:"Times New Roman",Georgia,serif;font-size:21px;text-align:center;margin:16px 0 4px}
 
 /* faq */
-details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-top:12px;box-shadow:var(--shadow)}
+details{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-top:12px}
 summary{cursor:pointer;font-weight:650;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:12px}
 summary::-webkit-details-marker{display:none}
-summary::after{content:"+";font-family:var(--mono);color:var(--muted);font-size:18px;line-height:1}
+summary::after{content:"+";color:var(--rebate);font-size:20px;line-height:1}
 details[open] summary::after{content:"–"}
-details .ans{color:var(--ink-2);font-size:15px;margin-top:10px}
+details .ans{color:var(--rebate);font-size:15px;margin-top:10px;max-width:820px}
 details .ans p+p{margin-top:8px}
 
-pre.bib{background:var(--panel);color:#e2e8f0;border-radius:12px;padding:18px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;margin-top:16px}
-footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
+pre.bib{background:var(--film);color:#e2e8f0;border-radius:10px;padding:18px;overflow-x:auto;font-family:var(--mono);font-size:13px;line-height:1.6;margin-top:16px}
+footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 
 
-.dial{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center}
-.dial label{font-size:12.5px;color:var(--fog)}
-.dial input[type=range]{width:100%;accent-color:#ffb27a;height:28px}
-.dial .ticks{grid-column:2;display:flex;justify-content:space-between;font-size:11.5px;color:var(--fog)}
-.hitoggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--paper);margin-top:10px;cursor:pointer}
-.hitoggle input{accent-color:#ffb27a;width:16px;height:16px}
-.budget{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.budget .bk{border:1px solid var(--panel-line);border-radius:10px;padding:10px 12px;font-family:var(--mono);font-size:11.5px;color:var(--fog)}
-.budget .bk b{display:block;color:#fff;font-size:24px;font-family:var(--sans);font-weight:800;margin-top:2px}
-.checks{list-style:none;margin-top:14px}
-.checks li{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--panel-line);font-size:14px;color:var(--paper)}
-.checks li .ic{font-weight:700;text-align:center}
-.checks li .st{font-family:var(--mono);font-size:11.5px}
-.checks li.ok .ic,.checks li.ok .st{color:#7ee2b8}
-.checks li.mid .ic,.checks li.mid .st{color:#ffd28a}
-.checks li.no .ic,.checks li.no .st{color:#ff8a8a}
-.checks li small{display:block;color:var(--fog);font-size:11.5px}
-.evidence{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px}
-.ev{border:1px solid var(--panel-line);border-radius:12px;padding:12px 14px;background:rgba(255,255,255,.02)}
-.ev .evk{font-family:var(--mono);font-size:11.5px;color:var(--fog)}
-.ev .evv{font-size:15px;color:#fff;margin-top:4px}
-.ev .evv .neg{color:#ff8a8a}
-.ev .evd{font-size:13px;color:#cbd5e1;margin-top:4px}
-@media (max-width:900px){.evidence{grid-template-columns:1fr}}
+.hero::before{background:radial-gradient(ellipse at 50% 0%,#24324f 0%,#1b2230 60%)!important}
+.hero .wrap{padding:70px 20px 48px}
+.hv{max-width:980px;margin:40px auto 0;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:18px 18px 14px}
+.hvrow{display:grid;grid-template-columns:200px 1fr 150px;gap:16px;align-items:center;margin-bottom:12px}
+.hvlab b{display:block;font-size:15px;color:#fff} .hvlab b.lh{color:#ff7a6e}
+.hvlab span{display:block;font-size:12.5px;color:#aeb8c7;line-height:1.4;margin-top:2px}
+.hvstrip{position:relative;height:66px;background:#11172a;border-radius:4px;padding:9px 6px}
+.hvstrip::before,.hvstrip::after{content:"";position:absolute;left:6px;right:6px;height:4px;background:repeating-linear-gradient(90deg,#3a4560 0 6px,transparent 6px 12px)}
+.hvstrip::before{top:2px}.hvstrip::after{bottom:2px}
+.hvbars{position:absolute;left:6px;right:6px;top:9px;bottom:9px;display:flex;align-items:flex-end;gap:1px}
+.hvbars i{flex:1 1 0;min-width:0;display:block;border-radius:1px 1px 0 0}
+.hvbars i.grow{animation:grow .7s cubic-bezier(.2,.8,.2,1) both}
+@keyframes grow{from{transform:scaleY(.15);transform-origin:bottom}to{transform:scaleY(1);transform-origin:bottom}}
+.hvstat{display:flex;flex-direction:column;font-size:12.5px;color:#aeb8c7;line-height:1.5}
+.hvstat b{color:#fff;font-variant-numeric:tabular-nums}
+.hvkey{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:#aeb8c7;margin-top:4px}
+.hvkey i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.hvkey .dim{margin-left:auto;color:#7f8aa0}
+.blogcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:28px;align-items:center;text-decoration:none;color:inherit;border:1px solid var(--line);border-radius:14px;padding:22px;background:var(--lightbox)}
+.blogcard:hover{border-color:var(--film)}
+.blogcard img{border-radius:8px;border:1px solid var(--line);background:#fff}
+.blogcard p{color:var(--rebate);margin-top:8px;font-size:16px}
+.btnlink{display:inline-block;margin-top:14px;background:var(--film);color:#fff;font-weight:600;font-size:14.5px;padding:9px 16px;border-radius:999px}
+@media (max-width:900px){.hvrow{grid-template-columns:1fr}.hvstat{flex-direction:row;gap:14px;flex-wrap:wrap}.blogcard{grid-template-columns:1fr}.hvkey .dim{margin-left:0}}
+@media (prefers-reduced-motion:reduce){.hvbars i.grow{animation:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:900px){
   .stats{grid-template-columns:1fr 1fr}
   .para{grid-template-columns:1fr 1fr}
   .grid3{grid-template-columns:1fr}
-  .grid2,.tables2,.l2grid,.l3cols{grid-template-columns:1fr}
+  .grid2,.tables2,.l2grid,.l3cols,.evidence{grid-template-columns:1fr}
 }
 @media (max-width:560px){
   .hero .wrap{padding:60px 16px 46px}
@@ -257,12 +291,11 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   .stats,.para{grid-template-columns:1fr}
   .meters{grid-template-columns:1fr}
   .gop{grid-template-columns:repeat(12,minmax(0,1fr))}
-  .tasks .row{grid-template-columns:110px 1fr 46px}
-  .film{height:120px}
+  .film{height:140px}
   .nav .links{gap:14px}
   .lfoot .push{margin-left:0}
   .dial{grid-template-columns:1fr}
-  .dial .ticks{grid-column:1;font-size:10.5px}
+  .dial .ticks{grid-column:1;font-size:11px}
   .lab .lhead .leg{margin-left:0}
 }
 </style>
@@ -272,8 +305,7 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
 <nav class="nav"><div class="wrap">
   <a class="brand" href="#top"><span class="l">Lo</span><span class="h">Hi</span></a>
   <div class="links">
-    <a href="#lessons">Lessons</a><a href="#paradigms">vs. Prior Work</a><a href="#method">Method</a>
-    <a href="#results">Results</a><a href="#robust">Robustness</a><a href="#faq">FAQ</a><a href="#cite">Cite</a>
+    <a href="#lessons">Lessons</a><a href="#method">Method</a><a href="#results">Results</a><a href="../blog.html?post=lohi-rethinking-long-video-efficiency">Blog</a><a href="#cite">Cite</a>
   </div>
 </div></nav>
 
@@ -281,6 +313,7 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   <div class="venue">NeurIPS 2026</div>
   <h1><span class="l">Lo</span><span class="h">Hi</span></h1>
   <p class="title">Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency</p>
+  <p class="tagline">Fewer frames. Less latency. Higher accuracy.</p>
   <p class="authors">
     <span>Sixun Dong<sup>1</sup></span> &nbsp;·&nbsp; <span>Wei Li<sup>1</sup></span> &nbsp;·&nbsp; <span>Andong Deng<sup>1</sup></span> &nbsp;·&nbsp;
     <span>Qi Qian<sup>2</sup></span> &nbsp;·&nbsp; <span>Victor Zhu<sup>3</sup></span> &nbsp;·&nbsp; <span>Zhengping Ji<sup>3</sup></span> &nbsp;·&nbsp; <span>Chen Chen<sup>1✉</sup></span>
@@ -288,31 +321,36 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   <p class="affil"><sup>1</sup>University of Central Florida &nbsp; <sup>2</sup>Meta Reality Labs &nbsp; <sup>3</sup>Axon &nbsp;·&nbsp; ✉ corresponding author</p>
   <div class="btns">
     <a class="btn primary" href="https://openreview.net/forum?id=a9xLyT4hG4" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Paper</a>
+    <a class="btn" href="../blog.html?post=lohi-rethinking-long-video-efficiency"><i class="fas fa-book-open"></i> Blog</a>
     <span class="btn off" title="arXiv version coming soon"><i class="fas fa-file-alt"></i> arXiv <span class="soon">soon</span></span>
     <!-- TODO(code): point to the longvideo-eval repository once it is public, e.g.
          <a class="btn" href="https://github.com/Ironieser/longvideo-eval" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a> -->
     <span class="btn off" title="Coming soon in longvideo-eval"><i class="fab fa-github"></i> Code <span class="soon">soon</span></span>
-    <a class="btn" href="#cite"><i class="fas fa-quote-right"></i> BibTeX</a>
   </div>
-  <p class="code-note">We are building <b>longvideo-eval</b>, an open-source framework for evaluating common long-video VLMs, and LoHi will be released as part of it.</p>
+  <p class="code-note">We are building <b>longvideo-eval</b>, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, with decoding, vision encoding and prefill all measured. LoHi will be released as part of it.</p>
+
+  <div class="hv" aria-label="Comparison of a keyframe-selection pipeline and LoHi on one 60-minute video">
+    <div class="hvrow">
+      <div class="hvlab"><b>Keyframe selection</b><span>decode 256 frames, keep 16 at native resolution</span></div>
+      <div class="hvstrip"><div class="hvbars" id="hvA"></div></div>
+      <div class="hvstat"><span><b>256</b> decoded</span><span><b>6.0 s</b> to first token</span><span><b>60.8%</b> VideoMME</span></div>
+    </div>
+    <div class="hvrow">
+      <div class="hvlab"><b class="lh">LoHi</b><span>decode 128 frames, send all at ¼ resolution plus 8 at native</span></div>
+      <div class="hvstrip"><div class="hvbars" id="hvB"></div></div>
+      <div class="hvstat"><span><b>128</b> decoded</span><span><b>3.9 s</b> to first token</span><span><b>66.8%</b> VideoMME</span></div>
+    </div>
+    <div class="hvkey"><span><i style="background:#edf1f5"></i>native-resolution frame</span><span><i style="background:#7fb3dc"></i>low-resolution frame</span><span><i style="background:#ef5a4c"></i>high-resolution pick</span><span><i style="background:#3d4759"></i>decoded, then discarded</span><span class="dim">one 60-min video, ~5,760 visual tokens, Qwen3-VL-4B</span></div>
+  </div>
 </div></header>
 
-<section class="tldr"><div class="wrap">
-  <h2>Fewer frames. Less latency. <em>Higher accuracy.</em></h2>
-  <p class="lead">Efficient long-video VLMs usually ask <i>which tokens to keep</i> at native resolution. LoHi asks <i>how to spend</i> a fixed budget across frame count, per-frame resolution, and front-end decoding, and lands on an operating point no fixed-resolution method can reach.</p>
-  <div class="stats">
-    <div class="stat"><div class="k">Decoded frames</div><div class="v">128 <small>vs 256</small></div><div class="d">Half the candidate pool of every keyframe-selection and token-pruning baseline.</div></div>
-    <div class="stat"><div class="k">Time to first token</div><div class="v">3.9 s <small>vs 6.0–9.0 s</small></div><div class="d">LoHi-SemDiv vs keyframe selection (6.0 s) and token pruning (8.2–9.0 s) on VideoMME.</div></div>
-    <div class="stat"><div class="k">Accuracy, 3 benchmarks</div><div class="v">+10.6 <small>avg.</small></div><div class="d">Over the native-resolution recipe at matched token budget, and <b>+5.2</b> over the strongest prior method.</div></div>
-    <div class="stat"><div class="k">Front-end decoding</div><div class="v">up to 7×</div><div class="d">Lower decoding latency than dense decode-then-select pipelines on hour-scale clips.</div></div>
-  </div>
-</div></section>
+
 
 <!-- ====================== LESSONS ====================== -->
 <section class="sec" id="lessons"><div class="wrap">
   <div class="eyebrow">Three lessons</div>
   <h2>What actually limits long-video VLMs</h2>
-  <p class="intro">Every VLM spends a fixed visual-token budget <span class="mono">B</span> on one configuration <span class="mono">(N, r)</span>: <span class="mono">N</span> frames at per-frame resolution scale <span class="mono">r</span>, with <span class="mono">N · τ(r) ≤ B</span>. Before the tokens ever reach the model, a <b>video front-end</b> must decode those frames from the compressed file. Play with each lesson below.</p>
+  <p class="intro">Efficient long-video VLMs usually ask which tokens to keep at native resolution. We ask how to spend a fixed budget across frame count, per-frame resolution, and front-end decoding. Three lessons answer it. Every VLM spends a fixed visual-token budget <span class="mono">B</span> on one configuration <span class="mono">(N, r)</span>: <span class="mono">N</span> frames at per-frame resolution scale <span class="mono">r</span>, with <span class="mono">N · τ(r) ≤ B</span>. Before the tokens ever reach the model, a <b>video front-end</b> must decode those frames from the compressed file. Play with each lesson below.</p>
 
   <!-- L1 -->
   <div class="lesson"><div class="num">L1</div><div>
@@ -322,15 +360,15 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   <div class="lab" id="l1">
     <div class="lhead">
       <span class="ttl" id="l1title">One 60-min video, one ~5,760-token budget, five ways to spend it</span>
-      <span class="leg"><span>bar height = per-frame resolution</span><span><span class="chip" style="background:#5b8fd6"></span>low-res (Lo-V)</span><span><span class="chip" style="background:#ffb27a"></span>native-res</span><span><span class="chip" style="background:#33415c"></span>decoded, then discarded</span></span>
+      <span class="leg"><span>bar height = per-frame resolution</span><span><span class="chip" style="background:var(--lo)"></span>low-res frame</span><span><span class="chip" style="background:var(--film);outline:1px solid var(--film)"></span>native-res frame</span><span><span class="chip" style="background:var(--hi)"></span>LoHi Hi-I pick</span><span><span class="chip" style="background:var(--waste)"></span>decoded, then discarded</span></span>
     </div>
     <div class="lbody">
       <div class="modes" id="l1modes" role="group" aria-label="Sampling strategy"></div>
       <div class="film"><div class="bars" id="l1bars"></div></div>
       <div class="timeline"><span>00:00</span><span>timeline →</span><span>60:00</span></div>
       <div class="meters">
-        <div class="meter"><div class="mk"><span>VideoMME accuracy</span><b id="l1acc">57.78%</b></div><div class="track"><div class="fill" id="l1accbar" style="background:#7ee2b8"></div></div></div>
-        <div class="meter"><div class="mk"><span>time to first token</span><b id="l1ttft">—</b></div><div class="track"><div class="fill" id="l1ttftbar" style="background:#ff9b9b"></div></div></div>
+        <div class="meter"><div class="mk"><span>VideoMME accuracy</span><b id="l1acc">57.78%</b></div><div class="track"><div class="fill" id="l1accbar" style="background:var(--good)"></div></div></div>
+        <div class="meter"><div class="mk"><span>time to first token</span><b id="l1ttft">—</b></div><div class="track"><div class="fill" id="l1ttftbar" style="background:var(--cost)"></div></div></div>
       </div>
       <p class="desc" id="l1desc"></p>
     </div>
@@ -379,10 +417,6 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
     </div>
   </div>
   <p class="note">The frame is a synthetic illustration rendered in your browser; accuracy numbers are from the paper (Qwen3-VL-4B, VideoMME). Scales below 0.25 are shown only to build intuition and were not evaluated.</p>
-  <figure><div class="grid2">
-    <img src="../images/blog/lohi/fig2b.png" alt="Under the same budget, resolution-sensitive tasks prefer 64F at r=0.5 while other tasks prefer 256F at r=0.25">
-    <img src="../images/blog/lohi/fig2a.png" alt="At r=0.25, accuracy rises with frame count from 16 to 256 for every task type">
-  </div><figcaption><b>Left:</b> at the same budget the winner flips. Resolution-sensitive tasks (OCR, Attribute) favor 64F@0.5, everything else favors 256F@0.25. <b>Right:</b> at fixed r = 0.25, accuracy rises monotonically with frame count.</figcaption></figure>
   <div class="takeaway"><b>Takeaway (L2).</b> Under a fixed token budget, no single (N, r) optimally serves all task types; any globally fixed allocation is suboptimal on at least one subset.</div>
 
   <!-- L3 -->
@@ -392,7 +426,7 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   </div></div>
   <div class="lab" id="l3">
     <div class="lhead"><span class="ttl">Click any frame: how much must be decoded to get it?</span>
-      <span class="leg"><span><span class="chip" style="background:#21345e;outline:1px solid #4b6aa8"></span>I-frame (self-contained)</span><span><span class="chip" style="background:#16213b;outline:1px solid #2b3a5c"></span>P-frame (stores changes)</span><span><span class="chip" style="background:#e8742c"></span>decoded</span></span></div>
+      <span class="leg"><span><span class="chip" style="background:var(--film)"></span>I-frame (self-contained)</span><span><span class="chip" style="background:#fff;outline:1.5px solid var(--line-2)"></span>P-frame (stores changes)</span><span><span class="chip" style="background:var(--cost-wash);outline:1.5px solid var(--cost)"></span>had to decode</span><span><span class="chip" style="background:var(--hi)"></span>frame you wanted</span></span></div>
     <div class="lbody">
       <div class="modes" id="l3modes" role="group" aria-label="Sampling policy">
         <button class="mode" data-pol="one" aria-pressed="true">pick one frame</button>
@@ -411,7 +445,7 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
         <div>
           <h4>Why it matters</h4>
           <p>Decode-then-select keyframe methods (AKS, BOLT, CLIP top-K) first build a candidate pool by densely decoding the video, then score it. On a one-hour clip the decoder alone runs for tens of seconds while the GPU sits idle. Token pruning decodes 256 native-resolution frames and runs the full vision encoder before discarding 93.75% of tokens.</p>
-          <p style="margin-top:8px"><b style="color:#fff">LoHi bounds the pool:</b> it decodes exactly N = 128 frames once, regardless of length, and reuses them at two resolutions. LoHi-Anchor even reads I-frame positions as a free scene-change hint, without decoding extra pixels.</p>
+          <p style="margin-top:8px"><b style="color:var(--film)">LoHi bounds the pool:</b> it decodes exactly N = 128 frames once, regardless of length, and reuses them at two resolutions. LoHi-Anchor even reads I-frame positions as a free scene-change hint, without decoding extra pixels.</p>
         </div>
       </div>
     </div>
@@ -419,39 +453,34 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
   <div class="takeaway"><b>Takeaway (L3).</b> Under dense candidate-pool decoding such as FPS=1, front-end latency grows with video length and eventually dominates end-to-end runtime. Long-video efficiency methods must therefore bound the size of the decoded candidate pool, not just the visual-token budget passed to the VLM.</div>
 </div></section>
 
-<!-- ====================== PARADIGMS ====================== -->
-<section class="sec alt" id="paradigms"><div class="wrap">
-  <div class="eyebrow">LoHi vs. prior work</div>
-  <h2>Keyframe selection, token pruning, or just resize?</h2>
-  <p class="intro">Prior efficient long-video methods keep frames at native resolution and decide what to throw away. Both families pay for it before the VLM sees a single token. Resizing is the option they skip, and it turns out to be the strongest.</p>
 
-  <div class="para">
-    <div class="pcard">
-      <div class="tag">Pre-encoder</div><h3>Keyframe selection</h3>
-      <div class="flow">decode 256 @ native<br>→ CLIP-score all 256<br>→ keep 16 @ native</div>
-      <ul><li>decoded <b>256</b></li><li>TTFT <b>5,978 ms</b></li><li>VideoMME <b>57.2–60.8</b></li></ul>
-      <p class="verdict">Pays the full decode, keeps only 16 frames, and loses temporal coverage.</p>
-    </div>
-    <div class="pcard">
-      <div class="tag">Post-encoder</div><h3>Token pruning</h3>
-      <div class="flow">decode 256 @ native<br>→ ViT on <span class="x">all native tokens</span><br>→ prune 93.75%</div>
-      <ul><li>decoded <b>256</b></li><li>ViT <b>2,486 ms</b> · TTFT <b>8.2–9.0 s</b></li><li>VideoMME <b>57.0–59.3</b></li></ul>
-      <p class="verdict">Encodes everything at native resolution, then breaks spatiotemporal continuity by dropping patches.</p>
-    </div>
-    <div class="pcard">
-      <div class="tag">The new recipe</div><h3>Low-Res-Base</h3>
-      <div class="flow">decode 256<br>→ resize to ¼<br>→ ViT on 256 small frames</div>
-      <ul><li>decoded <b>256</b></li><li>TTFT <b>5,963 ms</b></li><li>VideoMME <b>64.44</b></li></ul>
-      <p class="verdict">No selection logic at all, yet beats every keyframe and pruning baseline on average.</p>
-    </div>
-    <div class="pcard ours">
-      <div class="tag" style="color:#c2410c">Ours</div><h3>LoHi</h3>
-      <div class="flow">decode <b>128</b> once<br>→ Lo-V: 128 @ ¼ (video path)<br>→ Hi-I: 8 @ native (image path)</div>
-      <ul><li>decoded <b>128</b></li><li>TTFT <b>3,836–3,906 ms</b></li><li>VideoMME <b>65.78–66.81</b></li></ul>
-      <p class="verdict">Half the decoding, the lowest latency, and the highest accuracy.</p>
-    </div>
+
+<!-- ====================== METHOD ====================== -->
+<section class="sec" id="method"><div class="wrap">
+  <div class="eyebrow">Method</div>
+  <h2>LoHi: low-resolution video + high-resolution images</h2>
+  <p class="intro">LoHi splits one configuration <span class="mono">(N, r)</span> into two complementary streams that share one budget and one decoding pass, and routes them through the VLM's own video and image pathways. Training-free, single forward pass, no architectural change.</p>
+  <figure>
+    <img src="../images/blog/lohi/framework.jpg" alt="Overview of the LoHi framework compared with previous methods">
+    <figcaption><b>Overview of LoHi.</b> Compared with previous work (A), which prunes or selects within a native-resolution pathway, LoHi (B) decomposes one decoded video into two complementary streams: dense low-resolution <i>Lo-V</i> via the video pathway and sparse high-resolution <i>Hi-I</i> via the image pathway. (C) shows the LoHi-SemDiv selector, which picks Hi-I indices via greedy MAP.</figcaption>
+  </figure>
+  <h3 style="margin-top:34px;font-size:21px">Plug-and-play Hi-I selectors</h3>
+  <div class="grid3" style="margin-top:14px">
+    <div class="card sel"><h3><i class="fas fa-grip-lines-vertical" style="color:var(--lo)"></i>LoHi-Uniform</h3><div class="cost">selection cost: zero</div>
+      <p>Picks the K Hi-I frames at regular intervals directly from the Lo-V grid. Pure indexing, and the fundamental baseline of the framework.</p></div>
+    <div class="card sel"><h3><i class="fas fa-film" style="color:var(--lo)"></i>LoHi-Anchor</h3><div class="cost">selection cost: free codec metadata</div>
+      <p>Encoders start GoPs with I-frames, which can align with scene changes or strong motion. For each uniform position, Anchor finds the nearest I-frame from pre-computed indices and selects the Lo-V grid frame closest to it, with no additional pixel decoding.</p></div>
+    <div class="card sel"><h3><i class="fas fa-shapes" style="color:var(--hi)"></i>LoHi-SemDiv</h3><div class="cost">selection cost: one CLIP pass on 128 small frames</div>
+      <p>A quality–similarity DPP over CLIP embeddings: L = diag(q) EE<sup>⊤</sup> diag(q), with q the sharpened query relevance. Greedy maximization of log det(L<sub>S</sub> + I) picks frames that are both query-relevant and mutually diverse, with a (1 − 1/e) guarantee.</p></div>
   </div>
 
+</div></section>
+
+<!-- ====================== RESULTS ====================== -->
+<section class="sec alt" id="results"><div class="wrap">
+  <div class="eyebrow">Results</div>
+  <h2>The most accurate, and the fastest to answer</h2>
+  <p class="intro">Qwen3-VL-4B, every method at the token budget of the default 16-frame recipe (~5,760 tokens). Keyframe selection and token pruning decode 256 native-resolution frames; LoHi decodes 128.</p>
   <div class="chartcard" id="scatter">
     <h3>Accuracy vs. time to first token</h3>
     <div class="sub">VideoMME, Qwen3-VL-4B, matched ~5,760-token budget. Up and to the left is better. Hover a point for details.</div>
@@ -464,196 +493,31 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
     <svg id="scsvg" viewBox="0 0 760 380" width="100%" role="img" aria-label="Scatter plot of VideoMME accuracy against time to first token"></svg>
     <div class="tip" id="sctip"></div>
   </div>
-
-  <h3 style="margin-top:40px;font-size:21px;letter-spacing:-.01em">Token pruning vs. a plain resize, at the same tokens</h3>
-  <p class="intro" style="font-size:16px">Same number of tokens reach the LLM. Pruning first encodes native-resolution frames, then drops tokens. Resize just downsamples up front. Resize wins at every budget, including against MMTok, a pruning method built for extreme low-retention regimes.</p>
   <div class="tbl"><table>
-    <thead><tr><th>Method</th><th>Setting</th><th>VideoMME</th><th>LVBench</th><th>MLVU</th><th>Avg.</th></tr></thead>
+    <thead><tr><th>Method</th><th>Decoded frames</th><th>VideoMME</th><th>MLVU</th><th>LVBench</th><th>Avg.</th></tr></thead>
     <tbody>
-      <tr><td>Qwen3-VL-4B</td><td>16F@1.0</td><td>57.78</td><td>38.61</td><td>58.89</td><td>51.76</td></tr>
-      <tr class="grp"><td colspan="6">25% of the default budget (~1,440 tokens)</td></tr>
-      <tr><td>VisionZip</td><td>16F@1.0</td><td>55.56</td><td>34.47</td><td>53.75</td><td>47.93</td></tr>
-      <tr><td>MMTok</td><td>16F@1.0</td><td>55.19</td><td>34.80</td><td>54.82</td><td>48.27</td></tr>
-      <tr><td>FlashVid</td><td>16F@1.0</td><td>55.11</td><td>35.44</td><td>54.54</td><td>48.36</td></tr>
-      <tr class="base"><td><b>Resize</b></td><td>16F@0.5</td><td class="best">56.26</td><td class="best">35.51</td><td class="best">57.95</td><td class="best">49.91</td></tr>
-      <tr class="grp"><td colspan="6">50% of the default budget (~2,880 tokens)</td></tr>
-      <tr><td>VisionZip</td><td>128F@1.0</td><td>54.44</td><td>35.51</td><td>58.99</td><td>49.65</td></tr>
-      <tr><td>MMTok</td><td>128F@1.0</td><td>59.56</td><td>36.86</td><td>62.24</td><td>52.89</td></tr>
-      <tr><td>FlashVid</td><td>128F@1.0</td><td>58.19</td><td>35.77</td><td>60.67</td><td>51.54</td></tr>
-      <tr class="base"><td><b>Resize</b></td><td>128F@0.25</td><td class="best">63.00</td><td class="best">39.25</td><td class="best">66.34</td><td class="best">56.20</td></tr>
+      <tr><td>Qwen3-VL-4B, 16F@1.0</td><td>16</td><td>57.78</td><td>58.89</td><td>38.61</td><td>51.76</td></tr>
+      <tr class="base"><td>Low-Res-Base, 256F@0.25</td><td>256</td><td>64.44</td><td>69.36</td><td>43.71</td><td>59.17</td></tr>
+      <tr><td>Keyframe selection (best: BOLT)</td><td>256 → 16</td><td>60.81</td><td>68.11</td><td>42.48</td><td>57.13</td></tr>
+      <tr><td>Token pruning (best: FlashVid)</td><td>256</td><td>59.30</td><td>63.70</td><td>34.09</td><td>52.36</td></tr>
+      <tr><td>LoHi-Uniform</td><td>128</td><td>65.78</td><td>67.62</td><td>44.09</td><td>59.16</td></tr>
+      <tr><td>LoHi-Anchor</td><td>128</td><td>65.89</td><td>68.40</td><td>44.42</td><td>59.57</td></tr>
+      <tr class="ours"><td><b>LoHi-SemDiv</b></td><td>128</td><td class="best">66.81</td><td class="best">74.38</td><td class="best">45.90</td><td class="best">62.36</td></tr>
     </tbody>
   </table></div>
-  <div class="takeaway"><b>Spatiotemporal consistency is critical for video VLMs.</b> Token pruning works well on static images, but discarding irregular patches across frames destroys spatial continuity and temporal consistency. Preserving a complete, lower-resolution global context matters more for video than retaining fragmented high-resolution details.</div>
+  <p class="note">LoHi-SemDiv improves the average over the default recipe by +10.6 and over the strongest prior method by +5.2. The blog has the full tables: every baseline, latency breakdown, token pruning vs. resize, ablations and five more backbones.</p>
 </div></section>
 
-<!-- ====================== METHOD ====================== -->
-<section class="sec" id="method"><div class="wrap">
-  <div class="eyebrow">Method</div>
-  <h2>LoHi: low-resolution video + high-resolution images</h2>
-  <p class="intro">LoHi splits one configuration <span class="mono">(N, r)</span> into two complementary streams that share one budget and one decoding pass, and routes them through the VLM's own video and image pathways. Training-free, single forward pass, no architectural change.</p>
-  <figure>
-    <img src="../images/blog/lohi/framework.jpg" alt="Overview of the LoHi framework compared with previous methods">
-    <figcaption><b>Overview of LoHi.</b> Compared with previous work (A), which prunes or selects within a native-resolution pathway, LoHi (B) decomposes one decoded video into two complementary streams: dense low-resolution <i>Lo-V</i> via the video pathway and sparse high-resolution <i>Hi-I</i> via the image pathway. (C) shows the LoHi-SemDiv selector, which picks Hi-I indices via greedy MAP.</figcaption>
-  </figure>
-  <div class="grid2" style="margin-top:22px">
-    <div class="card">
-      <h3>Cross-resolution decomposition</h3>
-      <div class="eq">N·τ(r<sub>ℓ</sub>) + K·τ(r<sub>h</sub>) ≤ B, &nbsp;&nbsp; N<sub>dec</sub> = N</div>
-      <p>A dense <b style="color:var(--lo)">Lo-V</b> stream of N frames at a low scale r<sub>ℓ</sub> provides temporal coverage (L1). A sparse <b style="color:var(--hi)">Hi-I</b> stream of K ≪ N frames at r<sub>h</sub> supplies spatial detail (L2). The K Hi-I indices are a subset of the Lo-V grid, so each frame is decoded once at native resolution and reused at both scales: decode count depends only on N, not on video length (L3). Default: N = 128 at r<sub>ℓ</sub> = 0.25, K = 8 at r<sub>h</sub> = 1.0.</p>
+<section class="sec" id="more"><div class="wrap">
+  <a class="blogcard" href="../blog.html?post=lohi-rethinking-long-video-efficiency">
+    <img src="../images/blog/lohi/lov_case.png" alt="A detail on the interviewee's chin that only the high-resolution frames recover">
+    <div>
+      <div class="eyebrow">Blog</div>
+      <h2>The full story behind LoHi</h2>
+      <p>Why the video decoder is the hidden bottleneck, why a plain resize beats token pruning on long videos, what happens when the selector misses, and all the tables that did not fit here.</p>
+      <span class="btnlink">Read the blog post</span>
     </div>
-    <div class="card">
-      <h3>Two native pathways, one text bridge</h3>
-      <p>Lo-V goes through the <b>video pathway</b>, whose 3D mRoPE gives every frame a consistent temporal position so motion keeps its natural rate. Hi-I goes through the <b>image pathway</b>, where each image gets its own 2D positions and the video timeline stays undisturbed. A natural-language marker tells the VLM how the two relate:</p>
-      <div class="bridge">“[Video] The above low-resolution video provides temporal context. The following K high-resolution images show selected key frames: [img<sub>1</sub>], …, [img<sub>K</sub>].”</div>
-    </div>
-  </div>
-  <h3 style="margin-top:34px;font-size:21px">Plug-and-play Hi-I selectors</h3>
-  <div class="grid3" style="margin-top:14px">
-    <div class="card sel"><h3><i class="fas fa-grip-lines-vertical" style="color:var(--lo)"></i>LoHi-Uniform</h3><div class="cost">selection cost: zero</div>
-      <p>Picks the K Hi-I frames at regular intervals directly from the Lo-V grid. Pure indexing, and the fundamental baseline of the framework.</p></div>
-    <div class="card sel"><h3><i class="fas fa-film" style="color:var(--lo)"></i>LoHi-Anchor</h3><div class="cost">selection cost: free codec metadata</div>
-      <p>Encoders start GoPs with I-frames, which can align with scene changes or strong motion. For each uniform position, Anchor finds the nearest I-frame from pre-computed indices and selects the Lo-V grid frame closest to it, with no additional pixel decoding.</p></div>
-    <div class="card sel"><h3><i class="fas fa-shapes" style="color:var(--hi)"></i>LoHi-SemDiv</h3><div class="cost">selection cost: one CLIP pass on 128 small frames</div>
-      <p>A quality–similarity DPP over CLIP embeddings: L = diag(q) EE<sup>⊤</sup> diag(q), with q the sharpened query relevance. Greedy maximization of log det(L<sub>S</sub> + I) picks frames that are both query-relevant and mutually diverse, with a (1 − 1/e) guarantee.</p></div>
-  </div>
-  <div class="takeaway" style="border-color:var(--lo);background:var(--lo-soft)"><b style="color:var(--lo)">Adaptive LoHi.</b> Because the streams are decoupled, LoHi can answer from the Lo-V base first and trigger Hi-I only when the answer entropy exceeds a threshold. This nearly matches the full pipeline while invoking the high-resolution stream on only one-third of the queries.</div>
-</div></section>
-
-<!-- ====================== RESULTS ====================== -->
-<section class="sec alt" id="results"><div class="wrap">
-  <div class="eyebrow">Results</div>
-  <h2>Best on all three long-video benchmarks</h2>
-  <p class="intro">Qwen3-VL-4B. All methods cap decoding at 256 frames per video and share the token budget of the default 16F@1.0 recipe (~5,760 tokens). LoHi uses 128F@0.25 Lo-V plus K = 8 Hi-I at r<sub>h</sub> = 1.0, so it decodes half as many frames.</p>
-  <div class="tbl"><table>
-    <thead><tr><th>Method</th><th>Decoded</th><th>Setting</th><th>Short</th><th>Med.</th><th>Long</th><th>VideoMME</th><th>MLVU</th><th>LVBench</th><th>Avg.</th></tr></thead>
-    <tbody>
-      <tr><td>Qwen3-VL-4B</td><td>16</td><td>16F@1.0</td><td>68.44</td><td>55.67</td><td>49.22</td><td>57.78</td><td>58.89</td><td>38.61</td><td>51.76</td></tr>
-      <tr class="grp"><td colspan="10">The new recipe: dense low-resolution video</td></tr>
-      <tr class="base"><td><b>Low-Res-Base</b></td><td>256</td><td>256F@0.25</td><td>75.78</td><td>62.33</td><td>55.22</td><td>64.44</td><td>69.36</td><td>43.71</td><td>59.17</td></tr>
-      <tr class="grp"><td colspan="10">Pre-encoder keyframe selection</td></tr>
-      <tr><td>CLIP-TopK</td><td>256 → 16</td><td>16F@1.0</td><td>65.67</td><td>56.33</td><td>49.56</td><td>57.19</td><td>69.36</td><td>44.74</td><td>57.10</td></tr>
-      <tr><td>AKS</td><td>256 → 16</td><td>16F@1.0</td><td>65.89</td><td>56.22</td><td>49.67</td><td>57.26</td><td>69.22</td><td>44.67</td><td>57.05</td></tr>
-      <tr><td>BOLT</td><td>256 → 16</td><td>16F@1.0</td><td>71.44</td><td>59.00</td><td>52.00</td><td>60.81</td><td>68.11</td><td>42.48</td><td>57.13</td></tr>
-      <tr class="grp"><td colspan="10">Post-encoder token pruning (93.75% pruned to keep the same budget)</td></tr>
-      <tr><td>VisionZip</td><td>256</td><td>256F@1.0</td><td>64.78</td><td>55.67</td><td>50.56</td><td>57.00</td><td>62.46</td><td>35.13</td><td>51.53</td></tr>
-      <tr><td>FlashVid</td><td>256</td><td>256F@1.0</td><td>69.56</td><td>58.11</td><td>50.22</td><td>59.30</td><td>63.70</td><td>34.09</td><td>52.36</td></tr>
-      <tr class="grp"><td colspan="10">LoHi (ours)</td></tr>
-      <tr><td>LoHi-Uniform</td><td>128</td><td>128F@0.25 + Hi-I</td><td>75.67</td><td class="best">66.44</td><td>55.22</td><td>65.78</td><td>67.62</td><td>44.09</td><td>59.16</td></tr>
-      <tr><td>LoHi-Anchor</td><td>128</td><td>128F@0.25 + Hi-I</td><td>76.00</td><td>66.22</td><td>55.44</td><td>65.89</td><td>68.40</td><td>44.42</td><td>59.57</td></tr>
-      <tr class="ours"><td><b>LoHi-SemDiv</b></td><td>128</td><td>128F@0.25 + Hi-I</td><td class="best">77.11</td><td>65.78</td><td class="best">57.56</td><td class="best">66.81</td><td class="best">74.38</td><td class="best">45.90</td><td class="best">62.36</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3 style="margin-top:40px;font-size:21px">End-to-end inference efficiency</h3>
-  <div class="tbl"><table>
-    <thead><tr><th>Method</th><th>Decode (s)</th><th>Select (ms)</th><th>ViT (ms)</th><th>TTFT (ms)</th><th>TFLOPs</th><th>Mem.</th><th>VideoMME</th></tr></thead>
-    <tbody>
-      <tr class="base"><td>256F@0.25</td><td>5.4</td><td>50</td><td>216</td><td>5,963</td><td>82.2</td><td>1.3</td><td>64.44</td></tr>
-      <tr><td>Key-frame (AKS / BOLT / CLIP-TopK)</td><td>5.4</td><td>130</td><td>151</td><td>5,978</td><td>89.3</td><td>1.3</td><td>60.81</td></tr>
-      <tr><td>VisionZip</td><td>5.4</td><td>4</td><td>2,486</td><td>8,186</td><td>464.3</td><td>15.4</td><td>57.00</td></tr>
-      <tr><td>FlashVid</td><td>5.4</td><td>808</td><td>2,486</td><td>8,990</td><td>464.3</td><td>15.4</td><td>59.30</td></tr>
-      <tr class="grp"><td colspan="8">LoHi (ours)</td></tr>
-      <tr><td>LoHi-Uniform</td><td>3.3</td><td>51</td><td>195</td><td class="best">3,836</td><td>84.6</td><td>1.3</td><td>65.78</td></tr>
-      <tr><td>LoHi-Anchor</td><td>3.3</td><td>51</td><td>195</td><td class="best">3,836</td><td>84.6</td><td>1.3</td><td>65.89</td></tr>
-      <tr class="ours"><td><b>LoHi-SemDiv</b></td><td>3.3</td><td>120</td><td>195</td><td>3,906</td><td>85.8</td><td>1.3</td><td class="best">66.81</td></tr>
-    </tbody>
-  </table></div>
-  <p class="note">Memory column is activation memory in GB on top of 8.3 GB of weights. Against the dense low-resolution baseline, LoHi-SemDiv raises VideoMME from 64.44% to 66.81% while cutting TTFT from 5,963 to 3,906 ms and decoding half the frames. Against token pruning, it cuts ViT latency by about 12× (2,486 → 195 ms).</p>
-
-  <h3 style="margin-top:40px;font-size:21px">Generalizes across backbones without retuning</h3>
-  <div class="tables2">
-    <div class="tbl"><table>
-      <thead><tr><th>Qwen3-VL-8B</th><th>Tokens</th><th>VideoMME</th><th>MLVU</th><th>LVBench</th></tr></thead>
-      <tbody>
-        <tr><td>Vanilla 16F@1.0</td><td>5,760</td><td>60.04</td><td>58.95</td><td>38.22</td></tr>
-        <tr><td>BOLT</td><td>5,760</td><td>62.19</td><td>69.34</td><td>43.83</td></tr>
-        <tr class="base"><td>Low-Res-Base</td><td>5,760</td><td>67.04</td><td>71.29</td><td>44.80</td></tr>
-        <tr><td>LoHi-Anchor (K=4)</td><td>4,320</td><td class="best">67.70</td><td>72.04</td><td>44.03</td></tr>
-        <tr class="ours"><td>LoHi-SemDiv (K=4)</td><td>4,320</td><td>67.11</td><td class="best">75.34</td><td class="best">46.80</td></tr>
-      </tbody></table></div>
-    <div class="tbl"><table>
-      <thead><tr><th>Qwen3.5-4B</th><th>VideoMME</th><th>MLVU</th><th>LVBench</th></tr></thead>
-      <tbody>
-        <tr><td>16F@1.0</td><td>60.74</td><td>60.48</td><td>38.54</td></tr>
-        <tr class="base"><td>256F@0.25</td><td>67.41</td><td>69.87</td><td>41.45</td></tr>
-        <tr><td>LoHi-Uniform</td><td>67.52</td><td>67.48</td><td>44.61</td></tr>
-        <tr><td>LoHi-Anchor</td><td>67.70</td><td>66.70</td><td>44.74</td></tr>
-        <tr class="ours"><td>LoHi-SemDiv</td><td class="best">68.15</td><td class="best">70.42</td><td class="best">46.68</td></tr>
-      </tbody></table></div>
-  </div>
-  <div class="tbl"><table>
-    <thead><tr><th>Backbone</th><th colspan="3">Vanilla 16F@1.0</th><th colspan="3">Low-Res-Base 256F@0.25</th><th colspan="3">LoHi-SemDiv (K=8)</th></tr>
-      <tr><th></th><th>VMME</th><th>MLVU</th><th>LVB</th><th>VMME</th><th>MLVU</th><th>LVB</th><th>VMME</th><th>MLVU</th><th>LVB</th></tr></thead>
-    <tbody>
-      <tr><td>Qwen2.5-VL-7B</td><td>58.78</td><td>58.00</td><td>37.83</td><td>63.78</td><td>64.77</td><td>41.06</td><td class="best">64.41</td><td class="best">68.03</td><td class="best">43.51</td></tr>
-      <tr><td>VideoChat3-4B</td><td>59.78</td><td>63.43</td><td>40.09</td><td>64.81</td><td>70.29</td><td class="best">46.29</td><td class="best">64.96</td><td class="best">73.00</td><td>46.03</td></tr>
-      <tr><td>VideoLLaMA3-7B<sup>†</sup></td><td>46.81</td><td>52.38</td><td>32.09</td><td>50.04</td><td>57.73</td><td class="best">36.99</td><td>50.67</td><td class="best">58.59</td><td>36.86</td></tr>
-    </tbody></table></div>
-  <p class="note">Qwen3-VL-8B uses only K = 4 Hi-I frames, about 25% fewer tokens than the baselines. †VideoLLaMA3 MLVU scores use the paper's answer-format normalization. The dense low-resolution base beats the 16-frame recipe on every backbone (L1), and LoHi-SemDiv improves over that base in seven of nine model–benchmark pairs, with the other two within 0.3 points.</p>
-</div></section>
-
-<!-- ====================== ROBUSTNESS ====================== -->
-<section class="sec" id="robust"><div class="wrap">
-  <div class="eyebrow">Robustness</div>
-  <h2>A missed frame costs little, by design</h2>
-  <p class="intro">A sparse selector can miss the decisive frame. In LoHi that frame is never absent: it is still in the Lo-V stream at low resolution, which covers every sampled timestamp. Selection only affects the resolution-sensitive residual, never temporal coverage.</p>
-  <div class="grid3" style="margin-top:22px">
-    <div class="card"><h3>Bounded worst case</h3>
-      <p>If every Hi-I frame were irrelevant, LoHi degrades to its Lo-V base: <b>63.00%</b> on VideoMME. LoHi-SemDiv reaches <b>66.81%</b>. Selection quality governs at most a 3.8-point residual on top of a floor guaranteed by coverage alone.</p></div>
-    <div class="card"><h3>Selector-agnostic gains</h3>
-      <p>Four training-free selectors × K ∈ {2, 4, 8}: all 12 configurations land in <b>65.22–66.81%</b>, and even the weakest is +2.2 points above the Lo-V base. The gain comes from the two-stream design, not a lucky selector.</p></div>
-    <div class="card"><h3>Both streams are needed</h3>
-      <p>At 5,760 tokens, Lo-V alone (256 frames) gives 64.44% and Hi-I alone (16 SemDiv images) 63.74%. Splitting the budget into 128 Lo-V frames and 8 Hi-I images gives <b>66.81%</b>.</p></div>
-  </div>
-  <div class="tables2">
-    <div class="tbl"><table>
-      <thead><tr><th>Selector</th><th>K=2</th><th>K=4</th><th>K=8</th></tr></thead>
-      <tbody>
-        <tr><td>LoHi-Uniform</td><td>65.44</td><td>65.52</td><td>65.78</td></tr>
-        <tr><td>LoHi-Anchor</td><td>65.22</td><td>65.85</td><td>65.89</td></tr>
-        <tr><td>LoHi-CLIP Top-K</td><td>65.37</td><td>66.00</td><td>66.44</td></tr>
-        <tr class="ours"><td>LoHi-SemDiv</td><td class="best">65.59</td><td class="best">66.22</td><td class="best">66.81</td></tr>
-      </tbody></table></div>
-    <div class="tbl"><table>
-      <thead><tr><th>Config (same budget)</th><th>R</th><th>¬R</th><th>All</th></tr></thead>
-      <tbody>
-        <tr><td>64F@0.5</td><td>72.73</td><td>58.54</td><td>62.30</td></tr>
-        <tr class="base"><td>256F@0.25</td><td>71.89</td><td>61.76</td><td>64.44</td></tr>
-        <tr><td>LoHi-Uniform</td><td>76.64</td><td>61.86</td><td>65.78</td></tr>
-        <tr><td>LoHi-Anchor</td><td>75.38</td><td>62.47</td><td>65.89</td></tr>
-        <tr class="ours"><td>LoHi-SemDiv</td><td class="best">77.06</td><td class="best">63.12</td><td class="best">66.81</td></tr>
-      </tbody></table></div>
-  </div>
-  <p class="note">Left: VideoMME accuracy across selectors and Hi-I budgets. Right: resolution-sensitive (R: OCR, Attribute) vs. other (¬R) VideoMME questions. Single configurations must pick a side; every LoHi variant beats both on both subsets.</p>
-
-  <h3 style="margin-top:40px;font-size:21px">What the Hi-I frames recover</h3>
-  <figure>
-    <img src="../images/blog/lohi/lov_case.png" alt="Lo-V at any frame count misses a detail on the interviewee's chin; LoHi-SemDiv recovers it">
-    <figcaption>The answer depends on a small detail on the interviewee's chin. Lo-V alone answers wrong at 16, 32, 128 and 256 frames because the detail is blurred at low resolution. The four Hi-I frames chosen by LoHi-SemDiv restore it.</figcaption>
-  </figure>
-  <figure>
-    <img src="../images/blog/lohi/vis_lohi.jpg" alt="LoHi-Anchor replaces a black frame with a scoreboard; LoHi-SemDiv picks frames before and after a bombing">
-    <figcaption><b>(A)</b> LoHi-Anchor replaces a black frame with the Lo-V grid frame closest to the nearest I-frame, recovering the scoreboard. <b>(B)</b> LoHi-SemDiv picks two query-relevant frames spanning the museum before and after the bombing.</figcaption>
-  </figure>
-</div></section>
-
-<!-- ====================== FAQ ====================== -->
-<section class="sec alt" id="faq"><div class="wrap">
-  <div class="eyebrow">FAQ</div>
-  <h2>Questions we often get</h2>
-  <details open><summary>“Coverage vs. detail” sounds intuitive. What is new?</summary><div class="ans">
-    <p>The intuition is natural; it is how people skim a long video. What is new is that existing efficient methods do not act on it. Keyframe selection and token pruning work at fixed native resolution, none of them trades resolution for coverage, and none accounts for front-end decoding, which can exceed VLM inference on hour-scale clips.</p>
-    <p>Framing efficiency as a joint allocation over frame count, per-frame resolution, and front-end latency immediately produces Low-Res-Base, a baseline prior work does not report, which outperforms every keyframe-selection and token-pruning baseline on average at matched budget. The same view is what makes LoHi's operating point visible: decode 128 instead of 256 frames, at about 65% of the dense baseline's TTFT, while scoring higher.</p></div></details>
-  <details><summary>What if the selector picks the wrong frames?</summary><div class="ans">
-    <p>The missed frame is still in the Lo-V stream at low resolution, so a miss is graceful. Under total selector failure LoHi falls back to its Lo-V base (63.00% on VideoMME), and in practice all 12 selector and K combinations stay within 65.22–66.81%. Failure cases and their remedies are visualized in the paper: Anchor recovers evidence when a uniform pick lands on an uninformative frame, and SemDiv retrieves transient or fine-detail evidence that falls between uniform picks.</p></div></details>
-  <details><summary>Why not just prune tokens?</summary><div class="ans">
-    <p>At the same number of tokens reaching the LLM, a plain resize matches or beats VisionZip, MMTok and FlashVid at both 25% and 50% budgets. Pruning still pays for native-resolution encoding (2,486 ms of ViT time vs. 195 ms for LoHi) and fragments the spatiotemporal structure that video models rely on.</p></div></details>
-  <details><summary>Where does the latency saving come from?</summary><div class="ans">
-    <p>Three places. LoHi decodes 128 frames instead of 256 (3.3 s vs. 5.4 s of CPU decoding on VideoMME). It never encodes native-resolution frames except the K Hi-I images. And its selectors are nearly free: Uniform and Anchor are indexing over the grid and codec metadata, and SemDiv runs one CLIP pass over 128 small frames.</p></div></details>
-  <details><summary>Does LoHi need training or model changes?</summary><div class="ans">
-    <p>No. It uses the video and image pathways that unified VLMs already expose, plus one natural-language marker. It transfers without retuning to Qwen3-VL-4B/8B, Qwen3.5-4B, Qwen2.5-VL-7B, VideoChat3-4B and VideoLLaMA3-7B.</p></div></details>
-  <details><summary>When will the code be released?</summary><div class="ans">
-    <p>We are building <b>longvideo-eval</b>, an open-source framework for evaluating common long-video VLMs, and LoHi will be released as part of it.</p></div></details>
+  </a>
 </div></section>
 
 <section class="sec" id="cite" style="border-bottom:none"><div class="wrap">
@@ -676,20 +540,32 @@ footer{padding:36px 0 50px;color:var(--muted);font-size:14px;text-align:center}
 const $=s=>document.querySelector(s);
 const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e};
 
+
+/* ---------------- hero: two labeled strips ---------------- */
+(function(){const A=$('#hvA'),B=$('#hvB');if(!A)return;const n=128;
+  const kf=[3,10,15,23,29,37,45,50,61,68,75,85,95,101,113,123];
+  const hi=[8,22,35,51,75,88,103,119];
+  for(let i=0;i<n;i++){const a=document.createElement('i');
+    if(kf.includes(i)){a.style.height='100%';a.style.background='#edf1f5'}else{a.style.height='100%';a.style.background='#2b3448'}
+    A.appendChild(a);
+    const b=document.createElement('i');
+    if(hi.includes(i)){b.style.height='100%';b.style.background='#ef5a4c';b.className='grow';b.style.animationDelay=(.25+hi.indexOf(i)*.06)+'s'}else{b.style.height='30%';b.style.background='#7fb3dc'}
+    B.appendChild(b)}})();
+
 /* ---------------- L1: five ways to spend a budget ---------------- */
 const SLOTS=256;
-const LO='#5b8fd6', HI='#ffb27a', GHOST='#33415c';
+const LO='#7fb3dc', NAT='#edf1f5', HI='#ef5a4c', GHOST='#3d4759';
 const kfPick=[6,21,30,47,58,75,90,101,122,137,150,171,190,203,226,247]; // non-uniform keyframe picks
 const MODES=[
  {id:'vanilla',label:'16F · native',acc:57.78,avg:51.76,ttft:null,dec:'16',sent:'16 @ 1.0×',
   desc:'<b>The default recipe.</b> 16 frames at native resolution. Each frame is sharp, but one frame every ~4 minutes misses most of what happens in an hour-long video.',
-  bars:i=> i%16===8?{h:1,c:HI}:null},
+  bars:i=> i%16===8?{h:1,c:NAT}:null},
  {id:'kf',label:'keyframe select',acc:60.81,avg:57.13,ttft:5978,dec:'256',sent:'16 @ 1.0×',
   desc:'<b>Decode-then-select (BOLT shown).</b> Decode a 256-frame candidate pool at native resolution, score every frame with CLIP, keep 16. The decoding is paid in full, and the VLM still sees only 16 frames.',
-  bars:i=> kfPick.includes(i)?{h:1,c:HI}:{h:1,c:GHOST,o:.55}},
+  bars:i=> kfPick.includes(i)?{h:1,c:NAT}:{h:1,c:GHOST}},
  {id:'prune',label:'token pruning',acc:59.30,avg:52.36,ttft:8990,dec:'256',sent:'256 @ 1.0× → 6.25% of tokens',
   desc:'<b>Encode-then-prune (FlashVid shown).</b> Decode 256 native frames, run the full vision encoder on all of them (2,486 ms), then discard 93.75% of the tokens. The slowest option, and pruning fragments each frame.',
-  bars:i=> ({h:1,c:HI,o:.16,strip:true})},
+  bars:i=> ({h:1,c:NAT,strip:true})},
  {id:'lowres',label:'Low-Res-Base · 256F@0.25',acc:64.44,avg:59.17,ttft:5963,dec:'256',sent:'256 @ 0.25×',
   desc:'<b>The new recipe (L1).</b> Spend the same tokens on 256 frames at ¼ resolution. No selection logic at all, and it already beats every keyframe and pruning baseline on average.',
   bars:i=>({h:.25,c:LO})},
@@ -707,8 +583,7 @@ function setMode(k){
   slots.forEach((b,i)=>{const v=m.bars(i);
     if(!v){b.style.height='0';b.style.opacity=0;return}
     b.style.height=(v.h*100)+'%';b.style.opacity=v.o!=null?v.o:1;
-    b.style.background=v.strip?'repeating-linear-gradient(180deg,'+HI+' 0 3px,transparent 3px 14px)':v.c;
-    if(v.strip)b.style.opacity=.75;});
+    b.style.background=v.strip?'repeating-linear-gradient(180deg,'+NAT+' 0 2px,'+GHOST+' 2px 16px)':v.c;});
   $('#l1acc').textContent=m.acc.toFixed(2)+'%';
   $('#l1accbar').style.width=((m.acc-50)/(70-50)*100)+'%';
   $('#l1ttft').textContent=m.ttft?m.ttft.toLocaleString()+' ms':'— (not reported)';
@@ -716,7 +591,7 @@ function setMode(k){
   $('#l1dec').textContent=m.dec+' frames';$('#l1sent').textContent=m.sent;$('#l1avg').textContent=m.avg.toFixed(2);
   $('#l1desc').innerHTML=m.desc;
   const v=$('#l1verdict');
-  v.innerHTML= m.id==='lohi'?'<span class="ok">fewest decoded · fastest · most accurate</span>': m.id==='prune'?'<span class="hot">slowest: native ViT on 256 frames</span>': m.id==='kf'?'<span class="hot">pays 256-frame decode, sees 16</span>':'';
+  v.innerHTML= m.id==='lohi'?'<span class="ok">fewest decoded, fastest, most accurate</span>': m.id==='prune'?'<span class="hot">slowest: native ViT on 256 frames</span>': m.id==='kf'?'<span class="hot">pays 256-frame decode, sees 16</span>':'';
 }
 setMode(0);
 
@@ -762,11 +637,11 @@ function renderL2(){
   const t=document.createElement('canvas');t.width=w;t.height=h;const tg=t.getContext('2d');tg.imageSmoothingEnabled=true;tg.imageSmoothingQuality='high';tg.drawImage(scene,0,0,w,h);
   ctx.imageSmoothingEnabled=false;ctx.drawImage(t,0,0,1280,720);
   if($('#l2hi').checked){ctx.imageSmoothingEnabled=true;ctx.drawImage(scene,560,80,560,315,700,380,560,315);
-    ctx.strokeStyle='#ffb27a';ctx.lineWidth=8;ctx.strokeRect(700,380,560,315);ctx.fillStyle='rgba(12,22,52,.85)';ctx.fillRect(708,388,250,40);
-    ctx.fillStyle='#ffb27a';ctx.font='600 24px JetBrains Mono, monospace';ctx.fillText('Hi-I · native',720,416);}
+    ctx.strokeStyle='#ef5a4c';ctx.lineWidth=8;ctx.strokeRect(700,380,560,315);ctx.fillStyle='rgba(27,34,48,.88)';ctx.fillRect(708,388,250,40);
+    ctx.fillStyle='#ffb4ac';ctx.font='600 24px JetBrains Mono, monospace';ctx.fillText('Hi-I · native',720,416);}
   const z=$('#l2zoom').getContext('2d');z.imageSmoothingEnabled=false;
   z.drawImage(t,580*r,105*r,520*r,190*r,0,0,520,190);
-  if($('#l2hi').checked){z.imageSmoothingEnabled=true;z.drawImage(scene,580,105,520,190,0,0,520,190);z.strokeStyle='#ffb27a';z.lineWidth=6;z.strokeRect(3,3,514,184);}
+  if($('#l2hi').checked){z.imageSmoothingEnabled=true;z.drawImage(scene,580,105,520,190,0,0,520,190);z.strokeStyle='#ef5a4c';z.lineWidth=6;z.strokeRect(3,3,514,184);}
   $('#l2zcap').textContent=$('#l2hi').checked?'Hi-I: native':'';
   const tok=360*r*r;
   $('#l2res').textContent='r = '+r;$('#l2px').textContent=w+'×'+h+' px';
@@ -775,7 +650,7 @@ function renderL2(){
   const ul=$('#l2checks');ul.innerHTML='';
   CHECKS.forEach(c=>{const st=r>=c[2]?'ok':r>=c[3]?'mid':'no';const li=el('li',st);
     li.innerHTML='<span class="ic">'+(st==='ok'?'✓':st==='mid'?'~':'✕')+'</span><span>'+c[0]+'<small>'+c[1]+'</small></span><span class="st">'+(st==='ok'?'clear':st==='mid'?'blurry':'lost')+'</span>';ul.appendChild(li)});
-  $('#l2desc').innerHTML=DESC[r]+(r<0.25?' <span style="color:var(--fog)">* not evaluated in the paper.</span>':'');
+  $('#l2desc').innerHTML=DESC[r]+(r<0.25?' <span style="color:var(--rebate)">* not evaluated in the paper.</span>':'');
 }
 $('#rdial').addEventListener('input',e=>{rIdx=+e.target.value;$('#rdial').setAttribute('aria-valuetext','r = '+RS[rIdx]);renderL2()});
 $('#l2hi').addEventListener('change',renderL2);
@@ -804,7 +679,7 @@ const dBox=$('#l3dur'),bars=$('#durbars');
 DUR.forEach((d,k)=>{const b=el('button','mode',d[0]);b.setAttribute('aria-pressed',k===2);b.onclick=()=>setDur(k);dBox.appendChild(b)});
 function setDur(k){[...dBox.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===k));const d=DUR[k];
   bars.innerHTML='';
-  [['dense (FPS=1)',d[1],'#ff8a8a'],['uniform N=256',d[2],'#8fb3e8']].forEach(r=>{const row=el('div','row');row.innerHTML='<span>'+r[0]+'</span>';
+  [['dense (FPS=1)',d[1],'var(--cost)'],['uniform N=256',d[2],'var(--lo)']].forEach(r=>{const row=el('div','row');row.innerHTML='<span>'+r[0]+'</span>';
     const p=el('div','pair');const b=el('div','b');b.style.background=r[2];b.style.width='0';b.innerHTML='<span>'+r[1].toFixed(1)+' s</span>';p.appendChild(b);row.appendChild(p);bars.appendChild(row);
     requestAnimationFrame(()=>b.style.width=Math.max(1,r[1]/55*80)+'%')});
   const x=el('div','counter');x.innerHTML='dense / uniform = <b>'+(d[1]/d[2]).toFixed(1)+'×</b>';bars.appendChild(x)}
@@ -825,13 +700,13 @@ const svg=$('#scsvg'),NS='http://www.w3.org/2000/svg',tip=$('#sctip');
 const M={l:56,r:24,t:16,b:44},W=760,H=380,x0=3000,x1=9500,y0=55,y1=68;
 const sx=v=>M.l+(v-x0)/(x1-x0)*(W-M.l-M.r), sy=v=>H-M.b-(v-y0)/(y1-y0)*(H-M.t-M.b);
 const mk=(t,a)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);return e};
-for(let v=56;v<=68;v+=2){svg.appendChild(mk('line',{x1:M.l,x2:W-M.r,y1:sy(v),y2:sy(v),stroke:'#e2e8f0','stroke-width':1}));
+for(let v=56;v<=68;v+=2){svg.appendChild(mk('line',{x1:M.l,x2:W-M.r,y1:sy(v),y2:sy(v),stroke:'#e1e7ee','stroke-width':1}));
   const t=mk('text',{x:M.l-10,y:sy(v)+4,'text-anchor':'end','font-size':12,fill:'#64748b'});t.textContent=v;svg.appendChild(t)}
 for(let v=3000;v<=9000;v+=1000){const t=mk('text',{x:sx(v),y:H-M.b+20,'text-anchor':'middle','font-size':12,fill:'#64748b'});t.textContent=(v/1000)+' s';svg.appendChild(t)}
 svg.appendChild(mk('line',{x1:M.l,x2:W-M.r,y1:H-M.b,y2:H-M.b,stroke:'#94a3b8'}));
 let t=mk('text',{x:(M.l+W-M.r)/2,y:H-6,'text-anchor':'middle','font-size':12.5,fill:'#334155'});t.textContent='time to first token, including decoding (lower is better)';svg.appendChild(t);
 t=mk('text',{x:14,y:(M.t+H-M.b)/2,'text-anchor':'middle','font-size':12.5,fill:'#334155',transform:'rotate(-90 14 '+((M.t+H-M.b)/2)+')'});t.textContent='VideoMME accuracy (%)';svg.appendChild(t);
-const COL={lohi:'#eb6834',key:'#2a78d6',prune:'#1baf7a',ref:'#8a94a6'};
+const COL={lohi:'#d2382c',key:'#4a3aa7',prune:'#1baf7a',ref:'#8a94a6'};
 const GN={lohi:'LoHi (ours)',key:'Keyframe selection',prune:'Token pruning',ref:'Dense low-res reference'};
 P.forEach(p=>{const cx=sx(p.x),cy=sy(p.y),c=COL[p.g];let s;
   if(p.g==='key')s=mk('rect',{x:cx-6,y:cy-6,width:12,height:12,rx:2,fill:c,stroke:'#fff','stroke-width':2});
