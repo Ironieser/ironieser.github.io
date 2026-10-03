@@ -280,6 +280,30 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 .btnlink{display:inline-block;margin-top:14px;background:var(--film);color:#fff;font-weight:600;font-size:14.5px;padding:9px 16px;border-radius:999px}
 @media (max-width:900px){.hvrow{grid-template-columns:1fr}.hvstat{flex-direction:row;gap:14px;flex-wrap:wrap}.blogcard{grid-template-columns:1fr}.hvkey .dim{margin-left:0}}
 @media (prefers-reduced-motion:reduce){.hvbars i.grow{animation:none}}
+
+.lchips{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:20px auto 4px;max-width:900px}
+.lchips a{display:flex;align-items:center;gap:9px;text-decoration:none;color:#e8edf3;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:7px 14px 7px 7px;font-size:14px}
+.lchips a:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.45)}
+.lchips b{background:#edf1f5;color:#1b2230;border-radius:999px;padding:3px 9px;font-size:12.5px}
+.nav .quick{display:none;gap:18px;margin-left:auto}
+.nav .quick a{color:var(--rebate);text-decoration:none;font-size:14px;font-weight:500}
+.nav .quick a:hover{color:var(--film)}
+.toc{display:none}
+@media (min-width:1100px){
+  .nav .links{display:none} .nav .quick{display:flex}
+  .layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:36px;max-width:1400px;margin:0 auto;padding:0 28px}
+  .main .wrap{max-width:1080px;padding:0;margin:0}
+  .main section.sec.alt{background:transparent}
+  .toc{display:flex;flex-direction:column;gap:2px;position:sticky;top:74px;align-self:start;max-height:calc(100vh - 90px);overflow:auto;padding:52px 0 20px;font-size:14px}
+  .toc .toch{font-size:13px;color:var(--rebate);font-weight:600;margin-bottom:8px}
+  .toc a{display:block;text-decoration:none;color:var(--rebate);padding:6px 10px;border-left:2px solid var(--line);line-height:1.35}
+  .toc a.sub{padding-left:22px;font-size:13.5px}
+  .toc a.sub b{display:inline-block;min-width:22px;color:var(--film)}
+  .toc a:hover{color:var(--film);border-left-color:var(--line-2)}
+  .toc a.on{color:var(--film);font-weight:650;border-left-color:var(--hi)}
+  .tocx{display:flex;flex-direction:column;gap:6px;margin-top:18px;padding-left:12px}
+  .tocx a{border:none!important;padding:0!important;color:var(--lo)!important;font-size:13.5px}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:900px){
   .stats{grid-template-columns:1fr 1fr}
@@ -306,6 +330,7 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 
 <nav class="nav"><div class="wrap">
   <a class="brand" href="#top"><span class="l">Lo</span><span class="h">Hi</span></a>
+  <div class="quick"><a href="https://openreview.net/forum?id=a9xLyT4hG4" target="_blank" rel="noopener">Paper</a><a href="../blog.html?post=lohi-rethinking-long-video-efficiency">Blog</a></div>
   <div class="links">
     <a href="#lessons">Lessons</a><a href="#method">Method</a><a href="#results">Results</a><a href="../blog.html?post=lohi-rethinking-long-video-efficiency">Blog</a><a href="#cite">Cite</a>
   </div>
@@ -316,6 +341,11 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <h1><span class="l">Lo</span><span class="h">Hi</span></h1>
   <p class="title">Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency</p>
   <p class="tagline">Trade pixels for frames. Decode half as many. Answer faster and better.</p>
+  <nav class="lchips" aria-label="Three lessons">
+    <a href="#l1-head"><b>L1</b><span>Dense low-res beats sparse native frames</span></a>
+    <a href="#l2-head"><b>L2</b><span>Some tasks still need high resolution</span></a>
+    <a href="#l3-head"><b>L3</b><span>On long videos, decoding dominates latency</span></a>
+  </nav>
   <p class="authors">
     <span>Sixun Dong<sup>1</sup></span> &nbsp;·&nbsp; <span>Wei Li<sup>1</sup></span> &nbsp;·&nbsp; <span>Andong Deng<sup>1</sup></span> &nbsp;·&nbsp;
     <span>Qi Qian<sup>2</sup></span> &nbsp;·&nbsp; <span>Victor Zhu<sup>3</sup></span> &nbsp;·&nbsp; <span>Zhengping Ji<sup>3</sup></span> &nbsp;·&nbsp; <span>Chen Chen<sup>1✉</sup></span>
@@ -361,13 +391,27 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
 
 
 <!-- ====================== LESSONS ====================== -->
+<div class="layout">
+<aside class="toc" aria-label="On this page">
+  <p class="toch">On this page</p>
+  <a href="#lessons" data-spy="lessons">Three lessons</a>
+  <a href="#l1-head" data-spy="l1-head" class="sub"><b>L1</b> Dense low-res is the new recipe</a>
+  <a href="#l2-head" data-spy="l2-head" class="sub"><b>L2</b> Resolution is task-dependent</a>
+  <a href="#l3-head" data-spy="l3-head" class="sub"><b>L3</b> Decoding dominates long videos</a>
+  <a href="#method" data-spy="method">Method</a>
+  <a href="#results" data-spy="results">Results</a>
+  <a href="#more" data-spy="more">Blog post</a>
+  <a href="#cite" data-spy="cite">BibTeX</a>
+  <div class="tocx"><a href="https://openreview.net/forum?id=a9xLyT4hG4" target="_blank" rel="noopener">Paper</a><a href="../blog.html?post=lohi-rethinking-long-video-efficiency">Read the blog</a></div>
+</aside>
+<main class="main">
 <section class="sec" id="lessons"><div class="wrap">
   <div class="eyebrow">Three lessons</div>
   <h2>What actually limits long-video VLMs</h2>
   <p class="intro">Efficient long-video VLMs usually ask which tokens to keep at native resolution. We ask how to spend a fixed budget across frame count, per-frame resolution, and front-end decoding. Three lessons answer it. Every VLM spends a fixed visual-token budget <span class="mono">B</span> on one configuration <span class="mono">(N, r)</span>: <span class="mono">N</span> frames at per-frame resolution scale <span class="mono">r</span>, with <span class="mono">N · τ(r) ≤ B</span>. Before the tokens ever reach the model, a <b>video front-end</b> must decode those frames from the compressed file. Play with each lesson below.</p>
 
   <!-- L1 -->
-  <div class="lesson"><div class="num">L1</div><div>
+  <div class="lesson" id="l1-head"><div class="num">L1</div><div>
     <h3>Dense low-resolution sampling is the new recipe</h3>
     <p>At the same token budget, 256 frames at ¼ resolution beat 16 frames at native resolution, and beat dedicated keyframe-selection and token-pruning methods too. We call this <b>Low-Res-Base</b>.</p>
   </div></div>
@@ -394,7 +438,7 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <div class="takeaway"><b>Takeaway (L1).</b> Under a strict token budget, trading per-frame resolution for dense temporal coverage consistently outperforms the default sparse, native-resolution recipe. Dense, low-resolution sampling should serve as the new foundational baseline for long-video VLMs.</div>
 
   <!-- L2 -->
-  <div class="lesson"><div class="num">L2</div><div>
+  <div class="lesson" id="l2-head"><div class="num">L2</div><div>
     <h3>Resolution sensitivity is task-dependent</h3>
     <p>Shrinking a frame is surprisingly cheap: people, actions and the layout of a scene survive long after the pixels get blocky, and the VLM keeps up. Fine text and small attributes do not. Turn the dial and watch what disappears first.</p>
   </div></div>
@@ -434,7 +478,7 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <div class="takeaway"><b>Takeaway (L2).</b> Under a fixed token budget, no single (N, r) optimally serves all task types; any globally fixed allocation is suboptimal on at least one subset.</div>
 
   <!-- L3 -->
-  <div class="lesson"><div class="num">L3</div><div>
+  <div class="lesson" id="l3-head"><div class="num">L3</div><div>
     <h3>Front-end latency cannot be overlooked in long videos</h3>
     <p>A video file is not a stack of pictures. Codecs store a full <b>I-frame</b> at the start of each Group of Pictures (GoP), and every following <b>P-frame</b> only stores what changed since the previous frame. To show any P-frame, the decoder must start at its I-frame and replay every frame in between.</p>
   </div></div>
@@ -547,6 +591,8 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
   <p class="note" style="margin-top:16px">Questions or collaboration: <a href="mailto:sixundong.ai@gmail.com">sixundong.ai@gmail.com</a></p>
 </div></section>
 
+</main>
+</div>
 <footer><div class="wrap">© 2026 The LoHi authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
 
 <script>
@@ -569,6 +615,16 @@ const el=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt
     for(let i=0;i<n;i++){const e=document.createElement('i');const v=paint(i,m);
       if(v){e.style.height=v[0];e.style.background=v[1];if(v[2]){e.className='grow';e.style.animationDelay=(.3+hi.indexOf(i)*.06)+'s'}}
       box.appendChild(e)}});})();
+
+
+/* ---------------- sidebar scrollspy ---------------- */
+(function(){const links=[...document.querySelectorAll('.toc a[data-spy]')];if(!links.length)return;
+  const ids=links.map(a=>a.dataset.spy);const els=ids.map(i=>document.getElementById(i)).filter(Boolean);
+  function update(){let cur=null;const y=window.scrollY+window.innerHeight*0.4;
+    els.forEach(e=>{if(e.getBoundingClientRect().top+window.scrollY<=y)cur=e.id});
+    if(cur&&cur.startsWith('l')&&cur.endsWith('-head')){} 
+    links.forEach(a=>a.classList.toggle('on',a.dataset.spy===cur))}
+  window.addEventListener('scroll',update,{passive:true});update();})();
 
 /* ---------------- L1: five ways to spend a budget ---------------- */
 const SLOTS=256;
