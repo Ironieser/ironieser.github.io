@@ -157,6 +157,9 @@ figcaption{font-size:14px;color:var(--rebate);margin-top:10px;line-height:1.55;m
 .canvasbox{background:var(--film);border-radius:8px;padding:10px}
 .canvasbox canvas{width:100%;height:auto;display:block;border-radius:4px;image-rendering:pixelated}
 .canvasbox .cap{font-size:12px;color:#aeb8c7;margin-top:8px;display:flex;justify-content:space-between;gap:10px}
+.viewseg{display:flex;gap:6px;margin-bottom:8px}
+.viewseg button{font:500 12.5px var(--sans);color:#e8edf3;background:transparent;border:1px solid #3a4560;border-radius:6px;padding:5px 11px;cursor:pointer}
+.viewseg button[aria-pressed="true"]{background:#edf1f5;color:#1b2230;border-color:#edf1f5}
 .hitoggle{display:flex;align-items:center;gap:8px;font-size:13px;color:#e8edf3;margin-top:10px;cursor:pointer}
 .hitoggle input{accent-color:var(--hi-on-film);width:16px;height:16px}
 .budget{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -453,10 +456,14 @@ footer{padding:36px 0 50px;color:var(--rebate);font-size:14px;text-align:center}
       </div>
       <div class="l2grid" style="margin-top:14px">
         <div class="canvasbox">
-          <canvas id="l2canvas" width="1280" height="720" aria-label="A synthetic video frame rendered at the selected resolution"></canvas>
+          <div class="viewseg" role="group" aria-label="View">
+            <button type="button" data-v="actual" aria-pressed="true">Actual size</button>
+            <button type="button" data-v="zoom" aria-pressed="false">Zoom in</button>
+          </div>
+          <canvas id="l2canvas" width="1280" height="720" aria-label="A synthetic video frame rendered at the selected resolution" title="Click to zoom in or out"></canvas>
           <div class="cap"><span id="l2res"></span><span id="l2px"></span></div>
           <canvas id="l2zoom" width="520" height="190" style="margin-top:10px" aria-label="Close-up of the road sign at the selected resolution"></canvas>
-          <div class="cap"><span>close-up of the sign, shown at native pixel size</span><span id="l2zcap"></span></div>
+          <div class="cap"><span>close-up of the sign, enlarged to native size</span><span id="l2zcap"></span></div>
           <label class="hitoggle mono"><input type="checkbox" id="l2hi"> overlay one LoHi Hi-I frame (native resolution)</label>
         </div>
         <div>
@@ -705,11 +712,19 @@ function drawScene(g){
   g.strokeStyle='#ddd';g.lineWidth=3;g.beginPath();g.moveTo(630,500);g.lineTo(680,560);g.stroke();
   g.fillStyle='#8a5a2b';g.fillRect(670,560,70,30);g.beginPath();g.arc(745,560,16,0,6.29);g.fill();g.fillRect(676,588,8,18);g.fillRect(726,588,8,18);
 }
-let rIdx=0;
+let rIdx=0,l2zoom=false;
 function renderL2(){
   const r=RS[rIdx],w=Math.max(1,Math.round(1280*r)),h=Math.max(1,Math.round(720*r));
   const t=document.createElement('canvas');t.width=w;t.height=h;const tg=t.getContext('2d');tg.imageSmoothingEnabled=true;tg.imageSmoothingQuality='high';tg.drawImage(scene,0,0,w,h);
-  ctx.imageSmoothingEnabled=false;ctx.drawImage(t,0,0,1280,720);
+  if(l2zoom||r===1){ctx.imageSmoothingEnabled=false;ctx.drawImage(t,0,0,1280,720);}
+  else{ // actual size: the downscaled frame inside the native-size outline
+    ctx.fillStyle='#11172a';ctx.fillRect(0,0,1280,720);
+    ctx.setLineDash([18,12]);ctx.strokeStyle='#5a6782';ctx.lineWidth=4;ctx.strokeRect(2,2,1276,716);ctx.setLineDash([]);
+    ctx.fillStyle='#8592ab';ctx.font='500 30px Inter, sans-serif';ctx.fillText('native frame, 1280×720',28,52);
+    const x=Math.round((1280-w)/2),y=Math.round((720-h)/2);
+    ctx.imageSmoothingEnabled=false;ctx.drawImage(t,x,y,w,h);
+    ctx.strokeStyle='#edf1f5';ctx.lineWidth=2;ctx.strokeRect(x-1,y-1,w+2,h+2);
+    ctx.fillStyle='#edf1f5';ctx.font='600 30px Inter, sans-serif';ctx.textAlign='center';ctx.fillText('what the model gets: '+w+'×'+h,640,Math.min(706,y+h+44));ctx.textAlign='start';}
   if($('#l2hi').checked){ctx.imageSmoothingEnabled=true;ctx.drawImage(scene,560,80,560,315,700,380,560,315);
     ctx.strokeStyle='#ef5a4c';ctx.lineWidth=8;ctx.strokeRect(700,380,560,315);ctx.fillStyle='rgba(27,34,48,.88)';ctx.fillRect(708,388,250,40);
     ctx.fillStyle='#ffb4ac';ctx.font='600 24px JetBrains Mono, monospace';ctx.fillText('Hi-I · native',720,416);}
@@ -718,7 +733,9 @@ function renderL2(){
   if($('#l2hi').checked){z.imageSmoothingEnabled=true;z.drawImage(scene,580,105,520,190,0,0,520,190);z.strokeStyle='#ef5a4c';z.lineWidth=6;z.strokeRect(3,3,514,184);}
   $('#l2zcap').textContent=$('#l2hi').checked?'Hi-I: native':'';
   const tok=360*r*r;
-  $('#l2res').textContent='r = '+r;$('#l2px').textContent=w+'×'+h+' px';
+  $('#l2res').textContent='r = '+r+(r===1?'':l2zoom?' · zoomed in '+Math.round(1/r)+'×':' · actual size');$('#l2px').textContent=w+'×'+h+' px';
+  document.querySelectorAll('.viewseg button').forEach(b=>b.setAttribute('aria-pressed',(b.dataset.v==='zoom')===l2zoom));
+  cv.style.cursor=r===1?'default':l2zoom?'zoom-out':'zoom-in';
   $('#l2tok').textContent=tok>=1?(tok%1?tok.toFixed(1):tok):tok.toFixed(2);
   $('#l2nf').textContent=Math.round(16/(r*r)).toLocaleString()+(r<0.25?' *':'');
   const ul=$('#l2checks');ul.innerHTML='';
@@ -726,6 +743,8 @@ function renderL2(){
     li.innerHTML='<span class="ic">'+(st==='ok'?'✓':st==='mid'?'~':'✕')+'</span><span>'+c[0]+'<small>'+c[1]+'</small></span><span class="st">'+(st==='ok'?'clear':st==='mid'?'blurry':'lost')+'</span>';ul.appendChild(li)});
   $('#l2desc').innerHTML=DESC[r]+(r<0.25?' <span style="color:var(--rebate)">* not evaluated in the paper.</span>':'');
 }
+document.querySelectorAll('.viewseg button').forEach(b=>b.addEventListener('click',()=>{l2zoom=b.dataset.v==='zoom';renderL2()}));
+cv.addEventListener('click',()=>{if(RS[rIdx]===1)return;l2zoom=!l2zoom;renderL2()});
 $('#rdial').addEventListener('input',e=>{rIdx=+e.target.value;$('#rdial').setAttribute('aria-valuetext','r = '+RS[rIdx]);renderL2()});
 $('#l2hi').addEventListener('change',renderL2);
 (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{drawScene(scene.getContext('2d'));renderL2()});
