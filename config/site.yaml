@@ -47,3 +47,5 @@ redirects:
     target: /projects/mmtok.html
   - alias: timesclip
     target: /projects/timesclip.html
+  - alias: lohi
+    target: /projects/lohi.html

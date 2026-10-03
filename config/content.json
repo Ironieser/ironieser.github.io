@@ -893,6 +893,11 @@
             "icon": "fas fa-file-alt"
           },
           {
+            "name": "Project Page",
+            "url": "https://sixundong.com/projects/lohi",
+            "icon": "fas fa-globe"
+          },
+          {
             "name": "Code (Coming Soon)",
             "url": null,
             "icon": "fab fa-github",
