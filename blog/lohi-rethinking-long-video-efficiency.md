@@ -10,7 +10,7 @@ image: "images/blog/lohi/framework.jpg"
 
 > _Sharing my new work here — hope you'll bear with any shortcomings, and welcome any suggestions, comments, or critiques! This is joint work with UCF, Meta Reality Labs and Axon. The question we started from sounds simple: **for a long video and a fixed visual-token budget, how should we actually spend those tokens?** The answer turned out to be less about which tokens to keep, and more about frames, pixels, and the video decoder that nobody measures._
 
-**Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://openreview.net/forum?id=a9xLyT4hG4) (NeurIPS 2026)  
+**Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://arxiv.org/abs/2610.04318) (arXiv:2610.04318, NeurIPS 2026)  
 **Code:** coming soon — we are building **longvideo-eval**, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, and LoHi will be released as part of it  
 **Project Page:** [sixundong.com/projects/lohi](https://sixundong.com/projects/lohi) _(with three small interactive toys, one per lesson (・ω・))_
 
@@ -369,7 +369,7 @@ Finally, thank you for reading! Welcome any questions, any discussions, and any 
 
 ## References
 
-- **Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://openreview.net/forum?id=a9xLyT4hG4)
+- **Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://arxiv.org/abs/2610.04318) · [OpenReview](https://openreview.net/forum?id=a9xLyT4hG4)
 - **Project Page:** [sixundong.com/projects/lohi](https://sixundong.com/projects/lohi)
 - **Related:** [MMTok: Multimodal Coverage Maximization for Efficient Inference of VLMs](https://arxiv.org/abs/2508.18264)
 - **Personal Homepage:** [Sixun Dong - Academic Homepage](https://sixundong.com/)
@@ -386,7 +386,9 @@ If you find this work useful, please consider citing:
   author    = {Dong, Sixun and Li, Wei and Deng, Andong and Qian, Qi and Zhu, Victor and Ji, Zhengping and Chen, Chen},
   booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
   year      = {2026},
-  url       = {https://openreview.net/forum?id=a9xLyT4hG4}
+  eprint    = {2610.04318},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2610.04318}
 }
 ```
 

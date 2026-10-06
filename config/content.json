@@ -882,10 +882,9 @@
         "tldr": "Reframes long-video VLM efficiency as a joint allocation over frame count, per-frame resolution, and front-end decoding latency, not just which tokens to keep. LoHi is a training-free, single-pass framework that pairs a dense low-resolution video stream with a few high-resolution frames (picked from codec I-frames or by a query-aware CLIP DPP). It gains +10.6% over the native-resolution baseline at matched token budget and +5.2% over the strongest prior efficiency methods, while cutting front-end decoding latency by up to 7x on hour-scale videos. Joint work with UCF, Axon & Meta.",
         "links": [
           {
-            "name": "arXiv (Coming Soon)",
-            "url": null,
-            "icon": "ai ai-arxiv",
-            "coming_soon": true
+            "name": "arXiv",
+            "url": "https://arxiv.org/abs/2610.04318",
+            "icon": "ai ai-arxiv"
           },
           {
             "name": "OpenReview",
