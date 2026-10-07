@@ -335,6 +335,7 @@ function generateNavigation(personal, activePage) {
   const navLinks = {
     'Bio': 'index.html',
     'Publications': 'publications.html', 
+    'Projects': 'projects/',
     'Blog': 'blog.html',
     'CV(PDF)': personal.cv_link
   };

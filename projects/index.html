@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<script>/* Inline theme init — prevent flash of wrong theme */
+(function(){var m=localStorage.getItem('theme-mode')||'auto';var d=m==='night'||(m==='auto'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');})();</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Sixun Dong (董思勋)</title>
+    <meta name="description" content="Project pages by Sixun Dong: LoHi, LongVideo-Eval, MMTok, FlipAct and TimesCLIP. Efficient multimodal inference, when agents should act, and time series as vision and language.">
+    <meta name="author" content="Sixun Dong">
+    <meta property="og:title" content="Projects - Sixun Dong">
+    <meta property="og:description" content="LoHi, LongVideo-Eval, MMTok, FlipAct and TimesCLIP.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sixundong.com/projects/">
+    <meta property="og:image" content="https://sixundong.com/images/logo.jpg">
+    <link rel="canonical" href="https://sixundong.com/projects/">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+    <link rel="shortcut icon" href="../favicon.ico">
+
+    <link rel="stylesheet" href="../assets/css/styles.css?v=7">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="../assets/js/script.js?v=9" defer></script>
+    <style>
+    /* Page-specific layout. Colours come from the site's own variables, so both themes work. */
+    .pj-group{margin-top:3rem}
+    .pj-group:first-child{margin-top:0}
+    .pj-group h2{font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:var(--color-primary);line-height:1.2}
+    .pj-group .pj-lede{color:var(--color-secondary);max-width:44rem;margin-top:.4rem}
+    .pj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;margin-top:1.4rem}
+    .pj-card{display:flex;flex-direction:column;background:var(--color-background);border:1px solid var(--color-border);border-radius:var(--border-radius);overflow:hidden;transition:var(--transition)}
+    .pj-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+    .pj-art{display:block;aspect-ratio:16/9;overflow:hidden;position:relative;text-decoration:none}
+    .pj-art img{width:100%;height:100%;object-fit:cover;display:block}
+    .pj-art.lohi{background:#0c1634 url('../images/blog/lohi/hero_bg.jpg') center/cover;display:grid;place-items:center}
+    .pj-art.lohi::before{content:"";position:absolute;inset:0;background:rgba(8,16,40,.55)}
+    .pj-art.lohi b{position:relative;font:800 3.6rem/1 'Inter',sans-serif;letter-spacing:-.04em}
+    .pj-art.lohi b i{font-style:normal;color:#8ec1e6} .pj-art.lohi b u{text-decoration:none;color:#ff7a6e}
+    .pj-art.lve{background:#edf1f5;display:grid;place-items:center}
+    .pj-art.lve img{width:58%;height:auto;object-fit:contain}
+    .pj-art.flip{background:#17153a;display:grid;place-items:center}
+    .pj-art.flip svg{width:34%;height:auto}
+    .pj-body{padding:1.1rem 1.25rem 1.25rem;display:flex;flex-direction:column;gap:.5rem;flex:1}
+    .pj-venue{font-size:var(--font-size-xs);font-weight:600;color:var(--color-accent)}
+    .pj-body h3{font-size:1.2rem;font-weight:700;color:var(--color-primary);line-height:1.25}
+    .pj-body h3 a{color:inherit;text-decoration:none}
+    .pj-body h3 a:hover{color:var(--color-accent)}
+    .pj-body p{color:var(--color-secondary);font-size:var(--font-size-sm);line-height:1.6}
+    .pj-links{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:auto;padding-top:.6rem}
+    .pj-links a{display:inline-flex;align-items:center;gap:.4rem;font-size:var(--font-size-sm);font-weight:600;text-decoration:none;color:var(--color-primary);border:1px solid var(--color-border);border-radius:999px;padding:.35rem .8rem;transition:var(--transition)}
+    .pj-links a:hover{border-color:var(--color-accent);color:var(--color-accent)}
+    .pj-links a.main{background:var(--color-accent);border-color:var(--color-accent);color:#fff}
+    [data-theme="dark"] .pj-links a.main{color:#020617}
+    .pj-links a.main:hover{background:var(--color-accent-hover);border-color:var(--color-accent-hover);color:#fff}
+    [data-theme="dark"] .pj-links a.main:hover{color:#020617}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="../index.html" class="nav-link " >Bio</a>
+                <a href="../publications.html" class="nav-link " >Publications</a>
+                <a href="./" class="nav-link active" >Projects</a>
+                <a href="../blog.html" class="nav-link " >Blog</a>
+                <a href="../files/CV_DongSixun.pdf" class="nav-link " target="_blank">CV(PDF)</a>
+                <button id="theme-toggle" class="theme-toggle" title="Toggle theme" aria-label="Toggle theme"><span class="theme-icon">🌓</span></button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="page-header-content">
+                    <h1 class="page-title-left">Projects</h1>
+                    <div class="research-intro">
+                        <p>Pages built around individual papers and tools. Most of them are interactive: you can move the sliders, run the small experiments and see the idea before reading the paper.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+
+                <div class="pj-group">
+                    <h2>Efficient multimodal inference</h2>
+                    <p class="pj-lede">What a model sees, at what resolution, and what all of it costs, from the first decoded frame to the last generated token.</p>
+                    <div class="pj-grid">
+
+                        <article class="pj-card">
+                            <a class="pj-art lohi" href="lohi.html" aria-label="LoHi project page"><b><i>Lo</i><u>Hi</u></b></a>
+                            <div class="pj-body">
+                                <span class="pj-venue">NeurIPS 2026</span>
+                                <h3><a href="lohi.html">LoHi: Rethinking Long-Video Efficiency</a></h3>
+                                <p>Dense low-resolution video plus a few high-resolution images. Half the decoding, lower latency and higher accuracy for long-video VLMs.</p>
+                                <div class="pj-links">
+                                    <a class="main" href="lohi.html">Project page</a>
+                                    <a href="https://arxiv.org/abs/2610.04318" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Paper</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="pj-card">
+                            <a class="pj-art lve" href="longvideo-eval.html" aria-label="LongVideo-Eval project page"><img src="../images/longvideo-eval/logo.png" alt="" loading="lazy"></a>
+                            <div class="pj-body">
+                                <span class="pj-venue">Open-source platform</span>
+                                <h3><a href="longvideo-eval.html">LongVideo-Eval</a></h3>
+                                <p>Evaluation infrastructure for long-video intelligence: fixed backbones, matched evidence budgets, and one cost ledger across video-side and model-side work.</p>
+                                <div class="pj-links">
+                                    <a class="main" href="longvideo-eval.html">Project page</a>
+                                    <a href="https://github.com/LongVideo-Intelligence/LongVideo-Eval" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="pj-card">
+                            <a class="pj-art" href="mmtok.html" aria-label="MMTok project page"><img src="../teaser/mmtok.jpg" alt="" loading="lazy"></a>
+                            <div class="pj-body">
+                                <span class="pj-venue">ICLR 2026</span>
+                                <h3><a href="mmtok.html">MMTok: Multimodal Coverage Maximization</a></h3>
+                                <p>Selects the vision tokens worth keeping by maximizing multimodal coverage, for faster VLM inference at the same accuracy.</p>
+                                <div class="pj-links">
+                                    <a class="main" href="mmtok.html">Project page</a>
+                                    <a href="https://arxiv.org/abs/2508.18264" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Paper</a>
+                                    <a href="https://github.com/Ironieser/MMTok" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+                <div class="pj-group">
+                    <h2>When agents should act</h2>
+                    <p class="pj-lede">Before an agent acts it has to decide whether to act at all. Measuring that decision, and moving it.</p>
+                    <div class="pj-grid">
+
+                        <article class="pj-card">
+                            <a class="pj-art flip" href="flipact.html" aria-label="FlipAct project page">
+                                <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 15H19a17 17 0 0 0 0 34h13z" fill="#4f46e5"/><path d="M32 15h13a17 17 0 0 1 0 34H32z" fill="#f2b705"/><rect x="29.500" y="6" width="5" height="52" rx="2.500" fill="#fff"/></svg>
+                            </a>
+                            <div class="pj-body">
+                                <span class="pj-venue">Preprint, 2026</span>
+                                <h3><a href="flipact.html">FlipAct: Sensitivity or Criterion?</a></h3>
+                                <p>Two models can share an accuracy and make opposite mistakes. FlipAct splits when-to-act accuracy into a sensitivity and a criterion, and moves the criterion alone.</p>
+                                <div class="pj-links">
+                                    <a class="main" href="flipact.html">Project page</a>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+                <div class="pj-group">
+                    <h2>Time series as vision and language</h2>
+                    <p class="pj-lede">Treating numerical sequences as something a multimodal model can look at and read.</p>
+                    <div class="pj-grid">
+
+                        <article class="pj-card">
+                            <a class="pj-art" href="timesclip.html" aria-label="TimesCLIP project page"><img src="../teaser/timesclip.jpg" alt="" loading="lazy"></a>
+                            <div class="pj-body">
+                                <span class="pj-venue">arXiv, 2025</span>
+                                <h3><a href="timesclip.html">TimesCLIP: Teaching Time Series to See and Speak</a></h3>
+                                <p>Aligns time series with visual and textual views of the same data to improve short-term and long-term forecasting.</p>
+                                <div class="pj-links">
+                                    <a class="main" href="timesclip.html">Project page</a>
+                                    <a href="https://arxiv.org/abs/2506.24124" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Paper</a>
+                                    <a href="https://github.com/Ironieser/TimesCLIP" target="_blank" rel="noopener"><i class="fab fa-github"></i> Code</a>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 - 2026 Sixun Dong. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
