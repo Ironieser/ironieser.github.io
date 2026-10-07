@@ -110,7 +110,7 @@ main{margin-left:var(--rail)}
 .lab .bar.second{border-bottom:1px solid var(--line-2)}
 .lab .bar .lt.gap{margin-left:22px;padding-left:22px;border-left:1px solid var(--line-2)}
 .lab .stage{padding:18px 18px 8px}
-.lab .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px 26px;padding:16px 18px;border-top:1px solid var(--line-2);align-items:start}
+.lab .controls{display:grid;grid-template-columns:1fr 1fr;gap:18px 30px;padding:16px 18px;border-top:1px solid var(--line-2);align-items:start}
 .lab .desc{padding:14px 18px;border-top:1px solid var(--line-2);font-size:15.5px;background:var(--bg);border-radius:0 0 5px 5px;min-height:4.3em}
 .pick{font:500 13.5px var(--sans);color:var(--ink);background:var(--card);border:1px solid var(--line-2);border-radius:4px;padding:7px 12px;cursor:pointer;text-align:left}
 .pick:hover{border-color:var(--ink)}
@@ -148,7 +148,9 @@ svg text{font-family:var(--sans)}
 .obs .acc{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line-2);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .obs .acc b{font-family:var(--display);font-weight:600;font-size:38px;line-height:1}
 .obs .acc span{font-size:14px;color:var(--soft)}
-.obs .sdt{margin-top:8px;font-family:var(--mono);font-size:14px;color:var(--hold-text)}
+.obs .sdt{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;font-size:13.5px;color:var(--soft)}
+.obs .sdt span{border:1px solid var(--line-2);border-radius:3px;padding:2px 8px}
+.obs .sdt b{font-family:var(--mono);color:var(--hold-text);font-weight:600;margin-left:4px}
 .obs .fix{margin-top:8px;font-size:15px}
 .key{display:flex;flex-wrap:wrap;gap:6px 18px;padding:12px 18px;border-top:1px solid var(--line-2);font-size:13.5px;color:var(--soft)}
 .key span{display:inline-flex;align-items:center;gap:7px}
@@ -222,6 +224,8 @@ svg text{font-family:var(--sans)}
 .flow{margin-top:30px;display:flex;flex-wrap:wrap;gap:0;font-size:14px;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;background:var(--card)}
 .flow div{flex:1 1 118px;padding:13px 14px;border-right:1px solid var(--line-2);color:var(--soft);line-height:1.4}
 .flow div:last-child{border-right:none}
+.flow div{position:relative}
+.flow div:not(:last-child)::after{content:"→";position:absolute;right:-9px;top:12px;width:18px;height:18px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;line-height:18px;text-align:center;z-index:1}
 .flow div b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600}
 .flow div.llm{background:var(--hold-wash)}
 .flow div.rule{background:var(--act-wash)}
@@ -231,6 +235,8 @@ svg text{font-family:var(--sans)}
 .tbl{width:100%;min-width:560px;border-collapse:collapse;font-size:14.5px}
 .tbl th{font-size:13px;font-weight:500;color:var(--soft);text-align:right;padding:8px 12px;border-bottom:2px solid var(--ink)}
 .tbl th:first-child,.tbl td:first-child{text-align:left;padding-left:0}
+.tbl tr.grp th{border-bottom:none;padding-bottom:0;text-align:center;color:var(--ink);font-weight:600}
+.tbl tr.grp th[colspan]{box-shadow:inset 0 -1px 0 var(--line-2);padding-bottom:6px}
 .tbl td{padding:10px 12px;border-bottom:1px solid var(--line-2);text-align:right;font-family:var(--mono)}
 .tbl td:first-child{font-family:var(--sans);font-weight:600}
 .tbl td.mv{color:var(--hold-text);font-weight:600}
@@ -259,6 +265,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
   .exp{grid-template-columns:1fr}
+  .lab .controls{grid-template-columns:1fr}
   .duo{grid-template-columns:1fr}
   .obs{border-right:none;border-bottom:1px solid var(--line-2)}
   .obs:last-child{border-bottom:none}
@@ -354,7 +361,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments, to pull those two kinds of error apart. A patch of static flashes on the screen, and half the time it hides a faint blob. You say whether it was there. Two things decide your answers, and they are independent: how well you can see the blob at all, your <b>sensitivity</b> d′, and how sure you want to be before you say yes, your <b>criterion</b> c. Raise the price of a miss and people say yes more freely. Raise the price of a false alarm and they hold back. Their eyesight has not changed.</p>
 
   <div class="lab" id="exp">
-    <div class="bar second"><span class="lt">be the observer</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
+    <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
     <div class="bar"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
     <div class="exp">
       <div class="scope"><canvas id="exCv" width="240" height="240" aria-label="A patch of visual noise that may hide a faint blob"></canvas><div class="veil" id="exVeil"></div></div>
@@ -362,8 +369,8 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
         <div class="ask" id="exAsk"></div>
         <div class="ans2">
           <button class="big go" type="button" id="exStart">Start, 20 trials</button>
-          <button class="big" type="button" id="exYes" disabled>Yes, it was there</button>
-          <button class="big" type="button" id="exNo" disabled>No, just noise</button>
+          <button class="big" type="button" id="exYes" disabled hidden>Yes, it was there</button>
+          <button class="big" type="button" id="exNo" disabled hidden>No, just noise</button>
         </div>
         <div class="fb" id="exFb"></div>
         <label class="opt"><input type="checkbox" id="exShare" checked> Add my run to the crowd average</label>
@@ -377,7 +384,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 
   <div class="lab">
     <div class="bar second"><span class="lt">the setting</span><span class="picks" id="sdtCtx"></span></div>
-    <div class="bar"><span class="lt">instrument 1</span><span class="picks" id="sdtPre"></span><span>or move the sliders</span></div>
+    <div class="bar"><span class="lt">the observer</span><span class="picks" id="sdtPre"></span><span>or move the sliders</span></div>
     <div class="stage"><svg id="sdtsvg" viewBox="0 0 640 300" role="img" aria-label="Two overlapping evidence distributions and a movable criterion"></svg></div>
     <div class="controls">
       <div class="ctl"><label for="sdtD">Sensitivity d′ <span id="sdtDv"></span></label>
@@ -426,7 +433,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <p class="say">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
 
   <div class="lab">
-    <div class="bar"><span class="lt">instrument 2</span><span>pick a state and a tool, and the rule does the rest</span></div>
+    <div class="bar"><span class="lt">build a question</span><span>pick a state and a tool, and the rule does the rest</span></div>
     <div class="stage">
       <p class="scene" id="scene"></p>
       <svg id="physvg" viewBox="0 0 640 150" role="img" aria-label="The state on a moisture axis before and after the tool" style="margin-top:10px"></svg>
@@ -466,10 +473,10 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
 
   <div class="lab">
-    <div class="bar"><span class="lt">instrument 3</span>
-      <button class="pick" type="button" data-fit="cons">a conservative model</button>
-      <button class="pick" type="button" data-fit="perm">a permissive model</button>
-      <button class="pick" type="button" data-fit="blind">cannot tell the cases apart</button>
+    <div class="bar"><span class="lt">a model that is</span>
+      <button class="pick" type="button" data-fit="cons">conservative</button>
+      <button class="pick" type="button" data-fit="perm">permissive</button>
+      <button class="pick" type="button" data-fit="blind">unable to tell the cases apart</button>
       <button class="pick" type="button" data-fit="good">sharp and centred</button>
     </div>
     <div class="stage"><svg id="fitsvg" viewBox="0 0 640 320" role="img" aria-label="Yes-rate against the evidence score"></svg></div>
@@ -502,11 +509,11 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <p class="say">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
 
   <div class="lab">
-    <div class="bar"><span class="lt">instrument 4</span><span class="picks" id="mvModels"></span></div>
+    <div class="bar second"><span class="lt">the student</span><span class="picks" id="mvModels"></span></div>
+    <div class="bar"><span class="lt">shown</span><span class="picks" id="mvConds"></span></div>
     <div class="stage"><svg id="mvsvg" viewBox="0 0 640 320" role="img" aria-label="Fitted Yes-rate curve before and after each intervention"></svg></div>
     <div class="controls">
-      <div class="ctl"><div class="cap">The student</div><div class="picks stack" id="mvConds"></div></div>
-      <div class="reads" style="align-self:start">
+      <div class="reads">
         <div class="ro"><div class="k">sensitivity a</div><div class="v" id="mvA"></div></div>
         <div class="ro"><div class="k">criterion τ</div><div class="v crit" id="mvT"></div></div>
         <div class="ro"><div class="k">held-out accuracy</div><div class="v" id="mvAcc"></div></div>
@@ -514,12 +521,12 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     </div>
     <div class="desc" id="mvdesc"></div>
   </div>
-  <p class="note">Seed means over three training seeds, measured on the half of FlipAct the student never trained on. The dashed curve is the student before training.</p>
+  <p class="note">Seed means over three training seeds, measured on the half of FlipAct the student never trained on.</p>
 
   <h3 class="minor">Steering, with the weights fixed</h3>
   <p class="say">On When2Call, the direction moves the criterion toward acting on all five models, and accuracy changes by at most four points.</p>
   <div class="tblwrap"><table class="tbl">
-    <thead><tr><th>Model</th><th>call rate</th><th>with steering</th><th>criterion c</th><th>with steering</th><th>Δ accuracy</th></tr></thead>
+    <thead><tr class="grp"><th></th><th colspan="2">call rate</th><th colspan="2">criterion c</th><th></th></tr><tr><th>Model</th><th>unsteered</th><th>steered</th><th>unsteered</th><th>steered</th><th>Δ accuracy</th></tr></thead>
     <tbody>
       <tr><td>Qwen3-8B</td><td>0.56</td><td class="mv">0.60</td><td>−0.18</td><td class="mv">−0.32</td><td>−0.022</td></tr>
       <tr><td>Qwen3.5-27B</td><td>0.47</td><td class="mv">0.50</td><td>+0.10</td><td class="mv">+0.01</td><td>+0.005</td></tr>
@@ -571,7 +578,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const FR=[{n:'Two doctors',ic:'person',who:['Doctor A','Doctor B'],sig:'100 patients with a tumour',noi:'100 healthy patients',
      yes:'flagged',k:['tumour flagged','tumour missed','healthy patient called back','healthy patient cleared'],
      fix:['Misses 60 tumours out of 100. This doctor needs to flag more.','Sends 58 healthy patients for a biopsy. This doctor needs to flag less.'],
-     d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The doctors are an illustration built from the model numbers on the next tab.'},
+     d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The two numbers under each accuracy say exactly that: about the same sensitivity, opposite criteria. The next step explains them. The doctors are an illustration built from the model numbers on the next tab.'},
     {n:'Two language models',ic:'msg',who:['gemma-2-9b','Phi-3.5-mini'],sig:'per 100 requests that need the tool',noi:'per 100 requests that do not',
      yes:'called',k:['tool called, rightly','tool needed, not called','tool called for nothing','correctly not called'],
      fix:['Answers 60 in 100 from memory when it needed the tool. It should act more.','Calls the tool on 58 in 100 requests that never needed it. It should act less.'],
@@ -587,7 +594,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       '<div class="grp"><div class="cap2"><span>'+F.sig+'</span><b>'+o.h+' '+F.yes+'</b></div>'+dots(o.h,'hit','miss')+'</div>'+
       '<div class="grp"><div class="cap2"><span>'+F.noi+'</span><b>'+o.f+' '+F.yes+'</b></div>'+dots(o.f,'fa','cr')+'</div>'+
       '<div class="acc"><b>'+Math.round((o.h+100-o.f)/2)+'%</b><span>accuracy: '+(o.h+100-o.f)+' right out of 200</span></div>'+
-      '<div class="sdt">d′ = '+o.d.toFixed(2)+' &nbsp; c = '+fmt(o.c)+'</div>'+
+      '<div class="sdt"><span>sensitivity d′ <b>'+o.d.toFixed(2)+'</b></span><span>criterion c <b>'+fmt(o.c)+'</b></span></div>'+
       '<div class="fix">'+F.fix[i]+'</div></div>').join('');
     ['kHit','kMiss','kFa','kCr'].forEach((id,i)=>$('#'+id).textContent=F.k[i]);
     ['kHitI','kFaI','kCrI'].forEach(id=>$('#'+id).setAttribute('href','#ic-'+F.ic));$('#kMissI').setAttribute('href','#ic-'+F.ic+'-o');
@@ -643,7 +650,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     if(sig&&yes){tally.h++;pts=P.h;t='Hit. It was there.'}else if(sig){tally.m++;pts=-P.m;t='Miss. It was there.'}
     else if(yes){tally.fa++;pts=-P.fa;t='False alarm. Just noise.'}else{tally.cr++;pts=P.cr;t='Correct. Just noise.'}
     score+=pts;fb.innerHTML=t+' <b>'+(pts>0?'+':'−')+Math.abs(pts)+'</b>';prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;setTimeout(next,650)}
-  function finish(){busy=false;bStart.disabled=false;bStart.textContent='Run again, 20 trials';
+  function finish(){busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;bStart.textContent='Run again, 20 trials';
     // log-linear correction keeps the estimates finite at 0% or 100%
     const H=(tally.h+0.5)/(N/2+1),F=(tally.fa+0.5)/(N/2+1),zH=zinv(H),zF=zinv(F),d=zH-zF,c=-(zH+zF)/2;
     const P=PAY[pay],beta=(P.cr+P.fa)/(P.h+P.m),copt=Math.log(beta)/Math.max(0.5,d),di=ideal(),eff=d>0?Math.pow(d/di,2)*100:0;
@@ -678,7 +685,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       el.innerHTML=t;}).catch(()=>{});
   }
   bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
-    busy=true;bStart.disabled=true;score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
+    busy=true;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
     trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
     ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
   bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
@@ -725,13 +732,13 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     svg.appendChild(mk('path',{d:curve(-d/2),fill:'none',stroke:NO,'stroke-width':2.5}));
     svg.appendChild(mk('path',{d:curve(d/2),fill:'none',stroke:YESFILL,'stroke-width':3}));
     const lx=x=>Math.max(L+80,Math.min(R-80,sx(x)));
-    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:44,'text-anchor':'middle','font-size':14,fill:NTEXT,'font-weight':600},cx_.noise));
-    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:44,'text-anchor':'middle','font-size':14,fill:YTEXT,'font-weight':600},cx_.signal));
+    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:30,'text-anchor':'middle','font-size':14,fill:NTEXT,'font-weight':600},cx_.noise));
+    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:30,'text-anchor':'middle','font-size':14,fill:YTEXT,'font-weight':600},cx_.signal));
     const cx=sx(c);
     svg.appendChild(mk('line',{x1:cx,x2:cx,y1:58,y2:B+8,stroke:CRIT,'stroke-width':3,'stroke-linecap':'round'}));
     svg.appendChild(mk('circle',{cx:cx,cy:58,r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
     svg.appendChild(mk('text',{x:cx,y:B+28,'text-anchor':'middle','font-size':13.5,fill:CRIT,'font-weight':700},'criterion'));
-    if(cx<R-150)svg.appendChild(mk('text',{x:cx+12,y:B-8,'font-size':12.5,fill:INK},cx_.yes));
+    {const right=cx<R-190;svg.appendChild(mk('text',{x:cx+(right?14:-14),y:62,'font-size':12.5,fill:INK,'font-weight':600,'text-anchor':right?'start':'end'},right?cx_.yes:cx_.yes.replace(' →','')+' is to the right'));}
     svg.appendChild(mk('text',{x:L,y:H-8,'font-size':12.5,fill:SOFT},cx_.axis[0]));
     svg.appendChild(mk('text',{x:R,y:H-8,'font-size':12.5,fill:SOFT,'text-anchor':'end'},cx_.axis[1]));
     $('#sdtDv').textContent=d.toFixed(2); $('#sdtCv').textContent=fmt(c);
@@ -904,7 +911,9 @@ function drawTau(svg,f,t,label){
   const beyond=Math.abs(t)>3.4,x=f.sx(Math.max(-3.4,Math.min(3.4,t)));
   svg.appendChild(mk('line',{x1:x,x2:x,y1:f.sy(.5)-46,y2:f.B,stroke:CRIT,'stroke-width':2.5,'stroke-linecap':'round','stroke-dasharray':beyond?'3 5':''}));
   svg.appendChild(mk('circle',{cx:x,cy:f.sy(.5),r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
-  svg.appendChild(mk('text',{x:x,y:f.sy(.5)-54,'text-anchor':'middle','font-size':13,fill:CRIT,'font-weight':700},label));
+  // near zero the label would sit on the rule's boundary line, so it steps to the outer side
+  const near=Math.abs(t)<0.75,side=t>=0?1:-1;
+  svg.appendChild(mk('text',{x:near?x+side*8:x,y:f.sy(.5)-54,'text-anchor':near?(side>0?'start':'end'):'middle','font-size':13,fill:CRIT,'font-weight':700},label));
 }
 
 /* ---------------- 3. reading a model ---------------- */
@@ -937,9 +946,9 @@ function drawTau(svg,f,t,label){
            {n:'Qwen3.5-9B',  base:[0.75,1.88,0.65], dist:[0.73, 0.86,0.70], sens:[1.22, 0.18,0.83]},
            {n:'gemma-3-12b', base:[0.36,2.17,0.59], dist:[0.35, 0.30,0.61], sens:[1.56,-0.41,0.83]},
            {n:'Mistral-24B', base:[0.59,3.47,0.59,true], dist:[0.42,0.19,0.62], sens:[1.16,0.08,0.79]}];
-  const CONDS=[{k:'base',n:'Before training',d:m=>'<b>'+m.n+' before training.</b> The curve crosses one half far above the rule\'s boundary'+(m.base[3]?', beyond the top of the score range':'')+'. The model is conservative: it turns down many actions that would help.'},
-               {k:'dist',n:'After criterion distillation',d:m=>'<b>Distilled from its own steered copy.</b> The criterion moves from '+fmt(m.base[1])+' to '+fmt(m.dist[1])+' while the slope goes from '+m.base[0].toFixed(2)+' to '+m.dist[0].toFixed(2)+'. The curve slides sideways and keeps its shape. Accuracy rises a little, as a pure criterion shift predicts for a model that started conservative.'},
-               {k:'sens',n:'After sensitivity learning',d:m=>'<b>Trained on the computed labels.</b> Now the slope itself changes, from '+m.base[0].toFixed(2)+' to '+m.sens[0].toFixed(2)+', and the criterion comes to rest near zero. Labels move both coordinates, and accuracy rises by '+Math.round((m.sens[2]-m.base[2])*100)+' points.'}];
+  const CONDS=[{k:'base',n:'before training',d:m=>'<b>'+m.n+' before training.</b> The curve crosses one half far above the rule\'s boundary'+(m.base[3]?', beyond the top of the score range':'')+'. The model is conservative: it turns down many actions that would help.'},
+               {k:'dist',n:'after criterion distillation',d:m=>'<b>Distilled from its own steered copy.</b> The criterion moves from '+fmt(m.base[1])+' to '+fmt(m.dist[1])+' while the slope goes from '+m.base[0].toFixed(2)+' to '+m.dist[0].toFixed(2)+'. The curve slides sideways and keeps its shape. Accuracy rises a little, as a pure criterion shift predicts for a model that started conservative.'},
+               {k:'sens',n:'after sensitivity learning',d:m=>'<b>Trained on the computed labels.</b> Now the slope itself changes, from '+m.base[0].toFixed(2)+' to '+m.sens[0].toFixed(2)+', and the criterion comes to rest near zero. Labels move both coordinates, and accuracy rises by '+Math.round((m.sens[2]-m.base[2])*100)+' points.'}];
   const svg=$('#mvsvg');let mi=0,ci=1;
   const mb=$('#mvModels'),cb=$('#mvConds');
   M.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=m.n;b.onclick=()=>{mi=i;draw()};mb.appendChild(b);m.btn=b});
@@ -947,7 +956,11 @@ function drawTau(svg,f,t,label){
   function draw(){
     const m=M[mi],c=CONDS[ci],cur=m[c.k],f=plotFrame(svg);
     M.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===mi));CONDS.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===ci));
-    if(c.k!=='base')svg.appendChild(mk('path',{d:f.path(m.base[0],m.base[1]),fill:'none',stroke:'#a9a8c4','stroke-width':2.5,'stroke-dasharray':'6 5'}));
+    if(c.k!=='base'){svg.appendChild(mk('path',{d:f.path(m.base[0],m.base[1]),fill:'none',stroke:'#a9a8c4','stroke-width':2.5,'stroke-dasharray':'6 5'}));
+      // label the dashed curve under its right end; the curve rises to the right, so the
+      // label is anchored below the point where its text begins
+      const yt=Math.min(f.B-8,f.sy(sig(m.base[0]*(2.3-m.base[1])))+20);
+      svg.appendChild(mk('text',{x:f.sx(3.5),y:yt,'text-anchor':'end','font-size':12.5,fill:'#6f6d92','font-weight':600},'before training'));}
     svg.appendChild(mk('path',{d:f.path(cur[0],cur[1]),fill:'none',stroke:NO,'stroke-width':3.5,'stroke-linecap':'round'}));
     drawTau(svg,f,cur[1],'τ = '+(cur[3]?'beyond +3':fmt(cur[1])));
     $('#mvA').textContent=cur[0].toFixed(2);$('#mvT').textContent=cur[3]?'> +3':fmt(cur[1]);
