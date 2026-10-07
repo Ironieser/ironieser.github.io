@@ -897,10 +897,9 @@
             "icon": "fas fa-globe"
           },
           {
-            "name": "Code (Coming Soon)",
-            "url": null,
-            "icon": "fab fa-github",
-            "coming_soon": true
+            "name": "Code",
+            "url": "https://github.com/Ironieser/LongVideo-Eval",
+            "icon": "fab fa-github"
           }
         ]
       },

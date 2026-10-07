@@ -11,7 +11,7 @@ image: "images/blog/lohi/framework.jpg"
 > _Sharing my new work here — hope you'll bear with any shortcomings, and welcome any suggestions, comments, or critiques! This is joint work with UCF, Meta Reality Labs and Axon. The question we started from sounds simple: **for a long video and a fixed visual-token budget, how should we actually spend those tokens?** The answer turned out to be less about which tokens to keep, and more about frames, pixels, and the video decoder that nobody measures._
 
 **Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://arxiv.org/abs/2610.04318) (arXiv:2610.04318, NeurIPS 2026)  
-**Code:** coming soon — we are building **longvideo-eval**, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, and LoHi will be released as part of it  
+**Code:** [github.com/Ironieser/LongVideo-Eval](https://github.com/Ironieser/LongVideo-Eval) (release in progress) — we are building **longvideo-eval**, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, and LoHi will be released as part of it  
 **Project Page:** [sixundong.com/projects/lohi](https://sixundong.com/projects/lohi) _(with three small interactive toys, one per lesson (・ω・))_
 
 ---
