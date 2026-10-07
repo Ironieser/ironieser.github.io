@@ -6,7 +6,7 @@
 <title>LongVideo-Eval: a fair-cost evaluation harness for long-video understanding</title>
 <meta name="description" content="LongVideo-Eval evaluates long-video VLMs and efficiency methods on one accuracy-cost axis, with decoding, vision encoding and prefill all measured in one place. The official code home of LoHi (NeurIPS 2026).">
 <meta property="og:title" content="LongVideo-Eval: a fair-cost evaluation harness for long-video understanding">
-<meta property="og:description" content="Same token budget, very different bills. One pipeline, one budget and one cost record for every long-video efficiency method.">
+<meta property="og:description" content="Same token budget, very different bills. The open platform where long-video methods are built, compared against every baseline, and billed for everything they spend.">
 <meta property="og:image" content="https://sixundong.com/images/blog/lohi/hero_bg.jpg">
 <link rel="canonical" href="https://sixundong.com/projects/longvideo-eval">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
@@ -94,6 +94,7 @@ section.sec.alt{background:#f5f7fa}
 .sec h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;line-height:1.2}
 .sec .intro{color:var(--soft);font-size:17px;max-width:44em;margin-top:12px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.grid4{grid-template-columns:repeat(4,1fr)}
 .rule h3{font-size:18px;letter-spacing:-.01em;padding-top:14px;border-top:3px solid var(--ink)}
 .rule p{color:var(--soft);font-size:15.5px;margin-top:8px}
 
@@ -111,10 +112,10 @@ section.sec.alt{background:#f5f7fa}
 .stage .m{font-size:13.5px;color:var(--soft);margin-top:10px;line-height:1.45}
 .stage .m b{color:var(--ink);font-weight:600}
 .stage.on{background:var(--cost-wash)}
-.stage.on::before{content:"method lives here";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#fff;background:var(--cost);padding:2px 16px}
+.stage.on::before{content:"acts here";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#fff;background:var(--cost);padding:2px 16px}
 .stage.on .n{margin-top:16px}
 .stage.paid{background:#fbf6ea}
-.stage.paid::before{content:"cost charged to it";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#8a5a06;background:var(--cost-wash);padding:2px 16px}
+.stage.paid::before{content:"also on its bill";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#8a5a06;background:var(--cost-wash);padding:2px 16px}
 .stage.paid .n{margin-top:16px}
 .famdesc{margin-top:16px;font-size:15.5px;max-width:52em;border-left:3px solid var(--ink);background:var(--desk);padding:14px 18px;border-radius:0 8px 8px 0}
 
@@ -131,6 +132,70 @@ section.sec.alt{background:#f5f7fa}
 .pill.side{color:var(--lo);background:var(--lo-wash)}
 .pill.llm{color:var(--hi);background:var(--hi-wash)}
 
+/* field map */
+.map{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:0;border:1px solid var(--line-2);border-top:none;border-radius:0 0 var(--r) var(--r);background:var(--paper)}
+.pipe.top{border-radius:var(--r) var(--r) 0 0}
+.map .col{padding:12px 12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.map .col:last-child{border-right:none}
+.wrapband{margin-top:10px;border:1px dashed var(--line-2);border-radius:var(--r);padding:12px 14px;display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;background:var(--paper)}
+.wrapband .lbl{font-size:13.5px;color:var(--soft);margin-right:4px}
+.dir{font:600 13.5px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:6px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-align:left}
+.dir::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line-2);flex:none}
+.dir.built::before{background:var(--good)}
+.dir:hover{border-color:var(--ink)}
+.dir[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.mapkey{display:flex;gap:18px;flex-wrap:wrap;font-size:13.5px;color:var(--soft);margin-top:14px}
+.mapkey span{display:inline-flex;align-items:center;gap:7px}
+.mapkey i{width:8px;height:8px;border-radius:50%;background:var(--line-2)}
+.mapkey i.b{background:var(--good)}
+
+/* the walk-through */
+.walk{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:36px;margin-top:30px;align-items:start}
+.steps{display:flex;flex-direction:column;gap:0;border-left:2px solid var(--line-2)}
+.steps button{all:unset;cursor:pointer;display:block;padding:14px 0 14px 20px;margin-left:-2px;border-left:2px solid transparent}
+.steps button .n{font-family:var(--mono);font-size:12.5px;color:var(--soft)}
+.steps button h3{font-size:18px;letter-spacing:-.01em;color:var(--soft)}
+.steps button p{font-size:15px;color:var(--soft);margin-top:4px;display:none;max-width:30em}
+.steps button[aria-pressed="true"]{border-left-color:var(--hi)}
+.steps button[aria-pressed="true"] h3{color:var(--ink)}
+.steps button[aria-pressed="true"] p{display:block}
+.steps button:focus-visible{outline:2px solid var(--lo);outline-offset:2px}
+.stagebox{background:var(--ink);border-radius:14px;color:#e6ebf2;overflow:hidden;min-height:372px}
+.stagebox .cap{font-size:13px;color:#9fb0c8;padding:12px 18px;border-bottom:1px solid #2b3448;font-family:var(--mono)}
+.stagebox pre{font-family:var(--mono);font-size:13px;line-height:1.65;padding:18px;overflow-x:auto;white-space:pre}
+.stagebox pre .c{color:#7f8da3}.stagebox pre .k{color:#8ec1e6}.stagebox pre .s{color:#f2c14e}.stagebox pre .h{color:#ff8f84}
+.stagebox .pane{display:none}
+.stagebox .pane.on{display:block}
+.ledger{width:100%;border-collapse:collapse;font-size:13.5px}
+.ledger th{font-weight:600;color:#9fb0c8;text-align:right;padding:10px 14px;border-bottom:1px solid #2b3448;white-space:nowrap}
+.ledger th:first-child,.ledger td:first-child{text-align:left}
+.ledger td{padding:8px 14px;border-bottom:1px solid #252d3f;text-align:right;font-family:var(--mono);white-space:nowrap}
+.ledger td:first-child{font-family:var(--sans)}
+.ledger tr.you td{background:#3a1f22;color:#fff}
+.ledger tr.you td:first-child{font-weight:700;color:#ff8f84}
+.ledger .fam{display:inline;margin:0;color:#7f8da3;font-size:12px;margin-left:6px}
+.ledwrap{overflow-x:auto}
+
+/* horizon */
+.horizon{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:30px;border-top:3px solid var(--ink)}
+.hz{padding:18px 22px 4px 0}
+.hz + .hz{padding-left:22px;border-left:1px solid var(--line)}
+.hz .when{font-size:14px;font-weight:700;color:var(--hi)}
+.hz h3{font-size:19px;letter-spacing:-.015em;margin-top:2px}
+.hz p{color:var(--soft);font-size:15.5px;margin-top:8px}
+
+/* invitation */
+.invite{background:var(--ink);color:#fff}
+.invite .wrap{padding:76px 20px}
+.invite h2{font-size:clamp(30px,4.6vw,48px);letter-spacing:-.03em;line-height:1.1;max-width:16em}
+.invite p.big{font-size:18px;color:#cbd5e1;max-width:40em;margin-top:16px}
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:34px;border-top:1px solid #3a4459}
+.way{display:block;text-decoration:none;color:#fff;padding:20px 22px 22px 0;border-bottom:1px solid #3a4459}
+.way + .way{padding-left:22px;border-left:1px solid #3a4459}
+.way h3{font-size:19px;letter-spacing:-.015em;display:flex;align-items:center;gap:10px}
+.way p{color:#b6c2d4;font-size:15px;margin-top:6px}
+.way:hover h3{color:#ff8f84}
+
 /* papers */
 .papers{display:grid;gap:0;margin-top:26px;border-top:1px solid var(--line)}
 .paper{display:grid;grid-template-columns:150px 1fr auto;gap:8px 24px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
@@ -146,12 +211,20 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media (max-width:980px){
   .hero .wrap{grid-template-columns:1fr;gap:36px;padding:44px 20px 52px}
-  .grid3{grid-template-columns:1fr}
+  .grid3,.grid4{grid-template-columns:1fr}
   .pipe{grid-template-columns:1fr}
   .stage{border-right:none;border-bottom:1px solid var(--line)}
   .stage:last-child{border-bottom:none}
   .paper{grid-template-columns:1fr}
   .paper .ln{white-space:normal;flex-wrap:wrap}
+  .map{grid-template-columns:1fr}
+  .map .col{border-right:none;border-bottom:1px solid var(--line);flex-direction:row;flex-wrap:wrap}
+  .map .col:last-child{border-bottom:none}
+  .map .col:empty{display:none}
+  .walk{grid-template-columns:1fr}
+  .horizon,.ways{grid-template-columns:1fr}
+  .hz + .hz,.way + .way{padding-left:0;border-left:none}
+  .hz + .hz{border-top:1px solid var(--line)}
 }
 @media (max-width:560px){
   section.sec{padding:52px 0}
@@ -164,21 +237,20 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
 <nav class="nav"><div class="wrap">
   <a class="brand" href="#top">LongVideo<span>-</span>Eval</a>
   <div class="links">
-    <a href="#rules">Why</a><a href="#pipeline">Pipeline</a><a href="#record">Cost record</a><a href="#release">Release</a><a href="#papers">Papers</a><a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">GitHub</a>
+    <a href="#rules">Why</a><a href="#field">The field</a><a href="#build">Build on it</a><a href="#horizon">Where it goes</a><a href="#join">Get involved</a><a href="https://github.com/Ironieser/LongVideo-Eval#readme" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Ironieser/LongVideo-Eval/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Release log</a><a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">GitHub</a>
   </div>
 </div></nav>
 
 <header class="hero" id="top"><div class="wrap">
   <div>
-    <span class="status"><i></i>Code release in progress</span>
+    <span class="status"><i></i>Open source, growing every week</span>
     <h1>Same token budget. Very different bills.</h1>
-    <p class="lede"><b>LongVideo-Eval</b> is an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy-cost axis, with decoding, vision encoding and prefill all measured in one place.</p>
+    <p class="lede"><b>LongVideo-Eval</b> is the open platform for long-video understanding: where methods are built, compared against every baseline, and billed for everything they spend, from the first decoded frame to the last generated token.</p>
     <div class="btns">
-      <a class="btn primary" href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
-      <a class="btn" href="https://arxiv.org/abs/2610.04318" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> LoHi paper</a>
-      <a class="btn" href="lohi.html"><i class="fas fa-film"></i> LoHi project page</a>
+      <a class="btn primary" href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener"><i class="fab fa-github"></i> Star on GitHub</a>
+      <a class="btn" href="#join"><i class="fas fa-code-branch"></i> Get involved</a>
+      <a class="btn" href="lohi.html"><i class="fas fa-film"></i> LoHi, NeurIPS 2026</a>
     </div>
-    <p class="code-note">The repository is public. The harness and the methods below are implemented and are being prepared for release. Star or watch the repository to follow it.</p>
   </div>
 
   <div class="bill" aria-label="What five ways of spending the same token budget actually cost">
@@ -195,71 +267,131 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
       <div class="item acc"><span class="k">Video-MME accuracy</span><span class="v" id="vAcc"></span><div class="bar"><i id="bAcc"></i></div></div>
     </div>
     <div class="sum" id="sum"></div>
-    <div class="src">Numbers from the <a href="lohi.html#results">LoHi paper</a>. Time to first token includes decoding.</div>
+    <div class="src">Measured with the harness for <a href="lohi.html#results">LoHi (NeurIPS 2026)</a>.</div>
   </div>
 </div></header>
 
 <section class="sec" id="rules"><div class="wrap">
   <h2>A token count is not a cost</h2>
-  <p class="intro">Long-video methods are usually compared by accuracy at a matched number of visual tokens. That leaves out most of what a long video costs. A keyframe selector may decode and score hundreds of candidate frames to keep sixteen. A token pruner may run the full vision encoder before discarding most of its output. Neither shows up in a token count, and each paper measures it differently, if at all. The harness fixes three things for every method.</p>
-  <div class="grid3">
-    <div class="rule"><h3>One pipeline</h3><p>Every method plugs into exactly one stage of a fixed chain and inherits everything else unchanged. Nothing else differs between two runs.</p></div>
-    <div class="rule"><h3>One budget</h3><p>Every method in a comparison reads the same decoded frame pool under the same frame and token budget. No method quietly decodes more than another.</p></div>
-    <div class="rule"><h3>One cost record</h3><p>Decoding, vision encoding, prefill and generation are recorded per sample by the harness. A method never reports its own cost.</p></div>
+  <p class="intro">Long-video methods are compared by accuracy at a matched number of visual tokens. That leaves out most of what a long video costs. A keyframe selector decodes and scores hundreds of candidate frames to keep sixteen. A token pruner runs the full vision encoder before discarding most of its output. LongVideo-Eval makes four things the same for everyone, so the only thing left to compare is the idea.</p>
+  <div class="grid3 grid4">
+    <div class="rule"><h3>One entry</h3><p>Every method is a plug-in for one stage of the same pipeline. Everything around it is shared.</p></div>
+    <div class="rule"><h3>One input</h3><p>Same backbone, same decoded frame pool, same frame and token budget for every method.</p></div>
+    <div class="rule"><h3>One meter</h3><p>Decoding, vision encoding, prefill and generation are measured by the harness, in one place.</p></div>
+    <div class="rule"><h3>One picture</h3><p>Every run lands as a point on the same accuracy-cost plane, next to the strongest baselines.</p></div>
   </div>
 </div></section>
 
-<section class="sec alt" id="pipeline"><div class="wrap">
-  <h2>Five stages, one of them yours</h2>
-  <p class="intro">A run is a fixed chain. Pick a family to see which stage it implements and where its cost is paid.</p>
-  <div class="fam" id="fam" role="group" aria-label="Method family"></div>
-  <div class="pipe" id="pipe">
+<section class="sec alt" id="field"><div class="wrap">
+  <h2>The whole field, on one pipeline</h2>
+  <p class="intro">Every way people make long video cheaper acts somewhere on the same five stages. We are mapping all of them, more than 80 methods across the directions below, and bringing them into one harness. Pick a direction to see where it acts and what it is charged for.</p>
+  <div class="pipe top" id="pipe">
     <div class="stage" data-s="decode"><div class="n">1</div><h3>Decode</h3><div class="io">video → frame pool</div><p class="m">Metered: <b>decode time</b>, <b>frames decoded</b></p></div>
-    <div class="stage" data-s="select"><div class="n">2</div><h3>Select</h3><div class="io">pool → frames</div><p class="m">Metered: <b>selection time</b>, such as scoring every frame</p></div>
-    <div class="stage" data-s="encode"><div class="n">3</div><h3>Encode</h3><div class="io">frames → visual tokens</div><p class="m">Metered: <b>frames encoded</b>, <b>patches into the vision tower</b></p></div>
-    <div class="stage" data-s="prune"><div class="n">4</div><h3>Prune</h3><div class="io">tokens → fewer tokens</div><p class="m">Metered: <b>tokens kept</b>, pruning time</p></div>
-    <div class="stage" data-s="generate"><div class="n">5</div><h3>Generate</h3><div class="io">tokens + prompt → answer</div><p class="m">Metered: <b>visual tokens into the LLM</b>, <b>prefill</b>, <b>generated tokens</b></p></div>
+    <div class="stage" data-s="select"><div class="n">2</div><h3>Select</h3><div class="io">pool → frames</div><p class="m">Metered: <b>selection time</b></p></div>
+    <div class="stage" data-s="encode"><div class="n">3</div><h3>Encode</h3><div class="io">frames → visual tokens</div><p class="m">Metered: <b>frames encoded</b>, <b>vision-tower load</b></p></div>
+    <div class="stage" data-s="prune"><div class="n">4</div><h3>Prune</h3><div class="io">tokens → fewer tokens</div><p class="m">Metered: <b>tokens kept</b></p></div>
+    <div class="stage" data-s="generate"><div class="n">5</div><h3>Generate</h3><div class="io">tokens + prompt → answer</div><p class="m">Metered: <b>prefill</b>, <b>generated tokens</b></p></div>
   </div>
+  <div class="map" id="map">
+    <div class="col" data-c="decode"></div><div class="col" data-c="select"></div><div class="col" data-c="encode"></div><div class="col" data-c="prune"></div><div class="col" data-c="generate"></div>
+  </div>
+  <div class="wrapband" id="wrapband"><span class="lbl">Around the whole chain, run after run:</span></div>
+  <div class="mapkey"><span><i class="b"></i>running in the harness</span><span><i></i>next in line</span></div>
   <p class="famdesc" id="famdesc"></p>
 </div></section>
 
-<section class="sec" id="record"><div class="wrap">
-  <h2>What gets written down for every sample</h2>
-  <p class="intro">Each stage reports only its own increment and the harness adds them up, so nothing is counted twice. Every row of a result file carries the prediction and all of these.</p>
-  <div class="tblwrap"><table class="tbl">
-    <thead><tr><th>Field</th><th>What it measures</th><th>Side</th></tr></thead>
-    <tbody>
-      <tr><td class="f">decode_seconds</td><td>Wall time spent decoding video</td><td class="st"><span class="pill side">video side</span></td></tr>
-      <tr><td class="f">frames_decoded</td><td>Frames read from the video, the whole candidate pool and not only the frames kept</td><td class="st"><span class="pill side">video side</span></td></tr>
-      <tr><td class="f">frames_encoded</td><td>Frames handed to the vision encoder</td><td class="st"><span class="pill side">video side</span></td></tr>
-      <tr><td class="f">vit_patch_tokens</td><td>Patches entering the vision tower, before any merging or pruning</td><td class="st"><span class="pill side">video side</span></td></tr>
-      <tr><td class="f">llm_visual_tokens</td><td>Visual tokens that actually enter the language model</td><td class="st"><span class="pill llm">model side</span></td></tr>
-      <tr><td class="f">prefill_tokens</td><td>Total prompt tokens, visual and text</td><td class="st"><span class="pill llm">model side</span></td></tr>
-      <tr><td class="f">decode_tokens</td><td>Generated tokens</td><td class="st"><span class="pill llm">model side</span></td></tr>
-      <tr><td class="f">wall_seconds</td><td>End-to-end wall time for the sample</td><td class="st"><span class="pill">both</span></td></tr>
-    </tbody>
-  </table></div>
+<section class="sec" id="build"><div class="wrap">
+  <h2>From an idea to a fair comparison in one afternoon</h2>
+  <p class="intro">The harness is a development platform as much as a benchmark. Say you have an idea for a better keyframe selector. Here is the whole path from the idea to a row in the table.</p>
+  <div class="walk">
+    <div class="steps" id="steps">
+      <button type="button" aria-pressed="true"><span class="n">1</span><h3>Write one stage</h3><p>Your selector is one small class. Decoding, encoding, the model, the prompt and the scoring are already there, and identical to what every baseline uses.</p></button>
+      <button type="button" aria-pressed="false"><span class="n">2</span><h3>Run it like any baseline</h3><p>One command picks the model, the benchmark and the budget. Your method reads the same frame pool under the same budget as everything it will be compared with.</p></button>
+      <button type="button" aria-pressed="false"><span class="n">3</span><h3>Read the ledger</h3><p>Your row sits next to the field's baselines, with the full bill: what was decoded, what was encoded, how long the first token took. If you win, you can see what it cost.</p></button>
+      <button type="button" aria-pressed="false"><span class="n">4</span><h3>Change the question</h3><p>A new benchmark is one task file. A new budget is one line. A new kind of cost is one field in the record. The comparison follows you.</p></button>
+    </div>
+    <div class="stagebox" aria-live="polite">
+      <div class="pane on"><div class="cap">frontend/select/my_selector.py</div>
+<pre><span class="k">@register</span>(<span class="s">"select"</span>, <span class="s">"my-selector"</span>)
+<span class="k">class</span> <span class="h">MySelector</span>(Selector):
+    <span class="s">"""Pick the frames worth looking at."""</span>
+
+    <span class="k">def</span> select(self, pool, query, budget):
+        scores = self.score(pool.frames, query)
+        keep = top_k(scores, budget.frame_count)
+        <span class="k">return</span> Selection(indices=keep)
+
+<span class="c"># That is the whole method. The pool was decoded for you,</span>
+<span class="c"># and its cost is already on your bill.</span></pre></div>
+      <div class="pane"><div class="cap">terminal</div>
+<pre><span class="c"># your method</span>
+$ longvideo-eval --model qwen3-vl-4b --task videomme \
+      --method <span class="h">my-selector</span> --setup sel16f_pool256
+
+<span class="c"># every baseline, same pool, same budget</span>
+$ longvideo-eval --model qwen3-vl-4b --task videomme \
+      --method aks         --setup sel16f_pool256
+$ longvideo-eval --model qwen3-vl-4b --task videomme \
+      --method flashvid    --setup iso256f
+$ longvideo-eval --model qwen3-vl-4b --task videomme \
+      --method lohi-semdiv --setup lohi128f_k8</pre></div>
+      <div class="pane"><div class="cap">Video-MME · Qwen3-VL-4B · ~5,760 visual tokens</div>
+        <div class="ledwrap"><table class="ledger">
+          <thead><tr><th>Method</th><th>Decoded</th><th>First token</th><th>Accuracy</th></tr></thead>
+          <tbody>
+            <tr class="you"><td>my-selector</td><td>256</td><td>yours</td><td>yours</td></tr>
+            <tr><td>LoHi-SemDiv<span class="fam">resolution</span></td><td>128</td><td>3.9 s</td><td>66.8</td></tr>
+            <tr><td>Dense low-res<span class="fam">resolution</span></td><td>256</td><td>6.0 s</td><td>64.4</td></tr>
+            <tr><td>BOLT<span class="fam">keyframe</span></td><td>256</td><td>6.0 s</td><td>60.8</td></tr>
+            <tr><td>FlashVID<span class="fam">pruning</span></td><td>256</td><td>9.0 s</td><td>59.3</td></tr>
+            <tr><td>AKS<span class="fam">keyframe</span></td><td>256</td><td>6.0 s</td><td>57.3</td></tr>
+            <tr><td>CLIP top-k<span class="fam">keyframe</span></td><td>256</td><td>6.0 s</td><td>57.2</td></tr>
+            <tr><td>VisionZip<span class="fam">pruning</span></td><td>256</td><td>8.2 s</td><td>57.0</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div class="pane"><div class="cap">three one-line changes</div>
+<pre><span class="c"># a new benchmark: one task file</span>
+$ longvideo-eval --task <span class="h">lvbench</span> --method my-selector ...
+
+<span class="c"># a new budget: one line</span>
+<span class="s">"sel32f_pool512"</span>: Budget(frame_count=<span class="h">32</span>, decode_budget=<span class="h">512</span>)
+
+<span class="c"># a new kind of cost: one field, metered for every method</span>
+<span class="k">class</span> CostRecord:
+    decode_seconds: float
+    frames_decoded: int
+    llm_visual_tokens: int
+    prefill_tokens: int
+    <span class="h">thinking_tokens: int</span>      <span class="c"># reasoning is not free</span>
+    <span class="h">rounds: int</span>               <span class="c"># neither is asking twice</span></pre></div>
+    </div>
+  </div>
 </div></section>
 
-<section class="sec alt" id="release"><div class="wrap">
-  <h2>What is being released</h2>
-  <p class="intro">Everything in this table is implemented. Rows move to released as they land in the <a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">repository</a>.</p>
-  <div class="tblwrap"><table class="tbl">
-    <thead><tr><th>Component</th><th>What</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td><b>Harness</b></td><td>Stage protocols, shared budgets, unified cost metering, command line runner</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-      <tr><td><b>Base models</b></td><td>Qwen3-VL family</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-      <tr><td><b>Benchmarks</b></td><td>Video-MME, MLVU, LVBench</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-      <tr><td><b>Token pruning</b></td><td>VisionZip, MMTok, FlashVID</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-      <tr><td><b>Keyframe selection</b></td><td>Query-aware keyframe baselines</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-      <tr><td><b>LoHi</b></td><td>LoHi-Uniform and LoHi-SemDiv, from the <a href="lohi.html">NeurIPS 2026 paper</a></td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
-    </tbody>
-  </table></div>
+<section class="sec alt" id="horizon"><div class="wrap">
+  <h2>Where this is going</h2>
+  <p class="intro">LoHi was the first paper to come out of this harness. The harness itself is the long-term project: a common ground where the whole field can be measured the same way, and a workbench that keeps up with it.</p>
+  <div class="horizon">
+    <div class="hz"><div class="when">Now</div><h3>The ground truth for cost</h3><p>Token pruning, keyframe selection and resolution allocation on the Qwen3-VL family, across Video-MME, MLVU and LVBench, every run with a full bill.</p></div>
+    <div class="hz"><div class="when">Next</div><h3>The rest of the field</h3><p>Agentic and multi-turn methods, where every extra round is charged. Streaming and memory models. More backbones, faster inference backends, more benchmarks, with full documentation and an API reference alongside.</p></div>
+    <div class="hz"><div class="when">Then</div><h3>A living map</h3><p>A public accuracy-cost leaderboard that anyone can add a point to, with methods, datasets and budgets contributed by the people who build them.</p></div>
+  </div>
+</div></section>
+
+<section class="invite" id="join"><div class="wrap">
+  <h2>Bring a method, a dataset, or a cost we forgot.</h2>
+  <p class="big">LongVideo-Eval is updated continuously and built in the open. If you work on long video, there is a place for your work here, and we would like to build it with you.</p>
+  <div class="ways">
+    <a class="way" href="https://github.com/Ironieser/LongVideo-Eval/pulls" target="_blank" rel="noopener"><h3><i class="fas fa-code-branch"></i> Open a pull request</h3><p>Add your method as one stage and see it next to every baseline.</p></a>
+    <a class="way" href="https://github.com/Ironieser/LongVideo-Eval/issues" target="_blank" rel="noopener"><h3><i class="fas fa-database"></i> Propose a dataset or a budget</h3><p>Tell us which benchmark, setup or cost the comparison is missing.</p></a>
+    <a class="way" href="mailto:sixundong.ai@gmail.com"><h3><i class="fas fa-envelope"></i> Write to us</h3><p>For collaborations, joint evaluations and anything larger than an issue.</p></a>
+  </div>
 </div></section>
 
 <section class="sec" id="papers" style="border-bottom:none"><div class="wrap">
   <h2>Papers behind the harness</h2>
-  <p class="intro">LongVideo-Eval grows out of a line of work from the same authors on efficient multimodal inference. If it is useful to you, please consider citing them.</p>
+  <p class="intro">LongVideo-Eval grows out of a line of work on efficient multimodal inference. If it is useful to you, please cite it.</p>
   <div class="papers">
     <div class="paper">
       <span class="venue">NeurIPS 2026</span>
@@ -307,7 +439,7 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
   </details>
 </div></section>
 
-<footer><div class="wrap">© 2026 The LongVideo-Eval authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
+<footer><div class="wrap"><a href="https://github.com/Ironieser/LongVideo-Eval#readme" target="_blank" rel="noopener">Docs</a> &nbsp;·&nbsp; <a href="https://github.com/Ironieser/LongVideo-Eval/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Release log</a> &nbsp;·&nbsp; <a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp; <a href="mailto:sixundong.ai@gmail.com">Contact</a><br>© 2026 The LongVideo-Eval authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
 
 <script>
 (function(){
@@ -344,27 +476,49 @@ function show(k){
 }
 show(1);
 
-/* ---------------- pipeline: where each family lives, and where it pays ---------------- */
-const FAMS=[
- {id:'uniform',label:'Uniform baseline',on:['select'],paid:[],
-  desc:'<b>Uniform sampling</b> is a selector that needs no signal. Its bill is just the frames it decodes and the tokens it sends, which makes it the reference every other method is compared with.'},
- {id:'key',label:'Keyframe selection',on:['select'],paid:['decode'],
-  desc:'<b>A keyframe method is a selector.</b> It reads the same decoded pool as every other selector, so the decoding of that whole pool is charged to it, together with the time it spends scoring frames.'},
- {id:'prune',label:'Token pruning',on:['prune'],paid:['decode','encode'],
-  desc:'<b>A token pruner runs after the encoder.</b> By the time it removes tokens, every frame has already been decoded and passed through the vision tower. Both are on its bill.'},
- {id:'lohi',label:'LoHi',on:['select','encode'],paid:[],
-  desc:'<b>LoHi changes what is encoded, not what is discarded.</b> All frames go in at low resolution and a few selected frames also go in at high resolution, so there is no large pool to decode and nothing to throw away afterwards.'}
+/* ---------------- the field map: where each direction acts, and what it is charged for ---------------- */
+const DIRS=[
+ {id:'codec',label:'Decode acceleration',col:'decode',built:false,on:['decode'],paid:[],
+  desc:'<b>Decode acceleration</b> attacks the first cost of any long video: reading it. Codec-aware and sparse-frame decoding make the pool cheaper for every method downstream.'},
+ {id:'key',label:'Keyframe selection',col:'select',built:true,on:['select'],paid:['decode'],
+  desc:'<b>A keyframe method is a selector.</b> It reads the same decoded pool as every other selector, so decoding that whole pool is charged to it, together with the time it spends scoring frames.'},
+ {id:'res',label:'Resolution allocation',col:'select',built:true,on:['select','encode'],paid:[],
+  desc:'<b>Resolution allocation</b> changes what is encoded instead of what is discarded: more frames at fewer pixels, with detail spent only where it is needed. This is where LoHi lives.'},
+ {id:'vit',label:'Encoder acceleration',col:'encode',built:false,on:['encode'],paid:[],
+  desc:'<b>Encoder acceleration</b> keeps the input and speeds the vision tower. The harness charges it the patches that go in, so a faster tower shows up as a smaller bill and not as a footnote.'},
+ {id:'prune',label:'Token pruning',col:'prune',built:true,on:['prune'],paid:['decode','encode'],
+  desc:'<b>A token pruner runs after the encoder.</b> By the time it removes tokens, every frame has been decoded and passed through the vision tower. Both are on its bill.'},
+ {id:'mem',label:'Memory and streaming',col:'prune',built:false,on:['prune','generate'],paid:['encode'],
+  desc:'<b>Memory and streaming models</b> keep a bounded summary of an unbounded video. What they save in prefill they spend in encoding, and the harness shows both.'},
+ {id:'kv',label:'KV-cache compression',col:'generate',built:false,on:['generate'],paid:[],
+  desc:'<b>KV-cache compression</b> shrinks what the language model has to keep around for a long context, after the tokens are already in.'},
+ {id:'llm',label:'LLM acceleration',col:'generate',built:false,on:['generate'],paid:[],
+  desc:'<b>LLM acceleration</b> keeps the input and speeds the model: in-model pruning, speculative decoding, fewer output tokens.'},
+ {id:'ctx',label:'Long-context backbones',col:'generate',built:false,on:['generate'],paid:['decode','encode'],
+  desc:'<b>Long-context backbones</b> skip reduction and take everything. The harness charges them for all of it, which is what makes the comparison with reduction methods fair.'},
+ {id:'agent',label:'Agentic and multi-turn',col:'wrap',built:true,on:['decode','select','encode','prune','generate'],paid:[],
+  desc:'<b>An agentic method runs the chain more than once.</b> Each round can decode new frames, encode them, refill the prompt and think before answering. Every round is on the bill, so a multi-turn method is compared with what the same model does in a single pass at the same cost.'},
+ {id:'self',label:'Self-evolving methods',col:'wrap',built:false,on:['decode','select','encode','prune','generate'],paid:[],
+  desc:'<b>Self-evolving methods</b> refine their evidence or their answer at test time. The harness counts what each refinement costs.'}
 ];
-const fam=$('#fam'),stages=[...document.querySelectorAll('.stage')];
-FAMS.forEach((f,k)=>{const b=document.createElement('button');b.type='button';b.textContent=f.label;
-  b.setAttribute('aria-pressed','false');b.onclick=()=>pick(k);fam.appendChild(b)});
+const stages=[...document.querySelectorAll('.stage')],dirBtns=[];
+DIRS.forEach((d,k)=>{const b=document.createElement('button');b.type='button';b.className='dir'+(d.built?' built':'');b.textContent=d.label;
+  b.setAttribute('aria-pressed','false');b.onclick=()=>pick(k);dirBtns.push(b);
+  (d.col==='wrap'?$('#wrapband'):document.querySelector('.map .col[data-c="'+d.col+'"]')).appendChild(b)});
 function pick(k){
-  const f=FAMS[k];
-  [...fam.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===k));
-  stages.forEach(s=>{s.classList.toggle('on',f.on.includes(s.dataset.s));s.classList.toggle('paid',f.paid.includes(s.dataset.s))});
-  $('#famdesc').innerHTML=f.desc;
+  const d=DIRS[k];
+  dirBtns.forEach((b,j)=>b.setAttribute('aria-pressed',j===k));
+  stages.forEach(s=>{s.classList.toggle('on',d.on.includes(s.dataset.s));s.classList.toggle('paid',d.paid.includes(s.dataset.s))});
+  $('#famdesc').innerHTML=d.desc;
 }
 pick(1);
+
+/* ---------------- walk-through ---------------- */
+const stepBtns=[...document.querySelectorAll('#steps button')],panes=[...document.querySelectorAll('.stagebox .pane')];
+stepBtns.forEach((b,k)=>b.addEventListener('click',()=>{
+  stepBtns.forEach((x,j)=>x.setAttribute('aria-pressed',j===k));
+  panes.forEach((x,j)=>x.classList.toggle('on',j===k));}));
+const deep=/^#step([1-4])$/.exec(location.hash);if(deep){stepBtns[deep[1]-1].click();document.getElementById('build').scrollIntoView()}
 })();
 </script>
 </body>
