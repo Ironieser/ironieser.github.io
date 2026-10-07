@@ -91,7 +91,18 @@ main{margin-left:var(--rail)}
 
 /* ---------- steps ---------- */
 .step{padding:64px 0;border-top:1px solid var(--line-2)}
-.step .num{font-family:var(--display);font-style:italic;font-weight:500;font-size:20px;color:var(--soft)}
+.step .num{font-family:var(--display);font-style:italic;font-weight:500;font-size:20px;color:var(--soft);display:flex;align-items:center;gap:14px}
+.step .num svg{width:54px;height:54px;flex:none}
+.defs{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}
+.def{border:1.5px solid var(--ink);border-radius:6px;background:var(--card);padding:16px 18px;display:grid;grid-template-columns:1fr;gap:10px}
+.def h3{font-family:var(--display);font-weight:600;font-size:22px;line-height:1.15}
+.def h3 span{font-family:var(--mono);font-size:14px;font-weight:500;color:var(--hold-text);margin-left:6px}
+.def p{font-size:15px;color:var(--soft)}
+.def .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.def .pair figure{margin:0}
+.def .pair svg{width:100%;height:auto;display:block;background:var(--bg);border-radius:4px}
+.def .pair figcaption{font-size:12.5px;color:var(--soft);margin-top:4px;text-align:center}
+.pick svg.pi{display:inline-block;width:16px;height:16px;vertical-align:-3px;margin-right:6px}
 .step h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,3.8vw,44px);line-height:1.08;letter-spacing:-.015em;margin-top:6px;max-width:16em}
 .step p.say{font-size:17px;color:var(--soft);max-width:39em;margin-top:16px}
 .step p.say b{color:var(--ink)}
@@ -299,6 +310,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
   .exp{grid-template-columns:1fr}
+  .defs{grid-template-columns:1fr}
   .how{grid-template-columns:1fr}
   .lab .controls{grid-template-columns:1fr}
   .duo{grid-template-columns:1fr}
@@ -316,6 +328,15 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="sc-0" viewBox="0 0 16 16"><path d="M10.2 2.2a3.6 3.6 0 0 0-3.4 4.9L2 11.9 4.1 14l4.8-4.8a3.6 3.6 0 0 0 4.9-3.4l-2.2 2.2-2-.6-.6-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+  <symbol id="sc-1" viewBox="0 0 16 16"><path d="M2 3.5h12v7.5H8.4L5.2 14v-3H2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M6.6 6.1a1.5 1.5 0 1 1 2 1.4c-.4.2-.6.4-.6.9" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="8" cy="9.6" r=".75" fill="currentColor"/></symbol>
+  <symbol id="sc-2" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5.2 8.2l2 2 3.6-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="sc-3" viewBox="0 0 16 16"><path d="M3 2.5h6.5L13 6v7.5H3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M5.4 11l.5-2.1 3.6-3.6 1.6 1.6-3.6 3.6z" fill="currentColor"/></symbol>
+  <symbol id="sc-4" viewBox="0 0 16 16"><rect x="3.5" y="5.5" width="9" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 5.5V3M2 8.5v2.5M14 8.5v2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="8" cy="2.4" r="1" fill="currentColor"/><circle cx="6.2" cy="8.6" r="1" fill="currentColor"/><circle cx="9.8" cy="8.6" r="1" fill="currentColor"/></symbol>
+  <symbol id="pr-0" viewBox="0 0 16 16"><path d="M1.5 13c3 0 3.4-9 5.5-9s2.5 9 5.5 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M12.5 2.5v11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="pr-1" viewBox="0 0 16 16"><path d="M3.5 13c3 0 3.4-9 5.5-9s2.5 9 5.5 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 2.5v11.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="pr-2" viewBox="0 0 16 16"><path d="M1.5 13c3 0 3.4-9 6-9s3 9 6 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M2.5 13c3 0 3.4-9 6-9s3 9 6 9" fill="none" stroke="currentColor" stroke-width="1.3" opacity=".55"/></symbol>
+  <symbol id="pr-3" viewBox="0 0 16 16"><path d="M.8 13c2 0 2.2-9 3.9-9s1.9 9 3.3 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 13c1.400 0 1.600-9 3.300-9s1.900 9 3.900 9" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 2.500v11.500" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
   <symbol id="ic-person" viewBox="0 0 12 14"><circle cx="6" cy="3.3" r="2.5" fill="currentColor"/><path d="M1.6 13.2v-2.6a4.4 4.4 0 0 1 8.8 0v2.6z" fill="currentColor"/></symbol>
   <symbol id="ic-person-o" viewBox="0 0 12 14"><circle cx="6" cy="3.3" r="2" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M2.2 12.7v-2.1a3.8 3.8 0 0 1 7.6 0v2.1z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
   <symbol id="ic-msg" viewBox="0 0 12 14"><path d="M2.6 2.2h6.8a1.6 1.6 0 0 1 1.6 1.6v4a1.6 1.6 0 0 1-1.6 1.6H6.2L3.4 12V9.4h-.8A1.6 1.6 0 0 1 1 7.8v-4a1.6 1.6 0 0 1 1.6-1.6z" fill="currentColor"/></symbol>
@@ -372,7 +393,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></div>
 
 <section class="step" id="acc"><div class="col">
-  <div class="num">one</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><rect x="3" y="14" width="19" height="26" rx="3" fill="#fff" stroke="#17153a" stroke-width="2"/><rect x="3" y="14" width="19" height="13" rx="3" fill="#f2b705" stroke="#17153a" stroke-width="2"/><rect x="32" y="14" width="19" height="26" rx="3" fill="#fff" stroke="#17153a" stroke-width="2"/><rect x="32" y="14" width="9.5" height="26" rx="3" fill="#4f46e5" stroke="#17153a" stroke-width="2"/><path d="M24.5 24h5M24.5 30h5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/></svg>one</div>
   <h2>Two observers, one accuracy, opposite mistakes</h2>
   <p class="say">Start with a case where the stakes are obvious. Two doctors each read the scans of 100 patients who have a tumour and 100 who are healthy. Their accuracy is 65% and 64%. By that number they are the same doctor.</p>
 
@@ -391,9 +412,28 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="sdt"><div class="col">
-  <div class="num">two</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M3 42c8 0 9-26 17-26s9 26 17 26" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M17 42c8 0 9-26 17-26s9 26 17 26" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M30 8v38" stroke="#17153a" stroke-width="2.8" stroke-linecap="round"/><circle cx="30" cy="8" r="4" fill="#fff" stroke="#17153a" stroke-width="2.4"/></svg>two</div>
   <h2>Sensitivity and criterion: try it on yourself</h2>
-  <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments, to pull those two kinds of error apart. A patch of static flashes on the screen, and half the time it hides a faint blob. You say whether it was there. Two things decide your answers, and they are independent: how well you can see the blob at all, your <b>sensitivity</b> d′, and how sure you want to be before you say yes, your <b>criterion</b> c. Raise the price of a miss and people say yes more freely. Raise the price of a false alarm and they hold back. Their eyesight has not changed.</p>
+  <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments. It says every yes-or-no judgement under uncertainty comes from two separate things.</p>
+  <div class="defs">
+    <div class="def">
+      <h3>Sensitivity <span>d′</span></h3>
+      <p>How well you can tell a signal from none. It is the distance between the two curves.</p>
+      <div class="pair">
+        <figure><svg viewBox="0 0 160 64" aria-hidden="true"><path d="M28 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M64 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M80 6v52" stroke="#17153a" stroke-width="2.6" stroke-linecap="round"/><circle cx="80" cy="7" r="3.6" fill="#fff" stroke="#17153a" stroke-width="2.2"/></svg><figcaption>low: hard to tell apart</figcaption></figure>
+        <figure><svg viewBox="0 0 160 64" aria-hidden="true"><path d="M10 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M82 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M80 6v52" stroke="#17153a" stroke-width="2.6" stroke-linecap="round"/><circle cx="80" cy="7" r="3.6" fill="#fff" stroke="#17153a" stroke-width="2.2"/></svg><figcaption>high: easy to tell apart</figcaption></figure>
+      </div>
+    </div>
+    <div class="def">
+      <h3>Criterion <span>c</span></h3>
+      <p>How sure you want to be before you say yes. It is where you put the line.</p>
+      <div class="pair">
+        <figure><svg viewBox="0 0 160 64" aria-hidden="true"><path d="M22 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M70 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M60 6v52" stroke="#17153a" stroke-width="2.6" stroke-linecap="round"/><circle cx="60" cy="7" r="3.6" fill="#fff" stroke="#17153a" stroke-width="2.2"/></svg><figcaption>to the left: says yes freely</figcaption></figure>
+        <figure><svg viewBox="0 0 160 64" aria-hidden="true"><path d="M22 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M70 52c14 0 16-40 34-40s20 40 34 40" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M104 6v52" stroke="#17153a" stroke-width="2.6" stroke-linecap="round"/><circle cx="104" cy="7" r="3.6" fill="#fff" stroke="#17153a" stroke-width="2.2"/></svg><figcaption>to the right: holds back</figcaption></figure>
+      </div>
+    </div>
+  </div>
+  <p class="say">Make a miss expensive and people move the line left. Make a false alarm expensive and they move it right. What they can see has not changed. Try it: a patch of static will flash, and half the time it hides a faint blob.</p>
 
   <div class="lab" id="exp">
     <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
@@ -433,7 +473,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="desc" id="exDesc"></div>
   </div>
 
-  <p class="say">The theory draws that as two overlapping curves and one line. Trials without a signal produce some amount of evidence, trials with one produce more, and the observer says yes whenever the evidence lands to the right of their line. How far apart the curves sit is the sensitivity. Where the line sits is the criterion. The picture is the same for a listener, for the two doctors above, and for a language model deciding whether to call a tool.</p>
+  <p class="say">Now the full picture, with both knobs. It is the same for a listener, for the two doctors above, and for a language model deciding whether to call a tool.</p>
 
   <div class="lab">
     <div class="bar second"><span class="lt">the setting</span><span class="picks" id="sdtCtx"></span></div>
@@ -458,9 +498,9 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="agents"><div class="col">
-  <div class="num">three</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M5 27h14" stroke="#17153a" stroke-width="2.8" stroke-linecap="round"/><path d="M19 27c8 0 8-13 18-13h8" fill="none" stroke="#f2b705" stroke-width="2.8" stroke-linecap="round"/><path d="M41 9l6 5-6 5" fill="none" stroke="#f2b705" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 27c8 0 8 13 18 13h6" fill="none" stroke="#4f46e5" stroke-width="2.8" stroke-linecap="round"/><path d="M46 33v14" stroke="#4f46e5" stroke-width="3.4" stroke-linecap="round"/><circle cx="19" cy="27" r="4.2" fill="#fff" stroke="#17153a" stroke-width="2.4"/></svg>three</div>
   <h2>The same split, wherever an agent decides to act</h2>
-  <p class="say">The doctors' problem is every agent's problem. Calling a tool, asking a question, committing to an answer, executing a change, moving something in the physical world: each is a choice between acting and holding back, each has two kinds of error, and the two rarely cost the same. Each situation below has one case where acting is right and one where it is not, so you can see which error each kind of model makes and what it costs in that setting.</p>
+  <p class="say">The doctors' problem is every agent's problem: act, or hold back. Pick a decision and a kind of model, and see which error it makes and what that error costs.</p>
 
   <div class="lab">
     <div class="bar second"><span class="lt">the decision</span><span class="picks" id="scPicks"></span></div>
@@ -481,7 +521,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></div>
 
 <section class="step" id="rule"><div class="col">
-  <div class="num">four</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M4 34h46" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M11 30v8M19 30v8M35 30v8M43 30v8" stroke="#17153a" stroke-width="1.8" stroke-linecap="round"/><rect x="23" y="24" width="8" height="20" rx="2" fill="#fdf1cc" stroke="#17153a" stroke-width="2"/><path d="M11 22c5-12 12-12 16-2" fill="none" stroke="#c98a00" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1 5"/><path d="M23.5 16.5l3.8 4 .7-5.6z" fill="#c98a00"/><circle cx="11" cy="34" r="4" fill="#fff" stroke="#17153a" stroke-width="2.4"/><circle cx="27" cy="34" r="4" fill="#f2b705" stroke="#17153a" stroke-width="2"/></svg>four</div>
   <h2>Evidence computed by rule, not written by a model</h2>
   <p class="say">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
 
@@ -521,7 +561,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="read"><div class="col">
-  <div class="num">five</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M6 8v38h42" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 27h42" stroke="#a9a8c4" stroke-width="1.6" stroke-dasharray="3 3"/><path d="M8 42c12 0 14-4 19-15s8-15 19-15" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/><circle cx="27" cy="27" r="4.4" fill="#fff" stroke="#17153a" stroke-width="2.6"/></svg>five</div>
   <h2>Reading a model: a slope and a crossing point</h2>
   <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
 
@@ -557,7 +597,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="move"><div class="col">
-  <div class="num">six</div>
+  <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M4 44c9 0 10-28 19-28s10 28 19 28" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M38 8v40" stroke="#a9a8c4" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3 5"/><path d="M20 8v40" stroke="#17153a" stroke-width="3" stroke-linecap="round"/><path d="M35 14H25" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M29 9.5l-5 4.5 5 4.5" fill="none" stroke="#17153a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>six</div>
   <h2>Moving the criterion, and only the criterion</h2>
   <p class="say">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
 
@@ -908,8 +948,9 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
    {n:'Sharp and centred',onAct:'act',onHold:'hold',d:'<b>Enough sensitivity, and a criterion in the right place.</b> It acts when the situation calls for it and holds back when it does not.'}
   ];
   let si=0,pi=0;const scB=$('#scPicks'),prB=$('#prPicks'),box=$('#cases');
-  SC.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{si=i;draw()};scB.appendChild(b);x.btn=b});
-  PR.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{pi=i;draw()};prB.appendChild(b);x.btn=b});
+  const icon=(id)=>'<svg class="pi" viewBox="0 0 16 16" aria-hidden="true"><use href="#'+id+'"/></svg>';
+  SC.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.innerHTML=icon('sc-'+i)+x.n;b.onclick=()=>{si=i;draw()};scB.appendChild(b);x.btn=b});
+  PR.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.innerHTML=icon('pr-'+i)+x.n;b.onclick=()=>{pi=i;draw()};prB.appendChild(b);x.btn=b});
   function draw(){
     const sc=SC[si],pr=PR[pi];
     SC.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===si));PR.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===pi));
