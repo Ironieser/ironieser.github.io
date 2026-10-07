@@ -769,6 +769,7 @@ function generateIndexPage(config) {
                 
                 <div class="section-footer">
                     <a href="publications.html" class="btn btn-more">View All Publications</a>
+                    <a href="projects/" class="btn btn-more" style="margin-left:12px">Projects &amp; Demos</a>
                 </div>
             </div>
         </section>
@@ -1018,6 +1019,9 @@ function generatePublicationsPage(config) {
         <section class="section">
             <div class="container">
                 ${yearSections.join('')}
+                <div class="section-footer">
+                    <a href="projects/" class="btn btn-more">Projects &amp; Demos</a>
+                </div>
             </div>
         </section>
     </main>

@@ -71,13 +71,13 @@
       "date": "Oct 2026",
       "icon": "🧭",
       "link": "https://sixundong.com/projects/",
-      "content": "New <strong>Showcase</strong> page {{link}}: LongVideo-Eval, plus interactive paper pages for LoHi, FlipAct, MMTok and TimesCLIP.",
+      "content": "New <strong>Projects &amp; Demos</strong> page {{link}}: LongVideo-Eval, plus interactive demos for LoHi, FlipAct, MMTok and TimesCLIP.",
       "category": "projects"
     },
     {
       "date": "Sep 2026",
       "icon": "🎉",
-      "link1": "https://openreview.net/forum?id=a9xLyT4hG4",
+      "link1": "https://arxiv.org/abs/2610.04318",
       "link2": "https://arxiv.org/abs/2610.07505",
       "content": "Paper on <strong>LoHi</strong> {{link1}} and paper on <strong>MARS</strong> {{link2}} accepted to [[NeurIPS 2026]]! LoHi pairs dense low-res video with a few high-res frames for efficient long-video VLMs; MARS gives long-history recommenders multi-timescale recurrent memory. Congratulations to Ming Yin and thanks to all coauthors!",
       "category": "papers"
