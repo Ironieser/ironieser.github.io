@@ -194,7 +194,28 @@ svg text{font-family:var(--sans)}
 .skipbtn{all:unset;cursor:pointer;font-size:14px;color:var(--hold-text);text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
 .skipbtn:hover{color:var(--ink)}
 .skipbtn:focus-visible{outline:2px solid var(--hold);outline-offset:2px}
-.crowd{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-2)}
+.tip{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:15px;line-height:1.5;margin-top:10px}
+.tip svg{width:20px;height:20px;margin-top:2px;color:var(--soft)}
+.tip.go{background:var(--act-wash);border-radius:4px;padding:10px 12px;margin-top:0}
+.tip.go svg{color:var(--act-text)}
+.tip.crowdrow{padding-top:10px;border-top:1px dashed var(--line-2)}
+details.more{margin-top:10px;border:1px solid var(--line-2);border-radius:4px;background:var(--card)}
+details.more summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:10px 12px;font-weight:600;font-size:15px}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary svg{width:20px;height:20px;color:var(--soft);flex:none}
+details.more summary::after{content:"+";margin-left:auto;font-family:var(--mono);font-size:18px;color:var(--soft)}
+details.more[open] summary::after{content:"−"}
+details.more .cmp{border-top:1px solid var(--line-2)}
+.cmp .row{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:12px;font-size:14.5px}
+.cmp .row + .row{border-top:1px solid var(--line)}
+.cmp .what{color:var(--soft)}
+.cmp .what b{display:block;color:var(--ink);font-size:15px}
+.cmp .viz span{display:block}
+.cmp .viz small{display:block;color:var(--soft);font-size:13px;margin-top:4px}
+.cmp .meter{height:8px;border-radius:4px;background:var(--hold-wash);margin-bottom:6px;overflow:hidden}
+.cmp .meter i{display:block;height:100%;background:var(--hold)}
+details.more .runs{margin:0;border-top:1px solid var(--line-2)}
+details.more .runs th:first-child,details.more .runs td:first-child{padding-left:12px}
 .how{display:grid;grid-template-columns:auto 1fr;gap:18px 26px;padding:16px 18px;border-bottom:1px solid var(--line-2);align-items:center}
 .how .egs{display:flex;gap:14px}
 .how figure{margin:0;width:120px}
@@ -310,6 +331,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
   .exp{grid-template-columns:1fr}
+  .cmp .row{grid-template-columns:1fr}
   .defs{grid-template-columns:1fr}
   .how{grid-template-columns:1fr}
   .lab .controls{grid-template-columns:1fr}
@@ -767,15 +789,26 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     let h='<div class="result pop"><div class="badge"><small>your run '+runs.length+', '+MODES[mode].n.toLowerCase()+', '+P.n.toLowerCase()+(partial?', stopped after '+(nS+nN)+' trials':'')+'</small>'+eye+hand+'</div>'+
       '<div class="nums"><div><b>'+d.toFixed(2)+'</b><span>sensitivity d′: how well you can tell</span></div><div><b>'+fmt(c)+'</b><span>criterion c: '+lean+'</span></div><div><b>'+(score>0?'+':'')+score+'</b><span>points, from '+tally.h+' hits and '+tally.fa+' false alarms</span></div></div>'+
       (d>=0.3?'<div class="gauge"><div class="track"><div class="mk best" style="left:'+pos(copt)+'%"><span>best for these stakes</span></div><div class="mk" style="left:'+pos(c)+'%"><span>you</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div>':'')+'</div>';
-    if(partial)h+='You stopped early, so these numbers rest on '+(nS+nN)+' trials and are rough. This run is not added to the crowd. ';
-    if(d<0.3){h+='Your answers did not follow the signal on this run (d′ = '+d.toFixed(2)+', which is chance), so there is nothing to place a criterion on. Try the easier setting and run again. ';}
+    const I={next:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10a6 6 0 0 1 10.6-3.8M16 10a6 6 0 0 1-10.6 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14.8 2.8v3.6h-3.6M5.2 17.200v-3.600h3.600" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      warn:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l8 14H2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8.500v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14.800" r="1" fill="currentColor"/></svg>',
+      model:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.200" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="1.200" fill="currentColor"/></svg>',
+      crowd:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="2.600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="8" r="2.100" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.500 16.500c0-2.700 2-4.500 4.500-4.500s4.500 1.800 4.500 4.500M12.500 12.300c2.600-.6 5 1 5 4.200" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      list:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5.500h10M7 10h10M7 14.500h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="3.500" cy="5.500" r="1.100" fill="currentColor"/><circle cx="3.500" cy="10" r="1.100" fill="currentColor"/><circle cx="3.500" cy="14.500" r="1.100" fill="currentColor"/></svg>'};
+    const note=(ic,html,cls)=>'<div class="tip '+(cls||'')+'">'+I[ic]+'<div>'+html+'</div></div>';
+    if(partial)h+=note('warn','<b>You stopped early.</b> These numbers rest on '+(nS+nN)+' trials and are rough. This run is not added to the crowd.');
+    if(d<0.3){h+=note('warn','<b>That was chance.</b> Your answers did not follow the signal on this run, so there is no criterion to speak of. Switch to the easier setting and run again.');}
     else{
-    h+='<b>Against the classic model:</b> the ideal observer of signal-detection theory, which knows exactly what the signal looks like, would reach d′ = '+di.toFixed(1)+' on these trials, so you used about '+(eff<1?eff.toFixed(1):Math.round(eff))+'% of the information that was there. Human observers in classic experiments on signals in noise range from a few percent to about half. ';
-    h+='With these stakes the same model puts the best line at c = '+fmt(copt)+'. People usually move toward it and stop short. ';}
-    if(runs.length===1&&d>=0.3)h+='<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.';
-    h+='<table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table>';
-    h+='<div class="crowd" id="exCrowd"></div>';
-    h+='<p style="margin-top:12px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
+      if(runs.length===1)h+=note('next','<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.','go');
+      const effTxt=(eff<1?eff.toFixed(1):Math.round(eff))+'%',wEff=Math.max(2,Math.min(100,eff)).toFixed(1);
+      h+='<details class="more"><summary>'+I.model+'<span>Compare with the classic model</span></summary><div class="cmp">'+
+        '<div class="row"><div class="what"><b>Sensitivity</b>An ideal observer, which knows exactly what the signal looks like, would reach d′ = '+di.toFixed(1)+' on these trials.</div>'+
+          '<div class="viz"><div class="meter"><i style="width:'+wEff+'%"></i></div><span>you used about <b>'+effTxt+'</b> of the information that was there</span><small>People in classic experiments range from a few percent to about half.</small></div></div>'+
+        '<div class="row"><div class="what"><b>Criterion</b>With these stakes the same theory puts the best line at c = '+fmt(copt)+'.</div>'+
+          '<div class="viz"><span>yours is at <b>'+fmt(c)+'</b>, '+(Math.abs(c-copt)<0.2?'right about there':(c>copt?'more cautious than that':'bolder than that'))+'</span><small>People usually move toward the best line and stop short of it.</small></div></div>'+
+        '</div></details>';}
+    h+='<div class="tip crowdrow">'+I.crowd+'<div id="exCrowd">Looking up the crowd…</div></div>';
+    if(runs.length>1)h+='<details class="more" open><summary>'+I.list+'<span>Your runs so far</span></summary><table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table></details>';
+    h+='<p style="margin-top:14px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
     desc.innerHTML=h;crowd(d,partial);if(!partial)celebrate(d);ask.textContent=partial?'Stopped.':'Done.';veil.hidden=false;veil.textContent=(nS+nN)+' of 20';
     $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
   // a short burst of paper when a run is finished; skipped when the reader prefers less motion
@@ -788,7 +821,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       ps.forEach(p=>{p.vy+=.32;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=Math.max(0,1-t/2.2);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});
       if(t<2.2)requestAnimationFrame(step);else{x.clearRect(0,0,W,H);cvs.hidden=true}})(performance.now());}
   // the crowd: everyone who has taken this test on this page
-  function crowdText(j,d,added){const others=j.cell.n-(added?1:0);let t='<b>The crowd so far:</b> ';
+  function crowdText(j,d,added){const others=j.cell.n-(added?1:0);let t='<b>The crowd so far.</b> ';
     if(others<5){t+=(others<=0?'no other runs yet':'only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
     else{t+=others+' other runs on this setting, with a mean sensitivity of d′ = '+j.cell.d_mean.toFixed(2)+'. ';
       if(d!==null&&d>=0.3&&j.cell.below!==null)t+='You were more sensitive than '+Math.round(100*j.cell.below/others)+'% of them. ';
@@ -804,15 +837,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       let t=crowdText(j,d,share&&j.stored);
       if(share&&!j.stored)t+=' This run was not added: the daily limit for one visitor was reached.';
       if(!share&&!viewOnly)t+=' Your run was not added.';
-      el.innerHTML=t;}).catch(()=>{});
+      el.innerHTML=t;}).catch(()=>{const el=box();if(el)el.innerHTML='<b>The crowd so far.</b> Not available right now.'});
   }
   // for readers who would rather not play: a worked example of a result, and the crowd's numbers
   function peek(){
     desc.innerHTML='<div class="result"><div class="badge"><small>an example result, not yours</small>Sharp, and careful</div>'+
       '<div class="nums"><div><b>1.52</b><span>sensitivity d′: how well this person can tell</span></div><div><b>+0.41</b><span>criterion c: conservative</span></div><div><b>+8</b><span>points, from 6 hits and 1 false alarm</span></div></div>'+
       '<div class="gauge"><div class="track"><div class="mk best" style="left:50%"><span>best for these stakes</span></div><div class="mk" style="left:63.7%"><span>this person</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div></div>'+
-      'This person can tell the blob from plain static fairly well, and says yes less often than would earn the most points. Raise the price of a miss and the marker moves left; the first number hardly changes. '+
-      '<div class="crowd" id="exCrowd"></div>';
+      '<div class="tip"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.200" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4.500l3 1.800" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>How to read it.</b> This person tells the blob from plain static fairly well, and says yes less often than would earn the most points. Raise the price of a miss and the marker moves left. The first number hardly changes.</div></div>'+
+      '<div class="tip crowdrow"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="2.600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="8" r="2.100" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.500 16.500c0-2.700 2-4.500 4.500-4.500s4.500 1.800 4.500 4.500M12.500 12.300c2.600-.6 5 1 5 4.200" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div id="exCrowd">Looking up the crowd…</div></div>';
     crowd(null,true);}
   const skip=$('#exSkip');
   skip.onclick=()=>{
