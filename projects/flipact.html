@@ -204,7 +204,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <aside class="rail">
   <a class="lockup" href="#top"><span class="switch" aria-hidden="true"></span><b>FlipAct</b></a>
   <nav class="toc" aria-label="On this page">
-    <a href="#sdt" data-spy="sdt">Same accuracy, opposite mistakes</a>
+    <a href="#sdt" data-spy="sdt">Sensitivity and criterion, in people and in models</a>
     <a href="#agents" data-spy="agents">What it looks like in an agent</a>
     <a href="#rule" data-spy="rule">Evidence computed by rule</a>
     <a href="#read" data-spy="read">Reading a model</a>
@@ -241,26 +241,23 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <section class="step" id="sdt"><div class="col">
   <div class="num">one</div>
   <h2>The same accuracy, opposite mistakes</h2>
-  <p class="say">On When2Call, gemma-2-9b and Phi-3.5-mini reach balanced accuracies of 0.65 and 0.64. One rarely calls the tool even where it should. The other calls it on most examples, many where it should not. <b>Signal-detection theory</b> separates what a single accuracy mixes: how far apart a model sees the two kinds of example, its <b>sensitivity</b> d′, and how much evidence it wants before it acts, its <b>criterion</b> c.</p>
+  <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments. A listener hears bursts of noise, and some bursts hide a faint tone. After each one they say whether they heard it. Two things decide the answer, and they are independent: how well the listener can hear the tone at all, their <b>sensitivity</b> d′, and how sure they want to be before saying yes, their <b>criterion</b> c. Pay for every tone caught and people say yes more freely. Penalise false alarms and they hold back. Their hearing has not changed.</p>
+  <p class="say">The same split applies to a radiologist deciding whether to flag a scan, and to a language model deciding whether to call a tool. On When2Call, gemma-2-9b and Phi-3.5-mini reach balanced accuracies of 0.65 and 0.64. One rarely calls the tool even where it should. The other calls it on most examples, many where it should not. Switch between the three settings below: the picture is the same.</p>
 
   <div class="lab">
-    <div class="bar"><span class="lt">instrument 1</span>
-      <button class="pick" type="button" data-sdt="gemma">gemma-2-9b</button>
-      <button class="pick" type="button" data-sdt="phi">Phi-3.5-mini</button>
-      <button class="pick" type="button" data-sdt="ideal">a sharper model</button>
-      <span>or move the sliders</span>
-    </div>
+    <div class="bar second"><span class="lt">the setting</span><span class="picks" id="sdtCtx"></span></div>
+    <div class="bar"><span class="lt">instrument 1</span><span class="picks" id="sdtPre"></span><span>or move the sliders</span></div>
     <div class="stage"><svg id="sdtsvg" viewBox="0 0 640 300" role="img" aria-label="Two overlapping evidence distributions and a movable criterion"></svg></div>
     <div class="controls">
       <div class="ctl"><label for="sdtD">Sensitivity d′ <span id="sdtDv"></span></label>
         <input id="sdtD" type="range" min="0" max="3" step="0.01">
-        <small>How far apart the model sees the two kinds of example.</small></div>
+        <small id="sdtDs"></small></div>
       <div class="ctl"><label for="sdtC">Criterion c <span id="sdtCv"></span></label>
         <input id="sdtC" type="range" min="-1.5" max="1.5" step="0.01">
-        <small>Where it draws the line. Right of centre is conservative.</small></div>
+        <small id="sdtCs"></small></div>
       <div class="reads">
-        <div class="ro"><div class="k">acts when it should</div><div class="v yes" id="sdtH"></div></div>
-        <div class="ro"><div class="k">acts when it should not</div><div class="v crit" id="sdtF"></div></div>
+        <div class="ro"><div class="k" id="sdtHk"></div><div class="v yes" id="sdtH"></div></div>
+        <div class="ro"><div class="k" id="sdtFk"></div><div class="v crit" id="sdtF"></div></div>
         <div class="ro"><div class="k">balanced accuracy</div><div class="v" id="sdtA"></div></div>
       </div>
     </div>
@@ -426,43 +423,67 @@ const pdf=x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
 const sig=x=>1/(1+Math.exp(-x));
 const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)?'true':'false'));
 
-/* ---------------- 1. signal detection: two distributions, one line ---------------- */
+/* ---------------- 1. signal detection: two distributions, one line, three settings ---------------- */
 (function(){
   const svg=$('#sdtsvg'),W=640,H=300,L=24,R=616,B=236,X0=-4.2,X1=4.2,PEAK=170;
   const sx=x=>L+(x-X0)/(X1-X0)*(R-L), sy=p=>B-p/0.4*PEAK;
-  const PRE={gemma:{d:1.03,c:0.77,t:'<b>gemma-2-9b on When2Call.</b> It calls the tool on 40% of the examples where it should and on 10% where it should not. Its line sits far to the right: it wants a lot of evidence before it acts.'},
-             phi:{d:0.88,c:-0.64,t:'<b>Phi-3.5-mini on When2Call.</b> It calls on 86% of the examples where it should, and on 58% where it should not. About the same sensitivity and the same accuracy, with the line on the other side.'},
-             ideal:{d:2.4,c:0,t:'<b>A sharper model.</b> The two curves barely overlap, so wherever the line goes there are few errors to trade. Only this, more sensitivity, raises the ceiling on accuracy.'}};
-  const D=$('#sdtD'),C=$('#sdtC'),picks=[...document.querySelectorAll('[data-sdt]')];
+  const CTX=[
+   {n:'A hearing test',noise:'noise only',signal:'noise + tone',yes:'says “I heard it” →',axis:['sounds like noise','sounds like a tone'],
+    hk:'says yes when a tone was there',fk:'says yes to plain noise',
+    ds:'How clearly the listener hears the tone through the noise.',cs:'How sure they want to be before saying yes.',
+    pre:[{n:'a cautious listener',d:1.0,c:0.8,t:'<b>A cautious listener.</b> They say yes only when they are sure. Few false alarms, and most of the faint tones go unreported. Fine them for every false alarm and anyone ends up here.'},
+         {n:'an eager listener',d:1.0,c:-0.7,t:'<b>An eager listener.</b> The same ears, a different line. They catch most tones and also report many that were never played. Pay for every tone caught and anyone ends up here.'},
+         {n:'better hearing',d:2.4,c:0,t:'<b>Better hearing.</b> Now the tone stands out from the noise, and the two curves pull apart. Wherever the line goes there are few errors left to trade.'}],
+    free:{cons:'<b>Conservative.</b> The listener misses tones they could have reported, and seldom reports one that was not there.',perm:'<b>Liberal.</b> The listener seldom misses a tone, and often reports one that was not there.',mid:'<b>Unbiased.</b> Misses and false alarms are balanced. Accuracy is as high as this hearing allows.'}},
+   {n:'A radiologist',noise:'healthy scans',signal:'scans with a tumour',yes:'flags the scan →',axis:['looks normal','looks suspicious'],
+    hk:'tumours that get flagged',fk:'healthy scans that get flagged',
+    ds:'How well the reader can tell a tumour from normal tissue.',cs:'How suspicious a scan has to look before it is flagged.',
+    pre:[{n:'flags only clear cases',d:1.2,c:0.7,t:'<b>Flags only clear cases.</b> Few patients are called back for nothing, and some tumours are missed. The cost of this line is paid by the patients who were sent home.'},
+         {n:'flags anything doubtful',d:1.2,c:-0.8,t:'<b>Flags anything doubtful.</b> The same eye, a different line. Almost no tumour is missed, and many healthy patients go through an unnecessary biopsy.'},
+         {n:'a more experienced reader',d:2.4,c:0,t:'<b>A more experienced reader.</b> Training changes what the reader can see, which moves the curves apart. A hospital policy can only move the line.'}],
+    free:{cons:'<b>Conservative.</b> Few needless call-backs, at the price of missed tumours.',perm:'<b>Liberal.</b> Few missed tumours, at the price of needless call-backs.',mid:'<b>Balanced.</b> The two kinds of error are traded evenly. Doing better takes a sharper eye.'}},
+   {n:'A language model',noise:'should not act',signal:'should act',yes:'calls the tool →',axis:['less evidence for acting','more evidence for acting'],
+    hk:'acts when it should',fk:'acts when it should not',
+    ds:'How far apart the model sees the two kinds of example.',cs:'How much evidence it wants before it acts.',
+    pre:[{n:'gemma-2-9b',d:1.03,c:0.77,t:'<b>gemma-2-9b on When2Call.</b> It calls the tool on 40% of the examples where it should and on 10% where it should not. Like the cautious listener, its line sits far to the right.'},
+         {n:'Phi-3.5-mini',d:0.88,c:-0.64,t:'<b>Phi-3.5-mini on When2Call.</b> It calls on 86% of the examples where it should, and on 58% where it should not. About the same sensitivity and the same accuracy, with the line on the other side.'},
+         {n:'a sharper model',d:2.4,c:0,t:'<b>A sharper model.</b> The two curves barely overlap. Only this, more sensitivity, raises the ceiling on accuracy.'}],
+    free:{cons:'<b>Conservative.</b> The model misses actions it should take, and seldom acts where it should not.',perm:'<b>Permissive.</b> The model seldom misses, and often acts where nothing warrants it.',mid:'<b>Centred.</b> The two kinds of error are balanced. Accuracy here is as high as this sensitivity allows.'}}
+  ];
+  const D=$('#sdtD'),C=$('#sdtC'),ctxBox=$('#sdtCtx'),preBox=$('#sdtPre');let ci=0,pk=0;
+  CTX.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>setCtx(i);ctxBox.appendChild(b);x.btn=b});
   function curve(mu){let p='';for(let i=0;i<=120;i++){const x=X0+(X1-X0)*i/120;p+=(i?'L':'M')+sx(x).toFixed(1)+','+sy(pdf(x-mu)).toFixed(1)}return p}
   function area(mu,from){let p='M'+sx(from).toFixed(1)+','+B;for(let i=0;i<=80;i++){const x=from+(X1-from)*i/80;p+='L'+sx(x).toFixed(1)+','+sy(pdf(x-mu)).toFixed(1)}return p+'L'+sx(X1)+','+B+'Z'}
-  function draw(key){
-    const d=+D.value,c=+C.value,h=Phi(d/2-c),f=Phi(-d/2-c);
+  function draw(){
+    const cx_=CTX[ci],d=+D.value,c=+C.value,h=Phi(d/2-c),f=Phi(-d/2-c);
     svg.innerHTML='';
     svg.appendChild(mk('line',{x1:L,x2:R,y1:B,y2:B,stroke:'#bdbcd6'}));
     svg.appendChild(mk('path',{d:area(-d/2,c),fill:NO,opacity:.22}));
     svg.appendChild(mk('path',{d:area(d/2,c),fill:YESFILL,opacity:.45}));
     svg.appendChild(mk('path',{d:curve(-d/2),fill:'none',stroke:NO,'stroke-width':2.5}));
     svg.appendChild(mk('path',{d:curve(d/2),fill:'none',stroke:YESFILL,'stroke-width':3}));
-    const lx=x=>Math.max(L+70,Math.min(R-70,sx(x)));
-    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:44,'text-anchor':'middle','font-size':14,fill:NTEXT,'font-weight':600},'should not act'));
-    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:44,'text-anchor':'middle','font-size':14,fill:YTEXT,'font-weight':600},'should act'));
+    const lx=x=>Math.max(L+80,Math.min(R-80,sx(x)));
+    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:44,'text-anchor':'middle','font-size':14,fill:NTEXT,'font-weight':600},cx_.noise));
+    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:44,'text-anchor':'middle','font-size':14,fill:YTEXT,'font-weight':600},cx_.signal));
     const cx=sx(c);
-    svg.appendChild(mk('line',{x1:cx,x2:cx,y1:58,y2:B+8,stroke:CRIT,'stroke-width':3,'stroke-linecap':'round'}));svg.appendChild(mk('circle',{cx:cx,cy:58,r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
+    svg.appendChild(mk('line',{x1:cx,x2:cx,y1:58,y2:B+8,stroke:CRIT,'stroke-width':3,'stroke-linecap':'round'}));
+    svg.appendChild(mk('circle',{cx:cx,cy:58,r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
     svg.appendChild(mk('text',{x:cx,y:B+28,'text-anchor':'middle','font-size':13.5,fill:CRIT,'font-weight':700},'criterion'));
-    svg.appendChild(mk('text',{x:Math.min(R-4,cx+12),y:B-8,'font-size':12.5,fill:INK,'text-anchor':cx>R-90?'end':'start'},cx>R-90?'':'acts →'));
-    svg.appendChild(mk('text',{x:L,y:H-8,'font-size':12.5,fill:SOFT},'less evidence for acting'));
-    svg.appendChild(mk('text',{x:R,y:H-8,'font-size':12.5,fill:SOFT,'text-anchor':'end'},'more evidence for acting'));
+    if(cx<R-150)svg.appendChild(mk('text',{x:cx+12,y:B-8,'font-size':12.5,fill:INK},cx_.yes));
+    svg.appendChild(mk('text',{x:L,y:H-8,'font-size':12.5,fill:SOFT},cx_.axis[0]));
+    svg.appendChild(mk('text',{x:R,y:H-8,'font-size':12.5,fill:SOFT,'text-anchor':'end'},cx_.axis[1]));
     $('#sdtDv').textContent=d.toFixed(2); $('#sdtCv').textContent=fmt(c);
     $('#sdtH').textContent=Math.round(h*100)+'%'; $('#sdtF').textContent=Math.round(f*100)+'%';
     $('#sdtA').textContent=((h+1-f)/2).toFixed(2);
-    press(picks,b=>b.dataset.sdt===key);
-    $('#sdtdesc').innerHTML=key?PRE[key].t:(c>0.15?'<b>Conservative.</b> The line is right of centre: the model misses actions it should take, and seldom acts where it should not.':c<-0.15?'<b>Permissive.</b> The line is left of centre: the model seldom misses, and often acts where nothing warrants it.':'<b>Centred.</b> The two kinds of error are balanced. Accuracy here is as high as this sensitivity allows.');
+    $('#sdtHk').textContent=cx_.hk; $('#sdtFk').textContent=cx_.fk; $('#sdtDs').textContent=cx_.ds; $('#sdtCs').textContent=cx_.cs;
+    CTX.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===ci));
+    [...preBox.children].forEach((b,i)=>b.setAttribute('aria-pressed',i===pk));
+    $('#sdtdesc').innerHTML=pk>=0?cx_.pre[pk].t:(c>0.15?cx_.free.cons:c<-0.15?cx_.free.perm:cx_.free.mid);
   }
-  function set(key){D.value=PRE[key].d;C.value=PRE[key].c;draw(key)}
-  picks.forEach(b=>b.addEventListener('click',()=>set(b.dataset.sdt)));
-  D.addEventListener('input',()=>draw());C.addEventListener('input',()=>draw());
-  set('gemma');
+  function setPre(k){pk=k;const q=CTX[ci].pre[k];D.value=q.d;C.value=q.c;draw()}
+  function setCtx(i){ci=i;preBox.innerHTML='';CTX[i].pre.forEach((q,k)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=q.n;b.onclick=()=>setPre(k);preBox.appendChild(b)});setPre(0)}
+  D.addEventListener('input',()=>{pk=-1;draw()});C.addEventListener('input',()=>{pk=-1;draw()});
+  setCtx(0);
 })();
 
 /* ---------------- 1b. the same decision in five agent settings (illustrative) ---------------- */
