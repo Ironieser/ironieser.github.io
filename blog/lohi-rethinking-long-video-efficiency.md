@@ -11,7 +11,7 @@ image: "images/blog/lohi/framework.jpg"
 > _Sharing my new work here — hope you'll bear with any shortcomings, and welcome any suggestions, comments, or critiques! This is joint work with UCF, Meta Reality Labs and Axon. The question we started from sounds simple: **for a long video and a fixed visual-token budget, how should we actually spend those tokens?** The answer turned out to be less about which tokens to keep, and more about frames, pixels, and the video decoder that nobody measures._
 
 **Paper:** [Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency](https://arxiv.org/abs/2610.04318) (arXiv:2610.04318, NeurIPS 2026)  
-**Code:** [github.com/Ironieser/LongVideo-Eval](https://github.com/Ironieser/LongVideo-Eval) (release in progress) — we are building **longvideo-eval**, an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy–cost axis, and LoHi will be released as part of it  
+**Code:** [github.com/Ironieser/LongVideo-Eval](https://github.com/Ironieser/LongVideo-Eval) (release in progress) — LoHi is released through **[LongVideo-Eval](https://sixundong.com/projects/longvideo-eval)**, a system-aware, complete-cost evaluation harness for long-video intelligence  
 **Project Page:** [sixundong.com/projects/lohi](https://sixundong.com/projects/lohi) _(with three small interactive toys, one per lesson (・ω・))_
 
 ---
@@ -361,7 +361,7 @@ No. It only uses the video and image pathways that unified VLMs already have, pl
 
 Honestly, the most surprising part for me was Section 4.3. After working on token pruning in MMTok, it was a little humbling to see a plain resize beat every pruning method (including mine) on long videos. But I think this is the right lesson: for images, redundancy lives *inside* a frame; for long videos, the bigger redundancy is in *how we sample the timeline* — and the biggest hidden cost is the decoder that nobody profiles.
 
-This is also why we are building **longvideo-eval**: an open-source framework that evaluates common long-video VLMs and efficiency methods on one accuracy–cost axis, with decoding, ViT, prefill and everything else metered in one place. LoHi will be released there.
+This is also why we are building **[LongVideo-Eval](https://sixundong.com/projects/longvideo-eval)**: a system-aware, complete-cost evaluation harness for long-video intelligence. It compares long-video pipelines under fixed backbones, matched evidence budgets, and one shared cost ledger spanning video-side and model-side work, with decoding, ViT, prefill and everything else metered in one place. LoHi will be released there.
 
 Finally, thank you for reading! Welcome any questions, any discussions, and any criticism of this work!
 
