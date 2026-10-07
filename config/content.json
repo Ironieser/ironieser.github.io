@@ -63,7 +63,7 @@
       "date": "Oct 2026",
       "icon": "🚀",
       "link1": "https://github.com/LongVideo-Intelligence/LongVideo-Eval",
-      "content": "Launched <a href=\"https://sixundong.com/projects/longvideo-eval\" target=\"_blank\" rel=\"noopener\" title=\"LongVideo-Eval project page\" style=\"text-decoration:none;color:inherit;white-space:nowrap\"><img src=\"images/longvideo-eval/logo-mark.png\" alt=\"\" style=\"height:1.05em;width:auto;vertical-align:-0.15em;margin-right:4px\"><strong>LongVideo-Eval</strong></a>, open-source evaluation infrastructure for long-video intelligence, with its first code release {{link1}}. It measures decoding, vision encoding, prefill and generation in one cost ledger, so every method is compared under the same budget.",
+      "content": "Launched <a href=\"https://sixundong.com/projects/longvideo-eval\" target=\"_blank\" rel=\"noopener\" title=\"LongVideo-Eval project page\" style=\"text-decoration:none;color:inherit;white-space:nowrap\"><img src=\"images/longvideo-eval/logo-mark.png\" alt=\"\" style=\"height:0.8em;width:auto;vertical-align:-0.05em;margin-right:4px\"><strong>LongVideo-Eval</strong></a>, open-source evaluation infrastructure for long-video intelligence, with its first code release {{link1}}. It measures decoding, vision encoding, prefill and generation in one cost ledger, so every method is compared under the same budget.",
       "category": "projects"
     },
     {
