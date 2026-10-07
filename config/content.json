@@ -60,6 +60,21 @@
   },
   "news": [
     {
+      "date": "Oct 2026",
+      "icon": "🚀",
+      "link1": "https://sixundong.com/projects/longvideo-eval",
+      "link2": "https://github.com/LongVideo-Intelligence/LongVideo-Eval",
+      "content": "Launched <strong>LongVideo-Eval</strong> {{link1}}, open-source evaluation infrastructure for long-video intelligence, with its first code release {{link2}}. It measures decoding, vision encoding, prefill and generation in one cost ledger, so every method is compared under the same budget.",
+      "category": "projects"
+    },
+    {
+      "date": "Oct 2026",
+      "icon": "🧭",
+      "link": "https://sixundong.com/projects/",
+      "content": "New <strong>Showcase</strong> page {{link}}: LongVideo-Eval, plus interactive paper pages for LoHi, FlipAct, MMTok and TimesCLIP.",
+      "category": "projects"
+    },
+    {
       "date": "Sep 2026",
       "icon": "🎉",
       "link1": "https://openreview.net/forum?id=a9xLyT4hG4",
