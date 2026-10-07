@@ -7,7 +7,7 @@
 <meta name="description" content="LongVideo-Eval evaluates long-video VLMs and efficiency methods on one accuracy-cost axis, with decoding, vision encoding and prefill all measured in one place. The official code home of LoHi (NeurIPS 2026).">
 <meta property="og:title" content="LongVideo-Eval: a fair-cost evaluation harness for long-video understanding">
 <meta property="og:description" content="Same token budget, very different bills. The open platform where long-video methods are built, compared against every baseline, and billed for everything they spend.">
-<meta property="og:image" content="https://sixundong.com/images/blog/lohi/hero_bg.jpg">
+<meta property="og:image" content="https://sixundong.com/images/longvideo-eval/og.jpg">
 <link rel="canonical" href="https://sixundong.com/projects/longvideo-eval">
 <link rel="icon" type="image/x-icon" href="../favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
@@ -21,8 +21,8 @@
   --paper:#ffffff; --desk:#edf1f5; --desk-2:#e1e7ee;
   --ink:#1b2230; --soft:#5a6476;
   --lo:#2e6e9e; --lo-wash:#e3edf6;
-  --hi:#d2382c; --hi-wash:#fbeae8;
-  --cost:#c27c0e; --cost-wash:#f6e7c8;
+  --hi:#ed582d; --hi-wash:#fde6dc;   /* the logo's film orange */
+  --cost:#ed582d; --cost-wash:#fde6dc;
   --good:#1f8a5b;
   --line:#d6dde6; --line-2:#c5ced9;
   --receipt:#fffdf6; --receipt-line:#e6dfc9;
@@ -43,7 +43,11 @@ b,strong{font-weight:650}
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
 .brand{font-weight:800;font-size:17px;text-decoration:none;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+.brand{display:inline-flex;align-items:center;gap:9px}
+.brand img{height:22px;width:auto}
+.brand b{font-weight:800}
 .brand span{color:var(--cost)}
+.heromark{height:74px;width:auto;display:block;margin-bottom:22px}
 .nav .links{display:flex;gap:18px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .nav .links::-webkit-scrollbar{display:none}
 .nav .links a{color:var(--soft);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
@@ -114,8 +118,8 @@ section.sec.alt{background:#f5f7fa}
 .stage.on{background:var(--cost-wash)}
 .stage.on::before{content:"acts here";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#fff;background:var(--cost);padding:2px 16px}
 .stage.on .n{margin-top:16px}
-.stage.paid{background:#fbf6ea}
-.stage.paid::before{content:"also on its bill";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#8a5a06;background:var(--cost-wash);padding:2px 16px}
+.stage.paid{background:#fef4ef}
+.stage.paid::before{content:"also on its bill";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#a2380f;background:var(--cost-wash);padding:2px 16px}
 .stage.paid .n{margin-top:16px}
 .famdesc{margin-top:16px;font-size:15.5px;max-width:52em;border-left:3px solid var(--ink);background:var(--desk);padding:14px 18px;border-radius:0 8px 8px 0}
 
@@ -172,7 +176,7 @@ section.sec.alt{background:#f5f7fa}
 .ledger td{padding:8px 14px;border-bottom:1px solid #252d3f;text-align:right;font-family:var(--mono);white-space:nowrap}
 .ledger td:first-child{font-family:var(--sans)}
 .ledger tr.you td{background:#3a1f22;color:#fff}
-.ledger tr.you td:first-child{font-weight:700;color:#ff8f84}
+.ledger tr.you td:first-child{font-weight:700;color:#ff9a76}
 .ledger .fam{display:inline;margin:0;color:#7f8da3;font-size:12px;margin-left:6px}
 .ledwrap{overflow-x:auto}
 
@@ -235,7 +239,7 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
 <body>
 
 <nav class="nav"><div class="wrap">
-  <a class="brand" href="#top">LongVideo<span>-</span>Eval</a>
+  <a class="brand" href="#top"><img src="../images/longvideo-eval/logo-mark.png" alt="" width="54" height="22"><b>LongVideo<span>-</span>Eval</b></a>
   <div class="links">
     <a href="#rules">Why</a><a href="#field">The field</a><a href="#build">Build on it</a><a href="#horizon">Where it goes</a><a href="#join">Get involved</a><a href="https://github.com/Ironieser/LongVideo-Eval#readme" target="_blank" rel="noopener">Docs</a><a href="https://github.com/Ironieser/LongVideo-Eval/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Release log</a><a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">GitHub</a>
   </div>
@@ -243,6 +247,7 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
 
 <header class="hero" id="top"><div class="wrap">
   <div>
+    <img class="heromark" src="../images/longvideo-eval/logo-mark.png" alt="LongVideo-Eval logo" width="182" height="74">
     <span class="status"><i></i>Open source, growing every week</span>
     <h1>Same token budget. Very different bills.</h1>
     <p class="lede"><b>LongVideo-Eval</b> is the open platform for long-video understanding: where methods are built, compared against every baseline, and billed for everything they spend, from the first decoded frame to the last generated token.</p>
