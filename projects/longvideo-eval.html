@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LongVideo-Eval: a fair-cost evaluation harness for long-video understanding</title>
+<meta name="description" content="LongVideo-Eval evaluates long-video VLMs and efficiency methods on one accuracy-cost axis, with decoding, vision encoding and prefill all measured in one place. The official code home of LoHi (NeurIPS 2026).">
+<meta property="og:title" content="LongVideo-Eval: a fair-cost evaluation harness for long-video understanding">
+<meta property="og:description" content="Same token budget, very different bills. One pipeline, one budget and one cost record for every long-video efficiency method.">
+<meta property="og:image" content="https://sixundong.com/images/blog/lohi/hero_bg.jpg">
+<link rel="canonical" href="https://sixundong.com/projects/longvideo-eval">
+<link rel="icon" type="image/x-icon" href="../favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* shares the LoHi page's film and grease-pencil palette; the ledger adds the paper */
+  --paper:#ffffff; --desk:#edf1f5; --desk-2:#e1e7ee;
+  --ink:#1b2230; --soft:#5a6476;
+  --lo:#2e6e9e; --lo-wash:#e3edf6;
+  --hi:#d2382c; --hi-wash:#fbeae8;
+  --cost:#c27c0e; --cost-wash:#f6e7c8;
+  --good:#1f8a5b;
+  --line:#d6dde6; --line-2:#c5ced9;
+  --receipt:#fffdf6; --receipt-line:#e6dfc9;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --r:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--lo)}
+b,strong{font-weight:650}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono)}
+:focus-visible{outline:2px solid var(--lo);outline-offset:2px}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
+.brand{font-weight:800;font-size:17px;text-decoration:none;color:var(--ink);letter-spacing:-.02em;white-space:nowrap}
+.brand span{color:var(--cost)}
+.nav .links{display:flex;gap:18px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.nav .links::-webkit-scrollbar{display:none}
+.nav .links a{color:var(--soft);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
+.nav .links a:hover{color:var(--ink)}
+
+/* hero: the desk the receipt lies on */
+.hero{background:var(--desk);border-bottom:1px solid var(--line)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center;padding:64px 20px 68px}
+.status{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--paper);border:1px solid var(--line-2);padding:5px 12px;border-radius:999px}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--cost)}
+.hero h1{font-size:clamp(38px,5.4vw,60px);font-weight:800;letter-spacing:-.035em;line-height:1.04;margin-top:18px}
+.hero .lede{font-size:clamp(17px,1.9vw,20px);color:var(--soft);margin-top:18px;max-width:34em}
+.hero .lede b{color:var(--ink)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line-2)}
+.btn:hover{border-color:var(--ink)}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.primary:hover{background:#2b3448}
+.code-note{font-size:14px;color:var(--soft);margin-top:14px;max-width:36em}
+
+/* the receipt */
+.bill{background:var(--receipt);border:1px solid var(--receipt-line);border-radius:6px 6px 0 0;box-shadow:0 18px 40px -22px rgba(27,34,48,.45);position:relative;font-family:var(--mono);font-size:13.5px;color:var(--ink)}
+.bill::after{content:"";position:absolute;left:-1px;right:-1px;bottom:-9px;height:10px;background:linear-gradient(-45deg,transparent 7px,var(--receipt) 0) 0 0/14px 10px repeat-x,linear-gradient(45deg,transparent 7px,var(--receipt) 0) 7px 0/14px 10px repeat-x;filter:drop-shadow(0 1px 0 var(--receipt-line))}
+.bill .top{padding:18px 20px 12px;border-bottom:1px dashed var(--line-2)}
+.bill .top .t{font-family:var(--sans);font-weight:700;font-size:15px;letter-spacing:-.01em}
+.bill .top .s{color:var(--soft);font-size:12.5px;margin-top:2px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:12px 20px;border-bottom:1px dashed var(--line-2)}
+.tabs button{font:600 12.5px var(--sans);color:var(--soft);background:transparent;border:1px solid var(--line-2);border-radius:999px;padding:6px 11px;cursor:pointer}
+.tabs button:hover{color:var(--ink);border-color:var(--ink)}
+.tabs button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.items{padding:6px 20px 4px}
+.item{display:grid;grid-template-columns:1fr auto;gap:4px 14px;padding:10px 0;border-bottom:1px dotted var(--line-2)}
+.item:last-child{border-bottom:none}
+.item .k{color:var(--soft)}
+.item .v{font-weight:600;text-align:right;white-space:nowrap}
+.item .bar{grid-column:1/-1;height:6px;border-radius:3px;background:var(--desk-2);overflow:hidden}
+.item .bar i{display:block;height:100%;border-radius:3px;background:var(--cost);width:0;transition:width .45s ease}
+.item.same .bar i{background:var(--line-2)}
+.item.same .v{color:var(--soft)}
+.item.acc .bar i{background:var(--good)}
+.item .tag{font:600 11.5px var(--sans);color:var(--soft);margin-left:6px}
+.bill .sum{padding:12px 20px 20px;border-top:1px dashed var(--line-2);font-family:var(--sans);font-size:14.5px;line-height:1.5;min-height:5.6em}
+.bill .src{padding:0 20px 16px;font-family:var(--sans);font-size:12px;color:var(--soft)}
+
+/* sections */
+section.sec{padding:72px 0;border-bottom:1px solid var(--line)}
+section.sec.alt{background:#f5f7fa}
+.sec h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;line-height:1.2}
+.sec .intro{color:var(--soft);font-size:17px;max-width:44em;margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px}
+.rule h3{font-size:18px;letter-spacing:-.01em;padding-top:14px;border-top:3px solid var(--ink)}
+.rule p{color:var(--soft);font-size:15.5px;margin-top:8px}
+
+/* pipeline */
+.fam{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.fam button{font:600 14px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:8px 14px;cursor:pointer}
+.fam button:hover{border-color:var(--ink)}
+.fam button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:18px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;background:var(--paper)}
+.stage{padding:18px 16px 16px;border-right:1px solid var(--line);position:relative;transition:background .25s ease}
+.stage:last-child{border-right:none}
+.stage .n{font-family:var(--mono);font-size:12.5px;color:var(--soft)}
+.stage h3{font-size:17px;letter-spacing:-.01em;margin-top:2px}
+.stage .io{font-family:var(--mono);font-size:12px;color:var(--soft);margin-top:6px}
+.stage .m{font-size:13.5px;color:var(--soft);margin-top:10px;line-height:1.45}
+.stage .m b{color:var(--ink);font-weight:600}
+.stage.on{background:var(--cost-wash)}
+.stage.on::before{content:"method lives here";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#fff;background:var(--cost);padding:2px 16px}
+.stage.on .n{margin-top:16px}
+.stage.paid{background:#fbf6ea}
+.stage.paid::before{content:"cost charged to it";position:absolute;top:0;left:0;right:0;font:600 11.5px var(--sans);color:#8a5a06;background:var(--cost-wash);padding:2px 16px}
+.stage.paid .n{margin-top:16px}
+.famdesc{margin-top:16px;font-size:15.5px;max-width:52em;border-left:3px solid var(--ink);background:var(--desk);padding:14px 18px;border-radius:0 8px 8px 0}
+
+/* cost record table + release table */
+.tbl{width:100%;border-collapse:collapse;margin-top:26px;font-size:15px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.tbl th{font-size:13.5px;font-weight:600;color:var(--soft);text-align:left;padding:12px 16px;background:var(--desk);border-bottom:1px solid var(--line)}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td.f{font-family:var(--mono);font-size:13.5px;white-space:nowrap}
+.tbl td.st{white-space:nowrap}
+.tblwrap{overflow-x:auto}
+.tblwrap .tbl{min-width:600px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#8a5a06;background:var(--cost-wash);border-radius:999px;padding:3px 10px}
+.pill.side{color:var(--lo);background:var(--lo-wash)}
+.pill.llm{color:var(--hi);background:var(--hi-wash)}
+
+/* papers */
+.papers{display:grid;gap:0;margin-top:26px;border-top:1px solid var(--line)}
+.paper{display:grid;grid-template-columns:150px 1fr auto;gap:8px 24px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line)}
+.paper .venue{font-size:14px;font-weight:600;color:var(--soft)}
+.paper .ti{font-weight:650;letter-spacing:-.01em}
+.paper .ti small{display:block;font-weight:400;color:var(--soft);font-size:14.5px;letter-spacing:0;margin-top:2px}
+.paper .ln{display:flex;gap:14px;font-size:14.5px;white-space:nowrap}
+.ack{color:var(--soft);font-size:15.5px;max-width:52em;margin-top:22px}
+pre.bib{margin-top:22px;background:var(--ink);color:#e6ebf2;border-radius:var(--r);padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:12.8px;line-height:1.6}
+details summary{cursor:pointer;font-weight:600;margin-top:24px}
+footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+@media (max-width:980px){
+  .hero .wrap{grid-template-columns:1fr;gap:36px;padding:44px 20px 52px}
+  .grid3{grid-template-columns:1fr}
+  .pipe{grid-template-columns:1fr}
+  .stage{border-right:none;border-bottom:1px solid var(--line)}
+  .stage:last-child{border-bottom:none}
+  .paper{grid-template-columns:1fr}
+  .paper .ln{white-space:normal;flex-wrap:wrap}
+}
+@media (max-width:560px){
+  section.sec{padding:52px 0}
+  .nav .links{gap:14px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav"><div class="wrap">
+  <a class="brand" href="#top">LongVideo<span>-</span>Eval</a>
+  <div class="links">
+    <a href="#rules">Why</a><a href="#pipeline">Pipeline</a><a href="#record">Cost record</a><a href="#release">Release</a><a href="#papers">Papers</a><a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">GitHub</a>
+  </div>
+</div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+  <div>
+    <span class="status"><i></i>Code release in progress</span>
+    <h1>Same token budget. Very different bills.</h1>
+    <p class="lede"><b>LongVideo-Eval</b> is an open-source harness that evaluates long-video VLMs and efficiency methods on one accuracy-cost axis, with decoding, vision encoding and prefill all measured in one place.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+      <a class="btn" href="https://arxiv.org/abs/2610.04318" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> LoHi paper</a>
+      <a class="btn" href="lohi.html"><i class="fas fa-film"></i> LoHi project page</a>
+    </div>
+    <p class="code-note">The repository is public. The harness and the methods below are implemented and are being prepared for release. Star or watch the repository to follow it.</p>
+  </div>
+
+  <div class="bill" aria-label="What five ways of spending the same token budget actually cost">
+    <div class="top">
+      <div class="t">One 60-minute video, one question</div>
+      <div class="s">Qwen3-VL-4B · every method at ~5,760 visual tokens</div>
+    </div>
+    <div class="tabs" id="tabs" role="group" aria-label="Method"></div>
+    <div class="items">
+      <div class="item same"><span class="k">Visual tokens into the LLM</span><span class="v" id="vTok">≈5,760</span><div class="bar"><i id="bTok"></i></div></div>
+      <div class="item"><span class="k">Frames decoded</span><span class="v" id="vDec"></span><div class="bar"><i id="bDec"></i></div></div>
+      <div class="item"><span class="k">Frames through the vision encoder</span><span class="v" id="vEnc"></span><div class="bar"><i id="bEnc"></i></div></div>
+      <div class="item"><span class="k">Time to first token</span><span class="v" id="vTtft"></span><div class="bar"><i id="bTtft"></i></div></div>
+      <div class="item acc"><span class="k">Video-MME accuracy</span><span class="v" id="vAcc"></span><div class="bar"><i id="bAcc"></i></div></div>
+    </div>
+    <div class="sum" id="sum"></div>
+    <div class="src">Numbers from the <a href="lohi.html#results">LoHi paper</a>. Time to first token includes decoding.</div>
+  </div>
+</div></header>
+
+<section class="sec" id="rules"><div class="wrap">
+  <h2>A token count is not a cost</h2>
+  <p class="intro">Long-video methods are usually compared by accuracy at a matched number of visual tokens. That leaves out most of what a long video costs. A keyframe selector may decode and score hundreds of candidate frames to keep sixteen. A token pruner may run the full vision encoder before discarding most of its output. Neither shows up in a token count, and each paper measures it differently, if at all. The harness fixes three things for every method.</p>
+  <div class="grid3">
+    <div class="rule"><h3>One pipeline</h3><p>Every method plugs into exactly one stage of a fixed chain and inherits everything else unchanged. Nothing else differs between two runs.</p></div>
+    <div class="rule"><h3>One budget</h3><p>Every method in a comparison reads the same decoded frame pool under the same frame and token budget. No method quietly decodes more than another.</p></div>
+    <div class="rule"><h3>One cost record</h3><p>Decoding, vision encoding, prefill and generation are recorded per sample by the harness. A method never reports its own cost.</p></div>
+  </div>
+</div></section>
+
+<section class="sec alt" id="pipeline"><div class="wrap">
+  <h2>Five stages, one of them yours</h2>
+  <p class="intro">A run is a fixed chain. Pick a family to see which stage it implements and where its cost is paid.</p>
+  <div class="fam" id="fam" role="group" aria-label="Method family"></div>
+  <div class="pipe" id="pipe">
+    <div class="stage" data-s="decode"><div class="n">1</div><h3>Decode</h3><div class="io">video → frame pool</div><p class="m">Metered: <b>decode time</b>, <b>frames decoded</b></p></div>
+    <div class="stage" data-s="select"><div class="n">2</div><h3>Select</h3><div class="io">pool → frames</div><p class="m">Metered: <b>selection time</b>, such as scoring every frame</p></div>
+    <div class="stage" data-s="encode"><div class="n">3</div><h3>Encode</h3><div class="io">frames → visual tokens</div><p class="m">Metered: <b>frames encoded</b>, <b>patches into the vision tower</b></p></div>
+    <div class="stage" data-s="prune"><div class="n">4</div><h3>Prune</h3><div class="io">tokens → fewer tokens</div><p class="m">Metered: <b>tokens kept</b>, pruning time</p></div>
+    <div class="stage" data-s="generate"><div class="n">5</div><h3>Generate</h3><div class="io">tokens + prompt → answer</div><p class="m">Metered: <b>visual tokens into the LLM</b>, <b>prefill</b>, <b>generated tokens</b></p></div>
+  </div>
+  <p class="famdesc" id="famdesc"></p>
+</div></section>
+
+<section class="sec" id="record"><div class="wrap">
+  <h2>What gets written down for every sample</h2>
+  <p class="intro">Each stage reports only its own increment and the harness adds them up, so nothing is counted twice. Every row of a result file carries the prediction and all of these.</p>
+  <div class="tblwrap"><table class="tbl">
+    <thead><tr><th>Field</th><th>What it measures</th><th>Side</th></tr></thead>
+    <tbody>
+      <tr><td class="f">decode_seconds</td><td>Wall time spent decoding video</td><td class="st"><span class="pill side">video side</span></td></tr>
+      <tr><td class="f">frames_decoded</td><td>Frames read from the video, the whole candidate pool and not only the frames kept</td><td class="st"><span class="pill side">video side</span></td></tr>
+      <tr><td class="f">frames_encoded</td><td>Frames handed to the vision encoder</td><td class="st"><span class="pill side">video side</span></td></tr>
+      <tr><td class="f">vit_patch_tokens</td><td>Patches entering the vision tower, before any merging or pruning</td><td class="st"><span class="pill side">video side</span></td></tr>
+      <tr><td class="f">llm_visual_tokens</td><td>Visual tokens that actually enter the language model</td><td class="st"><span class="pill llm">model side</span></td></tr>
+      <tr><td class="f">prefill_tokens</td><td>Total prompt tokens, visual and text</td><td class="st"><span class="pill llm">model side</span></td></tr>
+      <tr><td class="f">decode_tokens</td><td>Generated tokens</td><td class="st"><span class="pill llm">model side</span></td></tr>
+      <tr><td class="f">wall_seconds</td><td>End-to-end wall time for the sample</td><td class="st"><span class="pill">both</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="sec alt" id="release"><div class="wrap">
+  <h2>What is being released</h2>
+  <p class="intro">Everything in this table is implemented. Rows move to released as they land in the <a href="https://github.com/Ironieser/LongVideo-Eval" target="_blank" rel="noopener">repository</a>.</p>
+  <div class="tblwrap"><table class="tbl">
+    <thead><tr><th>Component</th><th>What</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><b>Harness</b></td><td>Stage protocols, shared budgets, unified cost metering, command line runner</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+      <tr><td><b>Base models</b></td><td>Qwen3-VL family</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+      <tr><td><b>Benchmarks</b></td><td>Video-MME, MLVU, LVBench</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+      <tr><td><b>Token pruning</b></td><td>VisionZip, MMTok, FlashVID</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+      <tr><td><b>Keyframe selection</b></td><td>Query-aware keyframe baselines</td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+      <tr><td><b>LoHi</b></td><td>LoHi-Uniform and LoHi-SemDiv, from the <a href="lohi.html">NeurIPS 2026 paper</a></td><td class="st"><span class="pill">Waiting to be released</span></td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section class="sec" id="papers" style="border-bottom:none"><div class="wrap">
+  <h2>Papers behind the harness</h2>
+  <p class="intro">LongVideo-Eval grows out of a line of work from the same authors on efficient multimodal inference. If it is useful to you, please consider citing them.</p>
+  <div class="papers">
+    <div class="paper">
+      <span class="venue">NeurIPS 2026</span>
+      <span class="ti">LoHi<small>Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency</small></span>
+      <span class="ln"><a href="https://arxiv.org/abs/2610.04318" target="_blank" rel="noopener">arXiv</a><a href="lohi.html">Project page</a></span>
+    </div>
+    <div class="paper">
+      <span class="venue">ICLR 2026</span>
+      <span class="ti">MMTok<small>Multimodal Coverage Maximization for Efficient Inference of VLMs</small></span>
+      <span class="ln"><a href="https://arxiv.org/abs/2508.18264" target="_blank" rel="noopener">arXiv</a><a href="https://github.com/Ironieser/MMTok" target="_blank" rel="noopener">Code</a><a href="mmtok.html">Project page</a></span>
+    </div>
+    <div class="paper">
+      <span class="venue">arXiv 2026</span>
+      <span class="ti">Rethinking Model Efficiency<small>Multi-Agent Inference with Large Models</small></span>
+      <span class="ln"><a href="https://arxiv.org/abs/2604.04929" target="_blank" rel="noopener">arXiv</a></span>
+    </div>
+  </div>
+  <p class="ack">The harness follows the task and model conventions of <a href="https://github.com/EvolvingLMMs-Lab/lmms-eval" target="_blank" rel="noopener">lmms-eval</a> so that benchmarks stay easy to port. We thank the authors of the methods and benchmarks it evaluates for releasing their code and data.</p>
+  <details>
+    <summary>BibTeX</summary>
+<pre class="bib">@inproceedings{dong2026lohi,
+  title     = {Rethinking Long-Video Efficiency: A Joint Allocation Perspective on Frames, Pixels, and Front-End Latency},
+  author    = {Dong, Sixun and Li, Wei and Deng, Andong and Qian, Qi and Zhu, Victor and Ji, Zhengping and Chen, Chen},
+  booktitle = {Advances in Neural Information Processing Systems (NeurIPS)},
+  year      = {2026},
+  eprint    = {2610.04318},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2610.04318}
+}
+
+@inproceedings{dong2026mmtok,
+  title     = {{MMT}ok: Multimodal Coverage Maximization for Efficient Inference of {VLM}s},
+  author    = {Dong, Sixun and Hu, Juhua and Zhang, Mian and Yin, Ming and Fu, Yanjie and Qian, Qi},
+  booktitle = {The Fourteenth International Conference on Learning Representations (ICLR)},
+  year      = {2026},
+  url       = {https://openreview.net/forum?id=GvPdSWZT31}
+}
+
+@article{dong2026rethinking,
+  title   = {Rethinking Model Efficiency: Multi-Agent Inference with Large Models},
+  author  = {Dong, Sixun and Hu, Juhua and Li, Steven and Wen, Wei and Qian, Qi},
+  journal = {arXiv preprint arXiv:2604.04929},
+  year    = {2026}
+}</pre>
+  </details>
+</div></section>
+
+<footer><div class="wrap">© 2026 The LongVideo-Eval authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+
+/* ---------------- the receipt: five ways to spend one token budget ---------------- */
+/* All figures are the ones reported on the LoHi project page (Qwen3-VL-4B, Video-MME). */
+const RUNS=[
+ {id:'native',label:'16 frames, native',dec:16,enc:16,encTxt:'16 at 1.0×',ttft:null,acc:57.78,
+  sum:'<b>The default recipe.</b> Cheap everywhere, and it sees one frame every four minutes.'},
+ {id:'key',label:'Keyframe selection',dec:256,enc:16,encTxt:'16 at 1.0×',ttft:5978,acc:60.81,
+  sum:'<b>Decode, score, keep 16.</b> The model sees 16 frames, but 256 were decoded and scored to find them. The token count says nothing about that.'},
+ {id:'prune',label:'Token pruning',dec:256,enc:256,encTxt:'256 at 1.0×',ttft:8990,acc:59.30,
+  sum:'<b>Encode everything, then discard 94%.</b> The vision encoder runs on all 256 native frames before the pruner removes most of its output. The slowest bill of the five.'},
+ {id:'low',label:'Dense low-res',dec:256,enc:256,encTxt:'256 at 0.25×',ttft:5963,acc:64.44,
+  sum:'<b>Shrink the frames, keep the timeline.</b> The same 256 frames decoded, each at a quarter of the resolution, with no selection logic at all.'},
+ {id:'lohi',label:'LoHi',dec:128,enc:128,encTxt:'128 at 0.25× + 8 at 1.0×',ttft:3906,acc:66.81,
+  sum:'<b>LoHi.</b> Half the decoding, the shortest wait and the highest accuracy, at the same token count as every other row.'}
+];
+const tabs=$('#tabs');
+RUNS.forEach((r,k)=>{const b=document.createElement('button');b.type='button';b.textContent=r.label;
+  b.setAttribute('aria-pressed','false');b.onclick=()=>show(k);tabs.appendChild(b)});
+function show(k){
+  const r=RUNS[k];
+  [...tabs.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===k));
+  $('#bTok').style.width='60%';
+  $('#vDec').textContent=r.dec;            $('#bDec').style.width=(r.dec/256*100)+'%';
+  $('#vEnc').textContent=r.encTxt;         $('#bEnc').style.width=(r.enc/256*100)+'%';
+  $('#vTtft').textContent=r.ttft?(r.ttft/1000).toFixed(1)+' s':'not reported';
+  $('#bTtft').style.width=r.ttft?(r.ttft/9500*100)+'%':'0';
+  $('#vAcc').textContent=r.acc.toFixed(1)+'%';
+  $('#bAcc').style.width=((r.acc-50)/(70-50)*100)+'%';
+  $('#sum').innerHTML=r.sum;
+}
+show(1);
+
+/* ---------------- pipeline: where each family lives, and where it pays ---------------- */
+const FAMS=[
+ {id:'uniform',label:'Uniform baseline',on:['select'],paid:[],
+  desc:'<b>Uniform sampling</b> is a selector that needs no signal. Its bill is just the frames it decodes and the tokens it sends, which makes it the reference every other method is compared with.'},
+ {id:'key',label:'Keyframe selection',on:['select'],paid:['decode'],
+  desc:'<b>A keyframe method is a selector.</b> It reads the same decoded pool as every other selector, so the decoding of that whole pool is charged to it, together with the time it spends scoring frames.'},
+ {id:'prune',label:'Token pruning',on:['prune'],paid:['decode','encode'],
+  desc:'<b>A token pruner runs after the encoder.</b> By the time it removes tokens, every frame has already been decoded and passed through the vision tower. Both are on its bill.'},
+ {id:'lohi',label:'LoHi',on:['select','encode'],paid:[],
+  desc:'<b>LoHi changes what is encoded, not what is discarded.</b> All frames go in at low resolution and a few selected frames also go in at high resolution, so there is no large pool to decode and nothing to throw away afterwards.'}
+];
+const fam=$('#fam'),stages=[...document.querySelectorAll('.stage')];
+FAMS.forEach((f,k)=>{const b=document.createElement('button');b.type='button';b.textContent=f.label;
+  b.setAttribute('aria-pressed','false');b.onclick=()=>pick(k);fam.appendChild(b)});
+function pick(k){
+  const f=FAMS[k];
+  [...fam.children].forEach((b,j)=>b.setAttribute('aria-pressed',j===k));
+  stages.forEach(s=>{s.classList.toggle('on',f.on.includes(s.dataset.s));s.classList.toggle('paid',f.paid.includes(s.dataset.s))});
+  $('#famdesc').innerHTML=f.desc;
+}
+pick(1);
+})();
+</script>
+</body>
+</html>

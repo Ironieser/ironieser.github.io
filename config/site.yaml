@@ -49,3 +49,5 @@ redirects:
     target: /projects/timesclip.html
   - alias: lohi
     target: /projects/lohi.html
+  - alias: longvideo-eval
+    target: /projects/longvideo-eval.html
