@@ -186,8 +186,8 @@ svg text{font-family:var(--sans)}
 .crowd{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-2)}
 .how{display:grid;grid-template-columns:auto 1fr;gap:18px 26px;padding:16px 18px;border-bottom:1px solid var(--line-2);align-items:center}
 .how .egs{display:flex;gap:14px}
-.how figure{margin:0;width:124px}
-.how figure canvas{width:124px;height:124px;display:block;border:1.5px solid var(--ink);border-radius:4px;image-rendering:pixelated}
+.how figure{margin:0;width:120px}
+.how figure canvas{width:120px;height:120px;display:block;border:1.5px solid var(--ink);border-radius:4px;image-rendering:pixelated}
 .how figcaption{font-size:12.5px;color:var(--soft);line-height:1.35;margin-top:6px}
 .how figcaption b{color:var(--ink);display:block}
 .how ol{list-style:none;counter-reset:h;display:flex;flex-direction:column;gap:8px;font-size:15px}
@@ -400,12 +400,14 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="bar"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
     <div class="how">
       <div class="egs" id="exEgs">
-        <figure><canvas id="egNo" width="124" height="124"></canvas><figcaption><b>No</b>just static</figcaption></figure>
-        <figure><canvas id="egYes" width="124" height="124"></canvas><figcaption><b>Yes</b>brighter in the middle. Fainter in the real test.</figcaption></figure>
+        <figure><canvas id="egNo" width="120" height="120"></canvas><figcaption><b>No</b>just static</figcaption></figure>
+        <figure><canvas id="egYes" width="120" height="120"></canvas><figcaption><b>Yes, made obvious</b>brighter in the middle. Only for reference.</figcaption></figure>
+        <figure><canvas id="egNow" width="120" height="120"></canvas><figcaption><b id="egNowT"></b>what a Yes looks like at this difficulty</figcaption></figure>
       </div>
       <div class="hear" id="exHear" hidden>
         <button class="big" type="button" id="egNoA">Play: noise only</button>
-        <button class="big" type="button" id="egYesA">Play: noise with a tone, louder than in the test</button>
+        <button class="big" type="button" id="egYesA">Play: noise with an obvious tone, for reference</button>
+        <button class="big" type="button" id="egNowA">Play: noise with a tone at this difficulty</button>
       </div>
       <ol>
         <li><span id="how1"></span></li>
@@ -666,7 +668,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
   const N=20, CELLS=60, CELL=4, SD=38, BLOB=9, SHOW=900;
   const MODES=[{k:'look',n:'Look'},{k:'listen',n:'Listen'}];
-  const DIFF=[{n:'easier',vis:0.9,aud:0.045},{n:'standard',vis:0.65,aud:0.03},{n:'harder',vis:0.48,aud:0.02}];
+  const DIFF=[{n:'easier',vis:1.15,aud:0.06},{n:'standard',vis:0.7,aud:0.032},{n:'harder',vis:0.45,aud:0.018}];
   // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
   const PAY=[{n:'Nothing at stake',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.'},
              {n:'Misses are costly',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.'},
@@ -678,7 +680,8 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const s1=picks($('#exMode'),MODES,()=>mode,i=>mode=i),s2=picks($('#exDiff'),DIFF,()=>diff,i=>diff=i),s3=picks($('#exPay'),PAY,()=>pay,i=>pay=i);
   const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
   function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;
-    $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the example marked Yes but much fainter.':'A burst of noise plays for under a second. Half the time a faint tone is hidden in it, like the second example but much quieter.';
+    example('egNow',DIFF[diff].vis);$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
+    $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a faint tone is hidden in it, like the third example.';
     if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
       veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide '+what()+'.<br>Use a comfortable volume.';
       fb.innerHTML=PAY[pay].say;prog.textContent='';}}
@@ -688,15 +691,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       v=Math.max(0,Math.min(255,v))|0;g.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';g.fillRect(x*CELL,y*CELL,CELL,CELL)}}
   function blank(){g.fillStyle='#8a8a92';g.fillRect(0,0,240,240)}
   // the two worked examples shown before the test; the "yes" one is deliberately strong
-  function example(id,signal){const c=document.getElementById(id).getContext('2d'),n=31,cell=4,k=1.7,bs=4.6;
-    for(let y=0;y<n;y++)for(let x=0;x<n;x++){let v=128+SD*randn();if(signal){const dx=x-n/2+.5,dy=y-n/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*bs*bs))}
-      v=Math.max(0,Math.min(255,v))|0;c.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';c.fillRect(x*cell,y*cell,cell,cell)}}
-  example('egNo',false);example('egYes',true);
-  function demo(signal){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){return}
+  function example(id,k){const c=document.getElementById(id).getContext('2d');
+    for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){let v=128+SD*randn();if(k){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB))}
+      v=Math.max(0,Math.min(255,v))|0;c.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';c.fillRect(x*2,y*2,2,2)}}
+  example('egNo',0);example('egYes',2.2);
+  function demo(amp){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){return}
     const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),ramp=Math.floor(sr*0.02);
-    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?0.12*Math.sin(2*Math.PI*1000*i/sr):0))}
+    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(amp?amp*Math.sin(2*Math.PI*1000*i/sr):0))}
     const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
-  $('#egNoA').onclick=()=>demo(false);$('#egYesA').onclick=()=>demo(true);
+  $('#egNoA').onclick=()=>demo(0);$('#egYesA').onclick=()=>demo(0.14);$('#egNowA').onclick=()=>demo(DIFF[diff].aud);
   function play(signal){const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),A=DIFF[diff].aud,ramp=Math.floor(sr*0.02);
     for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?A*Math.sin(2*Math.PI*1000*i/sr):0))}
     const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
