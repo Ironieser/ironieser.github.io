@@ -180,7 +180,41 @@ svg text{font-family:var(--sans)}
 .exp .fb b{font-family:var(--mono)}
 .exp .opt{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--soft);cursor:pointer}
 .exp .opt input{accent-color:var(--ink);width:16px;height:16px}
+.skipbtn{all:unset;cursor:pointer;font-size:14px;color:var(--hold-text);text-decoration:underline;text-underline-offset:3px;align-self:flex-start}
+.skipbtn:hover{color:var(--ink)}
+.skipbtn:focus-visible{outline:2px solid var(--hold);outline-offset:2px}
 .crowd{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-2)}
+.how{display:grid;grid-template-columns:auto 1fr;gap:18px 26px;padding:16px 18px;border-bottom:1px solid var(--line-2);align-items:center}
+.how .egs{display:flex;gap:14px}
+.how figure{margin:0;width:124px}
+.how figure canvas{width:124px;height:124px;display:block;border:1.5px solid var(--ink);border-radius:4px;image-rendering:pixelated}
+.how figcaption{font-size:12.5px;color:var(--soft);line-height:1.35;margin-top:6px}
+.how figcaption b{color:var(--ink);display:block}
+.how ol{list-style:none;counter-reset:h;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.how ol li{counter-increment:h;display:grid;grid-template-columns:24px 1fr;gap:8px}
+.how ol li::before{content:counter(h);font-family:var(--mono);font-size:12.5px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.how .hear{display:flex;flex-direction:column;gap:8px}
+.how [hidden]{display:none}
+.result{border:1.5px solid var(--ink);border-radius:6px;background:var(--card);padding:18px;margin-bottom:14px}
+.result .badge{font-family:var(--display);font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.1}
+.result .badge small{display:block;font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--soft);margin-bottom:4px}
+.result .nums{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-top:1px solid var(--line-2)}
+.result .nums div{padding:12px 12px 0 0}
+.result .nums div + div{padding-left:14px;border-left:1px solid var(--line-2)}
+.result .nums b{display:block;font-family:var(--display);font-weight:600;font-size:36px;line-height:1}
+.result .nums span{display:block;font-size:13px;color:var(--soft);margin-top:4px}
+.gauge{margin-top:34px}
+.gauge .track{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--act) 0%,var(--act-wash) 50%,var(--hold-wash) 50%,var(--hold) 100%)}
+.gauge .mk{position:absolute;top:-7px;width:4px;height:24px;margin-left:-2px;border-radius:2px;background:var(--ink)}
+.gauge .mk.best{background:transparent;border-left:2px dashed var(--ink);width:0;margin-left:-1px}
+.gauge .mk span{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:12px;white-space:nowrap;font-weight:600}
+.gauge .mk.best span{top:28px;font-weight:500;color:var(--soft)}
+.gauge .ends{display:flex;justify-content:space-between;font-size:12.5px;color:var(--soft);margin-top:30px}
+.pop{animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:99}
+#confetti[hidden]{display:none}
+@media (prefers-reduced-motion:reduce){.pop{animation:none}}
 .runs{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
 .runs th{font-weight:500;color:var(--soft);font-size:12.5px;text-align:right;padding:5px 10px;border-bottom:1px solid var(--line-2)}
 .runs td{padding:6px 10px;text-align:right;font-family:var(--mono);border-bottom:1px solid var(--line)}
@@ -265,6 +299,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
   .exp{grid-template-columns:1fr}
+  .how{grid-template-columns:1fr}
   .lab .controls{grid-template-columns:1fr}
   .duo{grid-template-columns:1fr}
   .obs{border-right:none;border-bottom:1px solid var(--line-2)}
@@ -363,6 +398,21 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <div class="lab" id="exp">
     <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
     <div class="bar"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
+    <div class="how">
+      <div class="egs" id="exEgs">
+        <figure><canvas id="egNo" width="124" height="124"></canvas><figcaption><b>No</b>just static</figcaption></figure>
+        <figure><canvas id="egYes" width="124" height="124"></canvas><figcaption><b>Yes</b>brighter in the middle. Fainter in the real test.</figcaption></figure>
+      </div>
+      <div class="hear" id="exHear" hidden>
+        <button class="big" type="button" id="egNoA">Play: noise only</button>
+        <button class="big" type="button" id="egYesA">Play: noise with a tone, louder than in the test</button>
+      </div>
+      <ol>
+        <li><span id="how1"></span></li>
+        <li>You answer yes or no, and see right away whether you were right.</li>
+        <li>After 20 trials you get two numbers: how well you can tell, and how freely you say yes.</li>
+      </ol>
+    </div>
     <div class="exp">
       <div class="scope"><canvas id="exCv" width="240" height="240" aria-label="A patch of visual noise that may hide a faint blob"></canvas><div class="veil" id="exVeil"></div></div>
       <div class="panel">
@@ -374,6 +424,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
         </div>
         <div class="fb" id="exFb"></div>
         <label class="opt"><input type="checkbox" id="exShare" checked> Add my run to the crowd average</label>
+        <button class="skipbtn" type="button" id="exSkip">Skip the test and just show me results</button>
         <div class="prog" id="exProg"></div>
       </div>
     </div>
@@ -563,7 +614,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 const $=s=>document.querySelector(s), NS='http://www.w3.org/2000/svg';
 const mk=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e};
 const YES='#c98a00', YESFILL='#f2b705', NO='#4f46e5', CRIT='#17153a', INK='#17153a', SOFT='#5d5b7a', GRID='#e3e3f1', YWASH='#fdf1cc', YTEXT='#7a5400', NTEXT='#3a33b8';
-const fmt=(v,d=2)=>(v>=0?'+':'−')+Math.abs(v).toFixed(d);
+const fmt=(v,d=2)=>((v>=0||Math.abs(v)<0.5*Math.pow(10,-d))?'+':'−')+Math.abs(v).toFixed(d);
 // standard normal CDF (Abramowitz-Stegun 7.1.26) and density
 function Phi(x){const t=1/(1+0.3275911*Math.abs(x)/Math.SQRT2),y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2);return x>=0?0.5*(1+y):0.5*(1-y)}
 const pdf=x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
@@ -620,13 +671,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const PAY=[{n:'Nothing at stake',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.'},
              {n:'Misses are costly',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.'},
              {n:'False alarms are costly',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.'}];
-  let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null;const runs=[];
+  let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null,gen=0;const runs=[];
   const cv=$('#exCv'),g=cv.getContext('2d'),veil=$('#exVeil'),ask=$('#exAsk'),fb=$('#exFb'),prog=$('#exProg'),desc=$('#exDesc');
   const bStart=$('#exStart'),bYes=$('#exYes'),bNo=$('#exNo');
   function picks(box,arr,get,set){arr.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{if(busy)return;set(i);sync()};box.appendChild(b);x.btn=b});return()=>arr.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===get()))}
   const s1=picks($('#exMode'),MODES,()=>mode,i=>mode=i),s2=picks($('#exDiff'),DIFF,()=>diff,i=>diff=i),s3=picks($('#exPay'),PAY,()=>pay,i=>pay=i);
   const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
-  function sync(){s1();s2();s3();
+  function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;
+    $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the example marked Yes but much fainter.':'A burst of noise plays for under a second. Half the time a faint tone is hidden in it, like the second example but much quieter.';
     if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
       veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide '+what()+'.<br>Use a comfortable volume.';
       fb.innerHTML=PAY[pay].say;prog.textContent='';}}
@@ -635,57 +687,97 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       if(signal){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB))}
       v=Math.max(0,Math.min(255,v))|0;g.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';g.fillRect(x*CELL,y*CELL,CELL,CELL)}}
   function blank(){g.fillStyle='#8a8a92';g.fillRect(0,0,240,240)}
+  // the two worked examples shown before the test; the "yes" one is deliberately strong
+  function example(id,signal){const c=document.getElementById(id).getContext('2d'),n=31,cell=4,k=1.7,bs=4.6;
+    for(let y=0;y<n;y++)for(let x=0;x<n;x++){let v=128+SD*randn();if(signal){const dx=x-n/2+.5,dy=y-n/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*bs*bs))}
+      v=Math.max(0,Math.min(255,v))|0;c.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';c.fillRect(x*cell,y*cell,cell,cell)}}
+  example('egNo',false);example('egYes',true);
+  function demo(signal){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){return}
+    const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),ramp=Math.floor(sr*0.02);
+    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?0.12*Math.sin(2*Math.PI*1000*i/sr):0))}
+    const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
+  $('#egNoA').onclick=()=>demo(false);$('#egYesA').onclick=()=>demo(true);
   function play(signal){const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),A=DIFF[diff].aud,ramp=Math.floor(sr*0.02);
     for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?A*Math.sin(2*Math.PI*1000*i/sr):0))}
     const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
   // d' of the ideal observer for exactly this stimulus (signal known exactly, white Gaussian noise)
   function ideal(){if(mode===0){let e=0;for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5,v=Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB));e+=v*v}return DIFF[diff].vis*Math.sqrt(e)}
     const n=(actx?actx.sampleRate:44100)*0.7;return DIFF[diff].aud*Math.sqrt(n/2)/(0.3/Math.sqrt(3))}
-  function next(){ti++;if(ti>=N)return finish();
+  function next(){const my=gen;ti++;if(ti>=N)return finish();
     const sig=trials[ti];prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;fb.innerHTML='&nbsp;';bYes.disabled=bNo.disabled=true;veil.hidden=true;
-    if(mode===0){blank();setTimeout(()=>{paint(sig);setTimeout(()=>{blank();bYes.disabled=bNo.disabled=false},SHOW)},350)}
-    else{blank();veil.hidden=false;veil.textContent='listen';setTimeout(()=>{play(sig);setTimeout(()=>{veil.textContent='was it there?';bYes.disabled=bNo.disabled=false},750)},350)}}
+    if(mode===0){blank();setTimeout(()=>{if(my!==gen)return;paint(sig);setTimeout(()=>{if(my!==gen)return;blank();bYes.disabled=bNo.disabled=false},SHOW)},350)}
+    else{blank();veil.hidden=false;veil.textContent='listen';setTimeout(()=>{if(my!==gen)return;play(sig);setTimeout(()=>{if(my!==gen)return;veil.textContent='was it there?';bYes.disabled=bNo.disabled=false},750)},350)}}
   const tally={h:0,m:0,fa:0,cr:0};
   function answer(yes){if(bYes.disabled)return;bYes.disabled=bNo.disabled=true;const sig=trials[ti],P=PAY[pay];let t,pts;
     if(sig&&yes){tally.h++;pts=P.h;t='Hit. It was there.'}else if(sig){tally.m++;pts=-P.m;t='Miss. It was there.'}
     else if(yes){tally.fa++;pts=-P.fa;t='False alarm. Just noise.'}else{tally.cr++;pts=P.cr;t='Correct. Just noise.'}
-    score+=pts;fb.innerHTML=t+' <b>'+(pts>0?'+':'−')+Math.abs(pts)+'</b>';prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;setTimeout(next,650)}
-  function finish(){busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;bStart.textContent='Run again, 20 trials';
+    score+=pts;fb.innerHTML=t+' <b>'+(pts>0?'+':'−')+Math.abs(pts)+'</b>';prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;const my=gen;setTimeout(()=>{if(my===gen)next()},650)}
+  function finish(partial){busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;bStart.textContent='Run again, 20 trials';skip.textContent='Skip the test and just show me results';
+    const nS=tally.h+tally.m,nN=tally.fa+tally.cr;
     // log-linear correction keeps the estimates finite at 0% or 100%
-    const H=(tally.h+0.5)/(N/2+1),F=(tally.fa+0.5)/(N/2+1),zH=zinv(H),zF=zinv(F),d=zH-zF,c=-(zH+zF)/2;
+    const H=(tally.h+0.5)/(nS+1),F=(tally.fa+0.5)/(nN+1),zH=zinv(H),zF=zinv(F),d=zH-zF,c=-(zH+zF)/2;
     const P=PAY[pay],beta=(P.cr+P.fa)/(P.h+P.m),copt=Math.log(beta)/Math.max(0.5,d),di=ideal(),eff=d>0?Math.pow(d/di,2)*100:0;
     runs.push({pay:P.n,mode:MODES[mode].n,d,c,copt,score});
     const lean=c>0.2?'conservative':c<-0.2?'liberal':'close to neutral';
-    let h='<b>You, this run:</b> '+tally.h+' hits and '+tally.fa+' false alarms out of 10 each. ';
+    const eye=d<0.3?'Lost in the static':d<1?'Squinting':d<2?'Sharp':'Eagle-eyed',hand=d<0.3?'':c>0.3?', and careful':c<-0.3?', and bold':', and steady';
+    const pos=v=>Math.max(2,Math.min(98,50+v/1.5*50)).toFixed(1);
+    let h='<div class="result pop"><div class="badge"><small>your run '+runs.length+', '+MODES[mode].n.toLowerCase()+', '+P.n.toLowerCase()+(partial?', stopped after '+(nS+nN)+' trials':'')+'</small>'+eye+hand+'</div>'+
+      '<div class="nums"><div><b>'+d.toFixed(2)+'</b><span>sensitivity d′: how well you can tell</span></div><div><b>'+fmt(c)+'</b><span>criterion c: '+lean+'</span></div><div><b>'+(score>0?'+':'')+score+'</b><span>points, from '+tally.h+' hits and '+tally.fa+' false alarms</span></div></div>'+
+      (d>=0.3?'<div class="gauge"><div class="track"><div class="mk best" style="left:'+pos(copt)+'%"><span>best for these stakes</span></div><div class="mk" style="left:'+pos(c)+'%"><span>you</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div>':'')+'</div>';
+    if(partial)h+='You stopped early, so these numbers rest on '+(nS+nN)+' trials and are rough. This run is not added to the crowd. ';
     if(d<0.3){h+='Your answers did not follow the signal on this run (d′ = '+d.toFixed(2)+', which is chance), so there is nothing to place a criterion on. Try the easier setting and run again. ';}
-    else{h+='That is a sensitivity of d′ = '+d.toFixed(2)+' and a criterion of c = '+fmt(c)+', '+lean+'. ';
+    else{
     h+='<b>Against the classic model:</b> the ideal observer of signal-detection theory, which knows exactly what the signal looks like, would reach d′ = '+di.toFixed(1)+' on these trials, so you used about '+(eff<1?eff.toFixed(1):Math.round(eff))+'% of the information that was there. Human observers in classic experiments on signals in noise range from a few percent to about half. ';
     h+='With these stakes the same model puts the best line at c = '+fmt(copt)+'. People usually move toward it and stop short. ';}
     if(runs.length===1&&d>=0.3)h+='<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.';
     h+='<table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table>';
     h+='<div class="crowd" id="exCrowd"></div>';
     h+='<p style="margin-top:12px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
-    desc.innerHTML=h;crowd(d);ask.textContent='Done.';veil.hidden=false;veil.textContent='20 of 20';
+    desc.innerHTML=h;crowd(d,partial);if(!partial)celebrate(d);ask.textContent=partial?'Stopped.':'Done.';veil.hidden=false;veil.textContent=(nS+nN)+' of 20';
     $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
+  // a short burst of paper when a run is finished; skipped when the reader prefers less motion
+  function celebrate(d){if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const cvs=document.getElementById('confetti'),x=cvs.getContext('2d'),W=cvs.width=innerWidth,H=cvs.height=innerHeight,r=cv.getBoundingClientRect();
+    const ox=Math.min(W-40,Math.max(40,r.left+r.width)),oy=Math.max(60,Math.min(H-60,r.top+60)),cols=['#f2b705','#4f46e5','#17153a','#c2255c','#ffffff'];
+    const n=d>=1?130:70,ps=Array.from({length:n},()=>{const a=-Math.PI/2+(Math.random()-.5)*2.4,v=6+Math.random()*9;return{x:ox,y:oy,vx:Math.cos(a)*v,vy:Math.sin(a)*v,w:5+Math.random()*6,h:3+Math.random()*5,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:cols[Math.floor(Math.random()*cols.length)]}});
+    cvs.hidden=false;let t0=null;
+    (function step(ts){if(!t0)t0=ts;const t=(ts-t0)/1000;x.clearRect(0,0,W,H);
+      ps.forEach(p=>{p.vy+=.32;p.vx*=.99;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;x.save();x.translate(p.x,p.y);x.rotate(p.r);x.globalAlpha=Math.max(0,1-t/2.2);x.fillStyle=p.c;x.fillRect(-p.w/2,-p.h/2,p.w,p.h);x.restore()});
+      if(t<2.2)requestAnimationFrame(step);else{x.clearRect(0,0,W,H);cvs.hidden=true}})(performance.now());}
   // the crowd: everyone who has taken this test on this page
-  function crowd(d){
-    const share=$('#exShare').checked,mk_=MODES[mode].k,box=()=>document.getElementById('exCrowd');
+  function crowdText(j,d,added){const others=j.cell.n-(added?1:0);let t='<b>The crowd so far:</b> ';
+    if(others<5){t+=(others<=0?'no other runs yet':'only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
+    else{t+=others+' other runs on this setting, with a mean sensitivity of d′ = '+j.cell.d_mean.toFixed(2)+'. ';
+      if(d!==null&&d>=0.3&&j.cell.below!==null)t+='You were more sensitive than '+Math.round(100*j.cell.below/others)+'% of them. ';
+      const ps=(j.pays||[]).filter(x=>x.n>=3);
+      if(ps.length>1)t+='Mean criterion by stakes: '+ps.map(x=>PAY[x.pay].n.toLowerCase()+' '+fmt(x.c_mean)+' (n = '+x.n+')').join(', ')+'. If the theory is right, the middle of the crowd moves with the stakes while its sensitivity stays put.'}
+    return t}
+  function crowd(d,viewOnly){
+    const share=$('#exShare').checked&&!viewOnly,mk_=MODES[mode].k,box=()=>document.getElementById('exCrowd');
     const req=share
       ?fetch('/api/flipact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({mode:mk_,diff:diff,pay:pay,hits:tally.h,fas:tally.fa})})
-      :fetch('/api/flipact?mode='+mk_+'&diff='+diff+'&d='+d.toFixed(4));
+      :fetch('/api/flipact?mode='+mk_+'&diff='+diff+(d===null?'':'&d='+d.toFixed(4)));
     req.then(r=>r.json()).then(j=>{const el=box();if(!el||!j||j.error||!j.cell)return;
-      const mine=share&&j.stored?1:0,others=j.cell.n-mine;let t='<b>The crowd so far:</b> ';
-      if(others<5){t+=(others===0?'you are the first run':'only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
-      else{const pct=Math.round(100*j.cell.below/others);
-        t+=others+' other runs on this setting, with a mean sensitivity of d′ = '+j.cell.d_mean.toFixed(2)+'. '+(d>=0.3?'You were more sensitive than '+pct+'% of them. ':'');
-        const ps=(j.pays||[]).filter(x=>x.n>=3);
-        if(ps.length>1)t+='Mean criterion by stakes: '+ps.map(x=>PAY[x.pay].n.toLowerCase()+' '+fmt(x.c_mean)+' (n = '+x.n+')').join(', ')+'. If the theory is right, the middle of the crowd moves with the stakes while its sensitivity stays put.'}
+      let t=crowdText(j,d,share&&j.stored);
       if(share&&!j.stored)t+=' This run was not added: the daily limit for one visitor was reached.';
-      if(!share)t+=' Your run was not added.';
+      if(!share&&!viewOnly)t+=' Your run was not added.';
       el.innerHTML=t;}).catch(()=>{});
   }
+  // for readers who would rather not play: a worked example of a result, and the crowd's numbers
+  function peek(){
+    desc.innerHTML='<div class="result"><div class="badge"><small>an example result, not yours</small>Sharp, and careful</div>'+
+      '<div class="nums"><div><b>1.52</b><span>sensitivity d′: how well this person can tell</span></div><div><b>+0.41</b><span>criterion c: conservative</span></div><div><b>+8</b><span>points, from 6 hits and 1 false alarm</span></div></div>'+
+      '<div class="gauge"><div class="track"><div class="mk best" style="left:50%"><span>best for these stakes</span></div><div class="mk" style="left:63.7%"><span>this person</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div></div>'+
+      'This person can tell the blob from plain static fairly well, and says yes less often than would earn the most points. Raise the price of a miss and the marker moves left; the first number hardly changes. '+
+      '<div class="crowd" id="exCrowd"></div>';
+    crowd(null,true);}
+  const skip=$('#exSkip');
+  skip.onclick=()=>{
+    if(!busy)return peek();
+    gen++;const done=tally.h+tally.m>=2&&tally.fa+tally.cr>=2;   // enough answers to estimate anything
+    if(done)finish(true);else{busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;skip.textContent='Skip the test and just show me results';blank();sync();peek()}};
   bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
-    busy=true;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
+    gen++;busy=true;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;skip.textContent='Stop here and show me what I have';score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
     trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
     ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
   bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
@@ -976,5 +1068,6 @@ function drawTau(svg,f,t,label){
   window.addEventListener('scroll',upd,{passive:true});upd();})();
 })();
 </script>
+<canvas id="confetti" hidden></canvas>
 </body>
 </html>
