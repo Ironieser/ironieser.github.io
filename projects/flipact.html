@@ -8,7 +8,7 @@
 <meta property="og:title" content="FlipAct: Sensitivity or Criterion?">
 <meta property="og:description" content="Two models, the same accuracy, opposite mistakes. A diagnostic that tells a model that cannot see when to act from one that sees it and holds back.">
 <link rel="canonical" href="https://sixundong.com/projects/flipact">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f2b705'/%3E%3Crect x='0' y='0' width='30' height='64' rx='0' fill='%234f46e5'/%3E%3Crect width='64' height='64' rx='14' fill='none'/%3E%3Cpath d='M30 6 V58' stroke='%2317153a' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='30' cy='20' r='9' fill='%23fff' stroke='%2317153a' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 15H19a17 17 0 0 0 0 34h13z' fill='%234f46e5'/%3E%3Cpath d='M32 15h13a17 17 0 0 1 0 34H32z' fill='%23f2b705'/%3E%3Crect x='27.5' y='5' width='9' height='54' rx='4.5' fill='%23fff'/%3E%3Crect x='29.5' y='7' width='5' height='50' rx='2.5' fill='%2317153a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -127,12 +127,11 @@ svg text{font-family:var(--sans)}
 .obs .grp{margin-top:14px}
 .obs .cap2{font-size:13.5px;color:var(--soft);display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}
 .obs .cap2 b{font-family:var(--mono);color:var(--ink);font-weight:600}
-.dots{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
-.dots i{aspect-ratio:1;border-radius:2px;display:block}
-.dots i.hit{background:var(--act)}
-.dots i.miss{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--alert)}
-.dots i.fa{background:var(--alert)}
-.dots i.cr{background:var(--hold-wash)}
+.picto{display:block;width:100%;height:auto}
+.picto .hit{color:var(--act)}
+.picto .miss{color:var(--alert)}
+.picto .fa{color:var(--alert)}
+.picto .cr{color:#c9c7f3}
 .obs .acc{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line-2);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .obs .acc b{font-family:var(--display);font-weight:600;font-size:38px;line-height:1}
 .obs .acc span{font-size:14px;color:var(--soft)}
@@ -164,6 +163,9 @@ svg text{font-family:var(--sans)}
 .exp .prog{font-family:var(--mono);font-size:13px;color:var(--soft)}
 .exp .fb{font-size:15px;min-height:1.6em}
 .exp .fb b{font-family:var(--mono)}
+.exp .opt{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--soft);cursor:pointer}
+.exp .opt input{accent-color:var(--ink);width:16px;height:16px}
+.crowd{margin-top:12px;padding-top:12px;border-top:1px dashed var(--line-2)}
 .runs{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
 .runs th{font-weight:500;color:var(--soft);font-size:12.5px;text-align:right;padding:5px 10px;border-bottom:1px solid var(--line-2)}
 .runs td{padding:6px 10px;text-align:right;font-family:var(--mono);border-bottom:1px solid var(--line)}
@@ -256,6 +258,12 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-person" viewBox="0 0 12 14"><circle cx="6" cy="3.3" r="2.5" fill="currentColor"/><path d="M1.6 13.2v-2.6a4.4 4.4 0 0 1 8.8 0v2.6z" fill="currentColor"/></symbol>
+  <symbol id="ic-person-o" viewBox="0 0 12 14"><circle cx="6" cy="3.3" r="2" fill="none" stroke="currentColor" stroke-width="1.1"/><path d="M2.2 12.7v-2.1a3.8 3.8 0 0 1 7.6 0v2.1z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
+  <symbol id="ic-msg" viewBox="0 0 12 14"><path d="M2.6 2.2h6.8a1.6 1.6 0 0 1 1.6 1.6v4a1.6 1.6 0 0 1-1.6 1.6H6.2L3.4 12V9.4h-.8A1.6 1.6 0 0 1 1 7.8v-4a1.6 1.6 0 0 1 1.6-1.6z" fill="currentColor"/></symbol>
+  <symbol id="ic-msg-o" viewBox="0 0 12 14"><path d="M2.8 2.7h6.4a1.3 1.3 0 0 1 1.3 1.3v3.6a1.3 1.3 0 0 1-1.3 1.3H6L3.8 10.9V8.9h-1a1.3 1.3 0 0 1-1.3-1.3V4a1.3 1.3 0 0 1 1.3-1.3z" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></symbol>
+</defs></svg>
 
 <aside class="rail">
   <a class="lockup" href="#top"><span class="switch" aria-hidden="true"></span><b>FlipAct</b></a>
@@ -304,10 +312,10 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="bar"><span class="lt">the same 200 cases</span><span class="picks" id="duoPick"></span></div>
     <div class="duo" id="duo"></div>
     <div class="key">
-      <span><i style="background:var(--act)"></i><span id="kHit"></span></span>
-      <span><i style="background:var(--card);box-shadow:inset 0 0 0 1.5px var(--alert)"></i><span id="kMiss"></span></span>
-      <span><i style="background:var(--alert)"></i><span id="kFa"></span></span>
-      <span><i style="background:var(--hold-wash)"></i><span id="kCr"></span></span>
+      <span><svg width="16" height="18" viewBox="0 0 12 14" class="picto" style="width:16px"><use href="#ic-person" class="hit" id="kHitI"/></svg><span id="kHit"></span></span>
+      <span><svg width="16" height="18" viewBox="0 0 12 14" class="picto" style="width:16px"><use href="#ic-person-o" class="miss" id="kMissI"/></svg><span id="kMiss"></span></span>
+      <span><svg width="16" height="18" viewBox="0 0 12 14" class="picto" style="width:16px"><use href="#ic-person" class="fa" id="kFaI"/></svg><span id="kFa"></span></span>
+      <span><svg width="16" height="18" viewBox="0 0 12 14" class="picto" style="width:16px"><use href="#ic-person" class="cr" id="kCrI"/></svg><span id="kCr"></span></span>
     </div>
     <div class="desc" id="duodesc"></div>
   </div>
@@ -332,6 +340,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
           <button class="big" type="button" id="exNo" disabled>No, just noise</button>
         </div>
         <div class="fb" id="exFb"></div>
+        <label class="opt"><input type="checkbox" id="exShare" checked> Add my run to the crowd average</label>
         <div class="prog" id="exProg"></div>
       </div>
     </div>
@@ -525,17 +534,20 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   // Rates are the When2Call call rates of gemma-2-9b and Phi-3.5-mini (Figure 1a of the paper),
   // shown per 100 cases. The doctor framing reuses the same rates as an illustration.
   const A={h:40,f:10,d:1.03,c:0.77},B={h:86,f:58,d:0.88,c:-0.64};
-  const FR=[{n:'Two doctors',who:['Doctor A','Doctor B'],sig:'100 patients with a tumour',noi:'100 healthy patients',
+  const FR=[{n:'Two doctors',ic:'person',who:['Doctor A','Doctor B'],sig:'100 patients with a tumour',noi:'100 healthy patients',
      yes:'flagged',k:['tumour flagged','tumour missed','healthy patient called back','healthy patient cleared'],
      fix:['Misses 60 tumours out of 100. This doctor needs to flag more.','Sends 58 healthy patients for a biopsy. This doctor needs to flag less.'],
      d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The doctors are an illustration built from the model numbers on the next tab.'},
-    {n:'Two language models',who:['gemma-2-9b','Phi-3.5-mini'],sig:'per 100 requests that need the tool',noi:'per 100 requests that do not',
+    {n:'Two language models',ic:'msg',who:['gemma-2-9b','Phi-3.5-mini'],sig:'per 100 requests that need the tool',noi:'per 100 requests that do not',
      yes:'called',k:['tool called, rightly','tool needed, not called','tool called for nothing','correctly not called'],
      fix:['Answers 60 in 100 from memory when it needed the tool. It should act more.','Calls the tool on 58 in 100 requests that never needed it. It should act less.'],
-     d:'<b>These are the real numbers.</b> On When2Call the two models reach balanced accuracies of 0.65 and 0.64, and the dots are their measured call rates. The picture is the doctors\' picture, dot for dot. A benchmark that reports one accuracy cannot tell these two models apart, or tell their developers which way to move.'}];
+     d:'<b>These are the real numbers.</b> On When2Call the two models reach balanced accuracies of 0.65 and 0.64, and the icons show their measured call rates. The picture is the doctors\' picture, one for one. A benchmark that reports one accuracy cannot tell these two models apart, or tell their developers which way to move.'}];
   let fi=0;const box=$('#duo'),pk=$('#duoPick');
   FR.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{fi=i;draw()};pk.appendChild(b);x.btn=b});
-  const dots=(n,on,off)=>'<div class="dots">'+Array.from({length:100},(_,i)=>'<i class="'+(i<n?on:off)+'"></i>').join('')+'</div>';
+  // an isotype chart: 100 pictograms, 20 to a row; a missed case is drawn as an outline
+  const dots=(n,on,off)=>{const ic=FR[fi].ic;let h='<svg class="picto" viewBox="0 0 240 72" role="img" aria-label="'+n+' of 100">';
+    for(let i=0;i<100;i++){const cls=i<n?on:off;h+='<use href="#ic-'+ic+(cls==='miss'?'-o':'')+'" class="'+cls+'" x="'+(i%20)*12+'" y="'+Math.floor(i/20)*14.4+'" width="12" height="14"/>'}
+    return h+'</svg>'};
   function draw(){const F=FR[fi];FR.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===fi));
     box.innerHTML=[A,B].map((o,i)=>'<div class="obs"><h3>'+F.who[i]+'</h3>'+
       '<div class="grp"><div class="cap2"><span>'+F.sig+'</span><b>'+o.h+' '+F.yes+'</b></div>'+dots(o.h,'hit','miss')+'</div>'+
@@ -544,6 +556,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       '<div class="sdt">d′ = '+o.d.toFixed(2)+' &nbsp; c = '+fmt(o.c)+'</div>'+
       '<div class="fix">'+F.fix[i]+'</div></div>').join('');
     ['kHit','kMiss','kFa','kCr'].forEach((id,i)=>$('#'+id).textContent=F.k[i]);
+    ['kHitI','kFaI','kCrI'].forEach(id=>$('#'+id).setAttribute('href','#ic-'+F.ic));$('#kMissI').setAttribute('href','#ic-'+F.ic+'-o');
     $('#duodesc').innerHTML=F.d;}
   draw();
 })();
@@ -609,15 +622,33 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     h+='With these stakes the same model puts the best line at c = '+fmt(copt)+'. People usually move toward it and stop short. ';}
     if(runs.length===1&&d>=0.3)h+='<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.';
     h+='<table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table>';
+    h+='<div class="crowd" id="exCrowd"></div>';
     h+='<p style="margin-top:12px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
-    desc.innerHTML=h;ask.textContent='Done.';veil.hidden=false;veil.textContent='20 of 20';
+    desc.innerHTML=h;crowd(d);ask.textContent='Done.';veil.hidden=false;veil.textContent='20 of 20';
     $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
+  // the crowd: everyone who has taken this test on this page
+  function crowd(d){
+    const share=$('#exShare').checked,mk_=MODES[mode].k,box=()=>document.getElementById('exCrowd');
+    const req=share
+      ?fetch('/api/flipact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({mode:mk_,diff:diff,pay:pay,hits:tally.h,fas:tally.fa})})
+      :fetch('/api/flipact?mode='+mk_+'&diff='+diff+'&d='+d.toFixed(4));
+    req.then(r=>r.json()).then(j=>{const el=box();if(!el||!j||j.error||!j.cell)return;
+      const mine=share&&j.stored?1:0,others=j.cell.n-mine;let t='<b>The crowd so far:</b> ';
+      if(others<5){t+=(others===0?'you are the first run':'only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
+      else{const pct=Math.round(100*j.cell.below/others);
+        t+=others+' other runs on this setting, with a mean sensitivity of d′ = '+j.cell.d_mean.toFixed(2)+'. '+(d>=0.3?'You were more sensitive than '+pct+'% of them. ':'');
+        const ps=(j.pays||[]).filter(x=>x.n>=3);
+        if(ps.length>1)t+='Mean criterion by stakes: '+ps.map(x=>PAY[x.pay].n.toLowerCase()+' '+fmt(x.c_mean)+' (n = '+x.n+')').join(', ')+'. If the theory is right, the middle of the crowd moves with the stakes while its sensitivity stays put.'}
+      if(share&&!j.stored)t+=' This run was not added: the daily limit for one visitor was reached.';
+      if(!share)t+=' Your run was not added.';
+      el.innerHTML=t;}).catch(()=>{});
+  }
   bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
     busy=true;bStart.disabled=true;score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
     trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
     ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
   bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
-  blank();sync();desc.innerHTML='Twenty trials take about a minute. Nothing is recorded or sent anywhere.';
+  blank();sync();desc.innerHTML='Twenty trials take about a minute. If the box is ticked, your run joins the crowd average: the three settings you chose and your hit and false-alarm counts. No name and no cookie. A one-way hash of your address is kept only so that one visitor cannot flood the average.';
 })();
 
 /* ---------------- 1. signal detection: two distributions, one line, three settings ---------------- */
