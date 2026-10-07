@@ -730,7 +730,10 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
   const N=20, CELLS=60, CELL=4, SD=38, BLOB=9, SHOW=900;
   const MODES=[{k:'look',n:'Look'},{k:'listen',n:'Listen'}];
-  const DIFF=[{n:'easier',vis:1.15,aud:0.06},{n:'standard',vis:0.7,aud:0.032},{n:'harder',vis:0.45,aud:0.018}];
+  // aud = tone amplitude against uniform noise of amplitude 0.3. A 1 kHz tone of this length sits
+  // near the detection threshold at about 0.013, so the three levels straddle it.
+  const DIFF=[{n:'easier',vis:1.15,aud:0.024},{n:'standard',vis:0.7,aud:0.015},{n:'harder',vis:0.45,aud:0.0105}];
+  const TONE_S=0.25, BURST_S=0.7;
   // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
   const PAY=[{n:'Nothing at stake',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.'},
              {n:'Misses are costly',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.'},
@@ -743,9 +746,9 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
   function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;
     example('egNow',DIFF[diff].vis);$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
-    $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a faint tone is hidden in it, like the third example.';
+    $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a short, faint tone is hidden somewhere inside it, at a different moment each time, like the third example.';
     if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
-      veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide '+what()+'.<br>Use a comfortable volume.';
+      veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide a short, faint tone.<br>Headphones help. Use a comfortable volume.';
       fb.innerHTML=PAY[pay].say;prog.textContent='';}}
   function paint(signal){const k=DIFF[diff].vis;
     for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){let v=128+SD*randn();
@@ -758,16 +761,18 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       v=Math.max(0,Math.min(255,v))|0;c.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';c.fillRect(x*2,y*2,2,2)}}
   example('egNo',0);example('egYes',2.2);
   function demo(amp){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){return}
-    const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),ramp=Math.floor(sr*0.02);
-    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(amp?amp*Math.sin(2*Math.PI*1000*i/sr):0))}
+    burst(amp)}
+  $('#egNoA').onclick=()=>demo(0);$('#egYesA').onclick=()=>demo(0.12);$('#egNowA').onclick=()=>demo(DIFF[diff].aud);
+  function burst(amp){const sr=actx.sampleRate,len=Math.floor(sr*BURST_S),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),ramp=Math.floor(sr*0.02);
+    const tl=Math.floor(sr*TONE_S),t0=Math.floor(sr*(0.08+Math.random()*(BURST_S-TONE_S-0.16))),tr=Math.floor(sr*0.015);
+    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);let tone=0;
+      if(amp&&i>=t0&&i<t0+tl){const k=i-t0;tone=amp*Math.min(1,k/tr,(tl-1-k)/tr)*Math.sin(2*Math.PI*1000*k/sr)}
+      d[i]=env*((Math.random()*2-1)*0.3+tone)}
     const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
-  $('#egNoA').onclick=()=>demo(0);$('#egYesA').onclick=()=>demo(0.14);$('#egNowA').onclick=()=>demo(DIFF[diff].aud);
-  function play(signal){const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),A=DIFF[diff].aud,ramp=Math.floor(sr*0.02);
-    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?A*Math.sin(2*Math.PI*1000*i/sr):0))}
-    const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
+  function play(signal){burst(signal?DIFF[diff].aud:0)}
   // d' of the ideal observer for exactly this stimulus (signal known exactly, white Gaussian noise)
   function ideal(){if(mode===0){let e=0;for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5,v=Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB));e+=v*v}return DIFF[diff].vis*Math.sqrt(e)}
-    const n=(actx?actx.sampleRate:44100)*0.7;return DIFF[diff].aud*Math.sqrt(n/2)/(0.3/Math.sqrt(3))}
+    const n=(actx?actx.sampleRate:44100)*TONE_S;return DIFF[diff].aud*Math.sqrt(n/2)/(0.3/Math.sqrt(3))}
   function next(){const my=gen;ti++;if(ti>=N)return finish();
     const sig=trials[ti];prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;fb.innerHTML='&nbsp;';bYes.disabled=bNo.disabled=true;veil.hidden=true;
     if(mode===0){blank();setTimeout(()=>{if(my!==gen)return;paint(sig);setTimeout(()=>{if(my!==gen)return;blank();bYes.disabled=bNo.disabled=false},SHOW)},350)}
