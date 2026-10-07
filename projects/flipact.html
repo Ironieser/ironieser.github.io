@@ -119,6 +119,56 @@ main{margin-left:var(--rail)}
 svg{display:block;width:100%;height:auto}
 svg text{font-family:var(--sans)}
 
+/* two observers, one accuracy */
+.duo{display:grid;grid-template-columns:1fr 1fr}
+.obs{padding:18px;border-right:1px solid var(--line-2);min-width:0}
+.obs:last-child{border-right:none}
+.obs h3{font-family:var(--display);font-weight:600;font-size:22px;line-height:1.15}
+.obs .grp{margin-top:14px}
+.obs .cap2{font-size:13.5px;color:var(--soft);display:flex;justify-content:space-between;gap:10px;margin-bottom:6px}
+.obs .cap2 b{font-family:var(--mono);color:var(--ink);font-weight:600}
+.dots{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
+.dots i{aspect-ratio:1;border-radius:2px;display:block}
+.dots i.hit{background:var(--act)}
+.dots i.miss{background:var(--card);box-shadow:inset 0 0 0 1.5px var(--alert)}
+.dots i.fa{background:var(--alert)}
+.dots i.cr{background:var(--hold-wash)}
+.obs .acc{margin-top:16px;padding-top:12px;border-top:1px dashed var(--line-2);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.obs .acc b{font-family:var(--display);font-weight:600;font-size:38px;line-height:1}
+.obs .acc span{font-size:14px;color:var(--soft)}
+.obs .sdt{margin-top:8px;font-family:var(--mono);font-size:14px;color:var(--hold-text)}
+.obs .fix{margin-top:8px;font-size:15px}
+.key{display:flex;flex-wrap:wrap;gap:6px 18px;padding:12px 18px;border-top:1px solid var(--line-2);font-size:13.5px;color:var(--soft)}
+.key span{display:inline-flex;align-items:center;gap:7px}
+.key i{width:12px;height:12px;border-radius:2px;display:inline-block}
+.stakes{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line-2);font-size:14.5px}
+.stakes div{padding:12px 18px}
+.stakes div + div{border-left:1px solid var(--line-2)}
+.stakes b{display:block;font-family:var(--mono);font-size:12px;font-weight:600;margin-bottom:2px}
+.stakes .m b{color:var(--alert)} .stakes .f b{color:var(--alert)}
+
+/* the reader's own experiment */
+.exp{display:grid;grid-template-columns:auto minmax(0,1fr);gap:22px;padding:18px;align-items:start}
+.exp canvas{width:240px;height:240px;display:block;border:1.5px solid var(--ink);border-radius:4px;background:#8a8a92;image-rendering:pixelated}
+.exp .scope{position:relative}
+.exp .scope .veil{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:14px;font-size:14.5px;color:#fff;background:rgba(23,21,58,.82);border-radius:3px;line-height:1.4}
+.exp .scope .veil[hidden]{display:none}
+.exp .panel{display:flex;flex-direction:column;gap:12px;min-width:0}
+.exp .ask{font-family:var(--display);font-weight:600;font-size:23px;line-height:1.2;min-height:2.4em}
+.exp .ans2{display:flex;gap:10px;flex-wrap:wrap}
+.big{font:600 16px var(--sans);border-radius:4px;padding:11px 22px;cursor:pointer;border:1.5px solid var(--ink);background:var(--card);color:var(--ink)}
+.big:hover:not(:disabled){background:var(--ink);color:#fff}
+.big:disabled{opacity:.4;cursor:default}
+.big.go{background:var(--act);border-color:var(--act)}
+.big.go:hover:not(:disabled){background:var(--ink);border-color:var(--ink);color:#fff}
+.exp .prog{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.exp .fb{font-size:15px;min-height:1.6em}
+.exp .fb b{font-family:var(--mono)}
+.runs{width:100%;border-collapse:collapse;font-size:14px;margin-top:10px}
+.runs th{font-weight:500;color:var(--soft);font-size:12.5px;text-align:right;padding:5px 10px;border-bottom:1px solid var(--line-2)}
+.runs td{padding:6px 10px;text-align:right;font-family:var(--mono);border-bottom:1px solid var(--line)}
+.runs th:first-child,.runs td:first-child{text-align:left;padding-left:0;font-family:var(--sans)}
+
 /* scenarios */
 .cases{display:grid;grid-template-columns:1fr 1fr}
 .case{padding:18px;border-right:1px solid var(--line-2);display:flex;flex-direction:column;gap:12px;min-width:0}
@@ -191,6 +241,12 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .ledger div:nth-child(3){border-left:none;padding-left:0}
   .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
+  .exp{grid-template-columns:1fr}
+  .duo{grid-template-columns:1fr}
+  .obs{border-right:none;border-bottom:1px solid var(--line-2)}
+  .obs:last-child{border-bottom:none}
+  .stakes{grid-template-columns:1fr}
+  .stakes div + div{border-left:none;border-top:1px solid var(--line-2)}
   .cases{grid-template-columns:1fr}
   .case{border-right:none;border-bottom:1px solid var(--line-2)}
   .case:last-child{border-bottom:none}
@@ -204,8 +260,9 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <aside class="rail">
   <a class="lockup" href="#top"><span class="switch" aria-hidden="true"></span><b>FlipAct</b></a>
   <nav class="toc" aria-label="On this page">
-    <a href="#sdt" data-spy="sdt">Sensitivity and criterion, in people and in models</a>
-    <a href="#agents" data-spy="agents">What it looks like in an agent</a>
+    <a href="#acc" data-spy="acc">One accuracy, opposite mistakes</a>
+    <a href="#sdt" data-spy="sdt">Sensitivity and criterion, on yourself</a>
+    <a href="#agents" data-spy="agents">Wherever an agent decides to act</a>
     <a href="#rule" data-spy="rule">Evidence computed by rule</a>
     <a href="#read" data-spy="read">Reading a model</a>
     <a href="#move" data-spy="move">Moving the criterion</a>
@@ -238,11 +295,50 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   </div>
 </div></header>
 
-<section class="step" id="sdt"><div class="col">
+<section class="step" id="acc"><div class="col">
   <div class="num">one</div>
-  <h2>The same accuracy, opposite mistakes</h2>
-  <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments. A listener hears bursts of noise, and some bursts hide a faint tone. After each one they say whether they heard it. Two things decide the answer, and they are independent: how well the listener can hear the tone at all, their <b>sensitivity</b> d′, and how sure they want to be before saying yes, their <b>criterion</b> c. Pay for every tone caught and people say yes more freely. Penalise false alarms and they hold back. Their hearing has not changed.</p>
-  <p class="say">The same split applies to a radiologist deciding whether to flag a scan, and to a language model deciding whether to call a tool. On When2Call, gemma-2-9b and Phi-3.5-mini reach balanced accuracies of 0.65 and 0.64. One rarely calls the tool even where it should. The other calls it on most examples, many where it should not. Switch between the three settings below: the picture is the same.</p>
+  <h2>Two observers, one accuracy, opposite mistakes</h2>
+  <p class="say">Start with a case where the stakes are obvious. Two doctors each read the scans of 100 patients who have a tumour and 100 who are healthy. Their accuracy is 65% and 64%. By that number they are the same doctor.</p>
+
+  <div class="lab">
+    <div class="bar"><span class="lt">the same 200 cases</span><span class="picks" id="duoPick"></span></div>
+    <div class="duo" id="duo"></div>
+    <div class="key">
+      <span><i style="background:var(--act)"></i><span id="kHit"></span></span>
+      <span><i style="background:var(--card);box-shadow:inset 0 0 0 1.5px var(--alert)"></i><span id="kMiss"></span></span>
+      <span><i style="background:var(--alert)"></i><span id="kFa"></span></span>
+      <span><i style="background:var(--hold-wash)"></i><span id="kCr"></span></span>
+    </div>
+    <div class="desc" id="duodesc"></div>
+  </div>
+  <p class="pull">Accuracy adds the two kinds of error together. What to do about them depends on which kind you have.</p>
+</div></section>
+
+<section class="step" id="sdt"><div class="col">
+  <div class="num">two</div>
+  <h2>Sensitivity and criterion: try it on yourself</h2>
+  <p class="say"><b>Signal-detection theory</b> was worked out in the 1950s for radar operators and for listeners in hearing experiments, to pull those two kinds of error apart. A patch of static flashes on the screen, and half the time it hides a faint blob. You say whether it was there. Two things decide your answers, and they are independent: how well you can see the blob at all, your <b>sensitivity</b> d′, and how sure you want to be before you say yes, your <b>criterion</b> c. Raise the price of a miss and people say yes more freely. Raise the price of a false alarm and they hold back. Their eyesight has not changed.</p>
+
+  <div class="lab" id="exp">
+    <div class="bar second"><span class="lt">be the observer</span><span class="picks" id="exMode"></span><span class="picks" id="exDiff"></span></div>
+    <div class="bar"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
+    <div class="exp">
+      <div class="scope"><canvas id="exCv" width="240" height="240" aria-label="A patch of visual noise that may hide a faint blob"></canvas><div class="veil" id="exVeil"></div></div>
+      <div class="panel">
+        <div class="ask" id="exAsk"></div>
+        <div class="ans2">
+          <button class="big go" type="button" id="exStart">Start, 20 trials</button>
+          <button class="big" type="button" id="exYes" disabled>Yes, it was there</button>
+          <button class="big" type="button" id="exNo" disabled>No, just noise</button>
+        </div>
+        <div class="fb" id="exFb"></div>
+        <div class="prog" id="exProg"></div>
+      </div>
+    </div>
+    <div class="desc" id="exDesc"></div>
+  </div>
+
+  <p class="say">The theory draws that as two overlapping curves and one line. Trials without a signal produce some amount of evidence, trials with one produce more, and the observer says yes whenever the evidence lands to the right of their line. How far apart the curves sit is the sensitivity. Where the line sits is the criterion. The picture is the same for a listener, for the two doctors above, and for a language model deciding whether to call a tool.</p>
 
   <div class="lab">
     <div class="bar second"><span class="lt">the setting</span><span class="picks" id="sdtCtx"></span></div>
@@ -263,25 +359,26 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     </div>
     <div class="desc" id="sdtdesc"></div>
   </div>
-  <p class="pull">The two models need opposite fixes. One should act more and the other less, and a single accuracy cannot say which.</p>
+  <p class="pull">Moving the line trades one error for the other. Only pulling the curves apart removes errors.</p>
 </div></section>
 
 <section class="step" id="agents"><div class="col">
-  <div class="num">two</div>
-  <h2>What the two failures look like in an agent</h2>
-  <p class="say">The same decision shows up wherever an agent has to choose between doing something and holding back: calling a tool, asking a question, committing to an answer, executing a change, or moving something in the physical world. Each situation below has one case where acting is right and one where it is not, so you can see which error each kind of model makes.</p>
+  <div class="num">three</div>
+  <h2>The same split, wherever an agent decides to act</h2>
+  <p class="say">The doctors' problem is every agent's problem. Calling a tool, asking a question, committing to an answer, executing a change, moving something in the physical world: each is a choice between acting and holding back, each has two kinds of error, and the two rarely cost the same. Each situation below has one case where acting is right and one where it is not, so you can see which error each kind of model makes and what it costs in that setting.</p>
 
   <div class="lab">
     <div class="bar second"><span class="lt">the decision</span><span class="picks" id="scPicks"></span></div>
     <div class="bar"><span class="lt">the model</span><span class="picks" id="prPicks"></span></div>
     <div class="cases" id="cases"></div>
+    <div class="stakes"><div class="m"><b>what a miss costs here</b><span id="stMiss"></span></div><div class="f"><b>what a false alarm costs here</b><span id="stFa"></span></div></div>
     <div class="desc" id="scdesc"></div>
   </div>
   <p class="note">These examples are written for this page to illustrate the two failures. They are not items from FlipAct or from the benchmarks in the paper.</p>
 </div></section>
 
 <section class="step" id="rule"><div class="col">
-  <div class="num">three</div>
+  <div class="num">four</div>
   <h2>Evidence computed by rule, not written by a model</h2>
   <p class="say">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
 
@@ -321,7 +418,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="read"><div class="col">
-  <div class="num">four</div>
+  <div class="num">five</div>
   <h2>Reading a model: a slope and a crossing point</h2>
   <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
 
@@ -357,7 +454,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 </div></section>
 
 <section class="step" id="move"><div class="col">
-  <div class="num">five</div>
+  <div class="num">six</div>
   <h2>Moving the criterion, and only the criterion</h2>
   <p class="say">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
 
@@ -423,6 +520,106 @@ const pdf=x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
 const sig=x=>1/(1+Math.exp(-x));
 const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)?'true':'false'));
 
+/* ---------------- 00. two observers, one accuracy ---------------- */
+(function(){
+  // Rates are the When2Call call rates of gemma-2-9b and Phi-3.5-mini (Figure 1a of the paper),
+  // shown per 100 cases. The doctor framing reuses the same rates as an illustration.
+  const A={h:40,f:10,d:1.03,c:0.77},B={h:86,f:58,d:0.88,c:-0.64};
+  const FR=[{n:'Two doctors',who:['Doctor A','Doctor B'],sig:'100 patients with a tumour',noi:'100 healthy patients',
+     yes:'flagged',k:['tumour flagged','tumour missed','healthy patient called back','healthy patient cleared'],
+     fix:['Misses 60 tumours out of 100. This doctor needs to flag more.','Sends 58 healthy patients for a biopsy. This doctor needs to flag less.'],
+     d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The doctors are an illustration built from the model numbers on the next tab.'},
+    {n:'Two language models',who:['gemma-2-9b','Phi-3.5-mini'],sig:'per 100 requests that need the tool',noi:'per 100 requests that do not',
+     yes:'called',k:['tool called, rightly','tool needed, not called','tool called for nothing','correctly not called'],
+     fix:['Answers 60 in 100 from memory when it needed the tool. It should act more.','Calls the tool on 58 in 100 requests that never needed it. It should act less.'],
+     d:'<b>These are the real numbers.</b> On When2Call the two models reach balanced accuracies of 0.65 and 0.64, and the dots are their measured call rates. The picture is the doctors\' picture, dot for dot. A benchmark that reports one accuracy cannot tell these two models apart, or tell their developers which way to move.'}];
+  let fi=0;const box=$('#duo'),pk=$('#duoPick');
+  FR.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{fi=i;draw()};pk.appendChild(b);x.btn=b});
+  const dots=(n,on,off)=>'<div class="dots">'+Array.from({length:100},(_,i)=>'<i class="'+(i<n?on:off)+'"></i>').join('')+'</div>';
+  function draw(){const F=FR[fi];FR.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===fi));
+    box.innerHTML=[A,B].map((o,i)=>'<div class="obs"><h3>'+F.who[i]+'</h3>'+
+      '<div class="grp"><div class="cap2"><span>'+F.sig+'</span><b>'+o.h+' '+F.yes+'</b></div>'+dots(o.h,'hit','miss')+'</div>'+
+      '<div class="grp"><div class="cap2"><span>'+F.noi+'</span><b>'+o.f+' '+F.yes+'</b></div>'+dots(o.f,'fa','cr')+'</div>'+
+      '<div class="acc"><b>'+Math.round((o.h+100-o.f)/2)+'%</b><span>accuracy: '+(o.h+100-o.f)+' right out of 200</span></div>'+
+      '<div class="sdt">d′ = '+o.d.toFixed(2)+' &nbsp; c = '+fmt(o.c)+'</div>'+
+      '<div class="fix">'+F.fix[i]+'</div></div>').join('');
+    ['kHit','kMiss','kFa','kCr'].forEach((id,i)=>$('#'+id).textContent=F.k[i]);
+    $('#duodesc').innerHTML=F.d;}
+  draw();
+})();
+
+/* ---------------- 0. be the observer: a yes/no detection experiment ---------------- */
+(function(){
+  // inverse normal CDF (Acklam's rational approximation)
+  function zinv(p){const a=[-39.69683028665376,220.9460984245205,-275.9285104469687,138.357751867269,-30.66479806614716,2.506628277459239],
+    b=[-54.47609879822406,161.5858368580409,-155.6989798598866,66.80131188771972,-13.28068155288572],
+    c=[-0.007784894002430293,-0.3223964580411365,-2.400758277161838,-2.549732539343734,4.374664141464968,2.938163982698783],
+    d=[0.007784695709041462,0.3224671290700398,2.445134137142996,3.754408661907416];let q,r;
+    if(p<0.02425){q=Math.sqrt(-2*Math.log(p));return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+    if(p>1-0.02425){q=Math.sqrt(-2*Math.log(1-p));return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)}
+    q=p-0.5;r=q*q;return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1)}
+  function randn(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+  const N=20, CELLS=60, CELL=4, SD=38, BLOB=9, SHOW=900;
+  const MODES=[{k:'look',n:'Look'},{k:'listen',n:'Listen'}];
+  const DIFF=[{n:'easier',vis:0.9,aud:0.045},{n:'standard',vis:0.65,aud:0.03},{n:'harder',vis:0.48,aud:0.02}];
+  // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
+  const PAY=[{n:'Nothing at stake',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.'},
+             {n:'Misses are costly',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.'},
+             {n:'False alarms are costly',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.'}];
+  let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null;const runs=[];
+  const cv=$('#exCv'),g=cv.getContext('2d'),veil=$('#exVeil'),ask=$('#exAsk'),fb=$('#exFb'),prog=$('#exProg'),desc=$('#exDesc');
+  const bStart=$('#exStart'),bYes=$('#exYes'),bNo=$('#exNo');
+  function picks(box,arr,get,set){arr.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{if(busy)return;set(i);sync()};box.appendChild(b);x.btn=b});return()=>arr.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===get()))}
+  const s1=picks($('#exMode'),MODES,()=>mode,i=>mode=i),s2=picks($('#exDiff'),DIFF,()=>diff,i=>diff=i),s3=picks($('#exPay'),PAY,()=>pay,i=>pay=i);
+  const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
+  function sync(){s1();s2();s3();
+    if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
+      veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide '+what()+'.<br>Use a comfortable volume.';
+      fb.innerHTML=PAY[pay].say;prog.textContent='';}}
+  function paint(signal){const k=DIFF[diff].vis;
+    for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){let v=128+SD*randn();
+      if(signal){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB))}
+      v=Math.max(0,Math.min(255,v))|0;g.fillStyle='rgb('+v+','+v+','+Math.min(255,v+8)+')';g.fillRect(x*CELL,y*CELL,CELL,CELL)}}
+  function blank(){g.fillStyle='#8a8a92';g.fillRect(0,0,240,240)}
+  function play(signal){const sr=actx.sampleRate,len=Math.floor(sr*0.7),buf=actx.createBuffer(1,len,sr),d=buf.getChannelData(0),A=DIFF[diff].aud,ramp=Math.floor(sr*0.02);
+    for(let i=0;i<len;i++){const env=Math.min(1,i/ramp,(len-1-i)/ramp);d[i]=env*((Math.random()*2-1)*0.3+(signal?A*Math.sin(2*Math.PI*1000*i/sr):0))}
+    const src=actx.createBufferSource(),gn=actx.createGain();gn.gain.value=0.5;src.buffer=buf;src.connect(gn).connect(actx.destination);src.start()}
+  // d' of the ideal observer for exactly this stimulus (signal known exactly, white Gaussian noise)
+  function ideal(){if(mode===0){let e=0;for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5,v=Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB));e+=v*v}return DIFF[diff].vis*Math.sqrt(e)}
+    const n=(actx?actx.sampleRate:44100)*0.7;return DIFF[diff].aud*Math.sqrt(n/2)/(0.3/Math.sqrt(3))}
+  function next(){ti++;if(ti>=N)return finish();
+    const sig=trials[ti];prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;fb.innerHTML='&nbsp;';bYes.disabled=bNo.disabled=true;veil.hidden=true;
+    if(mode===0){blank();setTimeout(()=>{paint(sig);setTimeout(()=>{blank();bYes.disabled=bNo.disabled=false},SHOW)},350)}
+    else{blank();veil.hidden=false;veil.textContent='listen';setTimeout(()=>{play(sig);setTimeout(()=>{veil.textContent='was it there?';bYes.disabled=bNo.disabled=false},750)},350)}}
+  const tally={h:0,m:0,fa:0,cr:0};
+  function answer(yes){if(bYes.disabled)return;bYes.disabled=bNo.disabled=true;const sig=trials[ti],P=PAY[pay];let t,pts;
+    if(sig&&yes){tally.h++;pts=P.h;t='Hit. It was there.'}else if(sig){tally.m++;pts=-P.m;t='Miss. It was there.'}
+    else if(yes){tally.fa++;pts=-P.fa;t='False alarm. Just noise.'}else{tally.cr++;pts=P.cr;t='Correct. Just noise.'}
+    score+=pts;fb.innerHTML=t+' <b>'+(pts>0?'+':'−')+Math.abs(pts)+'</b>';prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;setTimeout(next,650)}
+  function finish(){busy=false;bStart.disabled=false;bStart.textContent='Run again, 20 trials';
+    // log-linear correction keeps the estimates finite at 0% or 100%
+    const H=(tally.h+0.5)/(N/2+1),F=(tally.fa+0.5)/(N/2+1),zH=zinv(H),zF=zinv(F),d=zH-zF,c=-(zH+zF)/2;
+    const P=PAY[pay],beta=(P.cr+P.fa)/(P.h+P.m),copt=Math.log(beta)/Math.max(0.5,d),di=ideal(),eff=d>0?Math.pow(d/di,2)*100:0;
+    runs.push({pay:P.n,mode:MODES[mode].n,d,c,copt,score});
+    const lean=c>0.2?'conservative':c<-0.2?'liberal':'close to neutral';
+    let h='<b>You, this run:</b> '+tally.h+' hits and '+tally.fa+' false alarms out of 10 each. ';
+    if(d<0.3){h+='Your answers did not follow the signal on this run (d′ = '+d.toFixed(2)+', which is chance), so there is nothing to place a criterion on. Try the easier setting and run again. ';}
+    else{h+='That is a sensitivity of d′ = '+d.toFixed(2)+' and a criterion of c = '+fmt(c)+', '+lean+'. ';
+    h+='<b>Against the classic model:</b> the ideal observer of signal-detection theory, which knows exactly what the signal looks like, would reach d′ = '+di.toFixed(1)+' on these trials, so you used about '+(eff<1?eff.toFixed(1):Math.round(eff))+'% of the information that was there. Human observers in classic experiments on signals in noise range from a few percent to about half. ';
+    h+='With these stakes the same model puts the best line at c = '+fmt(copt)+'. People usually move toward it and stop short. ';}
+    if(runs.length===1&&d>=0.3)h+='<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.';
+    h+='<table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table>';
+    h+='<p style="margin-top:12px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
+    desc.innerHTML=h;ask.textContent='Done.';veil.hidden=false;veil.textContent='20 of 20';
+    $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
+  bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
+    busy=true;bStart.disabled=true;score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
+    trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
+    ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
+  bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
+  blank();sync();desc.innerHTML='Twenty trials take about a minute. Nothing is recorded or sent anywhere.';
+})();
+
 /* ---------------- 1. signal detection: two distributions, one line, three settings ---------------- */
 (function(){
   const svg=$('#sdtsvg'),W=640,H=300,L=24,R=616,B=236,X0=-4.2,X1=4.2,PEAK=170;
@@ -484,12 +681,13 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function setCtx(i){ci=i;preBox.innerHTML='';CTX[i].pre.forEach((q,k)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=q.n;b.onclick=()=>setPre(k);preBox.appendChild(b)});setPre(0)}
   D.addEventListener('input',()=>{pk=-1;draw()});C.addEventListener('input',()=>{pk=-1;draw()});
   setCtx(0);
+  window.flipShow=(d,c,html)=>{setCtx(0);pk=-1;D.value=Math.max(0,Math.min(3,d));C.value=Math.max(-1.5,Math.min(1.5,c));draw();$('#sdtdesc').innerHTML=html;$('#sdtsvg').scrollIntoView({behavior:'smooth',block:'center'})};
 })();
 
 /* ---------------- 1b. the same decision in five agent settings (illustrative) ---------------- */
 (function(){
   const SC=[
-   {n:'Call a tool',cases:[
+   {n:'Call a tool',miss:'A confident answer that is stale or made up, because the model answered from memory.',fa:'Latency and cost on every request, and one more place for a tool to fail.',cases:[
      {right:'act',label:'calling the tool is right',user:'What is the weather in Orlando right now?',
       act:'<code>get_weather("Orlando")</code> It is 84°F with scattered showers this afternoon.',
       hold:'Orlando is usually warm and humid, with afternoon showers common in summer.',
@@ -498,7 +696,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       act:'<code>web_search("capital of France")</code> The capital of France is Paris.',
       hold:'Paris.',
       fa:'It spent a tool call on something it already knew.'}]},
-   {n:'Ask before acting',cases:[
+   {n:'Ask before acting',miss:'The agent acts on a guess, and the user finds out after the booking is made.',fa:'An assistant that asks about everything, until the user stops using it.',cases:[
      {right:'act',label:'asking is right',user:'Book me a table for Friday.',
       act:'Happy to. Which restaurant, what time, and for how many people?',
       hold:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
@@ -507,7 +705,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       act:'Sure. Just to confirm, which restaurant did you have in mind, and at what time?',
       hold:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
       fa:'Everything it asked for was already in the request.'}]},
-   {n:'Answer or abstain',cases:[
+   {n:'Answer or abstain',miss:'A model that knows the answer and will not give it.',fa:'A fabricated answer delivered with the same confidence as a true one.',cases:[
      {right:'act',label:'answering is right',user:'How many days are there in a leap year?',
       act:'366.',
       hold:'I am not certain enough to give a number. You may want to check a calendar reference.',
@@ -516,7 +714,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       act:'You had oatmeal with blueberries and a cup of coffee.',
       hold:'I have no way to know that. If you tell me, I can help from there.',
       fa:'It committed to an answer it had no evidence for.'}]},
-   {n:'Execute a change',cases:[
+   {n:'Execute a change',miss:'Work that was asked for is left undone and handed back.',fa:'Files changed that nobody asked to change. Some changes cannot be undone.',cases:[
      {right:'act',label:'making the change is right',user:'The build fails on a typo in config.yaml, line 12. Please fix it.',
       act:'<code>edit config.yaml:12</code> Fixed <code>timeuot</code> to <code>timeout</code>. The build passes now.',
       hold:'Line 12 has <code>timeuot</code> where <code>timeout</code> is expected. You may want to correct it.',
@@ -525,7 +723,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       act:'<code>edit config.yaml:12</code> <code>edit ci.yml</code> I changed the config and the CI file so it passes.',
       hold:'Line 12 of config.yaml has a typo, <code>timeuot</code>. Do you want me to fix it?',
       fa:'It changed two files when it was asked a question.'}]},
-   {n:'Act in the physical world',cases:[
+   {n:'Act in the physical world',miss:'The task is not done: the plant dries out.',fa:'An action in the world that makes the state worse, and cannot be taken back.',cases:[
      {right:'act',label:'acting is right',user:'A home robot checks the fern. The soil sensor reads very dry.',
       act:'<code>water(fern, 200 ml)</code> Watered the fern.',
       hold:'Soil moisture noted. No action taken.',
@@ -560,6 +758,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
         '<div class="outcome"><span class="mark '+verdict[0]+'">'+verdict[1]+'</span><span>'+verdict[2]+'</span></div>';
       box.appendChild(el);});
     $('#scdesc').innerHTML=pr.d;
+    $('#stMiss').textContent=sc.miss;$('#stFa').textContent=sc.fa;
   }
   draw();
 })();
