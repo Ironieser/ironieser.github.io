@@ -102,10 +102,34 @@ main{margin-left:var(--rail)}
 .step h3.minor{font-family:var(--display);font-weight:600;font-size:24px;margin-top:44px}
 .pull{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.3vw,25px);line-height:1.35;margin-top:30px;padding-left:20px;border-left:5px solid var(--act);max-width:30em}
 .note{font-size:13.5px;color:var(--soft);margin-top:12px;max-width:46em}
-.finds{margin-top:30px;display:grid;gap:0;border-top:1px solid var(--line-2)}
-.find{display:grid;grid-template-columns:220px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line-2)}
-.find h3{font-size:16px;font-weight:600;line-height:1.35}
-.find p{color:var(--soft);font-size:15.5px}
+.facts{margin-top:30px;display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1.5px solid var(--ink);border-radius:6px;background:var(--card);overflow:hidden}
+.fact{padding:18px 18px 20px;border-left:1px solid var(--line-2)}
+.fact:first-child{border-left:none}
+.fact b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(24px,2.5vw,31px);line-height:1.1;letter-spacing:-.01em;white-space:nowrap}
+.fact b i{font-style:italic;font-weight:400;font-size:.62em;color:var(--soft);margin:0 .12em}
+.fact b.h{color:var(--hold-text)} .fact b.a{color:var(--act-text)} .fact b.k{color:var(--ink)}
+.fact h3{font-size:15.5px;font-weight:600;line-height:1.3;margin-top:10px}
+.fact p{color:var(--soft);font-size:14px;line-height:1.5;margin-top:6px}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px}
+.tri{border:1.5px solid var(--ink);border-radius:6px;background:var(--card);padding:14px 16px 16px;display:flex;flex-direction:column;align-items:flex-start}
+.tri svg{width:120px;height:auto;display:block;background:var(--bg);border-radius:4px}
+.tri h3{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.2;margin-top:12px}
+.tri p{font-size:14.5px;color:var(--soft);line-height:1.5;margin-top:5px}
+.tri .tag{margin-top:auto;font-family:var(--mono);font-size:12.5px;padding:3px 8px;border-radius:3px}
+.tri p+.tag{margin-top:12px}
+.tri .tag.a{background:var(--act-wash);color:var(--act-text)} .tri .tag.h{background:var(--hold-wash);color:var(--hold-text)}
+.dumbwrap{margin-top:20px;border:1.5px solid var(--ink);border-radius:6px;background:var(--card);padding:18px 18px 12px;overflow-x:auto}
+.dumb{display:block;width:100%;min-width:520px;height:auto}
+.dumb text{font-family:var(--sans);font-size:14px;fill:var(--soft)}
+.dumb .mdl{fill:var(--ink);font-weight:600;font-size:15px}
+.dumb .val{font-family:var(--mono);fill:var(--ink);font-weight:600;font-size:13.5px}
+.dumb .da{font-family:var(--mono);font-size:13.5px}
+.dumb .pole{font-weight:600} .dumb .pole.a{fill:var(--act-text)} .dumb .pole.h{fill:var(--hold-text)}
+.dkey{display:flex;gap:20px;font-size:13.5px;color:var(--soft);margin-top:4px}
+.dkey span{display:inline-flex;align-items:center;gap:7px}
+.dkey i{width:13px;height:13px;border-radius:50%;display:inline-block}
+.dkey i.o{background:#fff;border:2.400px solid #a9a8c4} .dkey i.f{background:var(--act);border:2px solid var(--ink)}
+details.more .tblwrap{margin-top:0;border-top:1px solid var(--line-2);padding:0 12px 6px}
 
 /* ---------- instruments ---------- */
 .lab{margin-top:28px;background:var(--card);border:1.5px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--hold-wash)}
@@ -323,6 +347,10 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .exp{grid-template-columns:1fr}
   .cmp .row{grid-template-columns:1fr}
   .defs{grid-template-columns:1fr}
+  .trio{grid-template-columns:1fr}
+  .facts{grid-template-columns:1fr}
+  .fact{border-left:none;border-top:1px solid var(--line-2)}
+  .fact:first-child{border-top:none}
   .how{grid-template-columns:1fr}
   .lab .controls{grid-template-columns:1fr}
   .duo{grid-template-columns:1fr}
@@ -529,7 +557,15 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <section class="step" id="rule"><div class="col">
   <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M4 34h46" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M11 30v8M19 30v8M35 30v8M43 30v8" stroke="#17153a" stroke-width="1.8" stroke-linecap="round"/><rect x="23" y="24" width="8" height="20" rx="2" fill="#fdf1cc" stroke="#17153a" stroke-width="2"/><path d="M11 22c5-12 12-12 16-2" fill="none" stroke="#c98a00" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1 5"/><path d="M23.5 16.5l3.8 4 .7-5.6z" fill="#c98a00"/><circle cx="11" cy="34" r="4" fill="#fff" stroke="#17153a" stroke-width="2.4"/><circle cx="27" cy="34" r="4" fill="#f2b705" stroke="#17153a" stroke-width="2"/></svg>four</div>
   <h2>Evidence computed by rule, not written by a model</h2>
-  <p class="say">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
+  <p class="say">To compare criteria across models, every question needs an evidence score on one scale with a fixed zero. FlipAct computes it from <b>qualitative physics</b>: directions and coarse sizes, no numbers.</p>
+  <div class="trio">
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M8 26h104" stroke="#17153a" stroke-width="2" stroke-linecap="round"/><path d="M8 21v10M25.300 21v10M42.700 21v10M77.300 21v10M94.700 21v10M112 21v10" stroke="#17153a" stroke-width="1.600" stroke-linecap="round"/><rect x="54" y="14" width="12" height="24" rx="3" fill="#fdf1cc" stroke="#17153a" stroke-width="1.800"/><circle cx="25.300" cy="26" r="5" fill="#fff" stroke="#17153a" stroke-width="2.200"/></svg>
+      <h3>A state</h3><p>Slightly, very or dangerously off, in one of two directions. Normal is zero.</p></div>
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M8 30h104" stroke="#a9a8c4" stroke-width="2" stroke-linecap="round"/><path d="M26 30c8-26 26-26 34-4" fill="none" stroke="#c98a00" stroke-width="2.600" stroke-linecap="round" stroke-dasharray="1 5.500"/><path d="M55 22l5.500 5.500 1-8z" fill="#c98a00"/><circle cx="26" cy="30" r="5" fill="#fff" stroke="#17153a" stroke-width="2.200"/><circle cx="60" cy="30" r="5" fill="#f2b705" stroke="#17153a" stroke-width="1.800"/></svg>
+      <h3>A tool</h3><p>Pushes the state one way, by one, two or three steps.</p></div>
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M60 6v32" stroke="#17153a" stroke-width="2.400" stroke-linecap="round"/><rect x="8" y="12" width="48" height="20" rx="3" fill="#e8e7fc"/><rect x="64" y="12" width="48" height="20" rx="3" fill="#fdf1cc"/><text x="32" y="26.500" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="12" font-weight="600" fill="#3a33b8">No</text><text x="88" y="26.500" text-anchor="middle" font-family="IBM Plex Sans,sans-serif" font-size="12" font-weight="600" fill="#7a5400">Yes</text></svg>
+      <h3>A score, <span class="mono">ΔU</span></h3><p>How much closer to normal the tool leaves the state. Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p></div>
+  </div>
 
   <div class="lab">
     <div class="bar"><span class="lt">build a question</span><span>pick a state and a tool, and the rule does the rest</span></div>
@@ -594,10 +630,10 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="desc" id="fitdesc"></div>
   </div>
 
-  <div class="finds">
-    <div class="find"><h3>Sensitivity behaves like a capability</h3><p>It rises with size inside a family: Qwen3 goes from 0.34 at 4B to 0.58 at 32B. Across models it predicts external d′ on BFCL, QuestBench and When2Call (r = 0.70, 0.69, 0.67).</p></div>
-    <div class="find"><h3>The criterion is conservative by default</h3><p>Eighteen of the 21 models with a well-determined criterion sit above zero. They answer Yes less often than the rule warrants, and stay there when the question is rephrased.</p></div>
-    <div class="find"><h3>It is a per-model setting, not a size effect</h3><p>Two releases of Mistral-Small-24B are the same size and land on opposite sides of zero, at +2.18 and −1.10.</p></div>
+  <div class="facts">
+    <div class="fact"><b class="h">0.34 <i>to</i> 0.58</b><h3>Sensitivity behaves like a capability</h3><p>Qwen3 from 4B to 32B. Across models it predicts d′ on BFCL, QuestBench and When2Call, with r near 0.7.</p></div>
+    <div class="fact"><b class="a">18 <i>of</i> 21</b><h3>The criterion is conservative by default</h3><p>Models with a well-determined criterion that say Yes less often than the rule warrants, even when rephrased.</p></div>
+    <div class="fact"><b class="k">+2.18 <i>vs</i> −1.10</b><h3>It is a per-model setting, not a size effect</h3><p>Two releases of Mistral-Small-24B, the same size, on opposite sides of zero.</p></div>
   </div>
   <p class="pull">Models read the sign of the evidence, not its size. Actions that leave the state no better are accepted about as often as helpful ones.</p>
 </div></section>
@@ -605,7 +641,15 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <section class="step" id="move"><div class="col">
   <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M4 44c9 0 10-28 19-28s10 28 19 28" fill="none" stroke="#f2b705" stroke-width="2.6" stroke-linecap="round"/><path d="M38 8v40" stroke="#a9a8c4" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="3 5"/><path d="M20 8v40" stroke="#17153a" stroke-width="3" stroke-linecap="round"/><path d="M35 14H25" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M29 9.5l-5 4.5 5 4.5" fill="none" stroke="#17153a" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>six</div>
   <h2>Moving the criterion, and only the criterion</h2>
-  <p class="say">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
+  <p class="say">If the criterion is a separate setting, it should move while sensitivity stays put. Three interventions, two of which do exactly that.</p>
+  <div class="trio">
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M60 4v38" stroke="#17153a" stroke-width="1.400"/><path d="M10 38h100" stroke="#dcdcec" stroke-width="1"/><path d="M10.0 37.7 L12.5 37.6 L15.0 37.6 L17.5 37.5 L20.0 37.4 L22.5 37.3 L25.0 37.2 L27.5 37.1 L30.0 37.0 L32.5 36.8 L35.0 36.6 L37.5 36.4 L40.0 36.1 L42.5 35.8 L45.0 35.5 L47.5 35.1 L50.0 34.6 L52.5 34.1 L55.0 33.6 L57.5 33.0 L60.0 32.3 L62.5 31.5 L65.0 30.6 L67.5 29.7 L70.0 28.8 L72.5 27.7 L75.0 26.6 L77.5 25.5 L80.0 24.3 L82.5 23.2 L85.0 22.0 L87.5 20.8 L90.0 19.7 L92.5 18.6 L95.0 17.5 L97.5 16.5 L100.0 15.6 L102.5 14.7 L105.0 14.0 L107.5 13.2 L110.0 12.6" fill="none" stroke="#a9a8c4" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 4"/><path d="M10.0 35.9 L12.5 35.6 L15.0 35.3 L17.5 34.8 L20.0 34.4 L22.5 33.8 L25.0 33.2 L27.5 32.6 L30.0 31.8 L32.5 31.0 L35.0 30.1 L37.5 29.2 L40.0 28.2 L42.5 27.1 L45.0 26.0 L47.5 24.8 L50.0 23.7 L52.5 22.5 L55.0 21.3 L57.5 20.2 L60.0 19.0 L62.5 18.0 L65.0 17.0 L67.5 16.0 L70.0 15.1 L72.5 14.3 L75.0 13.5 L77.5 12.9 L80.0 12.3 L82.5 11.7 L85.0 11.2 L87.5 10.8 L90.0 10.4 L92.5 10.1 L95.0 9.8 L97.5 9.6 L100.0 9.3 L102.5 9.2 L105.0 9.0 L107.5 8.9 L110.0 8.7" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M84 12H62" stroke="#17153a" stroke-width="1.800" stroke-linecap="round"/><path d="M67 8l-5 4 5 4" fill="none" stroke="#17153a" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Steering</h3><p>At inference. A direction read from the model's own activations is added during generation. Weights stay fixed.</p><span class="tag a">moves the criterion</span></div>
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M60 4v38" stroke="#17153a" stroke-width="1.400"/><path d="M10 38h100" stroke="#dcdcec" stroke-width="1"/><path d="M10.0 37.7 L12.5 37.6 L15.0 37.6 L17.5 37.5 L20.0 37.4 L22.5 37.3 L25.0 37.2 L27.5 37.1 L30.0 37.0 L32.5 36.8 L35.0 36.6 L37.5 36.4 L40.0 36.1 L42.5 35.8 L45.0 35.5 L47.5 35.1 L50.0 34.6 L52.5 34.1 L55.0 33.6 L57.5 33.0 L60.0 32.3 L62.5 31.5 L65.0 30.6 L67.5 29.7 L70.0 28.8 L72.5 27.7 L75.0 26.6 L77.5 25.5 L80.0 24.3 L82.5 23.2 L85.0 22.0 L87.5 20.8 L90.0 19.7 L92.5 18.6 L95.0 17.5 L97.5 16.5 L100.0 15.6 L102.5 14.7 L105.0 14.0 L107.5 13.2 L110.0 12.6" fill="none" stroke="#a9a8c4" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 4"/><path d="M10.0 35.0 L12.5 34.5 L15.0 33.9 L17.5 33.3 L20.0 32.6 L22.5 31.8 L25.0 31.0 L27.5 30.1 L30.0 29.0 L32.5 28.0 L35.0 26.8 L37.5 25.6 L40.0 24.4 L42.5 23.2 L45.0 21.9 L47.5 20.7 L50.0 19.5 L52.5 18.3 L55.0 17.3 L57.5 16.2 L60.0 15.3 L62.5 14.4 L65.0 13.6 L67.5 12.9 L70.0 12.2 L72.5 11.7 L75.0 11.2 L77.5 10.7 L80.0 10.3 L82.5 10.0 L85.0 9.7 L87.5 9.5 L90.0 9.3 L92.5 9.1 L95.0 8.9 L97.5 8.8 L100.0 8.7 L102.5 8.6 L105.0 8.5 L107.5 8.4 L110.0 8.3" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/><path d="M84 12H56" stroke="#17153a" stroke-width="1.800" stroke-linecap="round"/><path d="M61 8l-5 4 5 4" fill="none" stroke="#17153a" stroke-width="1.800" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h3>Criterion distillation</h3><p>Into the weights. The model is distilled from its own steered copy.</p><span class="tag a">moves the criterion</span></div>
+    <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M60 4v38" stroke="#17153a" stroke-width="1.400"/><path d="M10 38h100" stroke="#dcdcec" stroke-width="1"/><path d="M10.0 37.7 L12.5 37.6 L15.0 37.6 L17.5 37.5 L20.0 37.4 L22.5 37.3 L25.0 37.2 L27.5 37.1 L30.0 37.0 L32.5 36.8 L35.0 36.6 L37.5 36.4 L40.0 36.1 L42.5 35.8 L45.0 35.5 L47.5 35.1 L50.0 34.6 L52.5 34.1 L55.0 33.6 L57.5 33.0 L60.0 32.3 L62.5 31.5 L65.0 30.6 L67.5 29.7 L70.0 28.8 L72.5 27.7 L75.0 26.6 L77.5 25.5 L80.0 24.3 L82.5 23.2 L85.0 22.0 L87.5 20.8 L90.0 19.7 L92.5 18.6 L95.0 17.5 L97.5 16.5 L100.0 15.6 L102.5 14.7 L105.0 14.0 L107.5 13.2 L110.0 12.6" fill="none" stroke="#a9a8c4" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 4"/><path d="M10.0 38.0 L12.5 38.0 L15.0 38.0 L17.5 38.0 L20.0 38.0 L22.5 38.0 L25.0 38.0 L27.5 38.0 L30.0 38.0 L32.5 38.0 L35.0 38.0 L37.5 38.0 L40.0 38.0 L42.5 37.9 L45.0 37.9 L47.5 37.9 L50.0 37.8 L52.5 37.7 L55.0 37.5 L57.5 37.2 L60.0 36.7 L62.5 36.0 L65.0 35.0 L67.5 33.6 L70.0 31.6 L72.5 29.0 L75.0 25.9 L77.5 22.5 L80.0 19.2 L82.5 16.2 L85.0 13.8 L87.5 12.0 L90.0 10.6 L92.5 9.7 L95.0 9.1 L97.5 8.7 L100.0 8.5 L102.5 8.3 L105.0 8.2 L107.5 8.1 L110.0 8.1" fill="none" stroke="#4f46e5" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <h3>Sensitivity learning</h3><p>Training on the computed labels does the opposite job. The curve gets steeper.</p><span class="tag h">raises sensitivity</span></div>
+  </div>
 
   <div class="lab">
     <div class="bar second"><span class="lt">the student</span><span class="picks" id="mvModels"></span></div>
@@ -623,7 +667,10 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <p class="note">Seed means over three training seeds, measured on the half of FlipAct the student never trained on.</p>
 
   <h3 class="minor">Steering, with the weights fixed</h3>
-  <p class="say">On When2Call, the direction moves the criterion toward acting on all five models, and accuracy changes by at most four points.</p>
+  <p class="say">On When2Call, all five models move toward acting. Accuracy changes by at most four points.</p>
+  <div class="dumbwrap"><svg class="dumb" viewBox="0 0 760 324" role="img" aria-label="Criterion c on When2Call before and after steering, for five models. All five move toward acting."><path d="M185.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="185.0" y="294" text-anchor="middle" class="ax">−0.40</text><path d="M255.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="255.0" y="294" text-anchor="middle" class="ax">−0.20</text><path d="M325.0 42V274" stroke="#17153a" stroke-width="1.6"/><text x="325.0" y="294" text-anchor="middle" class="ax">0</text><path d="M395.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="395.0" y="294" text-anchor="middle" class="ax">+0.20</text><path d="M465.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="465.0" y="294" text-anchor="middle" class="ax">+0.40</text><path d="M535.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="535.0" y="294" text-anchor="middle" class="ax">+0.60</text><path d="M605.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="605.0" y="294" text-anchor="middle" class="ax">+0.80</text><text x="315.0" y="22" text-anchor="end" class="pole a">← acts more freely</text><text x="335.0" y="22" text-anchor="start" class="pole h">holds back →</text><text x="752" y="22" text-anchor="end" class="ax">Δ accuracy</text><text x="0" y="69" class="mdl">Qwen3-8B</text><path d="M262.0 64H222.0" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M227.0 59l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="262.0" cy="64" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="213.0" cy="64" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="199.0" y="69" text-anchor="end" class="val">−0.32</text><text x="752" y="69" text-anchor="end" class="da">−0.022</text><text x="0" y="113" class="mdl">Qwen3.5-27B</text><path d="M360.0 108H337.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M342.5 103l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="360.0" cy="108" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="328.5" cy="108" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="314.5" y="113" text-anchor="end" class="val">+0.01</text><text x="752" y="113" text-anchor="end" class="da">+0.005</text><text x="0" y="157" class="mdl">gemma-2-9b</text><path d="M598.0 152H540.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M545.5 147l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="598.0" cy="152" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="531.5" cy="152" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="517.5" y="157" text-anchor="end" class="val">+0.59</text><text x="752" y="157" text-anchor="end" class="da">+0.002</text><text x="0" y="201" class="mdl">Mistral-24B</text><path d="M461.5 196H288.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M293.5 191l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="461.5" cy="196" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="279.5" cy="196" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="265.5" y="201" text-anchor="end" class="val">−0.13</text><text x="752" y="201" text-anchor="end" class="da">−0.032</text><text x="0" y="245" class="mdl">phi-4</text><path d="M220.0 240H218.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><circle cx="220.0" cy="240" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="209.5" cy="240" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="195.5" y="245" text-anchor="end" class="val">−0.33</text><text x="752" y="245" text-anchor="end" class="da">−0.038</text><text x="395" y="318" text-anchor="middle" class="ax">criterion c on When2Call</text></svg>
+    <div class="dkey"><span><i class="o"></i>unsteered</span><span><i class="f"></i>steered</span></div></div>
+  <details class="more"><summary>Show the numbers, with call rates</summary>
   <div class="tblwrap"><table class="tbl">
     <thead><tr class="grp"><th></th><th colspan="2">call rate</th><th colspan="2">criterion c</th><th></th></tr><tr><th>Model</th><th>unsteered</th><th>steered</th><th>unsteered</th><th>steered</th><th>Δ accuracy</th></tr></thead>
     <tbody>
@@ -634,11 +681,12 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
       <tr><td>phi-4</td><td>0.57</td><td class="mv">0.59</td><td>−0.30</td><td class="mv">−0.33</td><td>−0.038</td></tr>
     </tbody>
   </table></div>
+  </details>
 
-  <div class="finds">
-    <div class="find"><h3>It carries to other benchmarks</h3><p>On six external benchmarks, the criterion moves toward acting on all 23 scored model-benchmark pairs, in every seed, and further than a random direction of the same norm.</p></div>
-    <div class="find"><h3>Sensitivity is kept</h3><p>The criterion-free AUC stays within ±0.02 of its starting value for every student on every benchmark where it can be measured.</p></div>
-    <div class="find"><h3>Accuracy follows the starting point</h3><p>Where a model starts conservative, balanced accuracy rises, by up to about five points. Where it starts permissive, a shift toward acting only adds false alarms.</p></div>
+  <div class="facts">
+    <div class="fact"><b class="a">23 <i>of</i> 23</b><h3>It carries to other benchmarks</h3><p>Model-benchmark pairs, across six external benchmarks, where the criterion moves toward acting. Every seed, and further than a random direction.</p></div>
+    <div class="fact"><b class="h">±0.02</b><h3>Sensitivity is kept</h3><p>The most the criterion-free AUC moves, for every student on every benchmark where it can be measured.</p></div>
+    <div class="fact"><b class="k">up to +5 <i>pts</i></b><h3>Accuracy follows the starting point</h3><p>Balanced accuracy for models that start conservative. For permissive ones, acting more only adds false alarms.</p></div>
   </div>
   <p class="pull">A when-to-act benchmark says more when it reports d′ and c beside accuracy.</p>
 </div></section>
