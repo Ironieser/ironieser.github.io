@@ -61,7 +61,7 @@
   "news": [
     {
       "date": "Oct 2026",
-      "icon": "images/longvideo-eval/icon-512.png",
+      "icon": "images/longvideo-eval/logo-mark.png",
       "link1": "https://sixundong.com/projects/longvideo-eval",
       "link2": "https://github.com/LongVideo-Intelligence/LongVideo-Eval",
       "content": "Launched <strong>LongVideo-Eval</strong> {{link1}}, open-source evaluation infrastructure for long-video intelligence, with its first code release {{link2}}. It measures decoding, vision encoding, prefill and generation in one cost ledger, so every method is compared under the same budget.",

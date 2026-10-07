@@ -590,7 +590,7 @@ function generateIndexPage(config) {
     return `
             <div class="news-item" data-category="${item.category}">
                 <span class="news-date">${item.date}</span>
-                <span class="news-icon">${/\.(png|svg|jpg|webp)$/.test(item.icon || '') ? `<img src="${item.icon}" alt="" style="width:1.25em;height:1.25em;vertical-align:-0.2em;object-fit:contain">` : (item.icon || '')}</span>
+                <span class="news-icon">${/\.(png|svg|jpg|webp)$/.test(item.icon || '') ? `<img src="${item.icon}" alt="" style="height:1.05em;width:auto;vertical-align:-0.15em">` : (item.icon || '')}</span>
                 <span class="news-content">${content}</span>
             </div>`;
   }).join('');
