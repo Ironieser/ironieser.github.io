@@ -572,8 +572,9 @@ function generateIndexPage(config) {
   const makeLinkHtml = (link) => {
     if (!link) return '';
     const isArxiv = link.indexOf('arxiv.org') !== -1;
-    const iconClass = isArxiv ? 'ai ai-arxiv' : 'fas fa-external-link-alt';
-    const title = isArxiv ? 'arXiv' : 'Link';
+    const isGithub = link.indexOf('github.com') !== -1;
+    const iconClass = isArxiv ? 'ai ai-arxiv' : (isGithub ? 'fab fa-github' : 'fas fa-external-link-alt');
+    const title = isArxiv ? 'arXiv' : (isGithub ? 'Code on GitHub' : 'Link');
     return `<a href="${link}" target="_blank" rel="noopener" class="news-paper-link" title="${title}"><i class="${iconClass}"></i></a>`;
   };
   const expandNewsLink = (content, item) => {
@@ -589,7 +590,7 @@ function generateIndexPage(config) {
     return `
             <div class="news-item" data-category="${item.category}">
                 <span class="news-date">${item.date}</span>
-                <span class="news-icon">${item.icon || ''}</span>
+                <span class="news-icon">${/\.(png|svg|jpg|webp)$/.test(item.icon || '') ? `<img src="${item.icon}" alt="" style="width:1.25em;height:1.25em;vertical-align:-0.2em;object-fit:contain">` : (item.icon || '')}</span>
                 <span class="news-content">${content}</span>
             </div>`;
   }).join('');
