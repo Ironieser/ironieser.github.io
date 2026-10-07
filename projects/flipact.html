@@ -59,7 +59,7 @@ main{margin-left:var(--rail)}
 .col{max-width:920px;margin:0 auto;padding:0 40px}
 
 /* ---------- opening ---------- */
-.open{padding:64px 0 40px}
+.open{padding:64px 0 52px}
 .kicker{font-family:var(--mono);font-size:13px;color:var(--soft)}
 .open h1{font-family:var(--display);font-weight:600;font-size:clamp(44px,6.4vw,82px);line-height:.98;letter-spacing:-.02em;margin-top:14px}
 .open h1 .or{font-style:italic;font-weight:500;color:var(--soft)}
@@ -71,13 +71,6 @@ main{margin-left:var(--rail)}
 .byline .aff{display:block;font-size:13.5px;color:var(--soft)}
 .lede{font-size:18px;color:var(--soft);max-width:38em;margin-top:26px}
 .lede b{color:var(--ink)}
-
-/* the ledger line */
-.ledger{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);border-bottom:1px solid var(--line-2);margin-top:44px}
-.ledger div{padding:14px 16px 14px 0}
-.ledger div + div{padding-left:16px;border-left:1px solid var(--line-2)}
-.ledger b{display:block;font-family:var(--display);font-weight:600;font-size:34px;line-height:1.05}
-.ledger span{font-size:13.5px;color:var(--soft);line-height:1.4;display:block;margin-top:4px}
 
 /* ---------- parts ---------- */
 .part{background:var(--ink);color:#fff;padding:34px 0}
@@ -326,9 +319,6 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 @media (max-width:700px){
   .open{padding:40px 0 28px}
   .part .col{grid-template-columns:1fr}
-  .ledger{grid-template-columns:1fr 1fr}
-  .ledger div:nth-child(3){border-left:none;padding-left:0}
-  .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
   .step{padding:48px 0}
   .exp{grid-template-columns:1fr}
   .cmp .row{grid-template-columns:1fr}
@@ -397,12 +387,6 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <span class="aff"><sup>1</sup>University of Central Florida &nbsp; <sup>2</sup>Duke University &nbsp; <sup>3</sup>Emory University &nbsp; ✉ corresponding author</span>
   </p>
   <p class="lede">Before an agent acts, it has to decide whether to act at all. Benchmarks score that decision with one accuracy, which cannot tell a model that <b>fails to see</b> when an action is warranted from one that sees it and <b>holds back</b>. FlipAct measures the two separately, on an evidence scale that is computed by a rule and is the same for every model.</p>
-  <div class="ledger">
-    <div><b>1,880</b><span>questions, each with an answer and a graded evidence score</span></div>
-    <div><b>0</b><span>answers written by a language model</span></div>
-    <div><b>44</b><span>open models, 0.6B to 70B, fifteen families</span></div>
-    <div><b>6</b><span>external benchmarks the moved criterion carries to</span></div>
-  </div>
 </div></header>
 
 <div class="part" id="part1"><div class="col">
