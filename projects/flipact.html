@@ -8,308 +8,311 @@
 <meta property="og:title" content="FlipAct: Sensitivity or Criterion?">
 <meta property="og:description" content="Two models, the same accuracy, opposite mistakes. A diagnostic that tells a model that cannot see when to act from one that sees it and holds back.">
 <link rel="canonical" href="https://sixundong.com/projects/flipact">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2312202b'/%3E%3Cpath d='M10 44 C22 44 24 20 32 20 C40 20 42 44 54 44' fill='none' stroke='%2334c3b8' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M38 10 V54' stroke='%23ff6b4a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23f2b705'/%3E%3Crect x='0' y='0' width='30' height='64' rx='0' fill='%234f46e5'/%3E%3Crect width='64' height='64' rx='14' fill='none'/%3E%3Cpath d='M30 6 V58' stroke='%2317153a' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='30' cy='20' r='9' fill='%23fff' stroke='%2317153a' stroke-width='5'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* teal = warranted / Yes (the paper's own figure colour), slate = unwarranted / No,
-     vermilion = the criterion, the one thing every lab lets you move */
-  --paper:#ffffff; --desk:#eef2f4; --desk-2:#e0e7ea;
-  --ink:#12202b; --soft:#586874;
-  --yes:#0f8a83; --yes-wash:#dff3f1; --yes-on-dark:#34c3b8;
-  --no:#7b8a95; --no-wash:#eaeef0;
-  --crit:#e2502f; --crit-wash:#fde7e0;
-  --line:#d5dde1; --line-2:#c2ccd2;
-  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
-  --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --r:12px;
+  /* two poles and a line: indigo = hold back / No, marigold = act / Yes, ink = the criterion */
+  --bg:#f7f7fb; --card:#ffffff;
+  --ink:#17153a; --soft:#5d5b7a;
+  --hold:#4f46e5; --hold-wash:#e8e7fc; --hold-text:#3a33b8;
+  --act:#f2b705; --act-wash:#fdf1cc; --act-text:#7a5400;
+  --alert:#c2255c; --alert-wash:#fbe4ec;
+  --line:#dcdcec; --line-2:#c9c8e0;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --rail:248px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{font-family:var(--sans);color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:var(--yes)}
-b,strong{font-weight:650}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--hold-text)}
+b,strong{font-weight:600}
 .mono{font-family:var(--mono)}
-:focus-visible{outline:2px solid var(--yes);outline-offset:2px}
+:focus-visible{outline:2px solid var(--hold);outline-offset:2px}
 
-/* nav */
-.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nav .wrap{display:flex;align-items:center;gap:20px;height:54px}
-.brand{font-weight:800;font-size:18px;text-decoration:none;color:var(--ink);letter-spacing:-.02em}
-.brand span{color:var(--crit)}
-.nav .links{display:flex;gap:18px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
-.nav .links::-webkit-scrollbar{display:none}
-.nav .links a{color:var(--soft);text-decoration:none;font-size:14px;white-space:nowrap;font-weight:500}
-.nav .links a:hover{color:var(--ink)}
+/* ---------- the rail ---------- */
+.rail{position:fixed;inset:0 auto 0 0;width:var(--rail);background:var(--ink);color:#fff;padding:28px 22px;display:flex;flex-direction:column;gap:26px;overflow-y:auto}
+.lockup{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff}
+.switch{width:44px;height:24px;border-radius:999px;background:linear-gradient(90deg,var(--hold) 0 50%,var(--act) 50% 100%);position:relative;flex:none}
+.switch::after{content:"";position:absolute;top:-4px;bottom:-4px;left:50%;width:4px;margin-left:-2px;border-radius:2px;background:#fff}
+.lockup b{font-family:var(--display);font-weight:600;font-size:25px;letter-spacing:-.01em}
+.toc{display:flex;flex-direction:column;gap:2px;counter-reset:step}
+.toc a{display:grid;grid-template-columns:26px 1fr;gap:6px;align-items:baseline;padding:8px 10px;border-radius:8px;color:#c9c8e6;text-decoration:none;font-size:14.5px;line-height:1.35;border-left:3px solid transparent}
+.toc a::before{counter-increment:step;content:counter(step);font-family:var(--mono);font-size:12.5px;color:#8f8db5}
+.toc a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.toc a.on{color:#fff;background:rgba(255,255,255,.1);border-left-color:var(--act)}
+.toc a.on::before{color:var(--act)}
+.railbtns{display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.rbtn{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:8px;font-size:14px;font-weight:500;text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.22)}
+.rbtn:hover{background:rgba(255,255,255,.08)}
+.rbtn.off{opacity:.55;pointer-events:none}
+.rbtn.main{background:var(--act);color:var(--ink);border-color:var(--act);font-weight:600}
+.railnote{font-size:12.5px;color:#a3a1c7;line-height:1.5}
 
-/* hero */
-.hero{background:var(--ink);color:#fff}
-.hero .wrap{padding:76px 20px 60px;text-align:center}
-.venue{display:inline-block;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.35);padding:5px 14px;border-radius:999px;margin-bottom:22px}
-.hero h1{font-size:clamp(54px,9.5vw,92px);font-weight:800;letter-spacing:-.045em;line-height:1}
-.hero h1 .f{color:var(--yes-on-dark)} .hero h1 .a{color:#ff7a5c}
-.hero .title{font-size:clamp(19px,2.5vw,26px);font-weight:500;max-width:820px;margin:18px auto 0;line-height:1.35;color:#eef3f5}
-.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
-.chips a{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.06);color:#eef3f5;text-decoration:none;font-size:15px}
-.chips a:hover{background:rgba(255,255,255,.14)}
-.chips a b{display:inline-grid;place-items:center;min-width:28px;height:26px;border-radius:999px;background:#fff;color:var(--ink);font-size:13px;font-weight:700;padding:0 8px}
-.authors{margin:26px auto 0;max-width:820px;font-size:16px;color:#dfe7ea}
-.authors span{white-space:nowrap}
-.authors sup{font-size:.7em;color:#b6c4cb}
-.affil{font-size:14px;color:#b6c4cb;margin-top:6px}
-.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.32)}
-.btn:hover{background:rgba(255,255,255,.2)}
-.btn.primary{background:#fff;color:var(--ink);border-color:#fff}
-.btn.off{opacity:.6;pointer-events:none}
-.code-note{font-size:14px;color:#b6c4cb;margin:14px auto 0;max-width:640px}
+main{margin-left:var(--rail)}
+.col{max-width:920px;margin:0 auto;padding:0 40px}
 
-/* summary band */
-.tldr{background:var(--desk);border-bottom:1px solid var(--line)}
-.tldr .wrap{padding:44px 20px}
-.tldr h2{font-size:clamp(24px,3.4vw,34px);letter-spacing:-.02em;text-align:center;line-height:1.25}
-.tldr p.lead{max-width:780px;margin:12px auto 0;text-align:center;color:var(--soft);font-size:17px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:24px}
-.stat{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:18px 18px 16px}
-.stat .v{font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
-.stat .d{font-size:14px;color:var(--soft);margin-top:6px;line-height:1.45}
+/* ---------- opening ---------- */
+.open{padding:64px 0 40px}
+.kicker{font-family:var(--mono);font-size:13px;color:var(--soft)}
+.open h1{font-family:var(--display);font-weight:600;font-size:clamp(44px,6.4vw,82px);line-height:.98;letter-spacing:-.02em;margin-top:14px}
+.open h1 .or{font-style:italic;font-weight:500;color:var(--soft)}
+.open h1 .q{display:inline-block;margin-left:.12em;box-shadow:inset 0 -0.34em 0 var(--act)}
+.open .sub{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.4vw,27px);line-height:1.3;margin-top:18px;max-width:22em;color:var(--ink)}
+.byline{margin-top:26px;font-size:15.5px;line-height:1.75}
+.byline a{color:inherit;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
+.byline sup{font-size:.68em;color:var(--soft)}
+.byline .aff{display:block;font-size:13.5px;color:var(--soft)}
+.lede{font-size:18px;color:var(--soft);max-width:38em;margin-top:26px}
+.lede b{color:var(--ink)}
 
-/* sections */
-section.sec{padding:72px 0;border-bottom:1px solid var(--line)}
-section.sec.alt{background:#f5f8f9}
-.sec h2{font-size:clamp(26px,3.6vw,36px);letter-spacing:-.025em;line-height:1.2}
-.sec .intro{color:var(--soft);font-size:17px;max-width:46em;margin-top:12px}
-.sec .intro b{color:var(--ink)}
-.takeaway{border-left:3px solid var(--ink);background:var(--desk);padding:14px 18px;border-radius:0 8px 8px 0;margin-top:20px;font-size:15.5px;max-width:880px}
-.note{font-size:13.5px;color:var(--soft);margin-top:10px;max-width:880px}
-.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
-.fact h3{font-size:17px;letter-spacing:-.01em;padding-top:12px;border-top:3px solid var(--ink)}
-.fact p{color:var(--soft);font-size:15px;margin-top:6px}
+/* the ledger line */
+.ledger{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink);border-bottom:1px solid var(--line-2);margin-top:44px}
+.ledger div{padding:14px 16px 14px 0}
+.ledger div + div{padding-left:16px;border-left:1px solid var(--line-2)}
+.ledger b{display:block;font-family:var(--display);font-weight:600;font-size:34px;line-height:1.05}
+.ledger span{font-size:13.5px;color:var(--soft);line-height:1.4;display:block;margin-top:4px}
 
-/* the lab bench: every interactive lives on one */
-.lab{margin-top:24px;background:var(--desk);border:1px solid var(--line-2);border-radius:14px;overflow:hidden}
-.lab .lhead{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:12px 18px;border-bottom:1px solid var(--line-2);font-size:14px;color:var(--soft)}
-.lab .lhead .lt{font-weight:650;color:var(--ink);margin-right:6px}
-.lab .lbody{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:0}
-.lab .stage{padding:18px;background:var(--paper);border-right:1px solid var(--line-2);min-width:0}
-.lab .side{padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
-.lab .desc{padding:14px 18px;border-top:1px solid var(--line-2);font-size:15px;background:var(--paper);min-height:4.2em}
-.pick{font:600 13.5px var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line-2);border-radius:999px;padding:7px 13px;cursor:pointer}
+/* ---------- steps ---------- */
+.step{padding:64px 0;border-top:1px solid var(--line-2)}
+.step .num{font-family:var(--display);font-style:italic;font-weight:500;font-size:20px;color:var(--soft)}
+.step h2{font-family:var(--display);font-weight:600;font-size:clamp(30px,3.8vw,44px);line-height:1.08;letter-spacing:-.015em;margin-top:6px;max-width:16em}
+.step p.say{font-size:17px;color:var(--soft);max-width:39em;margin-top:16px}
+.step p.say b{color:var(--ink)}
+.step h3.minor{font-family:var(--display);font-weight:600;font-size:24px;margin-top:44px}
+.pull{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.3vw,25px);line-height:1.35;margin-top:30px;padding-left:20px;border-left:5px solid var(--act);max-width:30em}
+.note{font-size:13.5px;color:var(--soft);margin-top:12px;max-width:46em}
+.finds{margin-top:30px;display:grid;gap:0;border-top:1px solid var(--line-2)}
+.find{display:grid;grid-template-columns:220px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line-2)}
+.find h3{font-size:16px;font-weight:600;line-height:1.35}
+.find p{color:var(--soft);font-size:15.5px}
+
+/* ---------- instruments ---------- */
+.lab{margin-top:28px;background:var(--card);border:1.5px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--hold-wash)}
+.lab .bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;padding:12px 16px;border-bottom:1.5px solid var(--ink);font-size:14px;color:var(--soft)}
+.lab .bar .lt{font-family:var(--mono);font-size:12.5px;color:var(--ink);margin-right:6px}
+.lab .bar.second{border-bottom:1px solid var(--line-2)}
+.lab .stage{padding:18px 18px 8px}
+.lab .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px 26px;padding:16px 18px;border-top:1px solid var(--line-2);align-items:start}
+.lab .desc{padding:14px 18px;border-top:1px solid var(--line-2);font-size:15.5px;background:var(--bg);border-radius:0 0 5px 5px;min-height:4.3em}
+.pick{font:500 13.5px var(--sans);color:var(--ink);background:var(--card);border:1px solid var(--line-2);border-radius:4px;padding:7px 12px;cursor:pointer;text-align:left}
 .pick:hover{border-color:var(--ink)}
 .pick[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
-.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:600}
-.ctl label span{font-family:var(--mono);font-weight:500;color:var(--soft)}
-.ctl input[type=range]{width:100%;margin-top:6px;accent-color:var(--crit)}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.picks.stack{flex-direction:column}
+.ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;font-weight:600}
+.ctl label span{font-family:var(--mono);font-weight:500;color:var(--hold-text)}
+.ctl input[type=range]{width:100%;margin-top:8px;accent-color:var(--ink)}
 .ctl small{display:block;font-size:12.5px;color:var(--soft);margin-top:2px;line-height:1.4}
-.readout{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.ro{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.ctl .cap{font-size:14.5px;font-weight:600;margin-bottom:8px}
+.reads{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--line-2);border-radius:4px}
+.controls > .reads{grid-column:1/-1}
+.ro{flex:1 1 110px;padding:10px 12px}
+.ro + .ro{border-left:1px solid var(--line-2)}
 .ro .k{font-size:12.5px;color:var(--soft);line-height:1.3}
-.ro .v{font-family:var(--mono);font-size:19px;font-weight:600;margin-top:2px}
-.ro.wide{grid-column:1/-1}
-.ro .v.yes{color:var(--yes)} .ro .v.crit{color:var(--crit)}
+.ro .v{font-family:var(--mono);font-size:20px;font-weight:600;margin-top:2px}
+.ro .v.yes{color:var(--act-text)} .ro .v.crit{color:var(--hold-text)}
 svg{display:block;width:100%;height:auto}
 svg text{font-family:var(--sans)}
 
-/* scenarios lab */
-.cases{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--paper)}
+/* scenarios */
+.cases{display:grid;grid-template-columns:1fr 1fr}
 .case{padding:18px;border-right:1px solid var(--line-2);display:flex;flex-direction:column;gap:12px;min-width:0}
 .case:last-child{border-right:none}
-.case .tag{align-self:flex-start;font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px}
-.case .tag.act{background:var(--yes-wash);color:#0a6661}
-.case .tag.hold{background:var(--no-wash);color:#4b5a65}
-.bubble{border-radius:12px;padding:12px 14px;font-size:15px;line-height:1.5}
-.bubble.user{background:var(--desk);align-self:flex-start;max-width:92%}
-.bubble.agent{background:var(--ink);color:#eef3f5;align-self:flex-end;max-width:92%}
-.bubble.agent code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.12);border-radius:5px;padding:1px 6px}
-.bubble .who{display:block;font-size:12px;font-weight:600;opacity:.65;margin-bottom:2px}
+.case .tag{align-self:flex-start;font-family:var(--mono);font-size:12px;border-radius:3px;padding:3px 8px}
+.case .tag.act{background:var(--act-wash);color:var(--act-text)}
+.case .tag.hold{background:var(--hold-wash);color:var(--hold-text)}
+.bubble{padding:11px 14px;font-size:15px;line-height:1.5;border-radius:4px}
+.bubble.user{background:var(--bg);border:1px solid var(--line);align-self:flex-start;max-width:94%}
+.bubble.agent{background:var(--ink);color:#f1f0fb;align-self:flex-end;max-width:94%}
+.bubble.agent code{font-family:var(--mono);font-size:13px;background:rgba(255,255,255,.14);border-radius:3px;padding:1px 6px}
+.bubble .who{display:block;font-family:var(--mono);font-size:11.5px;opacity:.7;margin-bottom:3px}
 .outcome{margin-top:auto;display:flex;align-items:center;gap:10px;font-size:14.5px;border-top:1px dashed var(--line-2);padding-top:12px}
-.outcome .mark{font-family:var(--mono);font-weight:700;font-size:13px;border-radius:6px;padding:3px 9px;white-space:nowrap}
-.outcome .mark.ok{background:var(--yes-wash);color:#0a6661}
-.outcome .mark.bad{background:var(--crit-wash);color:#a5321a}
-.profiles{display:flex;flex-wrap:wrap;gap:8px;padding:12px 18px;border-bottom:1px solid var(--line-2);align-items:center;font-size:14px;color:var(--soft)}
+.outcome .mark{font-family:var(--mono);font-weight:600;font-size:12.5px;border-radius:3px;padding:3px 8px;white-space:nowrap}
+.outcome .mark.ok{background:var(--ink);color:#fff}
+.outcome .mark.bad{background:var(--alert-wash);color:var(--alert)}
 
-/* physics lab */
-.scene{font-size:16.5px;line-height:1.65;background:var(--desk);border-radius:10px;padding:16px 18px}
-.scene .slot{border-radius:5px;padding:1px 6px;font-weight:600;white-space:nowrap}
-.scene .obj{background:#e3e6fb;color:#2f3a9c}
-.scene .st{background:#fde3cf;color:#9a4a12}
-.scene .tool{background:var(--yes-wash);color:#0a6661}
-.verdict{display:flex;align-items:center;gap:14px;margin-top:14px;flex-wrap:wrap}
-.verdict .ans{font-size:26px;font-weight:800;letter-spacing:-.02em;padding:4px 16px;border-radius:10px}
-.verdict .ans.yes{background:var(--yes-wash);color:#0a6661}
-.verdict .ans.no{background:var(--no-wash);color:#4b5a65}
+/* physics */
+.scene{font-family:var(--display);font-weight:500;font-size:19px;line-height:1.6;padding:4px 2px 0}
+.scene .slot{font-family:var(--sans);font-size:15.5px;font-weight:600;border-radius:3px;padding:2px 7px;white-space:nowrap}
+.scene .obj{background:#eceaf6;color:var(--ink)}
+.scene .st{background:var(--hold-wash);color:var(--hold-text)}
+.scene .tool{background:var(--act-wash);color:var(--act-text)}
+.verdict{display:flex;align-items:center;gap:14px;margin:10px 0 8px;flex-wrap:wrap}
+.verdict .ans{font-family:var(--display);font-size:30px;font-weight:600;padding:2px 16px;border-radius:4px}
+.verdict .ans.yes{background:var(--act);color:var(--ink)}
+.verdict .ans.no{background:var(--hold);color:#fff}
 .verdict .why{font-size:15px;color:var(--soft)}
-.verdict .why b{color:var(--ink)}
-.quad{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
-.quad th{font-weight:600;color:var(--soft);padding:6px 8px;text-align:center;font-size:13px}
-.quad th:first-child{text-align:left}
-.quad td{padding:8px;text-align:center;border:1px solid var(--line);background:var(--paper);font-family:var(--mono);cursor:pointer}
-.quad td:first-child{font-family:var(--sans);text-align:left;font-weight:600;cursor:default;background:transparent;border:none}
-.quad td.y{color:#0a6661} .quad td.n{color:#4b5a65}
-.quad td.on{outline:2.5px solid var(--crit);outline-offset:-2px;font-weight:700}
-.pipe{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-top:26px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;background:var(--paper)}
-.pipe div{padding:14px 12px;border-right:1px solid var(--line);font-size:13.5px;color:var(--soft);line-height:1.4}
-.pipe div:last-child{border-right:none}
-.pipe div b{display:block;font-family:var(--mono);font-size:17px;color:var(--ink)}
-.pipe div.llm{background:#fff3e6}
-.pipe div.rule{background:var(--yes-wash)}
+.verdict .why b{color:var(--ink);font-family:var(--mono);font-weight:600}
+.quad{width:100%;border-collapse:collapse;font-size:14px}
+.quad th{font-weight:500;color:var(--soft);padding:4px 8px 8px;text-align:center;font-size:13px;line-height:1.3}
+.quad td{padding:9px 8px;text-align:center;border:1px solid var(--line-2);font-family:var(--mono);cursor:pointer}
+.quad td:first-child{font-family:var(--sans);text-align:left;font-weight:600;cursor:default;border:none;padding-left:0}
+.quad td.y{background:var(--act-wash);color:var(--act-text)} .quad td.n{background:var(--hold-wash);color:var(--hold-text)}
+.quad td.on{outline:3px solid var(--ink);outline-offset:-3px;font-weight:600}
+.flow{margin-top:30px;display:flex;flex-wrap:wrap;gap:0;font-size:14px;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden;background:var(--card)}
+.flow div{flex:1 1 118px;padding:13px 14px;border-right:1px solid var(--line-2);color:var(--soft);line-height:1.4}
+.flow div:last-child{border-right:none}
+.flow div b{display:block;font-family:var(--mono);font-size:18px;color:var(--ink);font-weight:600}
+.flow div.llm{background:var(--hold-wash)}
+.flow div.rule{background:var(--act-wash)}
 
-/* move lab table */
-.tbl{width:100%;border-collapse:collapse;font-size:14.5px;margin-top:22px;background:var(--paper);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.tbl th{font-size:13px;font-weight:600;color:var(--soft);text-align:right;padding:10px 14px;background:var(--desk);border-bottom:1px solid var(--line)}
-.tbl th:first-child,.tbl td:first-child{text-align:left}
-.tbl td{padding:10px 14px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono)}
+/* steering table */
+.tblwrap{overflow-x:auto;margin-top:20px}
+.tbl{width:100%;min-width:560px;border-collapse:collapse;font-size:14.5px}
+.tbl th{font-size:13px;font-weight:500;color:var(--soft);text-align:right;padding:8px 12px;border-bottom:2px solid var(--ink)}
+.tbl th:first-child,.tbl td:first-child{text-align:left;padding-left:0}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line-2);text-align:right;font-family:var(--mono)}
 .tbl td:first-child{font-family:var(--sans);font-weight:600}
-.tbl tr:last-child td{border-bottom:none}
-.tbl td.mv{color:var(--crit);font-weight:600}
-.tblwrap{overflow-x:auto}
-.tblwrap .tbl{min-width:560px}
+.tbl td.mv{color:var(--hold-text);font-weight:600}
 
-pre.bib{margin-top:22px;background:var(--ink);color:#e6edf0;border-radius:var(--r);padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:12.8px;line-height:1.6}
-footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
+pre.bib{margin-top:22px;background:var(--ink);color:#e9e8f7;border-radius:6px;padding:20px 22px;overflow-x:auto;font-family:var(--mono);font-size:12.8px;line-height:1.65}
+footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid var(--line-2)}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-@media (max-width:900px){
-  .stats{grid-template-columns:1fr 1fr}
-  .facts{grid-template-columns:1fr}
-  .lab .lbody{grid-template-columns:1fr}
-  .lab .stage{border-right:none;border-bottom:1px solid var(--line-2)}
+@media (max-width:1040px){
+  .rail{position:static;width:auto;padding:16px 20px;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px 18px}
+  .toc{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;order:3;width:100%}
+  .toc::-webkit-scrollbar{display:none}
+  .toc a{white-space:nowrap;border-left:none;display:inline-flex;gap:6px;padding:6px 10px}
+  .railbtns{flex-direction:row;margin:0 0 0 auto}
+  .railnote{display:none}
+  main{margin-left:0}
+  .col{padding:0 20px}
+  html{scroll-padding-top:12px}
+}
+@media (max-width:700px){
+  .open{padding:40px 0 28px}
+  .ledger{grid-template-columns:1fr 1fr}
+  .ledger div:nth-child(3){border-left:none;padding-left:0}
+  .ledger div:nth-child(n+3){border-top:1px solid var(--line-2)}
+  .step{padding:48px 0}
   .cases{grid-template-columns:1fr}
   .case{border-right:none;border-bottom:1px solid var(--line-2)}
   .case:last-child{border-bottom:none}
-  .pipe{grid-template-columns:1fr 1fr}
-  .pipe div{border-bottom:1px solid var(--line)}
-}
-@media (max-width:560px){
-  section.sec{padding:52px 0}
-  .stats{grid-template-columns:1fr}
-  .nav .links{gap:14px}
+  .find{grid-template-columns:1fr;gap:4px}
+  .lab{box-shadow:4px 4px 0 var(--hold-wash)}
 }
 </style>
 </head>
 <body>
 
-<nav class="nav"><div class="wrap">
-  <a class="brand" href="#top">Flip<span>Act</span></a>
-  <div class="links">
-    <a href="#sdt">Sensitivity vs criterion</a><a href="#agents">In an agent</a><a href="#rule">Evidence by rule</a><a href="#read">Reading a model</a><a href="#move">Moving the criterion</a><a href="#cite">Cite</a>
-  </div>
-</div></nav>
-
-<header class="hero" id="top"><div class="wrap">
-  <div class="venue">Preprint, 2026</div>
-  <h1><span class="f">Flip</span><span class="a">Act</span></h1>
-  <p class="title">Sensitivity or Criterion? Measuring and Moving When Language Models Act</p>
-  <nav class="chips" aria-label="Three findings">
-    <a href="#sdt"><b>1</b><span>One accuracy hides two different failures</span></a>
-    <a href="#read"><b>2</b><span>Most models hold back, and size does not fix it</span></a>
-    <a href="#move"><b>3</b><span>The criterion can be moved without touching sensitivity</span></a>
+<aside class="rail">
+  <a class="lockup" href="#top"><span class="switch" aria-hidden="true"></span><b>FlipAct</b></a>
+  <nav class="toc" aria-label="On this page">
+    <a href="#sdt" data-spy="sdt">Same accuracy, opposite mistakes</a>
+    <a href="#agents" data-spy="agents">What it looks like in an agent</a>
+    <a href="#rule" data-spy="rule">Evidence computed by rule</a>
+    <a href="#read" data-spy="read">Reading a model</a>
+    <a href="#move" data-spy="move">Moving the criterion</a>
+    <a href="#cite" data-spy="cite">Cite</a>
   </nav>
-  <p class="authors">
-    <span>Sixun Dong<sup>1</sup></span> &nbsp;·&nbsp; <span>Yebowen Hu<sup>1</sup></span> &nbsp;·&nbsp; <span>Ming Yin<sup>2</sup></span> &nbsp;·&nbsp; <span><a href="https://ece.duke.edu/people/yiran-chen/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Yiran Chen</a><sup>2</sup></span> &nbsp;·&nbsp; <span><a href="https://www.cs.emory.edu/~fliu40/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none">Fei Liu</a><sup>3</sup></span> &nbsp;·&nbsp; <span>Chen Chen<sup>1✉</sup></span>
-  </p>
-  <p class="affil"><sup>1</sup>University of Central Florida &nbsp; <sup>2</sup>Duke University &nbsp; <sup>3</sup>Emory University &nbsp;·&nbsp; ✉ corresponding author</p>
-  <div class="btns">
-    <!-- TODO(arxiv): replace with <a class="btn primary" href="https://arxiv.org/abs/XXXX.XXXXX" ...> once the paper is posted -->
-    <span class="btn primary off"><i class="fas fa-file-pdf"></i> Paper (arXiv, coming)</span>
-    <span class="btn off"><i class="fab fa-github"></i> Code and data (coming)</span>
+  <div class="railbtns">
+    <!-- TODO(arxiv): replace with <a class="rbtn main" href="https://arxiv.org/abs/XXXX.XXXXX" target="_blank" rel="noopener"> once the paper is posted -->
+    <span class="rbtn main off"><i class="fas fa-file-pdf"></i> Paper, arXiv soon</span>
+    <span class="rbtn off"><i class="fab fa-github"></i> Code and data soon</span>
+    <p class="railnote">The dataset, code and evaluation logs will be released with the paper.</p>
   </div>
-  <p class="code-note">The dataset, code and evaluation logs will be released with the paper.</p>
+</aside>
+
+<main id="top">
+
+<header class="open"><div class="col">
+  <div class="kicker">Preprint, 2026</div>
+  <h1>Sensitivity, <span class="or">or</span> <span class="q">criterion?</span></h1>
+  <p class="sub">Measuring and moving when language models act.</p>
+  <p class="byline">
+    Sixun Dong<sup>1</sup>, Yebowen Hu<sup>1</sup>, Ming Yin<sup>2</sup>, <a href="https://ece.duke.edu/people/yiran-chen/" target="_blank" rel="noopener">Yiran Chen</a><sup>2</sup>, <a href="https://www.cs.emory.edu/~fliu40/" target="_blank" rel="noopener">Fei Liu</a><sup>3</sup>, Chen Chen<sup>1✉</sup>
+    <span class="aff"><sup>1</sup>University of Central Florida &nbsp; <sup>2</sup>Duke University &nbsp; <sup>3</sup>Emory University &nbsp; ✉ corresponding author</span>
+  </p>
+  <p class="lede">Before an agent acts, it has to decide whether to act at all. Benchmarks score that decision with one accuracy, which cannot tell a model that <b>fails to see</b> when an action is warranted from one that sees it and <b>holds back</b>. FlipAct measures the two separately, on an evidence scale that is computed by a rule and is the same for every model.</p>
+  <div class="ledger">
+    <div><b>1,880</b><span>questions, each with an answer and a graded evidence score</span></div>
+    <div><b>0</b><span>answers written by a language model</span></div>
+    <div><b>44</b><span>open models, 0.6B to 70B, fifteen families</span></div>
+    <div><b>6</b><span>external benchmarks the moved criterion carries to</span></div>
+  </div>
 </div></header>
 
-<div class="tldr"><div class="wrap">
-  <h2>Before an agent acts, it has to decide whether to act at all</h2>
-  <p class="lead">Benchmarks score that decision with one accuracy. It cannot tell a model that fails to see when an action is warranted from one that sees it and is reluctant to act. FlipAct measures the two separately, on an evidence scale that is computed by a rule and is the same for every model.</p>
-  <div class="stats">
-    <div class="stat"><div class="v">1,880</div><div class="d">questions, each with its answer and a graded evidence score</div></div>
-    <div class="stat"><div class="v">0</div><div class="d">language-model calls to write an answer. Every answer follows from the rule</div></div>
-    <div class="stat"><div class="v">44</div><div class="d">open models measured, 0.6B to 70B parameters, fifteen families</div></div>
-    <div class="stat"><div class="v">6</div><div class="d">external benchmarks on which the moved criterion carries over</div></div>
-  </div>
-</div></div>
-
-<section class="sec" id="sdt"><div class="wrap">
+<section class="step" id="sdt"><div class="col">
+  <div class="num">one</div>
   <h2>The same accuracy, opposite mistakes</h2>
-  <p class="intro">On When2Call, gemma-2-9b and Phi-3.5-mini reach balanced accuracies of 0.65 and 0.64. One rarely calls the tool even where it should. The other calls it on most examples, many where it should not. <b>Signal-detection theory</b> separates what a single accuracy mixes: how far apart a model sees the two kinds of example (its <b>sensitivity</b>, d′), and how much evidence it wants before it acts (its <b>criterion</b>, c).</p>
+  <p class="say">On When2Call, gemma-2-9b and Phi-3.5-mini reach balanced accuracies of 0.65 and 0.64. One rarely calls the tool even where it should. The other calls it on most examples, many where it should not. <b>Signal-detection theory</b> separates what a single accuracy mixes: how far apart a model sees the two kinds of example, its <b>sensitivity</b> d′, and how much evidence it wants before it acts, its <b>criterion</b> c.</p>
 
   <div class="lab">
-    <div class="lhead"><span class="lt">Try it</span>
+    <div class="bar"><span class="lt">instrument 1</span>
       <button class="pick" type="button" data-sdt="gemma">gemma-2-9b</button>
       <button class="pick" type="button" data-sdt="phi">Phi-3.5-mini</button>
       <button class="pick" type="button" data-sdt="ideal">a sharper model</button>
-      <span>or drag the sliders</span>
+      <span>or move the sliders</span>
     </div>
-    <div class="lbody">
-      <div class="stage">
-        <svg id="sdtsvg" viewBox="0 0 640 300" role="img" aria-label="Two overlapping evidence distributions and a movable criterion"></svg>
-      </div>
-      <div class="side">
-        <div class="ctl"><label for="sdtD">Sensitivity d′ <span id="sdtDv"></span></label>
-          <input id="sdtD" type="range" min="0" max="3" step="0.01">
-          <small>How far apart the model sees the two kinds of example.</small></div>
-        <div class="ctl"><label for="sdtC">Criterion c <span id="sdtCv"></span></label>
-          <input id="sdtC" type="range" min="-1.5" max="1.5" step="0.01">
-          <small>Where it draws the line. Right of centre is conservative.</small></div>
-        <div class="readout">
-          <div class="ro"><div class="k">acts when it should</div><div class="v yes" id="sdtH"></div></div>
-          <div class="ro"><div class="k">acts when it should not</div><div class="v" id="sdtF"></div></div>
-          <div class="ro wide"><div class="k">balanced accuracy</div><div class="v" id="sdtA"></div></div>
-        </div>
+    <div class="stage"><svg id="sdtsvg" viewBox="0 0 640 300" role="img" aria-label="Two overlapping evidence distributions and a movable criterion"></svg></div>
+    <div class="controls">
+      <div class="ctl"><label for="sdtD">Sensitivity d′ <span id="sdtDv"></span></label>
+        <input id="sdtD" type="range" min="0" max="3" step="0.01">
+        <small>How far apart the model sees the two kinds of example.</small></div>
+      <div class="ctl"><label for="sdtC">Criterion c <span id="sdtCv"></span></label>
+        <input id="sdtC" type="range" min="-1.5" max="1.5" step="0.01">
+        <small>Where it draws the line. Right of centre is conservative.</small></div>
+      <div class="reads">
+        <div class="ro"><div class="k">acts when it should</div><div class="v yes" id="sdtH"></div></div>
+        <div class="ro"><div class="k">acts when it should not</div><div class="v crit" id="sdtF"></div></div>
+        <div class="ro"><div class="k">balanced accuracy</div><div class="v" id="sdtA"></div></div>
       </div>
     </div>
     <div class="desc" id="sdtdesc"></div>
   </div>
-  <p class="takeaway"><b>Why it matters.</b> The two models need opposite fixes. The first should act more and the second less, and one accuracy number cannot say which. A sharper model moves the two curves apart; only that raises the ceiling. Moving the line trades one kind of error for the other.</p>
+  <p class="pull">The two models need opposite fixes. One should act more and the other less, and a single accuracy cannot say which.</p>
 </div></section>
 
-<section class="sec alt" id="agents"><div class="wrap">
+<section class="step" id="agents"><div class="col">
+  <div class="num">two</div>
   <h2>What the two failures look like in an agent</h2>
-  <p class="intro">The same decision shows up wherever an agent has to choose between doing something and holding back: calling a tool, asking a question, committing to an answer, executing a change, or moving something in the physical world. Pick a situation and a kind of model. Each situation has one case where acting is right and one where it is not, so you can see which error each model makes.</p>
+  <p class="say">The same decision shows up wherever an agent has to choose between doing something and holding back: calling a tool, asking a question, committing to an answer, executing a change, or moving something in the physical world. Each situation below has one case where acting is right and one where it is not, so you can see which error each kind of model makes.</p>
 
   <div class="lab">
-    <div class="lhead"><span class="lt">The decision</span><span id="scPicks" style="display:flex;flex-wrap:wrap;gap:8px"></span></div>
-    <div class="profiles"><span style="font-weight:650;color:var(--ink)">The model</span><span id="prPicks" style="display:flex;flex-wrap:wrap;gap:8px"></span></div>
+    <div class="bar second"><span class="lt">the decision</span><span class="picks" id="scPicks"></span></div>
+    <div class="bar"><span class="lt">the model</span><span class="picks" id="prPicks"></span></div>
     <div class="cases" id="cases"></div>
     <div class="desc" id="scdesc"></div>
   </div>
   <p class="note">These examples are written for this page to illustrate the two failures. They are not items from FlipAct or from the benchmarks in the paper.</p>
 </div></section>
 
-<section class="sec" id="rule"><div class="wrap">
+<section class="step" id="rule"><div class="col">
+  <div class="num">three</div>
   <h2>Evidence computed by rule, not written by a model</h2>
-  <p class="intro">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
+  <p class="say">Comparing criteria across models needs a shared evidence scale with a fixed zero, and authored Yes/No labels do not give one. FlipAct builds it from <b>qualitative physics</b>: the idea that you can say what an action does to a physical state with only a direction and a coarse size, no numbers. A room is slightly, very or dangerously dry or wet. A tool pushes it one way by one, two or three steps. The evidence score <span class="mono">ΔU</span> is how much closer the action leaves the state to normal, and the answer is Yes exactly when <span class="mono">ΔU &gt; 0</span>.</p>
 
   <div class="lab">
-    <div class="lhead"><span class="lt">Build a question</span><span>pick a state and a tool; the rule does the rest</span></div>
-    <div class="lbody">
-      <div class="stage">
-        <p class="scene" id="scene"></p>
-        <svg id="physvg" viewBox="0 0 640 150" role="img" aria-label="The state on a moisture axis before and after the tool" style="margin-top:14px"></svg>
-        <div class="verdict"><span class="ans" id="phyAns"></span><span class="why" id="phyWhy"></span></div>
+    <div class="bar"><span class="lt">instrument 2</span><span>pick a state and a tool, and the rule does the rest</span></div>
+    <div class="stage">
+      <p class="scene" id="scene"></p>
+      <svg id="physvg" viewBox="0 0 640 150" role="img" aria-label="The state on a moisture axis before and after the tool" style="margin-top:10px"></svg>
+      <div class="verdict"><span class="ans" id="phyAns"></span><span class="why" id="phyWhy"></span></div>
+    </div>
+    <div class="controls">
+      <div class="ctl"><label for="phyV">The room is <span id="phyVv"></span></label>
+        <input id="phyV" type="range" min="-3" max="3" step="1">
+        <small>The state v, from dangerously dry (−3) to dangerously wet (+3). Normal is 0.</small>
+        <div class="cap" style="margin-top:16px">The tool</div>
+        <div class="picks" id="phyTools"></div>
       </div>
-      <div class="side">
-        <div class="ctl"><label for="phyV">The room is <span id="phyVv"></span></label>
-          <input id="phyV" type="range" min="-3" max="3" step="1">
-          <small>The state v, from dangerously dry (−3) to dangerously wet (+3). Normal is 0.</small></div>
-        <div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:8px">The tool</div>
-          <div style="display:flex;flex-wrap:wrap;gap:8px" id="phyTools"></div>
-        </div>
-        <div>
-          <div style="font-size:14px;font-weight:600;margin-bottom:4px">One quad: same knowledge, flipped state</div>
-          <table class="quad" id="quad"></table>
-        </div>
+      <div class="ctl">
+        <div class="cap">One quad: same knowledge, flipped state</div>
+        <table class="quad" id="quad"></table>
       </div>
     </div>
     <div class="desc" id="phydesc"></div>
   </div>
 
-  <p class="intro" style="margin-top:28px">The design unit is a <b>2 × 2 quad</b>: two tools, each shown in the state it fixes and in the state it worsens. Every question of a quad needs the same two facts, what the tool does and what the room needs. Only the state changes, and with it the answer, so a model that knows what a humidifier is for must still read the state.</p>
+  <p class="say">The design unit is a <b>2 × 2 quad</b>: two tools, each shown in the state it fixes and in the state it worsens. Every question of a quad needs the same two facts, what the tool does and what the room needs. Only the state changes, and with it the answer, so a model that knows what a humidifier is for must still read the state.</p>
 
-  <div class="pipe" aria-label="The construction pipeline">
+  <div class="flow" aria-label="The construction pipeline">
     <div><b>149,840</b>candidate entities</div>
     <div class="llm"><b>2,876</b>tool records annotated by language models</div>
     <div class="llm"><b>1,638</b>pass the screens</div>
@@ -317,75 +320,67 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
     <div class="rule"><b>6,176</b>questions, answers and ΔU by rule</div>
     <div class="rule"><b>1,880</b>after balance selection</div>
   </div>
-  <p class="note">Language models are used only in the two orange steps, where they annotate what a tool does. States, answers, question types and evidence scores all follow from the rule. Recomputing the ground truth independently of the build gives zero mismatches.</p>
+  <p class="note">Language models are used only in the two indigo steps, where they annotate what a tool does. States, answers, question types and evidence scores all follow from the rule. Recomputing the ground truth independently of the build gives zero mismatches.</p>
 </div></section>
 
-<section class="sec alt" id="read"><div class="wrap">
+<section class="step" id="read"><div class="col">
+  <div class="num">four</div>
   <h2>Reading a model: a slope and a crossing point</h2>
-  <p class="intro">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
+  <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
 
   <div class="lab">
-    <div class="lhead"><span class="lt">Try it</span>
+    <div class="bar"><span class="lt">instrument 3</span>
       <button class="pick" type="button" data-fit="cons">a conservative model</button>
       <button class="pick" type="button" data-fit="perm">a permissive model</button>
       <button class="pick" type="button" data-fit="blind">cannot tell the cases apart</button>
       <button class="pick" type="button" data-fit="good">sharp and centred</button>
     </div>
-    <div class="lbody">
-      <div class="stage">
-        <svg id="fitsvg" viewBox="0 0 640 320" role="img" aria-label="Yes-rate against the evidence score"></svg>
-      </div>
-      <div class="side">
-        <div class="ctl"><label for="fitA">Sensitivity a <span id="fitAv"></span></label>
-          <input id="fitA" type="range" min="0.05" max="2" step="0.01">
-          <small>Steeper means the model separates helpful from harmful actions more cleanly.</small></div>
-        <div class="ctl"><label for="fitT">Criterion τ <span id="fitTv"></span></label>
-          <input id="fitT" type="range" min="-3.5" max="3.5" step="0.05">
-          <small>Above zero is conservative, below zero is permissive.</small></div>
-        <div class="readout">
-          <div class="ro"><div class="k">says Yes to helpful actions</div><div class="v yes" id="fitH"></div></div>
-          <div class="ro"><div class="k">says Yes to harmful ones</div><div class="v" id="fitF"></div></div>
-        </div>
+    <div class="stage"><svg id="fitsvg" viewBox="0 0 640 320" role="img" aria-label="Yes-rate against the evidence score"></svg></div>
+    <div class="controls">
+      <div class="ctl"><label for="fitA">Sensitivity a <span id="fitAv"></span></label>
+        <input id="fitA" type="range" min="0.05" max="2" step="0.01">
+        <small>Steeper means the model separates helpful from harmful actions more cleanly.</small></div>
+      <div class="ctl"><label for="fitT">Criterion τ <span id="fitTv"></span></label>
+        <input id="fitT" type="range" min="-3.5" max="3.5" step="0.05">
+        <small>Above zero is conservative, below zero is permissive.</small></div>
+      <div class="reads">
+        <div class="ro"><div class="k">says Yes to helpful actions</div><div class="v yes" id="fitH"></div></div>
+        <div class="ro"><div class="k">says Yes to harmful ones</div><div class="v crit" id="fitF"></div></div>
       </div>
     </div>
     <div class="desc" id="fitdesc"></div>
   </div>
 
-  <div class="facts">
-    <div class="fact"><h3>Sensitivity behaves like a capability</h3><p>It rises with size inside a family: Qwen3 goes from 0.34 at 4B to 0.58 at 32B. Across models it predicts external d′ on BFCL, QuestBench and When2Call (r = 0.70, 0.69, 0.67).</p></div>
-    <div class="fact"><h3>The criterion is conservative by default</h3><p>Eighteen of the 21 models with a well-determined criterion sit above zero. They answer Yes less often than the rule warrants, and stay there when the question is rephrased.</p></div>
-    <div class="fact"><h3>It is a per-model setting, not a size effect</h3><p>Two releases of Mistral-Small-24B are the same size and land on opposite sides of zero, at +2.18 and −1.10.</p></div>
+  <div class="finds">
+    <div class="find"><h3>Sensitivity behaves like a capability</h3><p>It rises with size inside a family: Qwen3 goes from 0.34 at 4B to 0.58 at 32B. Across models it predicts external d′ on BFCL, QuestBench and When2Call (r = 0.70, 0.69, 0.67).</p></div>
+    <div class="find"><h3>The criterion is conservative by default</h3><p>Eighteen of the 21 models with a well-determined criterion sit above zero. They answer Yes less often than the rule warrants, and stay there when the question is rephrased.</p></div>
+    <div class="find"><h3>It is a per-model setting, not a size effect</h3><p>Two releases of Mistral-Small-24B are the same size and land on opposite sides of zero, at +2.18 and −1.10.</p></div>
   </div>
-  <p class="takeaway"><b>Models read the sign of the evidence, not its size.</b> Yes-rates jump between ΔU = −1 and 0 and are flat on either side. No model answers Yes reliably more often at +3 than at +1, and actions that leave the state no better are accepted about as often as helpful ones.</p>
+  <p class="pull">Models read the sign of the evidence, not its size. Actions that leave the state no better are accepted about as often as helpful ones.</p>
 </div></section>
 
-<section class="sec" id="move"><div class="wrap">
+<section class="step" id="move"><div class="col">
+  <div class="num">five</div>
   <h2>Moving the criterion, and only the criterion</h2>
-  <p class="intro">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
+  <p class="say">If the criterion is a separate setting, it should be possible to move it while sensitivity stays put. <b>Steering</b> does it at inference: a direction read from the model's own activations is added during generation, with the weights fixed. <b>Criterion distillation</b> puts it into the weights: the model is distilled from its own steered copy. Training on the computed labels does the opposite job and raises sensitivity.</p>
 
   <div class="lab">
-    <div class="lhead"><span class="lt">Four students, held-out half</span>
-      <span id="mvModels" style="display:flex;flex-wrap:wrap;gap:8px"></span>
-    </div>
-    <div class="lbody">
-      <div class="stage">
-        <svg id="mvsvg" viewBox="0 0 640 320" role="img" aria-label="Fitted Yes-rate curve before and after each intervention"></svg>
-      </div>
-      <div class="side">
-        <div style="display:flex;flex-direction:column;gap:8px" id="mvConds"></div>
-        <div class="readout">
-          <div class="ro"><div class="k">sensitivity a</div><div class="v" id="mvA"></div></div>
-          <div class="ro"><div class="k">criterion τ</div><div class="v crit" id="mvT"></div></div>
-          <div class="ro wide"><div class="k">held-out accuracy</div><div class="v" id="mvAcc"></div></div>
-        </div>
+    <div class="bar"><span class="lt">instrument 4</span><span class="picks" id="mvModels"></span></div>
+    <div class="stage"><svg id="mvsvg" viewBox="0 0 640 320" role="img" aria-label="Fitted Yes-rate curve before and after each intervention"></svg></div>
+    <div class="controls">
+      <div class="ctl"><div class="cap">The student</div><div class="picks stack" id="mvConds"></div></div>
+      <div class="reads" style="align-self:start">
+        <div class="ro"><div class="k">sensitivity a</div><div class="v" id="mvA"></div></div>
+        <div class="ro"><div class="k">criterion τ</div><div class="v crit" id="mvT"></div></div>
+        <div class="ro"><div class="k">held-out accuracy</div><div class="v" id="mvAcc"></div></div>
       </div>
     </div>
     <div class="desc" id="mvdesc"></div>
   </div>
-  <p class="note">Seed means over three training seeds, measured on the half of FlipAct the student never trained on. The dashed grey curve is the student before training.</p>
+  <p class="note">Seed means over three training seeds, measured on the half of FlipAct the student never trained on. The dashed curve is the student before training.</p>
 
-  <h3 style="font-size:20px;letter-spacing:-.015em;margin-top:40px">Steering, with the weights fixed</h3>
-  <p class="intro">On When2Call, the direction moves the criterion toward acting on all five models, and accuracy changes by at most four points.</p>
+  <h3 class="minor">Steering, with the weights fixed</h3>
+  <p class="say">On When2Call, the direction moves the criterion toward acting on all five models, and accuracy changes by at most four points.</p>
   <div class="tblwrap"><table class="tbl">
     <thead><tr><th>Model</th><th>call rate</th><th>with steering</th><th>criterion c</th><th>with steering</th><th>Δ accuracy</th></tr></thead>
     <tbody>
@@ -397,15 +392,16 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
     </tbody>
   </table></div>
 
-  <div class="facts">
-    <div class="fact"><h3>It carries to other benchmarks</h3><p>On six external benchmarks, the criterion moves toward acting on all 23 scored model-benchmark pairs, in every seed, and further than a random direction of the same norm.</p></div>
-    <div class="fact"><h3>Sensitivity is kept</h3><p>The criterion-free AUC stays within ±0.02 of its starting value for every student on every benchmark where it can be measured.</p></div>
-    <div class="fact"><h3>Accuracy follows the starting point</h3><p>Where a model starts conservative, balanced accuracy rises, by up to about five points. Where it starts permissive, a shift toward acting only adds false alarms.</p></div>
+  <div class="finds">
+    <div class="find"><h3>It carries to other benchmarks</h3><p>On six external benchmarks, the criterion moves toward acting on all 23 scored model-benchmark pairs, in every seed, and further than a random direction of the same norm.</p></div>
+    <div class="find"><h3>Sensitivity is kept</h3><p>The criterion-free AUC stays within ±0.02 of its starting value for every student on every benchmark where it can be measured.</p></div>
+    <div class="find"><h3>Accuracy follows the starting point</h3><p>Where a model starts conservative, balanced accuracy rises, by up to about five points. Where it starts permissive, a shift toward acting only adds false alarms.</p></div>
   </div>
-  <p class="takeaway"><b>So a when-to-act benchmark says more when it reports d′ and c beside accuracy.</b> Two models with the same accuracy can need opposite fixes, and a criterion shift should take its sign from the benchmark it targets.</p>
+  <p class="pull">A when-to-act benchmark says more when it reports d′ and c beside accuracy.</p>
 </div></section>
 
-<section class="sec" id="cite" style="border-bottom:none"><div class="wrap">
+<section class="step" id="cite"><div class="col">
+  <div class="num">cite</div>
   <h2>BibTeX</h2>
 <pre class="bib">@article{dong2026flipact,
   title   = {Sensitivity or Criterion? Measuring and Moving When Language Models Act},
@@ -415,13 +411,14 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
   <p class="note" style="margin-top:16px">Questions or collaboration: <a href="mailto:sixundong.ai@gmail.com">sixundong.ai@gmail.com</a></p>
 </div></section>
 
-<footer><div class="wrap">© 2026 The FlipAct authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
+<footer><div class="col">© 2026 The FlipAct authors · <a href="https://sixundong.com">sixundong.com</a></div></footer>
+</main>
 
 <script>
 (function(){
 const $=s=>document.querySelector(s), NS='http://www.w3.org/2000/svg';
 const mk=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e};
-const YES='#0f8a83', NO='#7b8a95', CRIT='#e2502f', INK='#12202b', SOFT='#586874', GRID='#e0e7ea';
+const YES='#c98a00', YESFILL='#f2b705', NO='#4f46e5', CRIT='#17153a', INK='#17153a', SOFT='#5d5b7a', GRID='#e3e3f1', YWASH='#fdf1cc', YTEXT='#7a5400', NTEXT='#3a33b8';
 const fmt=(v,d=2)=>(v>=0?'+':'−')+Math.abs(v).toFixed(d);
 // standard normal CDF (Abramowitz-Stegun 7.1.26) and density
 function Phi(x){const t=1/(1+0.3275911*Math.abs(x)/Math.SQRT2),y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2);return x>=0?0.5*(1+y):0.5*(1-y)}
@@ -442,16 +439,16 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function draw(key){
     const d=+D.value,c=+C.value,h=Phi(d/2-c),f=Phi(-d/2-c);
     svg.innerHTML='';
-    svg.appendChild(mk('line',{x1:L,x2:R,y1:B,y2:B,stroke:'#b9c4ca'}));
-    svg.appendChild(mk('path',{d:area(-d/2,c),fill:NO,opacity:.28}));
-    svg.appendChild(mk('path',{d:area(d/2,c),fill:YES,opacity:.3}));
+    svg.appendChild(mk('line',{x1:L,x2:R,y1:B,y2:B,stroke:'#bdbcd6'}));
+    svg.appendChild(mk('path',{d:area(-d/2,c),fill:NO,opacity:.22}));
+    svg.appendChild(mk('path',{d:area(d/2,c),fill:YESFILL,opacity:.45}));
     svg.appendChild(mk('path',{d:curve(-d/2),fill:'none',stroke:NO,'stroke-width':2.5}));
-    svg.appendChild(mk('path',{d:curve(d/2),fill:'none',stroke:YES,'stroke-width':2.5}));
+    svg.appendChild(mk('path',{d:curve(d/2),fill:'none',stroke:YESFILL,'stroke-width':3}));
     const lx=x=>Math.max(L+70,Math.min(R-70,sx(x)));
-    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:44,'text-anchor':'middle','font-size':14,fill:SOFT,'font-weight':600},'should not act'));
-    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:44,'text-anchor':'middle','font-size':14,fill:YES,'font-weight':600},'should act'));
+    svg.appendChild(mk('text',{x:lx(-d/2-0.9),y:44,'text-anchor':'middle','font-size':14,fill:NTEXT,'font-weight':600},'should not act'));
+    svg.appendChild(mk('text',{x:lx(d/2+0.9),y:44,'text-anchor':'middle','font-size':14,fill:YTEXT,'font-weight':600},'should act'));
     const cx=sx(c);
-    svg.appendChild(mk('line',{x1:cx,x2:cx,y1:58,y2:B+8,stroke:CRIT,'stroke-width':3,'stroke-linecap':'round'}));
+    svg.appendChild(mk('line',{x1:cx,x2:cx,y1:58,y2:B+8,stroke:CRIT,'stroke-width':3,'stroke-linecap':'round'}));svg.appendChild(mk('circle',{cx:cx,cy:58,r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
     svg.appendChild(mk('text',{x:cx,y:B+28,'text-anchor':'middle','font-size':13.5,fill:CRIT,'font-weight':700},'criterion'));
     svg.appendChild(mk('text',{x:Math.min(R-4,cx+12),y:B-8,'font-size':12.5,fill:INK,'text-anchor':cx>R-90?'end':'start'},cx>R-90?'':'acts →'));
     svg.appendChild(mk('text',{x:L,y:H-8,'font-size':12.5,fill:SOFT},'less evidence for acting'));
@@ -573,14 +570,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     $('#scene').innerHTML='Situation: The <span class="slot obj">room</span> is <span class="slot st">'+stateName(v)+'</span>. The goal is to bring the <span class="slot obj">room</span> back to a normal state. Action: a person uses a <span class="slot tool">'+tool.name+'</span>. Is using the <span class="slot tool">'+tool.name+'</span> a wise choice in this situation? Answer Yes or No.';
     // axis
     svg.innerHTML='';const L=40,R=600,Y=78,sx=x=>L+(x+6)/12*(R-L);
-    svg.appendChild(mk('rect',{x:sx(-0.5),y:Y-26,width:sx(0.5)-sx(-0.5),height:52,rx:8,fill:'#dff3f1'}));
-    svg.appendChild(mk('line',{x1:L,x2:R,y1:Y,y2:Y,stroke:'#b9c4ca','stroke-width':2}));
-    for(let x=-6;x<=6;x++){svg.appendChild(mk('line',{x1:sx(x),x2:sx(x),y1:Y-5,y2:Y+5,stroke:'#b9c4ca'}));
-      if(x%1===0&&Math.abs(x)<=6)svg.appendChild(mk('text',{x:sx(x),y:Y+24,'text-anchor':'middle','font-size':11.5,fill:Math.abs(x)>3?'#b9c4ca':SOFT},x===0?'0':(x>0?'+':'−')+Math.abs(x)))}
-    svg.appendChild(mk('text',{x:sx(0),y:Y-34,'text-anchor':'middle','font-size':12.5,fill:YES,'font-weight':700},'normal'));
+    svg.appendChild(mk('rect',{x:sx(-0.5),y:Y-26,width:sx(0.5)-sx(-0.5),height:52,rx:8,fill:YWASH}));
+    svg.appendChild(mk('line',{x1:L,x2:R,y1:Y,y2:Y,stroke:'#bdbcd6','stroke-width':2}));
+    for(let x=-6;x<=6;x++){svg.appendChild(mk('line',{x1:sx(x),x2:sx(x),y1:Y-5,y2:Y+5,stroke:'#bdbcd6'}));
+      if(x%1===0&&Math.abs(x)<=6)svg.appendChild(mk('text',{x:sx(x),y:Y+24,'text-anchor':'middle','font-size':11.5,fill:Math.abs(x)>3?'#bdbcd6':SOFT},x===0?'0':(x>0?'+':'−')+Math.abs(x)))}
+    svg.appendChild(mk('text',{x:sx(0),y:Y-34,'text-anchor':'middle','font-size':12.5,fill:YTEXT,'font-weight':700},'normal'));
     svg.appendChild(mk('text',{x:L,y:Y+46,'font-size':12.5,fill:SOFT},'← drier'));
     svg.appendChild(mk('text',{x:R,y:Y+46,'font-size':12.5,fill:SOFT,'text-anchor':'end'},'wetter →'));
-    const col=yes?YES:'#4b5a65',a=sx(v),b=sx(Math.max(-6,Math.min(6,v2)));
+    const col=yes?YES:NO,a=sx(v),b=sx(Math.max(-6,Math.min(6,v2)));
     if(a!==b){const mid=(a+b)/2,h=Math.min(40,Math.abs(b-a)*0.3)+12;
       svg.appendChild(mk('path',{d:`M${a},${Y-12} Q${mid},${Y-12-h*1.6} ${b},${Y-12}`,fill:'none',stroke:col,'stroke-width':2.5,'stroke-dasharray':'5 4'}));
       const dir=b>a?1:-1;svg.appendChild(mk('path',{d:`M${b},${Y-10} l${-8*dir},-10 l${9*dir},1 Z`,fill:col}))}
@@ -606,13 +603,13 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
 function plotFrame(svg){
   const W=640,H=320,L=56,R=612,T=24,B=262,sx=u=>L+(u+3.6)/7.2*(R-L),sy=p=>B-p*(B-T);
   svg.innerHTML='';
-  svg.appendChild(mk('rect',{x:sx(0),y:T,width:R-sx(0),height:B-T,fill:'#dff3f1',opacity:.55}));
-  [0,.5,1].forEach(p=>{svg.appendChild(mk('line',{x1:L,x2:R,y1:sy(p),y2:sy(p),stroke:p===.5?'#9fb0b8':GRID,'stroke-dasharray':p===.5?'4 4':''}));
+  svg.appendChild(mk('rect',{x:sx(0),y:T,width:R-sx(0),height:B-T,fill:YWASH,opacity:.7}));
+  [0,.5,1].forEach(p=>{svg.appendChild(mk('line',{x1:L,x2:R,y1:sy(p),y2:sy(p),stroke:p===.5?'#a9a8c4':GRID,'stroke-dasharray':p===.5?'4 4':''}));
     svg.appendChild(mk('text',{x:L-10,y:sy(p)+4,'text-anchor':'end','font-size':12,fill:SOFT},p))});
   for(let u=-3;u<=3;u++)svg.appendChild(mk('text',{x:sx(u),y:B+20,'text-anchor':'middle','font-size':12,fill:SOFT},u===0?'0':(u>0?'+':'−')+Math.abs(u)));
   svg.appendChild(mk('line',{x1:sx(0),x2:sx(0),y1:T,y2:B,stroke:INK,'stroke-width':1.5}));
-  svg.appendChild(mk('text',{x:sx(0)+8,y:T+14,'font-size':12.5,fill:'#0a6661','font-weight':600},'rule says Yes'));
-  svg.appendChild(mk('text',{x:sx(0)-8,y:T+14,'font-size':12.5,fill:SOFT,'font-weight':600,'text-anchor':'end'},'rule says No'));
+  svg.appendChild(mk('text',{x:sx(0)+8,y:T+14,'font-size':12.5,fill:YTEXT,'font-weight':600},'rule says Yes'));
+  svg.appendChild(mk('text',{x:sx(0)-8,y:T+14,'font-size':12.5,fill:NTEXT,'font-weight':600,'text-anchor':'end'},'rule says No'));
   svg.appendChild(mk('text',{x:(L+R)/2,y:H-14,'text-anchor':'middle','font-size':12.5,fill:INK},'evidence score ΔU'));
   svg.appendChild(mk('text',{x:16,y:(T+B)/2,'text-anchor':'middle','font-size':12.5,fill:INK,transform:'rotate(-90 16 '+((T+B)/2)+')'},'Yes-rate'));
   const path=(a,t)=>{let p='';for(let i=0;i<=100;i++){const u=-3.6+7.2*i/100;p+=(i?'L':'M')+sx(u).toFixed(1)+','+sy(sig(a*(u-t))).toFixed(1)}return p};
@@ -621,7 +618,7 @@ function plotFrame(svg){
 function drawTau(svg,f,t,label){
   const beyond=Math.abs(t)>3.4,x=f.sx(Math.max(-3.4,Math.min(3.4,t)));
   svg.appendChild(mk('line',{x1:x,x2:x,y1:f.sy(.5)-46,y2:f.B,stroke:CRIT,'stroke-width':2.5,'stroke-linecap':'round','stroke-dasharray':beyond?'3 5':''}));
-  svg.appendChild(mk('circle',{cx:x,cy:f.sy(.5),r:6,fill:CRIT,stroke:'#fff','stroke-width':2}));
+  svg.appendChild(mk('circle',{cx:x,cy:f.sy(.5),r:7,fill:'#fff',stroke:CRIT,'stroke-width':3}));
   svg.appendChild(mk('text',{x:x,y:f.sy(.5)-54,'text-anchor':'middle','font-size':13,fill:CRIT,'font-weight':700},label));
 }
 
@@ -634,7 +631,7 @@ function drawTau(svg,f,t,label){
              good:{a:1.4,t:0.1,d:'<b>Sharp and centred.</b> A steep curve that crosses one half at the rule\'s boundary. This is what training on the computed labels produces.'}};
   function draw(key){
     const a=+A.value,t=+T.value,f=plotFrame(svg);
-    svg.appendChild(mk('path',{d:f.path(a,t),fill:'none',stroke:INK,'stroke-width':3,'stroke-linecap':'round'}));
+    svg.appendChild(mk('path',{d:f.path(a,t),fill:'none',stroke:NO,'stroke-width':3.5,'stroke-linecap':'round'}));
     drawTau(svg,f,t,'τ = '+fmt(t));
     $('#fitAv').textContent=a.toFixed(2);$('#fitTv').textContent=fmt(t);
     const mean=us=>us.reduce((s,u)=>s+sig(a*(u-t)),0)/us.length;
@@ -661,12 +658,12 @@ function drawTau(svg,f,t,label){
   const svg=$('#mvsvg');let mi=0,ci=1;
   const mb=$('#mvModels'),cb=$('#mvConds');
   M.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=m.n;b.onclick=()=>{mi=i;draw()};mb.appendChild(b);m.btn=b});
-  CONDS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.style.textAlign='left';b.style.borderRadius='10px';b.textContent=c.n;b.onclick=()=>{ci=i;draw()};cb.appendChild(b);c.btn=b});
+  CONDS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=c.n;b.onclick=()=>{ci=i;draw()};cb.appendChild(b);c.btn=b});
   function draw(){
     const m=M[mi],c=CONDS[ci],cur=m[c.k],f=plotFrame(svg);
     M.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===mi));CONDS.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===ci));
-    if(c.k!=='base')svg.appendChild(mk('path',{d:f.path(m.base[0],m.base[1]),fill:'none',stroke:'#9fb0b8','stroke-width':2.5,'stroke-dasharray':'6 5'}));
-    svg.appendChild(mk('path',{d:f.path(cur[0],cur[1]),fill:'none',stroke:INK,'stroke-width':3,'stroke-linecap':'round'}));
+    if(c.k!=='base')svg.appendChild(mk('path',{d:f.path(m.base[0],m.base[1]),fill:'none',stroke:'#a9a8c4','stroke-width':2.5,'stroke-dasharray':'6 5'}));
+    svg.appendChild(mk('path',{d:f.path(cur[0],cur[1]),fill:'none',stroke:NO,'stroke-width':3.5,'stroke-linecap':'round'}));
     drawTau(svg,f,cur[1],'τ = '+(cur[3]?'beyond +3':fmt(cur[1])));
     $('#mvA').textContent=cur[0].toFixed(2);$('#mvT').textContent=cur[3]?'> +3':fmt(cur[1]);
     $('#mvAcc').textContent=cur[2].toFixed(2)+(c.k==='base'?'':'  ('+fmt(cur[2]-m.base[2])+')');
@@ -674,6 +671,11 @@ function drawTau(svg,f,t,label){
   }
   draw();
 })();
+
+/* ---------------- the rail follows the reader ---------------- */
+(function(){const links=[...document.querySelectorAll('.toc a[data-spy]')],els=links.map(a=>document.getElementById(a.dataset.spy));
+  function upd(){const y=window.scrollY+window.innerHeight*0.35;let cur=els[0];els.forEach(e=>{if(e&&e.getBoundingClientRect().top+window.scrollY<=y)cur=e});links.forEach(a=>a.classList.toggle('on',cur&&a.dataset.spy===cur.id))}
+  window.addEventListener('scroll',upd,{passive:true});upd();})();
 })();
 </script>
 </body>
