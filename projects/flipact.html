@@ -85,7 +85,7 @@ main{margin-left:var(--rail)}
 .byline a{color:inherit;text-decoration:underline;text-decoration-color:var(--line-2);text-underline-offset:3px}
 .byline sup{font-size:.68em;color:var(--soft)}
 .byline .aff{display:block;font-size:13.5px;color:var(--soft)}
-.lede{font-size:18px;color:var(--soft);max-width:38em;margin-top:26px}
+.lede{font-size:18px;color:var(--soft);max-width:36em;margin-top:26px}
 .lede b{color:var(--ink)}
 
 /* ---------- parts ---------- */
@@ -177,6 +177,9 @@ details.more .tblwrap{margin-top:0;border-top:1px solid var(--line-2);padding:0 
 .ro .v.yes{color:var(--act-text)} .ro .v.crit{color:var(--hold-text)}
 svg{display:block;width:100%;height:auto}
 svg text{font-family:var(--sans)}
+/* no stranded last words: headings and short statements balance their lines, running text avoids a short last line */
+h1,h2,h3,.pull,.open .sub,.fact h3,summary{text-wrap:balance}
+p,li,figcaption,.desc,small,.what,.note,.lede,.say{text-wrap:pretty}
 
 /* two observers, one accuracy */
 .duo{display:grid;grid-template-columns:1fr 1fr}
@@ -628,7 +631,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="rule"><b>6,176</b>questions, answers and ΔU by rule</div>
     <div class="rule"><b>1,880</b>after balance selection</div>
   </div>
-  <p class="note">Language models help only in the two indigo steps. Every state, answer and score follows from the rule.</p>
+  <p class="note">Language models help only in the two indigo steps. The rule decides every state, answer and score.</p>
 </div></section>
 
 <section class="step" id="read"><div class="col">
@@ -754,7 +757,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const FR=[{n:'Two doctors',ic:'person',who:['Doctor A','Doctor B'],sig:'100 patients with a tumour',noi:'100 healthy patients',
      yes:'flagged',k:['tumour flagged','tumour missed','healthy patient called back','healthy patient cleared'],
      fix:['Misses 60 tumours out of 100. This doctor needs to flag more.','Sends 58 healthy patients for a biopsy. This doctor needs to flag less.'],
-     d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The two numbers under each accuracy say exactly that: about the same sensitivity, opposite criteria. The next step explains them.'},
+     d:'<b>Same accuracy, opposite problems.</b> Doctor A sends sick people home. Doctor B frightens healthy ones. Telling both to “be more accurate” helps neither; one has to lower the bar and the other has to raise it. The two numbers under each accuracy say exactly that: about the same sensitivity, opposite criteria.'},
     {n:'Two language models',ic:'msg',who:['gemma-2-9b','Phi-3.5-mini'],sig:'per 100 requests that need the tool',noi:'per 100 requests where calling is wrong',
      yes:'called',k:['tool called, rightly','tool needed, not called','tool called for nothing','correctly not called'],
      fix:['Does not call the tool on 60 in 100 requests that need it. It should act more.','Calls the tool on 58 in 100 requests where it should not. It should act less.'],
