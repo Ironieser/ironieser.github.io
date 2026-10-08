@@ -1027,19 +1027,20 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const PR=[
    {n:'Conservative',onAct:'hold',onHold:'hold',d:'<b>A conservative criterion.</b> The model sees the difference between the two cases but wants more evidence than either gives. It never acts wrongly, and it misses the case where acting was right.'},
    {n:'Permissive',onAct:'act',onHold:'act',d:'<b>A permissive criterion.</b> The model acts in both cases. It never misses, and it acts where nothing warranted it. Its accuracy here equals the conservative model\'s, with the opposite error.'},
-   {n:'Cannot tell them apart',onAct:'hold',onHold:'act',d:'<b>Low sensitivity.</b> What this model does is not tied to the situation. Here it gets both cases wrong; on another pair it would get both right by chance. Moving its criterion cannot help. It needs to learn the difference.'},
+   {n:'Cannot tell them apart',rnd:true,d:'<b>Low sensitivity.</b> What this model does is not tied to the situation: each response is a coin flip. Moving its criterion cannot help. It needs to learn the difference.'},
    {n:'Sharp and centred',onAct:'act',onHold:'hold',d:'<b>Enough sensitivity, and a criterion in the right place.</b> It acts when the situation calls for it and holds back when it does not.'}
   ];
   let si=0,pi=0;const scB=$('#scPicks'),prB=$('#prPicks'),box=$('#cases');
   const icon=(id)=>'<svg class="pi" viewBox="0 0 16 16" aria-hidden="true"><use href="#'+id+'"/></svg>';
   SC.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.innerHTML=icon('sc-'+i)+x.n;b.onclick=()=>{si=i;draw()};scB.appendChild(b);x.btn=b});
   PR.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.innerHTML=icon('pr-'+i)+x.n;b.onclick=()=>{pi=i;draw()};prB.appendChild(b);x.btn=b});
+  let coin=null,seen=0,good=0;const flip=()=>{coin=[Math.random()<.5?'act':'hold',Math.random()<.5?'act':'hold'];seen+=2;good+=(coin[0]==='act')+(coin[1]==='hold')};
   function draw(){
-    const sc=SC[si],pr=PR[pi];
+    const sc=SC[si],pr=PR[pi];if(pr.rnd&&!coin)flip();
     SC.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===si));PR.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===pi));
     box.innerHTML='';
     sc.cases.forEach(c=>{
-      const did=c.right==='act'?pr.onAct:pr.onHold,ok=did===c.right;
+      const did=pr.rnd?(c.right==='act'?coin[0]:coin[1]):(c.right==='act'?pr.onAct:pr.onHold),ok=did===c.right;
       const verdict=ok?(c.right==='act'?['ok','hit','Acted, and acting was right.']:['ok','correct hold','Held back, and that was right.'])
                       :(c.right==='act'?['bad','miss',c.miss]:['bad','false alarm',c.fa]);
       const el=document.createElement('div');el.className='case';
@@ -1048,7 +1049,8 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
         '<div class="bubble agent"><span class="who">Agent</span>'+c[did]+'</div>'+
         '<div class="outcome"><span class="mark '+verdict[0]+'">'+verdict[1]+'</span><span>'+verdict[2]+'</span></div>';
       box.appendChild(el);});
-    $('#scdesc').innerHTML=pr.d;
+    $('#scdesc').innerHTML=pr.d+(pr.rnd?'<p style="margin-top:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap"><button class="big" type="button" id="scFlip">Try it again</button><span style="font-family:var(--mono);font-size:13.5px;color:var(--soft)">right on '+good+' of '+seen+' cases so far</span></p>':'');
+    if(pr.rnd)$('#scFlip').onclick=()=>{flip();draw();const b=$('#scFlip');if(b)b.focus()};
     $('#stMiss').textContent=sc.miss;$('#stFa').textContent=sc.fa;
   }
   draw();
