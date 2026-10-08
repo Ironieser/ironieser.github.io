@@ -332,15 +332,15 @@ footer{padding:36px 0 50px;color:var(--soft);font-size:14px;text-align:center}
       <div class="pane"><div class="cap">terminal</div>
 <pre><span class="c"># your method</span>
 $ longvideo-eval --model qwen3-vl-4b --task videomme \
-      --method <span class="h">my-selector</span> --setup sel16f_pool256
+      --method <span class="h">my-selector</span> --setup keyframe_16f_pool256
 
 <span class="c"># every baseline, same pool, same budget</span>
 $ longvideo-eval --model qwen3-vl-4b --task videomme \
-      --method aks         --setup sel16f_pool256
+      --method aks         --setup keyframe_16f_pool256
 $ longvideo-eval --model qwen3-vl-4b --task videomme \
-      --method flashvid    --setup iso256f
+      --method flashvid    --setup native_256f
 $ longvideo-eval --model qwen3-vl-4b --task videomme \
-      --method lohi-semdiv --setup lohi128f_k8</pre></div>
+      --method lohi-semdiv --setup lohi_128f_r25_k8_r71</pre></div>
       <div class="pane"><div class="cap">Video-MME · Qwen3-VL-4B · ~5,760 visual tokens</div>
         <div class="ledwrap"><table class="ledger">
           <thead><tr><th>Method</th><th>Decoded</th><th>First token</th><th>Accuracy</th></tr></thead>
