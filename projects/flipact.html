@@ -87,6 +87,13 @@ main{margin-left:var(--rail)}
 .byline .aff{display:block;font-size:13.5px;color:var(--soft)}
 .lede{font-size:18px;color:var(--soft);max-width:36em;margin-top:26px}
 .lede b{color:var(--ink)}
+.tldr{margin-top:26px;border:1.5px solid var(--ink);border-radius:6px;background:var(--card);box-shadow:6px 6px 0 var(--act-wash);max-width:46em}
+.tldr .tl-h{font-family:var(--mono);font-size:13px;font-weight:600;padding:9px 18px;border-bottom:1.5px solid var(--ink);background:var(--act);color:var(--ink);border-radius:4px 4px 0 0}
+.tldr ol{list-style:none;display:grid;gap:0}
+.tldr li{display:grid;grid-template-columns:40px 1fr;gap:16px;align-items:center;padding:14px 18px;border-top:1px solid var(--line-2);font-size:16px;color:var(--soft);line-height:1.5}
+.tldr li:first-child{border-top:none}
+.tldr li svg{width:40px;height:40px;display:block}
+.tldr li b{color:var(--ink)}
 
 /* ---------- parts ---------- */
 .part{background:var(--ink);color:#fff;padding:34px 0}
@@ -447,7 +454,17 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <a class="hb" href="#cite">BibTeX</a>
   </p>
   <p class="sub">Two models can have the same accuracy and need opposite fixes.</p>
-  <p class="lede">Before an agent acts, it has to decide whether to act at all. Benchmarks score that decision with one accuracy, which cannot tell a model that <b>fails to see</b> when an action is warranted from one that sees it and <b>holds back</b>. FlipAct measures the two separately, on an evidence scale that is computed by a rule and is the same for every model.</p>
+  <div class="tldr" aria-label="Takeaways">
+    <div class="tl-h">TL;DR</div>
+    <ol>
+      <li><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="4" y="9" width="13" height="22" rx="3" fill="#fff" stroke="#17153a" stroke-width="2"/><rect x="4" y="9" width="13" height="9" rx="3" fill="#f2b705" stroke="#17153a" stroke-width="2"/><rect x="23" y="9" width="13" height="22" rx="3" fill="#4f46e5" stroke="#17153a" stroke-width="2"/><path d="M19 17h2M19 23h2" stroke="#17153a" stroke-width="2" stroke-linecap="round"/></svg>
+        <div><b>One accuracy hides two failures.</b> Before an agent acts it must decide whether to act at all. A model that <b>fails to see</b> when acting is warranted and one that sees it and <b>holds back</b> get the same score.</div></li>
+      <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M3 31c7 0 7-20 13-20s6 20 13 20" fill="none" stroke="#4f46e5" stroke-width="2.4" stroke-linecap="round"/><path d="M11 31c7 0 7-20 13-20s6 20 13 20" fill="none" stroke="#f2b705" stroke-width="2.4" stroke-linecap="round"/><path d="M20 6v28" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="6" r="3" fill="#fff" stroke="#17153a" stroke-width="2"/></svg>
+        <div><b>FlipAct measures them separately.</b> A sensitivity and a criterion for every model, on an evidence scale computed by a rule, so the numbers are comparable across models.</div></li>
+      <li><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M4 33c9 0 10-24 18-24s9 24 14 24" fill="none" stroke="#f2b705" stroke-width="2.4" stroke-linecap="round"/><path d="M29 6v30" stroke="#a9a8c4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="3 4"/><path d="M15 6v30" stroke="#17153a" stroke-width="2.6" stroke-linecap="round"/><path d="M26 12H19M22 8.500l-4 3.500 4 3.500" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div><b>The criterion can be moved on its own.</b> Most open models hold back more than the evidence warrants. Steering and distillation shift that, with no significant change in sensitivity.</div></li>
+    </ol>
+  </div>
 </div></header>
 
 <div class="part" id="part1"><div class="col">
