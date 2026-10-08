@@ -6,11 +6,15 @@
 <title>FlipAct: Sensitivity or Criterion? Measuring and Moving When Language Models Act</title>
 <meta name="description" content="FlipAct splits when-to-act accuracy into a sensitivity and a criterion, on an evidence scale computed by a qualitative-physics rule, and shows the criterion can be moved by steering and distillation without a significant change in sensitivity.">
 <meta property="og:title" content="FlipAct: Sensitivity or Criterion?">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sixundong.com/projects/flipact">
+<meta name="twitter:card" content="summary">
 <meta property="og:description" content="Two models, the same accuracy, opposite mistakes. A diagnostic that tells a model that cannot see when to act from one that sees it and holds back.">
 <link rel="canonical" href="https://sixundong.com/projects/flipact">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 15H19a17 17 0 0 0 0 34h13z' fill='%234f46e5'/%3E%3Cpath d='M32 15h13a17 17 0 0 1 0 34H32z' fill='%23f2b705'/%3E%3Crect x='27.5' y='5' width='9' height='54' rx='4.5' fill='%23fff'/%3E%3Crect x='29.5' y='7' width='5' height='50' rx='2.5' fill='%2317153a'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -125,6 +129,8 @@ main{margin-left:var(--rail)}
 .dumb .val{font-family:var(--mono);fill:var(--ink);font-weight:600;font-size:13.5px}
 .dumb .da{font-family:var(--mono);font-size:13.5px}
 .dumb .pole{font-weight:600} .dumb .pole.a{fill:var(--act-text)} .dumb .pole.h{fill:var(--hold-text)}
+#fitsvg text,#mvsvg text{paint-order:stroke;stroke:var(--card);stroke-width:3.5px;stroke-linejoin:round}
+.dhint{display:none;font-size:13px;color:var(--soft);margin-left:auto}
 .dkey{display:flex;gap:20px;font-size:13.5px;color:var(--soft);margin-top:4px}
 .dkey span{display:inline-flex;align-items:center;gap:7px}
 .dkey i{width:13px;height:13px;border-radius:50%;display:inline-block}
@@ -250,7 +256,7 @@ details.more .runs th:first-child,details.more .runs td:first-child{padding-left
 .result .nums{display:grid;grid-template-columns:repeat(3,1fr);margin-top:14px;border-top:1px solid var(--line-2)}
 .result .nums div{padding:12px 12px 0 0}
 .result .nums div + div{padding-left:14px;border-left:1px solid var(--line-2)}
-.result .nums b{display:block;font-family:var(--display);font-weight:600;font-size:36px;line-height:1}
+.result .nums b{display:block;font-family:var(--display);font-weight:600;font-size:clamp(24px,7vw,36px);line-height:1}
 .result .nums span{display:block;font-size:13px;color:var(--soft);margin-top:4px}
 .gauge{margin-top:34px}
 .gauge .track{position:relative;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--act) 0%,var(--act-wash) 50%,var(--hold-wash) 50%,var(--hold) 100%)}
@@ -347,6 +353,13 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .exp{grid-template-columns:1fr}
   .cmp .row{grid-template-columns:1fr}
   .defs{grid-template-columns:1fr}
+  .how{grid-template-columns:minmax(0,1fr)}
+  .how .egs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .how figure{width:auto}
+  .how figure canvas{width:100%;height:auto;aspect-ratio:1}
+  .pick{min-height:42px}
+  .dhint{display:inline}
+  #sdtsvg text,#physvg text,#fitsvg text,#mvsvg text{font-size:19px}
   .trio{grid-template-columns:1fr}
   .facts{grid-template-columns:1fr}
   .fact{border-left:none;border-top:1px solid var(--line-2)}
@@ -498,13 +511,13 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
           <button class="big" type="button" id="exYes" disabled hidden>Yes, it was there</button>
           <button class="big" type="button" id="exNo" disabled hidden>No, just noise</button>
         </div>
-        <div class="fb" id="exFb"></div>
+        <div class="fb" id="exFb" aria-live="polite"></div>
         <label class="opt"><input type="checkbox" id="exShare" checked> Add my run to the crowd average</label>
         <button class="skipbtn" type="button" id="exSkip">Skip the test and just show me results</button>
         <div class="prog" id="exProg"></div>
       </div>
     </div>
-    <div class="desc" id="exDesc"></div>
+    <div class="desc" id="exDesc" aria-live="polite"></div>
   </div>
 
   <p class="say">Now the full picture, with both knobs. It is the same for a listener, for the two doctors above, and for a language model deciding whether to call a tool.</p>
@@ -515,7 +528,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
     <div class="stage"><svg id="sdtsvg" viewBox="0 0 640 300" role="img" aria-label="Two overlapping evidence distributions and a movable criterion"></svg></div>
     <div class="controls">
       <div class="ctl"><label for="sdtD">Sensitivity d′ <span id="sdtDv"></span></label>
-        <input id="sdtD" type="range" min="0" max="3" step="0.01">
+        <input id="sdtD" type="range" min="0" max="3.5" step="0.01">
         <small id="sdtDs"></small></div>
       <div class="ctl"><label for="sdtC">Criterion c <span id="sdtCv"></span></label>
         <input id="sdtC" type="range" min="-1.5" max="1.5" step="0.01">
@@ -556,7 +569,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <section class="step" id="rule"><div class="col">
   <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M4 34h46" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M11 30v8M19 30v8M35 30v8M43 30v8" stroke="#17153a" stroke-width="1.8" stroke-linecap="round"/><rect x="23" y="24" width="8" height="20" rx="2" fill="#fdf1cc" stroke="#17153a" stroke-width="2"/><path d="M11 22c5-12 12-12 16-2" fill="none" stroke="#c98a00" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1 5"/><path d="M23.5 16.5l3.8 4 .7-5.6z" fill="#c98a00"/><circle cx="11" cy="34" r="4" fill="#fff" stroke="#17153a" stroke-width="2.4"/><circle cx="27" cy="34" r="4" fill="#f2b705" stroke="#17153a" stroke-width="2"/></svg>four</div>
   <h2>Evidence computed by rule, not written by a model</h2>
-  <p class="say">To compare criteria across models, every question needs an evidence score on one scale with a fixed zero. FlipAct computes it from <b>qualitative physics</b>: directions and coarse sizes, no numbers.</p>
+  <p class="say">To compare criteria across models, every question needs an evidence score on one scale with a fixed zero. FlipAct computes it from <b>qualitative physics</b>: directions and coarse step sizes, no physical units.</p>
   <div class="trio">
     <div class="tri"><svg viewBox="0 0 120 44" aria-hidden="true"><path d="M8 26h104" stroke="#17153a" stroke-width="2" stroke-linecap="round"/><path d="M8 21v10M25.300 21v10M42.700 21v10M77.300 21v10M94.700 21v10M112 21v10" stroke="#17153a" stroke-width="1.600" stroke-linecap="round"/><rect x="54" y="14" width="12" height="24" rx="3" fill="#fdf1cc" stroke="#17153a" stroke-width="1.800"/><circle cx="25.300" cy="26" r="5" fill="#fff" stroke="#17153a" stroke-width="2.200"/></svg>
       <h3>A state</h3><p>Slightly, very or dangerously off, in one of two directions. Normal is zero.</p></div>
@@ -604,7 +617,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 <section class="step" id="read"><div class="col">
   <div class="num"><svg viewBox="0 0 54 54" aria-hidden="true"><path d="M6 8v38h42" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 27h42" stroke="#a9a8c4" stroke-width="1.6" stroke-dasharray="3 3"/><path d="M8 42c12 0 14-4 19-15s8-15 19-15" fill="none" stroke="#4f46e5" stroke-width="3" stroke-linecap="round"/><circle cx="27" cy="27" r="4.4" fill="#fff" stroke="#17153a" stroke-width="2.6"/></svg>five</div>
   <h2>Reading a model: a slope and a crossing point</h2>
-  <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
+  <p class="say">Because every question carries a score, a model's Yes-rate can be fitted as a curve over that score. The <b>slope</b> <span class="mono">a</span> is its sensitivity, in the role of d′. The score <span class="mono">τ</span> where the curve crosses one half is its criterion. The rule's boundary sits at zero for every model, so a positive <span class="mono">τ</span> means the model says Yes less often than the rule warrants.</p>
 
   <div class="lab">
     <div class="bar"><span class="lt">a model that is</span>
@@ -673,7 +686,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <h3 class="minor">Steering, with the weights fixed</h3>
   <p class="say">On a tool-calling benchmark, steering moves all five models toward acting.</p>
   <div class="dumbwrap"><svg class="dumb" viewBox="0 0 760 324" role="img" aria-label="Criterion c on When2Call before and after steering, for five models. All five move toward acting."><path d="M185.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="185.0" y="294" text-anchor="middle" class="ax">−0.40</text><path d="M255.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="255.0" y="294" text-anchor="middle" class="ax">−0.20</text><path d="M325.0 42V274" stroke="#17153a" stroke-width="1.6"/><text x="325.0" y="294" text-anchor="middle" class="ax">0</text><path d="M395.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="395.0" y="294" text-anchor="middle" class="ax">+0.20</text><path d="M465.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="465.0" y="294" text-anchor="middle" class="ax">+0.40</text><path d="M535.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="535.0" y="294" text-anchor="middle" class="ax">+0.60</text><path d="M605.0 42V274" stroke="#dcdcec" stroke-width="1"/><text x="605.0" y="294" text-anchor="middle" class="ax">+0.80</text><text x="315.0" y="22" text-anchor="end" class="pole a">← acts more freely</text><text x="335.0" y="22" text-anchor="start" class="pole h">holds back →</text><text x="0" y="69" class="mdl">Qwen3-8B</text><path d="M262.0 64H222.0" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M227.0 59l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="262.0" cy="64" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="213.0" cy="64" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="199.0" y="69" text-anchor="end" class="val">−0.32</text><text x="0" y="113" class="mdl">Qwen3.5-27B</text><path d="M360.0 108H337.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M342.5 103l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="360.0" cy="108" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="328.5" cy="108" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="314.5" y="113" text-anchor="end" class="val">+0.01</text><text x="0" y="157" class="mdl">gemma-2-9b</text><path d="M598.0 152H540.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M545.5 147l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="598.0" cy="152" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="531.5" cy="152" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="517.5" y="157" text-anchor="end" class="val">+0.59</text><text x="0" y="201" class="mdl">Mistral-24B</text><path d="M461.5 196H288.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><path d="M293.5 191l-6 5 6 5" fill="none" stroke="#17153a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="461.5" cy="196" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="279.5" cy="196" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="265.5" y="201" text-anchor="end" class="val">−0.13</text><text x="0" y="245" class="mdl">phi-4</text><path d="M220.0 240H218.5" stroke="#17153a" stroke-width="2.4" stroke-linecap="round"/><circle cx="220.0" cy="240" r="6.500" fill="#fff" stroke="#a9a8c4" stroke-width="2.400"/><circle cx="209.5" cy="240" r="7.500" fill="#f2b705" stroke="#17153a" stroke-width="2"/><text x="195.5" y="245" text-anchor="end" class="val">−0.33</text><text x="395" y="318" text-anchor="middle" class="ax">criterion c on When2Call</text></svg>
-    <div class="dkey"><span><i class="o"></i>unsteered</span><span><i class="f"></i>steered</span></div></div>
+    <div class="dkey"><span><i class="o"></i>unsteered</span><span><i class="f"></i>steered</span><span class="dhint">swipe to see all →</span></div></div>
   <details class="more"><summary>Show the numbers</summary>
   <div class="tblwrap"><table class="tbl">
     <thead><tr class="grp"><th></th><th colspan="2">call rate</th><th colspan="2">criterion c</th><th></th></tr><tr><th>Model</th><th>unsteered</th><th>steered</th><th>unsteered</th><th>steered</th><th>Δ accuracy</th></tr></thead>
@@ -709,7 +722,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 const $=s=>document.querySelector(s), NS='http://www.w3.org/2000/svg';
 const mk=(t,a,txt)=>{const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e};
 const YES='#c98a00', YESFILL='#f2b705', NO='#4f46e5', CRIT='#17153a', INK='#17153a', SOFT='#5d5b7a', GRID='#e3e3f1', YWASH='#fdf1cc', YTEXT='#7a5400', NTEXT='#3a33b8';
-const fmt=(v,d=2)=>((v>=0||Math.abs(v)<0.5*Math.pow(10,-d))?'+':'−')+Math.abs(v).toFixed(d);
+const fmt=(v,d=2)=>Math.abs(v)<0.5*Math.pow(10,-d)?(0).toFixed(d):(v>0?'+':'−')+Math.abs(v).toFixed(d);
 // standard normal CDF (Abramowitz-Stegun 7.1.26) and density
 function Phi(x){const t=1/(1+0.3275911*Math.abs(x)/Math.SQRT2),y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x/2);return x>=0?0.5*(1+y):0.5*(1-y)}
 const pdf=x=>Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);
@@ -772,7 +785,8 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null,gen=0;const runs=[];
   const cv=$('#exCv'),g=cv.getContext('2d'),veil=$('#exVeil'),ask=$('#exAsk'),fb=$('#exFb'),prog=$('#exProg'),desc=$('#exDesc');
   const bStart=$('#exStart'),bYes=$('#exYes'),bNo=$('#exNo');
-  function picks(box,arr,get,set){arr.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{if(busy)return;set(i);sync()};box.appendChild(b);x.btn=b});return()=>arr.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===get()))}
+  const ALLP=[];const lock=on=>ALLP.forEach(b=>{b.disabled=on;b.style.opacity=on?.45:''});
+  function picks(box,arr,get,set){arr.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{if(busy)return;set(i);sync()};box.appendChild(b);x.btn=b;ALLP.push(b)});return()=>arr.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===get()))}
   const s1=picks($('#exMode'),MODES,()=>mode,i=>mode=i),s2=picks($('#exDiff'),DIFF,()=>diff,i=>diff=i),s3=picks($('#exPay'),PAY,()=>pay,i=>pay=i);
   const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
   function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;
@@ -813,14 +827,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     if(sig&&yes){tally.h++;pts=P.h;t='Hit. It was there.'}else if(sig){tally.m++;pts=-P.m;t='Miss. It was there.'}
     else if(yes){tally.fa++;pts=-P.fa;t='False alarm. Just noise.'}else{tally.cr++;pts=P.cr;t='Correct. Just noise.'}
     score+=pts;fb.innerHTML=t+' <b>'+(pts>0?'+':'−')+Math.abs(pts)+'</b>';prog.textContent='trial '+(ti+1)+' of '+N+'   score '+score;const my=gen;setTimeout(()=>{if(my===gen)next()},650)}
-  function finish(partial){busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;bStart.textContent='Run again, 20 trials';skip.textContent='Skip the test and just show me results';
+  function finish(partial){busy=false;lock(false);bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;bStart.textContent='Run again, 20 trials';skip.hidden=true;
     const nS=tally.h+tally.m,nN=tally.fa+tally.cr;
     // log-linear correction keeps the estimates finite at 0% or 100%
     const H=(tally.h+0.5)/(nS+1),F=(tally.fa+0.5)/(nN+1),zH=zinv(H),zF=zinv(F),d=zH-zF,c=-(zH+zF)/2;
     const P=PAY[pay],beta=(P.cr+P.fa)/(P.h+P.m),copt=Math.log(beta)/Math.max(0.5,d),di=ideal(),eff=d>0?Math.pow(d/di,2)*100:0;
     runs.push({pay:P.n,mode:MODES[mode].n,d,c,copt,score});
-    const lean=c>0.2?'conservative':c<-0.2?'liberal':'close to neutral';
-    const eye=d<0.3?'Lost in the static':d<1?'Squinting':d<2?'Sharp':'Eagle-eyed',hand=d<0.3?'':c>0.3?', and careful':c<-0.3?', and bold':', and steady';
+    const lean=c>0.2?'conservative':c<-0.2?'permissive':'close to neutral';
+    const eye=partial?'A partial run':d<0.3?(mode?'Lost in the noise':'Lost in the static'):d<1?(mode?'Straining':'Squinting'):d<2?'Sharp':(mode?'Sharp-eared':'Eagle-eyed'),hand=(partial||d<0.3)?'':c>0.3?', and careful':c<-0.3?', and bold':', and steady';
     const pos=v=>Math.max(2,Math.min(98,50+v/1.5*50)).toFixed(1);
     let h='<div class="result pop"><div class="badge"><small>your run '+runs.length+', '+MODES[mode].n.toLowerCase()+', '+P.n.toLowerCase()+(partial?', stopped after '+(nS+nN)+' trials':'')+'</small>'+eye+hand+'</div>'+
       '<div class="nums"><div><b>'+d.toFixed(2)+'</b><span>sensitivity d′: how well you can tell</span></div><div><b>'+fmt(c)+'</b><span>criterion c: '+lean+'</span></div><div><b>'+(score>0?'+':'')+score+'</b><span>points, from '+tally.h+' hits and '+tally.fa+' false alarms</span></div></div>'+
@@ -835,17 +849,16 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     if(d<0.3){h+=note('warn','<b>That was chance.</b> Your answers did not follow the signal on this run, so there is no criterion to speak of. Switch to the easier setting and run again.');}
     else{
       if(runs.length===1)h+=note('next','<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.','go');
-      const effTxt=(eff<1?eff.toFixed(1):Math.round(eff))+'%',wEff=Math.max(2,Math.min(100,eff)).toFixed(1);
       h+='<details class="more"><summary>'+I.model+'<span>Compare with the classic model</span></summary><div class="cmp">'+
-        '<div class="row"><div class="what"><b>Sensitivity</b>An ideal observer, which knows exactly what the signal looks like, would reach d′ = '+di.toFixed(1)+' on these trials.</div>'+
-          '<div class="viz"><div class="meter"><i style="width:'+wEff+'%"></i></div><span>you used about <b>'+effTxt+'</b> of the information that was there</span><small>People in classic experiments range from a few percent to about half.</small></div></div>'+
+        '<div class="row"><div class="what"><b>Sensitivity</b>An ideal observer, which knows exactly what the signal looks like, would be near-perfect on these trials.</div>'+
+          '<div class="viz"><span>yours is <b>'+d.toFixed(2)+'</b></span><small>Twenty trials can measure up to about 3.4. Most people land between 1 and 2.5.</small></div></div>'+
         '<div class="row"><div class="what"><b>Criterion</b>With these stakes the same theory puts the best line at c = '+fmt(copt)+'.</div>'+
           '<div class="viz"><span>yours is at <b>'+fmt(c)+'</b>, '+(Math.abs(c-copt)<0.2?'right about there':(c>copt?'more cautious than that':'bolder than that'))+'</span><small>People usually move toward the best line and stop short of it.</small></div></div>'+
         '</div></details>';}
     h+='<div class="tip crowdrow">'+I.crowd+'<div id="exCrowd">Looking up the crowd…</div></div>';
     if(runs.length>1)h+='<details class="more" open><summary>'+I.list+'<span>Your runs so far</span></summary><table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table></details>';
     h+='<p style="margin-top:14px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
-    desc.innerHTML=h;crowd(d,partial);if(!partial)celebrate(d);ask.textContent=partial?'Stopped.':'Done.';veil.hidden=false;veil.textContent=(nS+nN)+' of 20';
+    desc.innerHTML=h;fb.innerHTML='&nbsp;';try{desc.scrollIntoView({block:'nearest',behavior:(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth'})}catch(e){}crowd(d,partial);if(!partial)celebrate(d);ask.textContent=partial?'Stopped.':'Done.';veil.hidden=false;veil.textContent=(nS+nN)+' of 20';
     $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
   // a short burst of paper when a run is finished; skipped when the reader prefers less motion
   function celebrate(d){if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
@@ -858,7 +871,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       if(t<2.2)requestAnimationFrame(step);else{x.clearRect(0,0,W,H);cvs.hidden=true}})(performance.now());}
   // the crowd: everyone who has taken this test on this page
   function crowdText(j,d,added){const others=j.cell.n-(added?1:0);let t='<b>The crowd so far.</b> ';
-    if(others<5){t+=(others<=0?'no other runs yet':'only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
+    if(others<5){t+=(others<=0?'No other runs yet':'Only '+others+' other run'+(others>1?'s':''))+' on this setting ('+MODES[mode].n.toLowerCase()+', '+DIFF[diff].n+'). The average will mean something once more people have added theirs.'}
     else{t+=others+' other runs on this setting, with a mean sensitivity of d′ = '+j.cell.d_mean.toFixed(2)+'. ';
       if(d!==null&&d>=0.3&&j.cell.below!==null)t+='You were more sensitive than '+Math.round(100*j.cell.below/others)+'% of them. ';
       const ps=(j.pays||[]).filter(x=>x.n>=3);
@@ -869,7 +882,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     const req=share
       ?fetch('/api/flipact',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({mode:mk_,diff:diff,pay:pay,hits:tally.h,fas:tally.fa})})
       :fetch('/api/flipact?mode='+mk_+'&diff='+diff+(d===null?'':'&d='+d.toFixed(4)));
-    req.then(r=>r.json()).then(j=>{const el=box();if(!el||!j||j.error||!j.cell)return;
+    req.then(r=>r.json()).then(j=>{const el=box();if(!el)return;if(!j||j.error||!j.cell){el.innerHTML='<b>The crowd so far.</b> Not available right now.';return}
       let t=crowdText(j,d,share&&j.stored);
       if(share&&!j.stored)t+=' This run was not added: the daily limit for one visitor was reached.';
       if(!share&&!viewOnly)t+=' Your run was not added.';
@@ -887,12 +900,13 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   skip.onclick=()=>{
     if(!busy)return peek();
     gen++;const done=tally.h+tally.m>=2&&tally.fa+tally.cr>=2;   // enough answers to estimate anything
-    if(done)finish(true);else{busy=false;bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;skip.textContent='Skip the test and just show me results';blank();sync();peek()}};
+    if(done)finish(true);else{busy=false;lock(false);bStart.textContent='Start, 20 trials';bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;skip.textContent='Skip the test and just show me results';blank();sync();peek()}};
   bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
-    gen++;busy=true;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;skip.textContent='Stop here and show me what I have';score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
+    gen++;busy=true;lock(true);skip.hidden=false;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;skip.textContent='Stop here and show me what I have';score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
     trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
     ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
   bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
+  document.addEventListener('keydown',e=>{if(!busy||e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key.toLowerCase();if(k==='y'||k==='arrowleft'){e.preventDefault();answer(true)}else if(k==='n'||k==='arrowright'){e.preventDefault();answer(false)}});
   blank();sync();desc.innerHTML='Twenty trials take about a minute. If the box is ticked, your result joins the crowd average, anonymously.';
 })();
 
@@ -907,14 +921,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     pre:[{n:'a cautious listener',d:1.0,c:0.8,t:'<b>A cautious listener.</b> They say yes only when they are sure. Few false alarms, and most of the faint tones go unreported. Fine them for every false alarm and anyone ends up here.'},
          {n:'an eager listener',d:1.0,c:-0.7,t:'<b>An eager listener.</b> The same ears, a different line. They catch most tones and also report many that were never played. Pay for every tone caught and anyone ends up here.'},
          {n:'better hearing',d:2.4,c:0,t:'<b>Better hearing.</b> Now the tone stands out from the noise, and the two curves pull apart. Wherever the line goes there are few errors left to trade.'}],
-    free:{cons:'<b>Conservative.</b> The listener misses tones they could have reported, and seldom reports one that was not there.',perm:'<b>Liberal.</b> The listener seldom misses a tone, and often reports one that was not there.',mid:'<b>Unbiased.</b> Misses and false alarms are balanced. Accuracy is as high as this hearing allows.'}},
+    free:{cons:'<b>Conservative.</b> The listener misses tones they could have reported, and seldom reports one that was not there.',perm:'<b>Permissive.</b> The listener seldom misses a tone, and often reports one that was not there.',mid:'<b>Unbiased.</b> Misses and false alarms are balanced. Accuracy is as high as this hearing allows.'}},
    {n:'A radiologist',noise:'healthy scans',signal:'scans with a tumour',yes:'flags the scan →',axis:['looks normal','looks suspicious'],
     hk:'tumours that get flagged',fk:'healthy scans that get flagged',
     ds:'How well the reader can tell a tumour from normal tissue.',cs:'How suspicious a scan has to look before it is flagged.',
     pre:[{n:'flags only clear cases',d:1.2,c:0.7,t:'<b>Flags only clear cases.</b> Few patients are called back for nothing, and some tumours are missed. The cost of this line is paid by the patients who were sent home.'},
          {n:'flags anything doubtful',d:1.2,c:-0.8,t:'<b>Flags anything doubtful.</b> The same eye, a different line. Almost no tumour is missed, and many healthy patients go through an unnecessary biopsy.'},
          {n:'a more experienced reader',d:2.4,c:0,t:'<b>A more experienced reader.</b> Training changes what the reader can see, which moves the curves apart. A hospital policy can only move the line.'}],
-    free:{cons:'<b>Conservative.</b> Few needless call-backs, at the price of missed tumours.',perm:'<b>Liberal.</b> Few missed tumours, at the price of needless call-backs.',mid:'<b>Balanced.</b> The two kinds of error are traded evenly. Doing better takes a sharper eye.'}},
+    free:{cons:'<b>Conservative.</b> Few needless call-backs, at the price of missed tumours.',perm:'<b>Permissive.</b> Few missed tumours, at the price of needless call-backs.',mid:'<b>Balanced.</b> The two kinds of error are traded evenly. Doing better takes a sharper eye.'}},
    {n:'A language model',noise:'should not act',signal:'should act',yes:'calls the tool →',axis:['less evidence for acting','more evidence for acting'],
     hk:'acts when it should',fk:'acts when it should not',
     ds:'How far apart the model sees the two kinds of example.',cs:'How much evidence it wants before it acts.',
@@ -972,15 +986,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
       act:'<code>web_search("capital of France")</code> The capital of France is Paris.',
       hold:'Paris.',
       fa:'It spent a tool call on something it already knew.'}]},
-   {n:'Ask before acting',miss:'The agent acts on a guess, and the user finds out after the booking is made.',fa:'An assistant that asks about everything, until the user stops using it.',cases:[
-     {right:'act',label:'asking is right',user:'Book me a table for Friday.',
-      act:'Happy to. Which restaurant, what time, and for how many people?',
-      hold:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
-      miss:'It guessed the restaurant, the time and the party size.'},
-     {right:'hold',label:'nothing is missing',user:'Book a table for two at Luigi\'s this Friday at 7 pm.',
-      act:'Sure. Just to confirm, which restaurant did you have in mind, and at what time?',
-      hold:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
-      fa:'Everything it asked for was already in the request.'}]},
+   {n:'Act or ask first',miss:'An assistant that asks about everything, until the user stops using it.',fa:'The agent acts on a guess, and the user finds out after the booking is made.',cases:[
+     {right:'act',label:'going ahead is right',user:'Book a table for two at Luigi\'s this Friday at 7 pm.',
+      act:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
+      hold:'Sure. Just to confirm, which restaurant did you have in mind, and at what time?',
+      miss:'Everything it asked for was already in the request.'},
+     {right:'hold',label:'asking first is right',user:'Book me a table for Friday.',
+      act:'<code>book_table("Luigi\'s", "Fri 19:00", 2)</code> Done: a table for two at Luigi\'s at 7 pm.',
+      hold:'Happy to. Which restaurant, what time, and for how many people?',
+      fa:'It guessed the restaurant, the time and the party size.'}]},
    {n:'Answer or abstain',miss:'A model that knows the answer and will not give it.',fa:'A fabricated answer delivered with the same confidence as a true one.',cases:[
      {right:'act',label:'answering is right',user:'How many days are there in a leap year?',
       act:'366.',
@@ -1063,7 +1077,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function draw(){
     const v=+V.value,v2=v+tool.d*tool.mu,u=dU(v,tool),yes=u>0;
     TOOLS.forEach(t=>t.btn.setAttribute('aria-pressed',t===tool));
-    $('#phyVv').textContent=stateName(v).replace('at a normal moisture level','normal')+' ('+fmt(v,0).replace('+0','0')+')';
+    $('#phyVv').textContent=stateName(v).replace('at a normal moisture level','normal')+' ('+fmt(v,0)+')';
     $('#scene').innerHTML='Situation: The <span class="slot obj">room</span> is <span class="slot st">'+stateName(v)+'</span>. The goal is to bring the <span class="slot obj">room</span> back to a normal state. Action: a person uses a <span class="slot tool">'+tool.name+'</span>. Is using the <span class="slot tool">'+tool.name+'</span> a wise choice in this situation? Answer Yes or No.';
     // axis
     svg.innerHTML='';const L=40,R=600,Y=78,sx=x=>L+(x+6)/12*(R-L);
@@ -1071,7 +1085,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     svg.appendChild(mk('line',{x1:L,x2:R,y1:Y,y2:Y,stroke:'#bdbcd6','stroke-width':2}));
     for(let x=-6;x<=6;x++){svg.appendChild(mk('line',{x1:sx(x),x2:sx(x),y1:Y-5,y2:Y+5,stroke:'#bdbcd6'}));
       if(x%1===0&&Math.abs(x)<=6)svg.appendChild(mk('text',{x:sx(x),y:Y+24,'text-anchor':'middle','font-size':11.5,fill:Math.abs(x)>3?'#bdbcd6':SOFT},x===0?'0':(x>0?'+':'−')+Math.abs(x)))}
-    svg.appendChild(mk('text',{x:sx(0),y:Y-34,'text-anchor':'middle','font-size':12.5,fill:YTEXT,'font-weight':700},'normal'));
+    svg.appendChild(mk('text',{x:sx(0),y:Y+42,'text-anchor':'middle','font-size':12.5,fill:YTEXT,'font-weight':700},'normal'));
     svg.appendChild(mk('text',{x:L,y:Y+46,'font-size':12.5,fill:SOFT},'← drier'));
     svg.appendChild(mk('text',{x:R,y:Y+46,'font-size':12.5,fill:SOFT,'text-anchor':'end'},'wetter →'));
     const col=yes?YES:NO,a=sx(v),b=sx(Math.max(-6,Math.min(6,v2)));
@@ -1085,8 +1099,8 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     const ans=$('#phyAns');ans.textContent=yes?'Yes':'No';ans.className='ans '+(yes?'yes':'no');
     $('#phyWhy').innerHTML='<b>ΔU = |'+v+'| − |'+v2+'| = '+fmt(u,0).replace('+0','0')+'</b> &nbsp; distance to normal goes from '+Math.abs(v)+' to '+Math.abs(v2);
     let d;
-    if(v===0)d='<b>Redundant.</b> The room is already normal, so any tool can only push it away. The answer is No, with the size of the push as the score.';
-    else if(Math.sign(v)===tool.d)d='<b>Destructive.</b> The tool pushes the wrong way: a room that is already too '+(v<0?'dry':'wet')+' gets '+(v<0?'drier':'wetter')+'. The more it overshoots, the more negative the score.';
+    if(v===0)d='<b>Redundant.</b> The room is already normal, so any tool can only push it away. The answer is No, and the score is minus the size of the push.';
+    else if(Math.sign(v)===tool.d)d='<b>Destructive.</b> The tool pushes the wrong way: a room that is already too '+(v<0?'dry':'wet')+' gets '+(v<0?'drier':'wetter')+'. The harder it pushes, the more negative the score.';
     else if(u>0&&v2===0)d='<b>Helpful, and exact.</b> The tool pushes the right way by just the amount needed. This is the highest score this state can earn.';
     else if(u>0)d='<b>Helpful.</b> The right direction, and the room ends closer to normal than it started'+(Math.sign(v2)!==Math.sign(v)?', even though it overshoots a little.':'.');
     else d='<b>Redundant overshoot.</b> The tool pushes the right way, but too hard: the room ends '+(u===0?'exactly as far from normal as it started':'further from normal than it started')+', on the other side. The rule says No.'+(u===0?' Models accept these about as often as helpful actions.':'');
@@ -1105,8 +1119,8 @@ function plotFrame(svg){
     svg.appendChild(mk('text',{x:L-10,y:sy(p)+4,'text-anchor':'end','font-size':12,fill:SOFT},p))});
   for(let u=-3;u<=3;u++)svg.appendChild(mk('text',{x:sx(u),y:B+20,'text-anchor':'middle','font-size':12,fill:SOFT},u===0?'0':(u>0?'+':'−')+Math.abs(u)));
   svg.appendChild(mk('line',{x1:sx(0),x2:sx(0),y1:T,y2:B,stroke:INK,'stroke-width':1.5}));
-  svg.appendChild(mk('text',{x:sx(0)+8,y:T+14,'font-size':12.5,fill:YTEXT,'font-weight':600},'rule says Yes'));
-  svg.appendChild(mk('text',{x:sx(0)-8,y:T+14,'font-size':12.5,fill:NTEXT,'font-weight':600,'text-anchor':'end'},'rule says No'));
+  svg.appendChild(mk('text',{x:sx(0)+8,y:T-8,'font-size':12.5,fill:YTEXT,'font-weight':600},'rule says Yes'));
+  svg.appendChild(mk('text',{x:sx(0)-8,y:T-8,'font-size':12.5,fill:NTEXT,'font-weight':600,'text-anchor':'end'},'rule says No'));
   svg.appendChild(mk('text',{x:(L+R)/2,y:H-14,'text-anchor':'middle','font-size':12.5,fill:INK},'evidence score ΔU'));
   svg.appendChild(mk('text',{x:16,y:(T+B)/2,'text-anchor':'middle','font-size':12.5,fill:INK,transform:'rotate(-90 16 '+((T+B)/2)+')'},'Yes-rate'));
   const path=(a,t)=>{let p='';for(let i=0;i<=100;i++){const u=-3.6+7.2*i/100;p+=(i?'L':'M')+sx(u).toFixed(1)+','+sy(sig(a*(u-t))).toFixed(1)}return p};
@@ -1152,9 +1166,9 @@ function drawTau(svg,f,t,label){
            {n:'gemma-3-12b', base:[0.36,2.17,0.59], dist:[0.35, 0.30,0.61], sens:[1.56,-0.41,0.83]},
            {n:'Mistral-24B', base:[0.59,3.47,0.59,true], dist:[0.42,0.19,0.62], sens:[1.16,0.08,0.79]}];
   const CONDS=[{k:'base',n:'before training',d:m=>'<b>'+m.n+' before training.</b> The curve crosses one half far above the rule\'s boundary'+(m.base[3]?', beyond the top of the score range':'')+'. The model is conservative: it turns down many actions that would help.'},
-               {k:'dist',n:'after criterion distillation',d:m=>'<b>Distilled from its own steered copy.</b> The curve slides sideways: the criterion moves a long way, and the slope changes little. Accuracy rises a little, as expected for a model that started conservative.'},
-               {k:'sens',n:'after sensitivity learning',d:m=>'<b>Trained on the computed labels.</b> Now the curve gets steeper and its crossing point comes to rest near zero. Labels move both coordinates, and accuracy rises the most.'}];
-  const svg=$('#mvsvg');let mi=0,ci=1;
+               {k:'dist',n:'after criterion distillation',d:m=>'<b>Distilled from its own steered copy.</b> The curve slides sideways. The criterion moves toward acting, and the slope shows no significant change. Accuracy rises a little, as expected for a model that started conservative.'},
+               {k:'sens',n:'after sensitivity learning',d:m=>'<b>Trained on the computed labels.</b> Now the curve gets steeper and its crossing point moves close to zero. Labels move both coordinates, and accuracy rises the most.'}];
+  const svg=$('#mvsvg');let mi=1,ci=1;
   const mb=$('#mvModels'),cb=$('#mvConds');
   M.forEach((m,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=m.n;b.onclick=()=>{mi=i;draw()};mb.appendChild(b);m.btn=b});
   CONDS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=c.n;b.onclick=()=>{ci=i;draw()};cb.appendChild(b);c.btn=b});
@@ -1167,7 +1181,7 @@ function drawTau(svg,f,t,label){
       const yt=Math.min(f.B-8,f.sy(sig(m.base[0]*(2.3-m.base[1])))+20);
       svg.appendChild(mk('text',{x:f.sx(3.5),y:yt,'text-anchor':'end','font-size':12.5,fill:'#6f6d92','font-weight':600},'before training'));}
     svg.appendChild(mk('path',{d:f.path(cur[0],cur[1]),fill:'none',stroke:NO,'stroke-width':3.5,'stroke-linecap':'round'}));
-    drawTau(svg,f,cur[1],'τ = '+(cur[3]?'beyond +3':fmt(cur[1])));
+    drawTau(svg,f,cur[1],(cur[3]?'τ > +3':'τ = '+fmt(cur[1])));
     $('#mvA').textContent=cur[0].toFixed(2);$('#mvT').textContent=cur[3]?'> +3':fmt(cur[1]);
     $('#mvAcc').textContent=cur[2].toFixed(2)+(c.k==='base'?'':'  ('+fmt(cur[2]-m.base[2])+')');
     $('#mvdesc').innerHTML=c.d(m);
