@@ -170,6 +170,16 @@ details.more .tblwrap{margin-top:0;border-top:1px solid var(--line-2);padding:0 
 .pick[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
 .picks{display:flex;flex-wrap:wrap;gap:8px}
 .picks.stack{flex-direction:column}
+.payx{display:grid;grid-template-columns:auto 1fr;gap:10px 26px;align-items:center;padding:12px 16px;border-bottom:1.5px solid var(--ink);font-size:14.5px}
+.payx table{border-collapse:collapse;font-size:13.5px}
+.payx th,.payx td{padding:5px 10px;border:1px solid var(--line-2);text-align:center;white-space:nowrap}
+.payx th{font-weight:500;color:var(--soft);background:transparent}
+.payx td b{font-family:var(--mono);font-size:14px}
+.payx td small{display:block;color:var(--soft);font-size:11.5px}
+.payx td.big3{background:var(--alert-wash,#fde8ee)}
+.payx td.big3 b{color:var(--alert,#c2255c)}
+.payx p{line-height:1.5;max-width:520px}
+.gnote{font-size:14.5px;line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-2)}
 .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;font-weight:600}
 .ctl label span{font-family:var(--mono);font-weight:500;color:var(--hold-text)}
 .ctl input[type=range]{width:100%;margin-top:8px;accent-color:var(--ink)}
@@ -272,6 +282,7 @@ details.more .runs th:first-child,details.more .runs td:first-child{padding-left
 .how ol li::before{content:counter(h);font-family:var(--mono);font-size:12.5px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
 .how .hear{display:flex;flex-direction:column;gap:8px}
 .how [hidden]{display:none}
+[hidden]{display:none!important}
 .result{border:1.5px solid var(--ink);border-radius:6px;background:var(--card);padding:18px;margin-bottom:14px}
 .result .badge{font-family:var(--display);font-weight:600;font-size:clamp(24px,3vw,32px);line-height:1.1}
 .result .badge small{display:block;font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--soft);margin-bottom:4px}
@@ -377,6 +388,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   .defs{grid-template-columns:1fr}
   .how{grid-template-columns:minmax(0,1fr)}
   .how .egs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+  .payx{grid-template-columns:1fr}
   .how figure{width:auto}
   .how figure canvas{width:100%;height:auto;aspect-ratio:1}
   .pick{min-height:42px}
@@ -521,7 +533,8 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
 
   <div class="lab" id="exp">
     <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
-    <div class="bar"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
+    <div class="bar second"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
+    <div class="payx" id="exPayX" aria-live="polite"></div>
     <div class="how">
       <div class="egs" id="exEgs">
         <figure><canvas id="egNo" width="120" height="120"></canvas><figcaption><b>No</b>just static</figcaption></figure>
@@ -816,9 +829,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const DIFF=[{n:'easier',vis:1.15,aud:0.024},{n:'standard',vis:0.7,aud:0.015},{n:'harder',vis:0.45,aud:0.0105}];
   const TONE_S=0.25, BURST_S=0.7;
   // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
-  const PAY=[{n:'Nothing at stake',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.'},
-             {n:'Misses are costly',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.'},
-             {n:'False alarms are costly',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.'}];
+  const PAY=[{n:'Every mistake costs 1',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.',
+              tip:'<b>When you are unsure, there is no reason to lean either way.</b> Both mistakes cost the same, so just answer what you think you saw.',
+              why:'Every mistake costs the same here, so the best place for the line is the middle. Leaning either way only swaps one kind of mistake for more of the other.'},
+             {n:'Missing it costs 3',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.',
+              tip:'<b>When you are unsure, say yes.</b> Think of a smoke alarm: missing a real fire is far worse than going off for burnt toast.',
+              why:'Missing it costs 3 here, so the best line moves toward “says yes freely”. A few wrong yeses are cheaper than one miss.'},
+             {n:'A wrong yes costs 3',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.',
+              tip:'<b>When you are unsure, say no.</b> Think of a referee and a red card: sending off an innocent player is worse than letting one foul go.',
+              why:'A wrong yes costs 3 here, so the best line moves toward “holds back”. Letting a few go is cheaper than one wrong yes.'}];
   let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null,gen=0;const runs=[];
   const cv=$('#exCv'),g=cv.getContext('2d'),veil=$('#exVeil'),ask=$('#exAsk'),fb=$('#exFb'),prog=$('#exProg'),desc=$('#exDesc');
   const bStart=$('#exStart'),bYes=$('#exYes'),bNo=$('#exNo');
@@ -826,8 +845,16 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   function picks(box,arr,get,set){arr.forEach((x,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.textContent=x.n;b.onclick=()=>{if(busy)return;set(i);sync()};box.appendChild(b);x.btn=b;ALLP.push(b)});return()=>arr.forEach((x,i)=>x.btn.setAttribute('aria-pressed',i===get()))}
   const s1=picks($('#exMode'),MODES,()=>mode,i=>mode=i),s2=picks($('#exDiff'),DIFF,()=>diff,i=>diff=i),s3=picks($('#exPay'),PAY,()=>pay,i=>pay=i);
   const what=()=>mode===0?'a faint bright blob in the middle':'a faint tone';
-  function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;
-    example('egNow',DIFF[diff].vis);$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
+  let shownDiff=-1;
+  // remember which fold-outs the reader opened or closed, so a new run does not reset them
+  const fold={};desc.addEventListener('toggle',e=>{const t=e.target;if(t&&t.dataset&&t.dataset.k)fold[t.dataset.k]=t.open},true);
+  function payx(){const P=PAY[pay],there=mode===0?'the blob was there':'the tone was there',noise=mode===0?'just static':'just noise';
+    const cell=(v,name,big)=>'<td'+(big?' class="big3"':'')+'><b>'+(v>0?'+':'−')+Math.abs(v)+'</b><small>'+name+'</small></td>';
+    $('#exPayX').innerHTML='<table><thead><tr><th></th><th>you say yes</th><th>you say no</th></tr></thead><tbody>'+
+      '<tr><th>'+there+'</th>'+cell(P.h,'hit')+cell(-P.m,'miss',P.m>1)+'</tr>'+
+      '<tr><th>'+noise+'</th>'+cell(-P.fa,'false alarm',P.fa>1)+cell(P.cr,'correct')+'</tr></tbody></table><p>'+P.tip+'</p>'}
+  function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;payx();
+    if(shownDiff!==diff){example('egNow',DIFF[diff].vis);shownDiff=diff}$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
     $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a short, faint tone is hidden somewhere inside it, at a different moment each time, like the third example.';
     if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
       veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide a short, faint tone.<br>Headphones help. Use a comfortable volume.';
@@ -875,7 +902,9 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     const pos=v=>Math.max(2,Math.min(98,50+v/1.5*50)).toFixed(1);
     let h='<div class="result pop"><div class="badge"><small>your run '+runs.length+', '+MODES[mode].n.toLowerCase()+', '+P.n.toLowerCase()+(partial?', stopped after '+(nS+nN)+' trials':'')+'</small>'+eye+hand+'</div>'+
       '<div class="nums"><div><b>'+d.toFixed(2)+'</b><span>sensitivity d′: how well you can tell</span></div><div><b>'+fmt(c)+'</b><span>criterion c: '+lean+'</span></div><div><b>'+(score>0?'+':'')+score+'</b><span>points, from '+tally.h+' hits and '+tally.fa+' false alarms</span></div></div>'+
-      (d>=0.3?'<div class="gauge"><div class="track"><div class="mk best" style="left:'+pos(copt)+'%"><span>best for these stakes</span></div><div class="mk" style="left:'+pos(c)+'%"><span>you</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div>':'')+'</div>';
+      (d>=0.3?'<div class="gauge"><div class="track"><div class="mk best" style="left:'+pos(copt)+'%"><span>best for these stakes</span></div><div class="mk" style="left:'+pos(c)+'%"><span>you</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div>'+
+        '<p class="gnote"><b>How to read the bar.</b> It shows how easily you said yes. The dashed line is where a player with your '+(mode?'hearing':'eyesight')+' would earn the most points. '+P.why+' You were '+(Math.abs(c-copt)<0.2?'right about there':(c>copt?'more cautious than that':'bolder than that'))+'.</p>':'')+'</div>';
+    const isOpen=(k,def)=>(k in fold?fold[k]:def)?' open':'';
     const I={next:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10a6 6 0 0 1 10.6-3.8M16 10a6 6 0 0 1-10.6 3.8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14.8 2.8v3.6h-3.6M5.2 17.200v-3.600h3.600" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
       warn:'<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3l8 14H2z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8.500v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="14.800" r="1" fill="currentColor"/></svg>',
       model:'<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.200" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="3.600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="10" cy="10" r="1.200" fill="currentColor"/></svg>',
@@ -886,14 +915,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     if(d<0.3){h+=note('warn','<b>That was chance.</b> Your answers did not follow the signal on this run, so there is no criterion to speak of. Switch to the easier setting and run again.');}
     else{
       if(runs.length===1)h+=note('next','<b>Now change the stakes and run again.</b> Your d′ should stay about where it is. Your c should move.','go');
-      h+='<details class="more"><summary>'+I.model+'<span>Compare with the classic model</span></summary><div class="cmp">'+
+      h+='<details class="more" data-k="cmp"'+isOpen('cmp',false)+'><summary>'+I.model+'<span>Compare with the classic model</span></summary><div class="cmp">'+
         '<div class="row"><div class="what"><b>Sensitivity</b>An ideal observer, which knows exactly what the signal looks like, would be near-perfect on these trials.</div>'+
           '<div class="viz"><span>yours is <b>'+d.toFixed(2)+'</b></span><small>Twenty trials can measure up to about 3.4. Most people land between 1 and 2.5.</small></div></div>'+
         '<div class="row"><div class="what"><b>Criterion</b>With these stakes the same theory puts the best line at c = '+fmt(copt)+'.</div>'+
           '<div class="viz"><span>yours is at <b>'+fmt(c)+'</b>, '+(Math.abs(c-copt)<0.2?'right about there':(c>copt?'more cautious than that':'bolder than that'))+'</span><small>People usually move toward the best line and stop short of it.</small></div></div>'+
         '</div></details>';}
     h+='<div class="tip crowdrow">'+I.crowd+'<div id="exCrowd">Looking up the crowd…</div></div>';
-    if(runs.length>1)h+='<details class="more" open><summary>'+I.list+'<span>Your runs so far</span></summary><table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table></details>';
+    if(runs.length>1)h+='<details class="more" data-k="runs"'+isOpen('runs',true)+'><summary>'+I.list+'<span>Your runs so far</span></summary><table class="runs"><thead><tr><th>run</th><th>d′</th><th>c</th><th>best c</th><th>score</th></tr></thead><tbody>'+runs.map(r=>'<tr><td>'+r.mode+', '+r.pay.toLowerCase()+'</td><td>'+r.d.toFixed(2)+'</td><td>'+fmt(r.c)+'</td><td>'+fmt(r.copt)+'</td><td>'+r.score+'</td></tr>').join('')+'</tbody></table></details>';
     h+='<p style="margin-top:14px"><button class="big" type="button" id="exShow">Put me on the diagram below</button></p>';
     desc.innerHTML=h;fb.innerHTML='&nbsp;';try{desc.scrollIntoView({block:'nearest',behavior:(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)?'auto':'smooth'})}catch(e){}crowd(d,partial);if(!partial)celebrate(d);ask.textContent=partial?'Stopped.':'Done.';veil.hidden=false;veil.textContent=(nS+nN)+' of 20';
     $('#exShow').onclick=()=>window.flipShow&&window.flipShow(d,c,'<b>This is you.</b> Sensitivity d′ = '+d.toFixed(2)+', criterion c = '+fmt(c)+' under “'+P.n.toLowerCase()+'”. Drag the line: that is all a change of stakes does. Then switch the setting to a language model and compare.');}
@@ -930,7 +959,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     desc.innerHTML='<div class="result"><div class="badge"><small>an example result, not yours</small>Sharp, and careful</div>'+
       '<div class="nums"><div><b>1.33</b><span>sensitivity d′: how well this person can tell</span></div><div><b>+0.43</b><span>criterion c: conservative</span></div><div><b>+10</b><span>points, from 6 hits and 1 false alarm</span></div></div>'+
       '<div class="gauge"><div class="track"><div class="mk best" style="left:50%"><span>best for these stakes</span></div><div class="mk" style="left:64.4%"><span>this person</span></div></div><div class="ends"><span>says yes freely</span><span>holds back</span></div></div></div>'+
-      '<div class="tip"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.200" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4.500l3 1.800" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>How to read it.</b> This person tells the blob from plain static fairly well, and says yes less often than would earn the most points. Raise the price of a miss and the marker moves left. The first number hardly changes.</div></div>'+
+      '<div class="tip"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.200" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 6v4.500l3 1.800" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><div><b>How to read it.</b> This person tells '+(mode?'the tone from plain noise':'the blob from plain static')+' fairly well, and says yes less often than would earn the most points. Raise the price of a miss and the marker moves left. The first number hardly changes.</div></div>'+
       '<div class="tip crowdrow"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="7" cy="7" r="2.600" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="14" cy="8" r="2.100" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.500 16.500c0-2.700 2-4.500 4.500-4.500s4.500 1.800 4.500 4.500M12.500 12.300c2.600-.6 5 1 5 4.200" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><div id="exCrowd">Looking up the crowd…</div></div>';
     crowd(null,true);}
   const skip=$('#exSkip');
