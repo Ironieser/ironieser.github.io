@@ -188,7 +188,12 @@ details.more .tblwrap{margin-top:0;border-top:1px solid var(--line-2);padding:0 
 .payx p{line-height:1.5;max-width:520px}
 .payx p.real{margin-top:8px;color:var(--soft);font-size:14px}
 .payx p.real b{color:var(--ink)}
-.paywhy{padding:10px 16px 0;font-size:14px;line-height:1.5;color:var(--soft);max-width:62em}
+.paywhy{padding:0 12px 12px;font-size:14px;line-height:1.5;color:var(--soft);max-width:62em}
+.round{padding:14px 16px;border-bottom:1.5px solid var(--ink)}
+.round #exRule{font-size:15.5px;line-height:1.5}
+.round details.more{margin-top:10px}
+.round details.more .payx{border-bottom:none;border-top:1px solid var(--line-2);padding:12px}
+.round details.more .how{border-bottom:none;border-top:1px solid var(--line-2);padding:14px 12px}
 .paywhy b{color:var(--ink)}
 .gnote{font-size:14.5px;line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-2)}
 .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;font-weight:600}
@@ -546,24 +551,31 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <div class="lab" id="exp">
     <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
     <div class="bar second"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
-    <p class="paywhy"><b>Why three settings?</b> They change only which mistake is expensive. The pictures and sounds stay just as hard. If the theory holds, how well you can tell stays the same from one setting to the next, and how readily you say yes moves. Run two of them and compare.</p>
-    <div class="payx" id="exPayX" aria-live="polite"></div>
+    <div class="round">
+      <p id="exRule" aria-live="polite"></p>
+      <details class="more" id="exWhyD"><summary><span>Why, and the scoring table</span></summary>
+        <div class="payx" id="exPayX"></div>
+        <p class="paywhy"><b>Why three settings?</b> They change only which mistake is expensive. The pictures and sounds stay just as hard. If the theory holds, how well you can tell stays the same from one setting to the next, and how readily you say yes moves. Run two of them and compare.</p>
+      </details>
+      <details class="more" id="exHowD" open><summary><span>What a trial looks like</span></summary>
     <div class="how">
-      <div class="egs" id="exEgs">
-        <figure><canvas id="egNo" width="120" height="120"></canvas><figcaption><b>No</b>just static</figcaption></figure>
-        <figure><canvas id="egYes" width="120" height="120"></canvas><figcaption><b>Yes, made obvious</b>brighter in the middle. Only for reference.</figcaption></figure>
-        <figure><canvas id="egNow" width="120" height="120"></canvas><figcaption><b id="egNowT"></b>what a Yes looks like at this difficulty</figcaption></figure>
+        <div class="egs" id="exEgs">
+          <figure><canvas id="egNo" width="120" height="120"></canvas><figcaption><b>No</b>just static</figcaption></figure>
+          <figure><canvas id="egYes" width="120" height="120"></canvas><figcaption><b>Yes, made obvious</b>brighter in the middle. Only for reference.</figcaption></figure>
+          <figure><canvas id="egNow" width="120" height="120"></canvas><figcaption><b id="egNowT"></b>what a Yes looks like at this difficulty</figcaption></figure>
+        </div>
+        <div class="hear" id="exHear" hidden>
+          <button class="big" type="button" id="egNoA">Play: noise only</button>
+          <button class="big" type="button" id="egYesA">Play: noise with an obvious tone, for reference</button>
+          <button class="big" type="button" id="egNowA">Play: noise with a tone at this difficulty</button>
+        </div>
+        <ol>
+          <li><span id="how1"></span></li>
+          <li>You answer yes or no, and see right away whether you were right.</li>
+          <li>After 20 trials you get two numbers: how well you can tell, and how freely you say yes.</li>
+        </ol>
       </div>
-      <div class="hear" id="exHear" hidden>
-        <button class="big" type="button" id="egNoA">Play: noise only</button>
-        <button class="big" type="button" id="egYesA">Play: noise with an obvious tone, for reference</button>
-        <button class="big" type="button" id="egNowA">Play: noise with a tone at this difficulty</button>
-      </div>
-      <ol>
-        <li><span id="how1"></span></li>
-        <li>You answer yes or no, and see right away whether you were right.</li>
-        <li>After 20 trials you get two numbers: how well you can tell, and how freely you say yes.</li>
-      </ol>
+      </details>
     </div>
     <div class="exp">
       <div class="scope"><canvas id="exCv" width="240" height="240" aria-label="A patch of visual noise that may hide a faint blob"></canvas><div class="veil" id="exVeil"></div></div>
@@ -868,15 +880,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   const TONE_S=0.25, BURST_S=0.7;
   // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
   const PAY=[{n:'Every mistake costs 1',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.',
-              tip:'<b>When you are unsure, there is no reason to lean either way.</b> Both mistakes cost the same, so just answer what you think you saw.',
+              adv:'When you are unsure, there is no reason to lean either way.',tip:'Both mistakes cost the same, so just answer what you think you saw.',
               real:'<b>For an agent:</b> a quiz question, where a wrong yes and a wrong no lose the same mark. The line belongs in the middle.',
               why:'Every mistake costs the same here, so the best place for the line is the middle. Leaning either way only swaps one kind of mistake for more of the other.'},
              {n:'Missing it costs 3',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.',
-              tip:'<b>When you are unsure, say yes.</b> Think of a smoke alarm: missing a real fire is far worse than going off for burnt toast.',
+              adv:'When you are unsure, say yes.',tip:'Think of a smoke alarm: missing a real fire is far worse than going off for burnt toast.',
               real:'<b>For an agent:</b> watching for fraud or a safety problem, or asking a clarifying question. One missed case costs more than a few needless alerts, so acting freely is right.',
               why:'Missing it costs 3 here, so the best line moves toward “says yes freely”. A few wrong yeses are cheaper than one miss.'},
              {n:'A wrong yes costs 3',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.',
-              tip:'<b>When you are unsure, say no.</b> Think of a spam filter: binning a real email is worse than letting one advert through.',
+              adv:'When you are unsure, say no.',tip:'Think of a spam filter: binning a real email is worse than letting one advert through.',
               real:'<b>For an agent:</b> deleting files, sending an email, making a payment. A wrong action costs more than waiting, so holding back is right. Being conservative is not a flaw here.',
               why:'A wrong yes costs 3 here, so the best line moves toward “holds back”. Letting a few go is cheaper than one wrong yes.'}];
   let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null,gen=0;const runs=[];
@@ -893,13 +905,14 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     const cell=(v,name,big)=>'<td'+(big?' class="big3"':'')+'><b>'+(v>0?'+':'−')+Math.abs(v)+'</b><small>'+name+'</small></td>';
     $('#exPayX').innerHTML='<table><thead><tr><th></th><th>you say yes</th><th>you say no</th></tr></thead><tbody>'+
       '<tr><th>'+there+'</th>'+cell(P.h,'hit')+cell(-P.m,'miss',P.m>1)+'</tr>'+
-      '<tr><th>'+noise+'</th>'+cell(-P.fa,'false alarm',P.fa>1)+cell(P.cr,'correct')+'</tr></tbody></table><div><p>'+P.tip+'</p><p class="real">'+P.real+'</p></div>'}
+      '<tr><th>'+noise+'</th>'+cell(-P.fa,'false alarm',P.fa>1)+cell(P.cr,'correct')+'</tr></tbody></table><div><p>'+P.tip+'</p><p class="real">'+P.real+'</p></div>';
+    $('#exRule').innerHTML=P.say+' <b>'+P.adv+'</b>'}
   function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;payx();
     if(shownDiff!==diff){example('egNow',DIFF[diff].vis);shownDiff=diff}$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
     $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a short, faint tone is hidden somewhere inside it, at a different moment each time, like the third example.';
     if(!busy){ask.textContent=mode===0?'Is there a faint blob hidden in the static?':'Is there a faint tone hidden in the noise?';
       veil.hidden=false;veil.innerHTML=mode===0?'Each trial flashes a patch of static for a moment. Half of them hide '+what()+'.':'Each trial plays a short burst of noise. Half of them hide a short, faint tone.<br>Headphones help. Use a comfortable volume.';
-      fb.innerHTML=PAY[pay].say;prog.textContent='';}}
+      fb.innerHTML='&nbsp;';prog.textContent='';}}
   function paint(signal){const k=DIFF[diff].vis;
     for(let y=0;y<CELLS;y++)for(let x=0;x<CELLS;x++){let v=128+SD*randn();
       if(signal){const dx=x-CELLS/2+.5,dy=y-CELLS/2+.5;v+=k*SD*Math.exp(-(dx*dx+dy*dy)/(2*BLOB*BLOB))}
@@ -1009,9 +1022,9 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     gen++;const done=tally.h+tally.m>=2&&tally.fa+tally.cr>=2;   // enough answers to estimate anything
     if(done)finish(true);else{busy=false;lock(false);bStart.textContent='Start, 20 trials';bStart.disabled=false;bStart.hidden=false;bYes.hidden=bNo.hidden=true;skip.textContent='Skip the test and just show me results';blank();sync();peek()}};
   bStart.onclick=()=>{if(busy)return;if(mode===1){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();actx.resume()}catch(e){fb.textContent='Sound is not available in this browser. Use Look instead.';return}}
-    gen++;busy=true;lock(true);skip.hidden=false;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;skip.textContent='Stop here and show me what I have';score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
+    $('#exHowD').open=false;gen++;busy=true;lock(true);skip.hidden=false;bStart.disabled=true;bStart.hidden=true;bYes.hidden=bNo.hidden=false;skip.textContent='Stop here and show me what I have';score=0;ti=-1;tally.h=tally.m=tally.fa=tally.cr=0;
     trials=Array.from({length:N},(_,i)=>i<N/2);for(let i=N-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[trials[i],trials[j]]=[trials[j],trials[i]]}
-    ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML=PAY[pay].say;next()};
+    ask.textContent=mode===0?'Was the blob there?':'Was the tone there?';desc.innerHTML='Answer with the buttons, or press Y for yes and N for no.';next()};
   bYes.onclick=()=>answer(true);bNo.onclick=()=>answer(false);
   document.addEventListener('keydown',e=>{if(!busy||e.metaKey||e.ctrlKey||e.altKey)return;const k=e.key.toLowerCase();if(k==='y'||k==='arrowleft'){e.preventDefault();answer(true)}else if(k==='n'||k==='arrowright'){e.preventDefault();answer(false)}});
   blank();sync();desc.innerHTML='Twenty trials take about a minute. If the box is ticked, your result joins the crowd average, anonymously.';
