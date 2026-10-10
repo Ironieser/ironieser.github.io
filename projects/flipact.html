@@ -186,6 +186,10 @@ details.more .tblwrap{margin-top:0;border-top:1px solid var(--line-2);padding:0 
 .payx td.big3{background:var(--alert-wash,#fde8ee)}
 .payx td.big3 b{color:var(--alert,#c2255c)}
 .payx p{line-height:1.5;max-width:520px}
+.payx p.real{margin-top:8px;color:var(--soft);font-size:14px}
+.payx p.real b{color:var(--ink)}
+.paywhy{padding:10px 16px 0;font-size:14px;line-height:1.5;color:var(--soft);max-width:62em}
+.paywhy b{color:var(--ink)}
 .gnote{font-size:14.5px;line-height:1.5;margin-top:14px;padding-top:12px;border-top:1px dashed var(--line-2)}
 .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;font-weight:600}
 .ctl label span{font-family:var(--mono);font-weight:500;color:var(--hold-text)}
@@ -542,6 +546,7 @@ footer{padding:30px 0 56px;color:var(--soft);font-size:14px;border-top:1px solid
   <div class="lab" id="exp">
     <div class="bar second"><span class="lt">you will</span><span class="picks" id="exMode"></span><span class="lt gap">difficulty</span><span class="picks" id="exDiff"></span></div>
     <div class="bar second"><span class="lt">the stakes</span><span class="picks" id="exPay"></span></div>
+    <p class="paywhy"><b>Why three settings?</b> They change only which mistake is expensive. The pictures and sounds stay just as hard. If the theory holds, how well you can tell stays the same from one setting to the next, and how readily you say yes moves. Run two of them and compare.</p>
     <div class="payx" id="exPayX" aria-live="polite"></div>
     <div class="how">
       <div class="egs" id="exEgs">
@@ -866,12 +871,15 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
   // payoffs: value of a hit / correct rejection, cost of a miss / false alarm
   const PAY=[{n:'Every mistake costs 1',h:1,cr:1,m:1,fa:1,say:'Every right answer earns 1 point and every wrong one costs 1.',
               tip:'<b>When you are unsure, there is no reason to lean either way.</b> Both mistakes cost the same, so just answer what you think you saw.',
+              real:'<b>For an agent:</b> a quiz question, where a wrong yes and a wrong no lose the same mark. The line belongs in the middle.',
               why:'Every mistake costs the same here, so the best place for the line is the middle. Leaning either way only swaps one kind of mistake for more of the other.'},
              {n:'Missing it costs 3',h:1,cr:1,m:3,fa:1,say:'Missing a signal costs 3 points. Everything else is worth 1.',
               tip:'<b>When you are unsure, say yes.</b> Think of a smoke alarm: missing a real fire is far worse than going off for burnt toast.',
+              real:'<b>For an agent:</b> watching for fraud or a safety problem, or asking a clarifying question. One missed case costs more than a few needless alerts, so acting freely is right.',
               why:'Missing it costs 3 here, so the best line moves toward “says yes freely”. A few wrong yeses are cheaper than one miss.'},
              {n:'A wrong yes costs 3',h:1,cr:1,m:1,fa:3,say:'Saying yes to plain noise costs 3 points. Everything else is worth 1.',
-              tip:'<b>When you are unsure, say no.</b> Think of a referee and a red card: sending off an innocent player is worse than letting one foul go.',
+              tip:'<b>When you are unsure, say no.</b> Think of a spam filter: binning a real email is worse than letting one advert through.',
+              real:'<b>For an agent:</b> deleting files, sending an email, making a payment. A wrong action costs more than waiting, so holding back is right. Being conservative is not a flaw here.',
               why:'A wrong yes costs 3 here, so the best line moves toward “holds back”. Letting a few go is cheaper than one wrong yes.'}];
   let mode=0,diff=1,pay=0,trials=[],ti=-1,score=0,busy=false,actx=null,gen=0;const runs=[];
   const cv=$('#exCv'),g=cv.getContext('2d'),veil=$('#exVeil'),ask=$('#exAsk'),fb=$('#exFb'),prog=$('#exProg'),desc=$('#exDesc');
@@ -887,7 +895,7 @@ const press=(nodes,pred)=>nodes.forEach(b=>b.setAttribute('aria-pressed',pred(b)
     const cell=(v,name,big)=>'<td'+(big?' class="big3"':'')+'><b>'+(v>0?'+':'−')+Math.abs(v)+'</b><small>'+name+'</small></td>';
     $('#exPayX').innerHTML='<table><thead><tr><th></th><th>you say yes</th><th>you say no</th></tr></thead><tbody>'+
       '<tr><th>'+there+'</th>'+cell(P.h,'hit')+cell(-P.m,'miss',P.m>1)+'</tr>'+
-      '<tr><th>'+noise+'</th>'+cell(-P.fa,'false alarm',P.fa>1)+cell(P.cr,'correct')+'</tr></tbody></table><p>'+P.tip+'</p>'}
+      '<tr><th>'+noise+'</th>'+cell(-P.fa,'false alarm',P.fa>1)+cell(P.cr,'correct')+'</tr></tbody></table><div><p>'+P.tip+'</p><p class="real">'+P.real+'</p></div>'}
   function sync(){s1();s2();s3();$('#exEgs').hidden=mode!==0;$('#exHear').hidden=mode!==1;payx();
     if(shownDiff!==diff){example('egNow',DIFF[diff].vis);shownDiff=diff}$('#egNowT').textContent='Yes, '+DIFF[diff].n;$('#egNowA').textContent='Play: noise with a tone, '+DIFF[diff].n;
     $('#how1').textContent=mode===0?'A patch of static flashes for about a second. Half the time a faint blob is hidden in the middle, like the third example.':'A burst of noise plays for under a second. Half the time a short, faint tone is hidden somewhere inside it, at a different moment each time, like the third example.';
