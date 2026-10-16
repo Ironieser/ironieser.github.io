@@ -598,7 +598,8 @@
             "icon": "ai ai-arxiv",
             "coming_soon": true
           }
-        ]
+        ],
+        "hidden": true
       },
       {
         "title": "Agentic Feature Augmentation: Unifying Selection and Generation with Teaming, Planning, and Memories",
@@ -680,7 +681,8 @@
             "icon": "ai ai-arxiv",
             "coming_soon": true
           }
-        ]
+        ],
+        "hidden": true
       },
       {
         "title": "LLM-ML Teaming: Integrated Symbolic Decoding and Gradient Search for Valid and Stable Generative Feature Transformation",
@@ -817,12 +819,13 @@
         "links": [
           {
             "name": "Paper",
-            "url": "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=j71Y2-4AAAAJ&sortby=pubdate&citation_for_view=j71Y2-4AAAAJ:eQOLeE2rZwMC",
+            "url": "https://arxiv.org/abs/2505.15572",
             "icon": "ai ai-arxiv"
           }
         ],
         "_scholar_citations": 5,
-        "_scholar_last_updated": "2026-05-04"
+        "_scholar_last_updated": "2026-05-04",
+        "hidden": true
       },
       {
         "title": "A Survey on Data-Centric AI: Tabular Learning from Reinforcement Learning and Generative AI Perspective",

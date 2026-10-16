@@ -144,6 +144,12 @@ function loadConfig() {
         ...siteConfig,
         research_roadmap: normalizeRoadmap(roadmapConfig),
       };
+      // "hidden": true keeps a publication in content.json (so scholar sync still matches it) without rendering it
+      if (merged.publications) {
+        for (const [year, pubs] of Object.entries(merged.publications)) {
+          if (Array.isArray(pubs)) merged.publications[year] = pubs.filter(pub => !pub.hidden);
+        }
+      }
       const parts = ['config/content.json'];
       if (hasMeta) parts.push('config/meta.json');
       if (hasSite) parts.push('config/site.yaml');
