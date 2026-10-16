@@ -61,6 +61,13 @@
   "news": [
     {
       "date": "Oct 2026",
+      "icon": "📄",
+      "link": "https://arxiv.org/abs/2610.15415",
+      "content": "Paper on <strong>FlipAct</strong> {{link}}, <em>Sensitivity or Criterion? Measuring and Moving When Language Models Act</em>, released on arXiv. One accuracy cannot tell a model that fails to see when to act from one that holds back; FlipAct measures the two separately across 44 open models and moves the criterion alone. See the <a href=\"https://sixundong.com/projects/flipact\" target=\"_blank\" rel=\"noopener\">interactive project page</a>.",
+      "category": "papers"
+    },
+    {
+      "date": "Oct 2026",
       "icon": "🚀",
       "link1": "https://github.com/LongVideo-Intelligence/LongVideo-Eval",
       "content": "Launched <a href=\"https://sixundong.com/projects/longvideo-eval\" target=\"_blank\" rel=\"noopener\" title=\"LongVideo-Eval project page\" style=\"text-decoration:none;color:inherit;white-space:nowrap\"><img src=\"images/longvideo-eval/logo-mark.png\" alt=\"\" style=\"height:0.8em;width:auto;vertical-align:-0.05em;margin-right:4px\"><strong>LongVideo-Eval</strong></a>, open-source evaluation infrastructure for long-video intelligence, with its first code release {{link1}}. It measures decoding, vision encoding, prefill and generation in one cost ledger, so every method is compared under the same budget.",
@@ -948,6 +955,34 @@
             "url": null,
             "icon": "fab fa-github",
             "coming_soon": true
+          }
+        ]
+      },
+      {
+        "title": "Sensitivity or Criterion? Measuring and Moving When Language Models Act",
+        "authors": [
+          "Sixun Dong",
+          "Yebowen Hu",
+          "Ming Yin",
+          "Yiran Chen",
+          "Fei Liu",
+          "Chen Chen"
+        ],
+        "venue": "arXiv'2610",
+        "venue_type": "preprint",
+        "image": "teaser/preprint.jpg",
+        "featured": false,
+        "tldr": "A single accuracy cannot tell a model that fails to see when an action is warranted from one that sees it and holds back. FlipAct, a diagnostic of tool use in physical states, computes each answer and a graded evidence score by rule, so signal-detection theory can separate sensitivity from criterion across 44 open models. Sensitivity rises with size within a family; criterion does not, and most models are conservative. Activation steering, then distillation from the model's own steered copy, moves the criterion alone, and the shift transfers to six external benchmarks. Joint work with UCF, Duke & Emory.",
+        "links": [
+          {
+            "name": "arXiv",
+            "url": "https://arxiv.org/abs/2610.15415",
+            "icon": "ai ai-arxiv"
+          },
+          {
+            "name": "Project Page",
+            "url": "https://sixundong.com/projects/flipact",
+            "icon": "fas fa-globe"
           }
         ]
       },
