@@ -544,7 +544,7 @@
         "venue": "arXiv'2506",
         "venue_type": "preprint",
         "image": "teaser/timesclip.jpg",
-        "featured": true,
+        "featured": false,
         "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
         "links": [
           {
@@ -901,7 +901,7 @@
         "venue": "arXiv'2610",
         "venue_type": "preprint",
         "image": "teaser/preprint.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "A single accuracy cannot tell a model that fails to see when an action is warranted from one that sees it and holds back. FlipAct, a diagnostic of tool use in physical states, computes each answer and a graded evidence score by rule, so signal-detection theory can separate sensitivity from criterion across 44 open models. Sensitivity rises with size within a family; criterion does not, and most models are conservative. Activation steering, then distillation from the model's own steered copy, moves the criterion alone, and the shift transfers to six external benchmarks. Joint work with UCF, Duke & Emory.",
         "links": [
           {
