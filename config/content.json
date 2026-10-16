@@ -544,7 +544,7 @@
         "venue": "arXiv'2506",
         "venue_type": "preprint",
         "image": "teaser/timesclip.jpg",
-        "featured": false,
+        "featured": true,
         "tldr": "Proposes TimesCLIP, innovatively aligning time series data with visual and textual multi-modal perspectives to effectively enhance both short-term and long-term forecasting performance.",
         "links": [
           {
@@ -640,7 +640,7 @@
         "venue": "NeurIPS'25",
         "venue_type": "conference",
         "image": "teaser/sculp.jpg",
-        "featured": true,
+        "featured": false,
         "tldr": "Proposes a reward-guided hierarchical diffusion model that \"sculpts\" data representations from noise to generate optimal feature transformations for specific downstream tasks.",
         "links": [
           {
