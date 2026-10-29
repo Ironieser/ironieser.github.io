@@ -110,6 +110,8 @@ export async function publicStats(db) {
   const now = new Date();
   const day = now.toISOString().slice(0, 10);
   const month = day.slice(0, 7);
+  // First UTC month of the six-month window (this month and the five before it).
+  const halfStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 5, 1)).toISOString().slice(0, 7);
 
   // Page-view counters. The unique value remains an estimated distinct IP hash.
   const agg = (await db
@@ -117,15 +119,17 @@ export async function publicStats(db) {
       'SELECT COUNT(*) AS total, ' +
         'SUM(CASE WHEN day=? THEN 1 ELSE 0 END) AS today, ' +
         'SUM(CASE WHEN month=? THEN 1 ELSE 0 END) AS month, ' +
+        'SUM(CASE WHEN month>=? THEN 1 ELSE 0 END) AS half, ' +
         'COUNT(DISTINCT visitor_hash) AS uniq, ' +
         'MIN(ts) AS since ' +
         'FROM pageviews'
     )
-    .bind(day, month)
+    .bind(day, month, halfStart)
     .first()) || {};
   const total = agg.total || 0;
   const today = agg.today || 0;
   const monthCount = agg.month || 0;
+  const halfYear = agg.half || 0;
   const unique = agg.uniq || 0;
   const since = agg.since || null;
 
@@ -141,5 +145,5 @@ export async function publicStats(db) {
     .all();
   const points = (pRes.results || []).map((r) => ({ lat: r.lat, lon: r.lon, c: r.c }));
 
-  return { total, today, month: monthCount, unique, since, countries, points };
+  return { total, today, month: monthCount, halfYear, unique, since, countries, points };
 }

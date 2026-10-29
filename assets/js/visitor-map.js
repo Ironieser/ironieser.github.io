@@ -55,7 +55,8 @@
     set('vw-total', fmt(s.total));
     set('vw-today', fmt(s.today));
     set('vw-month', fmt(s.month));
-    set('vw-unique', fmt(s.unique));
+    // Older API responses have no halfYear; leave the placeholder instead of showing 0.
+    if (s.halfYear != null) set('vw-half', fmt(s.halfYear));
     renderViewerLocation(s.viewer);
     var sinceEl = document.getElementById('vw-since');
     if (sinceEl) {
@@ -186,7 +187,7 @@
       '  <div class="vw-head"><span class="vw-dot"></span>Visitors</div>' +
       '  <div class="vw-nums">' +
       '    <div class="vw-num"><b id="vw-total">—</b><span>Total</span></div>' +
-      '    <div class="vw-num"><b id="vw-unique">—</b><span>Unique</span></div>' +
+      '    <div class="vw-num"><b id="vw-half">—</b><span>6 months</span></div>' +
       '    <div class="vw-num"><b id="vw-month">—</b><span>This month</span></div>' +
       '    <div class="vw-num"><b id="vw-today">—</b><span>Today</span></div>' +
       '  </div>' +
