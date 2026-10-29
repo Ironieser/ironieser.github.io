@@ -112,10 +112,17 @@
     var border = dark ? '#33405a' : '#d6dce6';
     var rampLo = dark ? '#1e3a63' : '#cfe0ff';
     var rampHi = dark ? '#7aa7f0' : '#3f7fe0';
-    var dot = '#38bdf8';
-    var maxC = Math.max.apply(null, (stats.countries || []).map(function (c) { return c.count; }).concat([1]));
+    var dot = '#0ea5e9';
+    // One country (or city) can hold most of the visits, so shading and dot size use a
+    // log scale; with a linear one every other country sits at the bottom of the ramp.
+    var maxC = Math.max.apply(null, (stats.countries || []).map(function (c) { return logc(c.count); }).concat([1]));
+    var points = (stats.points || []).slice().sort(function (a, b) { return b.c - a.c; })
+      .map(function (p) { return { name: 'Visitors', value: [p.lon, p.lat, p.c] }; });
 
-    try { echarts.registerMap('world', window.__ECHARTS_WORLD__); } catch (e) {}
+    // Antarctica has no visitors and takes a fifth of the map's height.
+    var world = window.__ECHARTS_WORLD__;
+    world = { type: world.type, features: world.features.filter(function (f) { return f.properties.name !== 'AQ'; }) };
+    try { echarts.registerMap('world', world); } catch (e) {}
     var chart = echarts.init(el, null, { renderer: 'canvas' });
     chart.setOption({
       backgroundColor: 'transparent',
@@ -125,9 +132,8 @@
         borderColor: 'transparent', textStyle: { color: '#fff', fontSize: 12 },
         padding: [5, 9],
         formatter: function (p) {
-          if (p.seriesType === 'effectScatter') return p.name + ': ' + p.value[2];
-          var v = (p.value == null || isNaN(p.value)) ? 0 : p.value;
-          return p.name + ': ' + v;
+          if (p.seriesType !== 'map') return p.name + ': ' + p.value[2];
+          return p.name + ': ' + ((p.data && p.data.count) || 0);
         }
       },
       visualMap: {
@@ -136,27 +142,37 @@
       },
       geo: {
         map: 'world', roam: false, silent: false,
-        // Keep the map's true geographic proportions while filling the compact
-        // footer canvas. A larger layoutSize removes the empty bands that appear
-        // when ECharts scales from the canvas's shorter dimension.
-        aspectScale: 1, layoutCenter: ['50%', '50%'], layoutSize: '180%',
+        // True geographic proportions; .vw-map's aspect-ratio matches the map
+        // without Antarctica, so it fills the canvas with no crop.
+        aspectScale: 1, left: 0, right: 0, top: 0, bottom: 0,
         itemStyle: { areaColor: land, borderColor: border, borderWidth: 0.5 },
         emphasis: { itemStyle: { areaColor: dark ? '#3a496b' : '#dfe6f2' }, label: { show: false } }
       },
       series: [
         {
           type: 'map', map: 'world', geoIndex: 0,
-          data: (stats.countries || []).map(function (c) { return { name: c.code, value: c.count }; })
+          data: (stats.countries || []).map(function (c) { return { name: c.code, value: logc(c.count), count: c.count }; })
         },
         {
+          // The vendored ECharts build has no plain scatter; ripple only on hover.
           type: 'effectScatter', coordinateSystem: 'geo', zlevel: 2,
-          rippleEffect: { brushType: 'stroke', scale: 3 },
-          symbolSize: function (val) { return Math.max(5, Math.sqrt(val[2]) * 5); },
-          itemStyle: { color: dot, shadowBlur: 8, shadowColor: dot },
-          data: (stats.points || []).map(function (p) { return { name: 'Visitors', value: [p.lon, p.lat, p.c] }; })
+          showEffectOn: 'emphasis', rippleEffect: { brushType: 'stroke', scale: 1.8 },
+          symbolSize: dotSize,
+          itemStyle: { color: dot, opacity: 0.8, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
+          data: points.slice(5)
+        },
+        {
+          // Only the busiest few cities ripple; on every dot the ripples merge into a haze.
+          type: 'effectScatter', coordinateSystem: 'geo', zlevel: 3,
+          rippleEffect: { brushType: 'stroke', scale: 1.8, period: 5 },
+          symbolSize: dotSize,
+          itemStyle: { color: dot, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
+          data: points.slice(0, 5)
         }
       ]
     });
+    function logc(n) { return Math.log10(Number(n || 0) + 1); }
+    function dotSize(val) { return 3 + 1.8 * logc(val[2]); }
     var ro;
     function resize() { try { chart.resize(); } catch (e) {} }
     if ('ResizeObserver' in window) { ro = new ResizeObserver(resize); ro.observe(el); }
@@ -195,7 +211,7 @@
   function injectStyle() {
     if (document.getElementById('vw-style')) return;
     var css =
-      '.visitor-widget{max-width:560px;margin:0 auto}' +
+      '.visitor-widget{width:100%;max-width:560px;margin:0 auto}' +
       '.vw-card{border:1px solid var(--color-border,#e6e9ef);border-radius:16px;padding:18px 18px 14px;background:var(--color-surface,#fff)}' +
       '.vw-head{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--color-primary,#222);margin-bottom:12px}' +
       '.vw-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.18)}' +
@@ -203,9 +219,9 @@
       '.vw-num{text-align:center}' +
       '.vw-num b{display:block;font-size:20px;line-height:1.1;color:var(--color-primary,#1d4ed8);font-variant-numeric:tabular-nums}' +
       '.vw-num span{font-size:11px;color:var(--color-secondary,#888)}' +
-      '.vw-map{width:100%;height:150px;margin:2px 0}' +
+      '.vw-map{width:100%;aspect-ratio:2.55/1;margin:6px 0 2px}' +
       '.vw-since{text-align:center;font-size:11px;color:var(--color-secondary,#9aa3b2);margin-top:4px;opacity:.8}' +
-      '@media(max-width:600px){.vw-num b{font-size:17px}.vw-map{height:140px}}';
+      '@media(max-width:600px){.vw-num b{font-size:17px}}';
     var st = document.createElement('style');
     st.id = 'vw-style'; st.textContent = css;
     document.head.appendChild(st);
