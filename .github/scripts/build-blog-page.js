@@ -113,7 +113,7 @@ function generateFooter(personal, templateInfo = null, visitorMap = null, copyri
             <div class="visitor-map-section">
                 <div class="visitor-map-container">
                     <div class="visitor-widget" id="visitor-widget-mount" data-api="/api"></div>
-                    <script src="assets/js/visitor-map.js?v=16" defer></script>
+                    <script src="assets/js/visitor-map.js?v=17" defer></script>
                 </div>
             </div>`;
   }
