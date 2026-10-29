@@ -1077,23 +1077,12 @@ body {
 
         .publication-image {
             flex-shrink: 0;
-            width: 160px;
-            height: 90px; /* 16:9 aspect ratio - unified wide format */
+            width: 240px;
+            height: 135px; /* 16:9, large enough to read figure detail */
             border-radius: var(--border-radius);
             object-fit: contain;
             border: 1px solid var(--color-border);
             background: var(--color-surface);
-        }
-
-        /* All images now use the same wide format */
-        .publication-image.teaser {
-            width: 160px;
-            height: 90px;
-        }
-
-        .publication-image.square {
-            width: 160px;
-            height: 90px; /* Changed from square to wide format */
         }
 
 .publication-content {
@@ -1699,6 +1688,11 @@ body {
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    .publication-image {
+        width: 200px;
+        height: 112px;
+    }
+
     .hero-content {
         grid-template-columns: 260px 1fr;
         gap: 32px;

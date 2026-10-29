@@ -618,7 +618,7 @@ function generateIndexPage(config) {
     
     return `
             <div class="publication-item reveal ${hasTldrClass}">
-                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="240" height="135" onerror="this.onerror=null;this.src='images/default-paper.png';">
                 <div class="publication-content">
                     <p class="publication-title">${venueBadge} ${pub.title}</p>
                     <p class="publication-authors">${authorsFormatted}</p>
@@ -919,7 +919,7 @@ function generatePublicationsPage(config) {
       
       return `
                 <div class="publication-item reveal ${hasTldrClass}">
-                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="160" height="90" onerror="this.onerror=null;this.src='images/default-paper.png';">
+                    <img src="${publicationImageSrc(pub.image)}" alt="${pub.title}" class="publication-image teaser" loading="lazy" decoding="async" width="240" height="135" onerror="this.onerror=null;this.src='images/default-paper.png';">
                     <div class="publication-content">
                         <p class="publication-title">${venueBadge} ${pub.title}</p>
                         <p class="publication-authors">${authorsFormatted}</p>
