@@ -1,8 +1,8 @@
 /* Self-hosted visitor analytics widget.
  * Records a visit via /api/hit (10-minute session de-dup, server-side) and renders a counter
- * plus an ECharts world map: countries shaded by visit count + dots for the
- * busiest cities, and the top countries' share below it. No third-party
- * services. Loaded lazily on footer scroll. */
+ * plus an SVG dot-grid world map: land dots darken with each country's visits,
+ * the busiest cities are marked, and the top countries' share sits below it.
+ * No third-party services. Loaded lazily on footer scroll. */
 (function () {
   var mount = document.getElementById('visitor-widget-mount');
   if (!mount || mount.dataset.inited) return;
@@ -121,92 +121,59 @@
   }
 
   function loadMap(stats) {
-    loadScript(VENDOR + 'echarts-slim.js')
-      .then(function () { return loadScript(VENDOR + 'echarts-world.js'); })
+    loadScript(VENDOR + 'world-dots.js')
       .then(function () { initMap(stats); })
       .catch(function () { /* map optional; counts already shown */ });
   }
 
+  // Land is a precomputed dot grid (scripts/build-world-dots.js). Dots in visited
+  // countries step from gray toward ink with visits; the busiest cities sit on top.
+  // Colors live in CSS (.vw-l0..4, .vw-city) so the theme toggle restyles it live.
   function initMap(stats) {
-    if (typeof echarts === 'undefined' || !window.__ECHARTS_WORLD__) return;
+    var grid = window.__WORLD_DOTS__;
     var el = document.getElementById('vw-map');
-    if (!el) return;
-    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (!grid || !el) return;
+    var cols = grid.cols, rows = grid.rows, step = grid.step;
 
-    var land = dark ? '#222c40' : '#eaeef5';
-    var border = dark ? '#33405a' : '#d6dce6';
-    var rampLo = dark ? '#1e3a63' : '#cfe0ff';
-    var rampHi = dark ? '#7aa7f0' : '#3f7fe0';
-    // Orange stands out against the blue country shading; blue dots vanished on the US.
-    var dot = dark ? '#fb923c' : '#f97316';
-    // One country (or city) can hold most of the visits, so shading and dot size use a
-    // log scale; with a linear one every other country sits at the bottom of the ramp.
-    var maxC = Math.max.apply(null, (stats.countries || []).map(function (c) { return logc(c.count); }).concat([1]));
-    // Only the busiest cities get a dot; with every city drawn the US and China
-    // turn into solid clusters. Country shading covers the rest.
-    var points = (stats.points || []).slice().sort(function (a, b) { return b.c - a.c; }).slice(0, 12)
-      .map(function (p) { return { name: 'Visitors', value: [p.lon, p.lat, p.c] }; });
-
-    // Antarctica has no visitors and takes a fifth of the map's height.
-    var world = window.__ECHARTS_WORLD__;
-    world = { type: world.type, features: world.features.filter(function (f) { return f.properties.name !== 'AQ'; }) };
-    try { echarts.registerMap('world', world); } catch (e) {}
-    var chart = echarts.init(el, null, { renderer: 'canvas' });
-    chart.setOption({
-      backgroundColor: 'transparent',
-      tooltip: {
-        trigger: 'item',
-        backgroundColor: dark ? '#0f1729' : '#1f2937',
-        borderColor: 'transparent', textStyle: { color: '#fff', fontSize: 12 },
-        padding: [5, 9],
-        formatter: function (p) {
-          if (p.seriesType !== 'map') return p.name + ': ' + p.value[2];
-          return p.name + ': ' + ((p.data && p.data.count) || 0);
-        }
-      },
-      visualMap: {
-        // Shade countries only; without seriesIndex it also recolors the city dots.
-        type: 'continuous', seriesIndex: 0, min: 0, max: maxC, calculable: false, show: false,
-        inRange: { color: [rampLo, rampHi] }
-      },
-      geo: {
-        map: 'world', roam: false, silent: false,
-        // True geographic proportions; .vw-map's aspect-ratio matches the map
-        // without Antarctica, so it fills the canvas with no crop.
-        aspectScale: 1, left: 0, right: 0, top: 0, bottom: 0,
-        itemStyle: { areaColor: land, borderColor: border, borderWidth: 0.5 },
-        emphasis: { itemStyle: { areaColor: dark ? '#3a496b' : '#dfe6f2' }, label: { show: false } }
-      },
-      series: [
-        {
-          type: 'map', map: 'world', geoIndex: 0,
-          data: (stats.countries || []).map(function (c) { return { name: c.code, value: logc(c.count), count: c.count }; })
-        },
-        {
-          // The vendored ECharts build has no plain scatter; ripple only on hover.
-          type: 'effectScatter', coordinateSystem: 'geo', zlevel: 2,
-          showEffectOn: 'emphasis', rippleEffect: { brushType: 'stroke', scale: 2.4 },
-          symbolSize: dotSize,
-          itemStyle: { color: dot, opacity: 0.8, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
-          data: points.slice(3)
-        },
-        {
-          // Only the busiest few cities ripple; on every dot the ripples merge into a haze.
-          type: 'effectScatter', coordinateSystem: 'geo', zlevel: 3,
-          rippleEffect: { brushType: 'stroke', scale: 2.8, period: 5 },
-          symbolSize: dotSize,
-          itemStyle: { color: dot, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
-          data: points.slice(0, 3)
-        }
-      ]
+    // One country holds most of the visits, so levels use a log scale, and the
+    // power curve keeps lightly visited countries gray instead of tinting half the map.
+    var counts = {};
+    var maxLog = 0;
+    (stats.countries || []).forEach(function (c) {
+      counts[c.code] = c.count;
+      maxLog = Math.max(maxLog, logc(c.count));
     });
-    function logc(n) { return Math.log10(Number(n || 0) + 1); }
-    function dotSize(val) { return 3 + 2.2 * logc(val[2]); }
-    var ro;
-    function resize() { try { chart.resize(); } catch (e) {} }
-    if ('ResizeObserver' in window) { ro = new ResizeObserver(resize); ro.observe(el); }
-    window.addEventListener('resize', resize);
+    function level(code) {
+      if (!counts[code] || !maxLog) return 0;
+      // Countries stop at level 4; the darkest step is kept for the city markers.
+      return Math.round(Math.pow(logc(counts[code]) / maxLog, 2.2) * 4);
+    }
+
+    var out = [];
+    Object.keys(grid.countries).forEach(function (code) {
+      var lv = level(code);
+      var r = lv ? 0.4 : 0.36;
+      grid.countries[code].split(',').forEach(function (k) {
+        var i = parseInt(k, 36);
+        out.push('<circle class="vw-l' + lv + '" cx="' + (i % cols + 0.5) + '" cy="' + (Math.floor(i / cols) + 0.5) + '" r="' + r + '"/>');
+      });
+    });
+
+    // Only the busiest cities get a marker; with every city drawn the US and China
+    // turn into solid clusters. The top three pulse.
+    var cities = (stats.points || []).slice().sort(function (a, b) { return b.c - a.c; }).slice(0, 12);
+    var maxCity = cities.length ? cities[0].c : 1;
+    cities.forEach(function (p, i) {
+      var x = ((p.lon + 180) / step).toFixed(2);
+      var y = ((grid.latTop - p.lat) / step).toFixed(2);
+      var r = (0.7 + 0.55 * Math.sqrt(p.c / maxCity)).toFixed(2);
+      if (i < 3) out.push('<circle class="vw-pulse" cx="' + x + '" cy="' + y + '" r="' + r + '"/>');
+      out.push('<circle class="vw-city" cx="' + x + '" cy="' + y + '" r="' + r + '"><title>' + p.c + ' visits</title></circle>');
+    });
+
+    el.innerHTML = '<svg viewBox="0 0 ' + cols + ' ' + rows + '" role="img" aria-label="World map of visitor locations">' + out.join('') + '</svg>';
   }
+  function logc(n) { return Math.log10(Number(n || 0) + 1); }
 
   /* ---------- helpers ---------- */
   function skeleton() {
@@ -249,9 +216,17 @@
       '.vw-num{text-align:center}' +
       '.vw-num b{display:block;font-size:20px;line-height:1.1;color:var(--color-primary,#1d4ed8);font-variant-numeric:tabular-nums}' +
       '.vw-num span{font-size:11px;color:var(--color-secondary,#888)}' +
-      '.vw-map{width:100%;aspect-ratio:2.55/1;margin:6px 0 2px}' +
+      '.vw-map{margin:8px 0 2px}.vw-map svg{display:block;width:100%;height:auto}' +
+      // Gray land to ink in five steps; dark mode runs the same ramp from slate to near-white.
+      '.vw-map{--vw-l0:#d1d5db;--vw-l1:#adb3ba;--vw-l2:#8a9099;--vw-l3:#666e79;--vw-l4:#434b58;--vw-l5:#1f2937}' +
+      '[data-theme="dark"] .vw-map{--vw-l0:#334155;--vw-l1:#566274;--vw-l2:#798493;--vw-l3:#9ca5b2;--vw-l4:#bfc7d1;--vw-l5:#e2e8f0}' +
+      '.vw-l0{fill:var(--vw-l0)}.vw-l1{fill:var(--vw-l1)}.vw-l2{fill:var(--vw-l2)}.vw-l3{fill:var(--vw-l3)}.vw-l4{fill:var(--vw-l4)}' +
+      '.vw-city{fill:var(--vw-l5);stroke:var(--color-surface,#f9fafb);stroke-width:.32}' +
+      '.vw-pulse{fill:none;stroke:var(--vw-l5);stroke-width:.2;transform-box:fill-box;transform-origin:center;animation:vw-pulse 3.2s ease-out infinite}' +
+      '@keyframes vw-pulse{from{transform:scale(1);opacity:.6}to{transform:scale(3.2);opacity:0}}' +
+      '@media(prefers-reduced-motion:reduce){.vw-pulse{animation:none;opacity:0}}' +
       '.vw-top{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 14px;font-size:12px;color:var(--color-secondary,#6b7280);margin-top:6px}' +
-      '.vw-top b{font-weight:600;color:var(--color-primary,#1d4ed8)}' +
+      '.vw-top b{font-weight:600;color:var(--color-primary,#111827)}' +
       '.vw-since{text-align:center;font-size:11px;color:var(--color-secondary,#9aa3b2);margin-top:4px;opacity:.8}' +
       '@media(max-width:600px){.vw-num b{font-size:17px}}';
     var st = document.createElement('style');
