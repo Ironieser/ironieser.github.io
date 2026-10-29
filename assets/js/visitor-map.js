@@ -185,7 +185,7 @@
         {
           // The vendored ECharts build has no plain scatter; ripple only on hover.
           type: 'effectScatter', coordinateSystem: 'geo', zlevel: 2,
-          showEffectOn: 'emphasis', rippleEffect: { brushType: 'stroke', scale: 1.8 },
+          showEffectOn: 'emphasis', rippleEffect: { brushType: 'stroke', scale: 2.4 },
           symbolSize: dotSize,
           itemStyle: { color: dot, opacity: 0.8, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
           data: points.slice(3)
@@ -193,7 +193,7 @@
         {
           // Only the busiest few cities ripple; on every dot the ripples merge into a haze.
           type: 'effectScatter', coordinateSystem: 'geo', zlevel: 3,
-          rippleEffect: { brushType: 'stroke', scale: 1.8, period: 5 },
+          rippleEffect: { brushType: 'stroke', scale: 2.8, period: 5 },
           symbolSize: dotSize,
           itemStyle: { color: dot, borderColor: dark ? '#0f1729' : '#fff', borderWidth: 0.6 },
           data: points.slice(0, 3)
